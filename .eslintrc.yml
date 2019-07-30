@@ -1,0 +1,43 @@
+env:
+  browser: true
+  es6: true
+  node: true
+extends:
+  - airbnb-base
+  - eslint:recommended
+parserOptions:
+  ecmaVersion: 2018
+  sourceType: module
+rules:
+  indent:
+    - error
+    - 2
+    - SwitchCase: 1
+  linebreak-style:
+    - error
+    - unix
+  quotes:
+    - warn
+    - single
+  semi:
+    - error
+    - always
+  no-plusplus:
+    - error
+    - allowForLoopAfterthoughts: true
+  no-use-before-define:
+    - error
+    - functions: false
+  object-curly-newline:
+    - error
+    - consistent: true
+  object-curly-spacing:
+    - error
+    - always
+  comma-dangle:
+    - error
+    - always-multiline
+  require-await:
+    - error
+  keyword-spacing:
+    - error

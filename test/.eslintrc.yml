@@ -1,0 +1,15 @@
+plugins:
+  - mocha
+
+env:
+  mocha: true
+
+rules:
+  mocha/no-mocha-arrows: error
+  mocha/no-exclusive-tests: error
+  mocha/no-async-describe: error
+  mocha/no-nested-tests: error
+  mocha/no-top-level-hooks: error
+  mocha/max-top-level-suites:
+    - warn
+    - limit: 1

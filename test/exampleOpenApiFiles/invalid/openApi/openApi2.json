@@ -1,0 +1,21 @@
+{
+  "invalidField": {},
+  "swagger": "2.0",
+  "info": {
+    "description": "Invalid due to an invalidField (at the top)",
+    "title": "Invalid OpenAPI 2 spec",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/test": {
+      "get": {
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "App healthy"
+          }
+        }
+      }
+    }
+  }
+}
