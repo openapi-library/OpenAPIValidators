@@ -1,6 +1,6 @@
 {
   "name": "chai-openapi-response-validator",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Simple Chai support for asserting that HTTP responses satisfy an OpenAPI spec",
   "main": "index.js",
   "scripts": {
@@ -15,11 +15,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/openapi-chai/chai-openapi-response-validator.git"
+    "url": "git+https://github.com/RuntimeTools/chai-openapi-response-validator.git"
   },
-  "author": "OpenApiChai <openapichai@gmail.com>",
+  "author": "Jonny Spruce <jspruce94@gmail.com>",
   "contributors": [
-    "Jonny Spruce <jspruce94@gmail.com>",
     "rwalle61 <richard.lh.waller@gmail.com>"
   ],
   "license": "MIT",
@@ -32,9 +31,9 @@
     "validate"
   ],
   "bugs": {
-    "url": "https://github.com/openapi-chai/chai-openapi-response-validator/issues"
+    "url": "https://github.com/RuntimeTools/chai-openapi-response-validator/issues"
   },
-  "homepage": "https://github.com/openapi-chai/chai-openapi-response-validator#readme",
+  "homepage": "https://github.com/RuntimeTools/chai-openapi-response-validator#readme",
   "devDependencies": {
     "@stryker-mutator/core": "^2.0.0",
     "@stryker-mutator/javascript-mutator": "^2.0.0",
