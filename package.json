@@ -17,8 +17,9 @@
     "type": "git",
     "url": "git+https://github.com/RuntimeTools/chai-openapi-response-validator.git"
   },
-  "author": "Jonny Spruce <jspruce94@gmail.com>",
+  "author": "OpenApiChai <openapichai@gmail.com>",
   "contributors": [
+    "Jonny Spruce <jspruce94@gmail.com>",
     "rwalle61 <richard.lh.waller@gmail.com>"
   ],
   "license": "MIT",
