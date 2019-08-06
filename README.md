@@ -1,6 +1,6 @@
 # Chai OpenAPI Response Validator
 
-[![Build Status](https://api.travis-ci.com/RuntimeTools/chai-openapi-response-validator.svg?branch=master)](https://api.travis-ci.com/RuntimeTools/chai-openapi-response-validator.svg?branch=master)
+[![Build Status](https://travis-ci.com/RuntimeTools/chai-openapi-response-validator.svg?branch=master)](https://travis-ci.com/RuntimeTools/chai-openapi-response-validator)
 
 Simple Chai support for asserting that HTTP responses satisfy an OpenAPI spec.
 
