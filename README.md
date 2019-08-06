@@ -1,6 +1,6 @@
 # Chai OpenAPI Response Validator
 
-[![Build Status](https://travis.ibm.com/Richard-Waller/chai-openapi-response-validator.svg?token=yX1tmaqovtPs8T93myHM&branch=master)](https://travis.ibm.com/Richard-Waller/chai-openapi-response-validator)
+[![Build Status](https://api.travis-ci.com/RuntimeTools/chai-openapi-response-validator.svg?branch=master)](https://api.travis-ci.com/RuntimeTools/chai-openapi-response-validator.svg?branch=master)
 
 Simple Chai support for asserting that HTTP responses satisfy an OpenAPI spec.
 
