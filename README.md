@@ -37,7 +37,7 @@ chai.use(chaiResponseValidator('path/to/openapi.yml'));
 describe('GET /example/request', function() {
   it('should satisfy OpenAPI spec', async function() {
 
-    // Get an HTTP response (e.g. via chai-http or supertest)
+    // Get an HTTP response using chai-http
     chai.use(require('chai-http'));
     const app = require('path/to/app');
     const res = chai.request(app).get('/example/request');
