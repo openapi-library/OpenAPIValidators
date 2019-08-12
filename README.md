@@ -4,6 +4,12 @@
 
 Simple Chai support for asserting that HTTP responses satisfy an OpenAPI spec.
 
+## How does this help?
+
+If your server's behaviour doesn't match your API documentation, then you need to correct your server, your documentation, or both. The sooner you know the better.
+
+This plugin allows you to automatically test whether your server's behaviour and documention match. It extends the [Chai Assertion Library](https://www.chaijs.com/) to support the [OpenAPI standard](https://swagger.io/docs/specification/about/) for documenting REST APIs.
+
 ## Features
 - Validates the status and body of HTTP responses against an OpenAPI spec
 - Easily load your OpenAPI spec just once in your tests
@@ -33,7 +39,7 @@ const chaiResponseValidator = require('chai-openapi-response-validator');
 // Load an OpenAPI file (YAML or JSON) into this plugin
 chai.use(chaiResponseValidator('path/to/openapi.yml'));
 
-// Write your test
+// Write your test (e.g. using Mocha)
 describe('GET /example/request', function() {
   it('should satisfy OpenAPI spec', async function() {
 
@@ -42,8 +48,10 @@ describe('GET /example/request', function() {
     const app = require('path/to/app');
     const res = chai.request(app).get('/example/request');
 
+    expect(res.status).to.equal(200);
+
     // Assert that the HTTP response satisfies the OpenAPI spec
-    expect(res).to.have.status(200).and.satisfyApiSpec;
+    expect(res).to.satisfyApiSpec;
   });
 });
 ```
