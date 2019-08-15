@@ -25,13 +25,13 @@ describe('chaiResponseValidator(pathToApiSpec)', function () {
     describe('valid OpenAPI file', function () {
       describe('YAML', function () {
         it('returns a function', function () {
-          const pathToApiSpec = path.resolve('test/exampleOpenApiFiles/valid/openapi.yml');
+          const pathToApiSpec = path.resolve('test/exampleOpenApiFiles/valid/openapi3.yml');
           expect(chaiResponseValidator(pathToApiSpec)).to.be.a('function');
         });
       });
       describe('JSON', function () {
         it('returns a function', function () {
-          const pathToApiSpec = path.resolve('test/exampleOpenApiFiles/valid/openapi.json');
+          const pathToApiSpec = path.resolve('test/exampleOpenApiFiles/valid/openapi3.json');
           expect(chaiResponseValidator(pathToApiSpec)).to.be.a('function');
         });
       });
