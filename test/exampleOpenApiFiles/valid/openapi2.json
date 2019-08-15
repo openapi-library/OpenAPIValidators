@@ -1,0 +1,41 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "description": "Example OpenApi 2 spec",
+      "title": "Example API",
+      "version": "0.1.0"
+    },
+    "paths": {
+      "/test": {
+        "get": {
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "Response body should be a string",
+              "schema": {
+                "type": "string"
+              }
+            },
+            "201": {
+              "description": "Response body should match a schema",
+              "schema": {
+                "$ref": "#/definitions/ExampleSchema"
+              }
+            },
+            "204": {
+              "description": "No response body"
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "ExampleSchema": {
+        "type": "string"
+      }
+    },
+    "x-components": {}
+  }
