@@ -38,50 +38,73 @@ for (const spec of openApiSpecs) {
   describe(`expect(res).to.satisfyApiSpec (using an OpenAPI ${openApiVersion} spec)`, function () {
     describe('when \'res\' matches a response defined in the API spec', function () {
       describe('\'res\' satisfies the spec', function () {
-        describe('spec expects res.body to be a string', function () {
-          const res = {
-            status: 200,
-            req: {
-              method: 'GET',
-              path: '/test',
-            },
-            body: 'valid body (string)',
-          };
+        describe('spec expects res.body to', function () {
+          describe('be a string', function () {
+            const res = {
+              status: 200,
+              req: {
+                method: 'GET',
+                path: '/test',
+              },
+              body: 'valid body (string)',
+            };
 
-          it('passes', function () {
-            expect(res).to.satisfyApiSpec;
+            it('passes', function () {
+              expect(res).to.satisfyApiSpec;
+            });
+
+            it('fails when using .not', function () {
+              const assertion = () => expect(res).to.not.satisfyApiSpec;
+              expect(assertion).to.throw('expected res not to satisfy API spec for \'200\' response defined for endpoint \'GET /test\' in OpenAPI spec');
+            });
           });
 
-          it('fails when using .not', function () {
-            const assertion = () => expect(res).to.not.satisfyApiSpec;
-            expect(assertion).to.throw('expected res not to satisfy API spec for \'200\' response defined for endpoint \'GET /test\' in OpenAPI spec');
+          describe('match a (string) schema', function () {
+            const res = {
+              status: 201,
+              req: {
+                method: 'GET',
+                path: '/test',
+              },
+              body: 'valid body (string)',
+            };
+
+            it('passes', function () {
+              expect(res).to.satisfyApiSpec;
+            });
+
+            it('fails when using .not', function () {
+              const assertion = () => expect(res).to.not.satisfyApiSpec;
+              expect(assertion).to.throw('expected res not to satisfy API spec for \'201\' response defined for endpoint \'GET /test\' in OpenAPI spec');
+            });
+          });
+
+          describe('be empty', function () {
+            const res = {
+              status: 204,
+              req: {
+                method: 'GET',
+                path: '/test',
+              },
+            };
+
+            it('passes', function () {
+              expect(res).to.satisfyApiSpec;
+            });
+
+            it('fails when using .not', function () {
+              const assertion = () => expect(res).to.not.satisfyApiSpec;
+              expect(assertion).to.throw('expected res not to satisfy API spec for \'204\' response defined for endpoint \'GET /test\' in OpenAPI spec');
+            });
           });
         });
-        describe('spec expects res.body to match a (string) schema', function () {
-          const res = {
-            status: 201,
-            req: {
-              method: 'GET',
-              path: '/test',
-            },
-            body: 'valid body (string)',
-          };
 
-          it('passes', function () {
-            expect(res).to.satisfyApiSpec;
-          });
-
-          it('fails when using .not', function () {
-            const assertion = () => expect(res).to.not.satisfyApiSpec;
-            expect(assertion).to.throw('expected res not to satisfy API spec for \'201\' response defined for endpoint \'GET /test\' in OpenAPI spec');
-          });
-        });
-        describe('spec expects res.body to be empty', function () {
+        describe('res.req.path has a query parameter', function () {
           const res = {
             status: 204,
             req: {
               method: 'GET',
-              path: '/test',
+              path: '/test?exampleQueryParam=foo',
             },
           };
 
@@ -95,6 +118,7 @@ for (const spec of openApiSpecs) {
           });
         });
       });
+
       describe('\'res\' does NOT satisfy the spec', function () {
         describe('spec expects a different res.status', function () {
           const res = {

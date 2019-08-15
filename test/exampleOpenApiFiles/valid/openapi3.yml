@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  title: Example API
-  description: Example OpenApi 3 spec
+  title: Example OpenApi 3 spec
+  description: Has a path with various responses to use in testing
   version: 0.1.0
 paths:
   /test:
