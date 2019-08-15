@@ -42,35 +42,35 @@ describe('chaiResponseValidator(pathToApiSpec)', function () {
         it('throws a relevant error', function () {
           const pathToApiSpec = path.resolve('test/exampleOpenApiFiles/invalid/fileFormat/emptyYaml.yml');
           const func = () => chaiResponseValidator(pathToApiSpec);
-          expect(func).to.throw('Error: File is not a valid OpenAPI spec.');
+          expect(func).to.throw('File is not a valid OpenAPI spec.');
         });
       });
       describe('YAML file that is invalid YAML', function () {
         it('throws a relevant error', function () {
           const pathToApiSpec = path.resolve('test/exampleOpenApiFiles/invalid/fileFormat/invalidYamlFormat.yml');
           const func = () => chaiResponseValidator(pathToApiSpec);
-          expect(func).to.throw('Error: Unable to read the specified OpenAPI document. File is invalid YAML or JSON');
+          expect(func).to.throw('Unable to read the specified OpenAPI document. File is invalid YAML or JSON');
         });
       });
       describe('JSON file that is invalid JSON', function () {
         it('throws a relevant error', function () {
           const pathToApiSpec = path.resolve('test/exampleOpenApiFiles/invalid/fileFormat/invalidJsonFormat.json');
           const func = () => chaiResponseValidator(pathToApiSpec);
-          expect(func).to.throw('Error: Unable to read the specified OpenAPI document. File is invalid YAML or JSON');
+          expect(func).to.throw('Unable to read the specified OpenAPI document. File is invalid YAML or JSON');
         });
       });
       describe('invalid OpenAPI 3', function () {
         it('throws a relevant error', function () {
           const pathToApiSpec = path.resolve('test/exampleOpenApiFiles/invalid/openApi/openApi3.yml');
           const func = () => chaiResponseValidator(pathToApiSpec);
-          expect(func).to.throw('Error: File is not a valid OpenAPI spec');
+          expect(func).to.throw('File is not a valid OpenAPI spec');
         });
       });
       describe('invalid OpenAPI 2', function () {
         it('throws a relevant error', function () {
           const pathToApiSpec = path.resolve('test/exampleOpenApiFiles/invalid/openApi/openApi2.json');
           const func = () => chaiResponseValidator(pathToApiSpec);
-          expect(func).to.throw('Error: File is not a valid OpenAPI spec');
+          expect(func).to.throw('File is not a valid OpenAPI spec');
         });
       });
     });
@@ -98,7 +98,7 @@ describe('chaiResponseValidator(pathToApiSpec)', function () {
       it('throws a relevant error', function () {
         const pathToApiSpec = path.resolve('test/exampleOpenApiFiles/invalid/fileFormat/neitherYamlNorJson.js');
         const func = () => chaiResponseValidator(pathToApiSpec);
-        expect(func).to.throw('Error: Unable to read the specified OpenAPI document. File is invalid YAML or JSON');
+        expect(func).to.throw('Unable to read the specified OpenAPI document. File is invalid YAML or JSON');
       });
     });
   });
