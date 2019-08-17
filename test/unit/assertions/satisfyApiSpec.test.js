@@ -16,6 +16,7 @@
 
 const chai = require('chai');
 const path = require('path');
+
 const chaiResponseValidator = require('../../..');
 
 const openApiSpecs = [
@@ -32,10 +33,10 @@ const { expect } = chai;
 
 for (const spec of openApiSpecs) {
   const { openApiVersion, pathToApiSpec } = spec;
-
-  chai.use(chaiResponseValidator(pathToApiSpec));
-
   describe(`expect(res).to.satisfyApiSpec (using an OpenAPI ${openApiVersion} spec)`, function () {
+    before(function() {
+      chai.use(chaiResponseValidator(pathToApiSpec));
+    });
     describe('when \'res\' matches a response defined in the API spec', function () {
       describe('\'res\' satisfies the spec', function () {
         describe('spec expects res.body to', function () {
@@ -44,7 +45,7 @@ for (const spec of openApiSpecs) {
               status: 200,
               req: {
                 method: 'GET',
-                path: '/test',
+                path: '/test/responseBody',
               },
               body: 'valid body (string)',
             };
@@ -55,7 +56,7 @@ for (const spec of openApiSpecs) {
 
             it('fails when using .not', function () {
               const assertion = () => expect(res).to.not.satisfyApiSpec;
-              expect(assertion).to.throw('expected res not to satisfy API spec for \'200\' response defined for endpoint \'GET /test\' in OpenAPI spec');
+              expect(assertion).to.throw('expected res not to satisfy API spec for \'200\' response defined for endpoint \'GET /test/responseBody\' in OpenAPI spec');
             });
           });
 
@@ -64,7 +65,7 @@ for (const spec of openApiSpecs) {
               status: 201,
               req: {
                 method: 'GET',
-                path: '/test',
+                path: '/test/responseBody',
               },
               body: 'valid body (string)',
             };
@@ -75,7 +76,7 @@ for (const spec of openApiSpecs) {
 
             it('fails when using .not', function () {
               const assertion = () => expect(res).to.not.satisfyApiSpec;
-              expect(assertion).to.throw('expected res not to satisfy API spec for \'201\' response defined for endpoint \'GET /test\' in OpenAPI spec');
+              expect(assertion).to.throw('expected res not to satisfy API spec for \'201\' response defined for endpoint \'GET /test/responseBody\' in OpenAPI spec');
             });
           });
 
@@ -84,7 +85,7 @@ for (const spec of openApiSpecs) {
               status: 204,
               req: {
                 method: 'GET',
-                path: '/test',
+                path: '/test/responseBody',
               },
             };
 
@@ -94,27 +95,104 @@ for (const spec of openApiSpecs) {
 
             it('fails when using .not', function () {
               const assertion = () => expect(res).to.not.satisfyApiSpec;
-              expect(assertion).to.throw('expected res not to satisfy API spec for \'204\' response defined for endpoint \'GET /test\' in OpenAPI spec');
+              expect(assertion).to.throw('expected res not to satisfy API spec for \'204\' response defined for endpoint \'GET /test/responseBody\' in OpenAPI spec');
             });
           });
         });
+        describe('res.req.path contains parameters', function () {
+          describe('a query param', function () {
+            const res = {
+              status: 204,
+              req: {
+                method: 'GET',
+                path: '/test/queryParams?exampleQueryParam=foo',
+              },
+            };
 
-        describe('res.req.path has a query parameter', function () {
-          const res = {
-            status: 204,
-            req: {
-              method: 'GET',
-              path: '/test?exampleQueryParam=foo',
-            },
-          };
+            it('passes', function () {
+              expect(res).to.satisfyApiSpec;
+            });
 
-          it('passes', function () {
-            expect(res).to.satisfyApiSpec;
+            it('fails when using .not', function () {
+              const assertion = () => expect(res).to.not.satisfyApiSpec;
+              expect(assertion).to.throw('expected res not to satisfy API spec for \'204\' response defined for endpoint \'GET /test/queryParams\' in OpenAPI spec');
+            });
           });
 
-          it('fails when using .not', function () {
-            const assertion = () => expect(res).to.not.satisfyApiSpec;
-            expect(assertion).to.throw('expected res not to satisfy API spec for \'204\' response defined for endpoint \'GET /test\' in OpenAPI spec');
+          describe('multiple query params', function () {
+            const res = {
+              status: 204,
+              req: {
+                method: 'GET',
+                path: `/test/queryParams?${'exampleQueryParam=foo'}&${'exampleQueryParam2=bar'}`,
+              },
+            };
+
+            it('passes', function () {
+              expect(res).to.satisfyApiSpec;
+            });
+
+            it('fails when using .not', function () {
+              const assertion = () => expect(res).to.not.satisfyApiSpec;
+              expect(assertion).to.throw('expected res not to satisfy API spec for \'204\' response defined for endpoint \'GET /test/queryParams\' in OpenAPI spec');
+            });
+          });
+
+          describe('a path param', function () {
+            const res = {
+              status: 204,
+              req: {
+                method: 'GET',
+                path: '/test/pathParams/foo',
+              },
+            };
+
+            it('passes', function () {
+              expect(res).to.satisfyApiSpec;
+            });
+
+            it('fails when using .not', function () {
+              const assertion = () => expect(res).to.not.satisfyApiSpec;
+              expect(assertion).to.throw('expected res not to satisfy API spec for \'204\' response defined for endpoint \'GET /test/pathParams/{exampleParam}\' in OpenAPI spec');
+            });
+          });
+
+          describe('multiple path params', function () {
+            const res = {
+              status: 204,
+              req: {
+                method: 'GET',
+                path: '/test/multiplePathParams/foo/and/bar',
+              },
+            };
+
+            it('passes', function () {
+              expect(res).to.satisfyApiSpec;
+            });
+
+            it('fails when using .not', function () {
+              const assertion = () => expect(res).to.not.satisfyApiSpec;
+              expect(assertion).to.throw('expected res not to satisfy API spec for \'204\' response defined for endpoint \'GET /test/multiplePathParams/{param1}/and/{param2}\' in OpenAPI spec');
+            });
+          });
+
+          describe('path and query params together', function () {
+            const res = {
+              status: 204,
+              req: {
+                method: 'GET',
+                path: `/test/pathAndQueryParams/${'foo'}?${'exampleQueryParam=bar'}`,
+              },
+            };
+
+            it('passes', function () {
+              expect(res).to.satisfyApiSpec;
+            });
+
+            it('fails when using .not', function () {
+              const assertion = () => expect(res).to.not.satisfyApiSpec;
+              expect(assertion).to.throw('expected res not to satisfy API spec for \'204\' response defined for endpoint \'GET /test/pathAndQueryParams/{examplePathParam}\' in OpenAPI spec');
+            });
           });
         });
       });
@@ -125,18 +203,18 @@ for (const spec of openApiSpecs) {
             status: 418,
             req: {
               method: 'GET',
-              path: '/test',
+              path: '/test/miscellaneous',
             },
           };
 
           it('fails', function () {
             const assertion = () => expect(res).to.satisfyApiSpec;
-            expect(assertion).to.throw('No \'418\' response defined for endpoint \'GET /test\' in OpenAPI spec');
+            expect(assertion).to.throw('No \'418\' response defined for endpoint \'GET /test/miscellaneous\' in OpenAPI spec');
           });
 
           it('fails when using .not', function () {
             const assertion = () => expect(res).not.to.satisfyApiSpec;
-            expect(assertion).to.throw('No \'418\' response defined for endpoint \'GET /test\' in OpenAPI spec');
+            expect(assertion).to.throw('No \'418\' response defined for endpoint \'GET /test/miscellaneous\' in OpenAPI spec');
           });
         });
 
@@ -145,7 +223,7 @@ for (const spec of openApiSpecs) {
             status: 204,
             req: {
               method: 'GET',
-              path: '/test',
+              path: '/test/responseBody',
             },
             body: 'invalid body (should be empty)',
           };
@@ -188,18 +266,18 @@ for (const spec of openApiSpecs) {
           status: 204,
           req: {
             method: 'HEAD',
-            path: '/test',
+            path: '/test/miscellaneous',
           },
         };
 
         it('fails', function () {
           const assertion = () => expect(res).to.satisfyApiSpec;
-          expect(assertion).to.throw('No \'HEAD\' method defined for route \'/test\' in OpenAPI spec');
+          expect(assertion).to.throw('No \'HEAD\' method defined for route \'/test/miscellaneous\' in OpenAPI spec');
         });
 
         it('fails when using .not', function () {
           const assertion = () => expect(res).to.not.satisfyApiSpec;
-          expect(assertion).to.throw('No \'HEAD\' method defined for route \'/test\' in OpenAPI spec');
+          expect(assertion).to.throw('No \'HEAD\' method defined for route \'/test/miscellaneous\' in OpenAPI spec');
         });
       });
     });

@@ -1,41 +1,118 @@
 {
-    "swagger": "2.0",
-    "info": {
-      "description": "Example OpenApi 2 spec",
-      "title": "Example API",
-      "version": "0.1.0"
-    },
-    "paths": {
-      "/test": {
-        "get": {
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [],
-          "responses": {
-            "200": {
-              "description": "Response body should be a string",
-              "schema": {
-                "type": "string"
-              }
-            },
-            "201": {
-              "description": "Response body should match a schema",
-              "schema": {
-                "$ref": "#/definitions/ExampleSchema"
-              }
-            },
-            "204": {
-              "description": "No response body"
-            }
+  "swagger": "2.0",
+  "info": {
+    "description": "Has various paths with responses to use in testing",
+    "title": "Example OpenApi 2 spec",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/test/miscellaneous": {
+      "get": {
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "No response body"
           }
         }
       }
     },
-    "definitions": {
-      "ExampleSchema": {
-        "type": "string"
+    "/test/multiplePathParams/{param1}/and/{param2}": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "param1",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "param2",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        }
       }
     },
-    "x-components": {}
-  }
+    "/test/pathAndQueryParams/{examplePathParam}": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "examplePathParam",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        }
+      }
+    },
+    "/test/pathParams/{exampleParam}": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "exampleParam",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        }
+      }
+    },
+    "/test/queryParams": {
+      "get": {
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        }
+      }
+    },
+    "/test/responseBody": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Response body should be a string",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "201": {
+            "description": "Response body should match a schema",
+            "schema": {
+              "$ref": "#/definitions/ExampleSchema"
+            }
+          },
+          "204": {
+            "description": "No response body"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ExampleSchema": {
+      "type": "string"
+    }
+  },
+  "x-components": {}
+}

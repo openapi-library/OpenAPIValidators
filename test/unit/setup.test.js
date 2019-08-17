@@ -85,7 +85,7 @@ describe('chaiResponseValidator(pathToApiSpec)', function () {
     describe('non-absolute path', function () {
       it('throws a relevant error', function () {
         const func = () => chaiResponseValidator('./');
-        expect(func).to.throw('The "path" argument must be an absolute path');
+        expect(func).to.throw('The "path" argument must be an absolute filepath');
       });
     });
     describe('absolute path to a non-existent file', function () {
