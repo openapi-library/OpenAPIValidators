@@ -240,8 +240,8 @@ for (const spec of openApiSpecs) {
       });
     });
 
-    describe('when \'res\' does NOT match any responses defined in the API spec', function () {
-      describe('no route defined', function () {
+    describe('when \'res\' matches NO responses defined in the API spec', function () {
+      describe('res matches no paths', function () {
         const res = {
           status: 204,
           req: {
@@ -252,16 +252,16 @@ for (const spec of openApiSpecs) {
 
         it('fails', function () {
           const assertion = () => expect(res).to.satisfyApiSpec;
-          expect(assertion).to.throw('No \'/does/not/exist\' route defined in OpenAPI spec');
+          expect(assertion).to.throw('No \'/does/not/exist\' path defined in OpenAPI spec');
         });
 
         it('fails when using .not', function () {
           const assertion = () => expect(res).to.not.satisfyApiSpec;
-          expect(assertion).to.throw('No \'/does/not/exist\' route defined in OpenAPI spec');
+          expect(assertion).to.throw('No \'/does/not/exist\' path defined in OpenAPI spec');
         });
       });
 
-      describe('no HTTP method defined for endpoint', function () {
+      describe('res matches a path but none of its HTTP methods', function () {
         const res = {
           status: 204,
           req: {
@@ -272,12 +272,12 @@ for (const spec of openApiSpecs) {
 
         it('fails', function () {
           const assertion = () => expect(res).to.satisfyApiSpec;
-          expect(assertion).to.throw('No \'HEAD\' method defined for route \'/test/miscellaneous\' in OpenAPI spec');
+          expect(assertion).to.throw('No \'HEAD\' method defined for path \'/test/miscellaneous\' in OpenAPI spec');
         });
 
         it('fails when using .not', function () {
           const assertion = () => expect(res).to.not.satisfyApiSpec;
-          expect(assertion).to.throw('No \'HEAD\' method defined for route \'/test/miscellaneous\' in OpenAPI spec');
+          expect(assertion).to.throw('No \'HEAD\' method defined for path \'/test/miscellaneous\' in OpenAPI spec');
         });
       });
     });
