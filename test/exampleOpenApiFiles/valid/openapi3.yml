@@ -1,10 +1,10 @@
 openapi: 3.0.0
 info:
   title: Example OpenApi 3 spec
-  description: Has a path with various responses to use in testing
+  description: Has various paths with responses to use in testing
   version: 0.1.0
 paths:
-  /test:
+  /test/responseBody/string:
     get:
       responses:
         200:
@@ -13,12 +13,88 @@ paths:
             application/json:
               schema:
                 type: string
-        201:
+  /test/responseBody/schemaDef:
+    get:
+      responses:
+        200:
           description: Response body should match a schema
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExampleSchema'
+  /test/responseBody/empty:
+    get:
+      responses:
+        204:
+          description: No response body
+  /test/multipleResponsesDefined:
+    get:
+      responses:
+        201:
+          description: Response body should be a string
+          content:
+            application/json:
+              schema:
+                type: string
+        202:
+          description: Response body should be an integer
+          content:
+            application/json:
+              schema:
+                type: integer
+        203:
+          description: No response body
+  /test/queryParams:
+    get:
+      responses:
+        204:
+          description: No response body
+  /test/pathParams/{exampleParam}:
+    get:
+      parameters:
+        - in: path
+          name: exampleParam
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: No response body
+  /test/multiplePathParams/{param1}/{param2}:
+    get:
+      parameters:
+        - in: path
+          name: param1
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: param2
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: No response body
+  /test/pathAndQueryParams/{examplePathParam}:
+    get:
+      parameters:
+        - in: path
+          name: examplePathParam
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: No response body
+  /test/responseStatus:
+    get:
+      responses:
+        204:
+          description: No response body
+  /test/HTTPMethod:
+    get:
+      responses:
         204:
           description: No response body
 components:

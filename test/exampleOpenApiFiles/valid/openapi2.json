@@ -1,41 +1,170 @@
 {
-    "swagger": "2.0",
-    "info": {
-      "description": "Example OpenApi 2 spec",
-      "title": "Example API",
-      "version": "0.1.0"
+  "swagger": "2.0",
+  "info": {
+    "description": "Has various paths with responses to use in testing",
+    "title": "Example OpenApi 2 spec",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/test/multiplePathParams/{param1}/{param2}": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "param1",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "param2",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        }
+      }
     },
-    "paths": {
-      "/test": {
-        "get": {
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [],
-          "responses": {
-            "200": {
-              "description": "Response body should be a string",
-              "schema": {
-                "type": "string"
-              }
-            },
-            "201": {
-              "description": "Response body should match a schema",
-              "schema": {
-                "$ref": "#/definitions/ExampleSchema"
-              }
-            },
-            "204": {
-              "description": "No response body"
+    "/test/multipleResponsesDefined": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Response body should be a string",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "202": {
+            "description": "Response body should be an integer",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          "203": {
+            "description": "No response body"
+          }
+        }
+      }
+    },
+    "/test/pathAndQueryParams/{examplePathParam}": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "examplePathParam",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        }
+      }
+    },
+    "/test/pathParams/{exampleParam}": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "exampleParam",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        }
+      }
+    },
+    "/test/queryParams": {
+      "get": {
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        }
+      }
+    },
+    "/test/responseBody/empty": {
+      "get": {
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        }
+      }
+    },
+    "/test/responseBody/schemaDef": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Response body should match a schema",
+            "schema": {
+              "$ref": "#/definitions/ExampleSchema"
             }
           }
         }
       }
     },
-    "definitions": {
-      "ExampleSchema": {
-        "type": "string"
+    "/test/responseBody/string": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Response body should be a string",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
       }
     },
-    "x-components": {}
-  }
+    "/test/HTTPMethod": {
+      "get": {
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        }
+      }
+    },
+    "/test/responseStatus": {
+      "get": {
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ExampleSchema": {
+      "type": "string"
+    }
+  },
+  "x-components": {}
+}
