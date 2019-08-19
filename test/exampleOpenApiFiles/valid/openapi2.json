@@ -6,17 +6,7 @@
     "version": "0.1.0"
   },
   "paths": {
-    "/test/miscellaneous": {
-      "get": {
-        "parameters": [],
-        "responses": {
-          "204": {
-            "description": "No response body"
-          }
-        }
-      }
-    },
-    "/test/multiplePathParams/{param1}/and/{param2}": {
+    "/test/multiplePathParams/{param1}/{param2}": {
       "get": {
         "parameters": [
           {
@@ -34,6 +24,31 @@
         ],
         "responses": {
           "204": {
+            "description": "No response body"
+          }
+        }
+      }
+    },
+    "/test/multipleResponsesDefined": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Response body should be a string",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "202": {
+            "description": "Response body should be an integer",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          "203": {
             "description": "No response body"
           }
         }
@@ -83,7 +98,33 @@
         }
       }
     },
-    "/test/responseBody": {
+    "/test/responseBody/empty": {
+      "get": {
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        }
+      }
+    },
+    "/test/responseBody/schemaDef": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Response body should match a schema",
+            "schema": {
+              "$ref": "#/definitions/ExampleSchema"
+            }
+          }
+        }
+      }
+    },
+    "/test/responseBody/string": {
       "get": {
         "produces": [
           "application/json"
@@ -95,13 +136,24 @@
             "schema": {
               "type": "string"
             }
-          },
-          "201": {
-            "description": "Response body should match a schema",
-            "schema": {
-              "$ref": "#/definitions/ExampleSchema"
-            }
-          },
+          }
+        }
+      }
+    },
+    "/test/HTTPMethod": {
+      "get": {
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        }
+      }
+    },
+    "/test/responseStatus": {
+      "get": {
+        "parameters": [],
+        "responses": {
           "204": {
             "description": "No response body"
           }

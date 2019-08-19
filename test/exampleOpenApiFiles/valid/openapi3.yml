@@ -4,7 +4,7 @@ info:
   description: Has various paths with responses to use in testing
   version: 0.1.0
 paths:
-  /test/responseBody:
+  /test/responseBody/string:
     get:
       responses:
         200:
@@ -13,13 +13,36 @@ paths:
             application/json:
               schema:
                 type: string
-        201:
+  /test/responseBody/schemaDef:
+    get:
+      responses:
+        200:
           description: Response body should match a schema
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExampleSchema'
+  /test/responseBody/empty:
+    get:
+      responses:
         204:
+          description: No response body
+  /test/multipleResponsesDefined:
+    get:
+      responses:
+        201:
+          description: Response body should be a string
+          content:
+            application/json:
+              schema:
+                type: string
+        202:
+          description: Response body should be an integer
+          content:
+            application/json:
+              schema:
+                type: integer
+        203:
           description: No response body
   /test/queryParams:
     get:
@@ -37,7 +60,7 @@ paths:
       responses:
         204:
           description: No response body
-  /test/multiplePathParams/{param1}/and/{param2}:
+  /test/multiplePathParams/{param1}/{param2}:
     get:
       parameters:
         - in: path
@@ -64,7 +87,12 @@ paths:
       responses:
         204:
           description: No response body
-  /test/miscellaneous:
+  /test/responseStatus:
+    get:
+      responses:
+        204:
+          description: No response body
+  /test/HTTPMethod:
     get:
       responses:
         204:
