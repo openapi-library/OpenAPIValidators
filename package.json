@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha test --recursive --exit",
-    "test:coverage": "nyc npm test && nyc report --reporter=html && nyc check-coverage --statements 95 --branches 95 --functions 95 --lines 95",
+    "test:coverage": "nyc npm test && nyc report --reporter=html && nyc check-coverage --statements 100 --branches 100 --functions 100 --lines 100",
     "test:coverage:browse": "npm run test:coverage; open coverage/index.html",
     "test:mutation": "stryker run",
     "test:full": "npm run lint && npm run test:coverage && npm run test:mutation",
@@ -60,8 +60,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run test:full",
-      "pre-push": "npm run test:full"
+      "pre-commit": "npm run test:full"
     }
   }
 }
