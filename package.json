@@ -60,7 +60,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm test",
+      "pre-commit": "npm run test:full",
       "pre-push": "npm run test:full"
     }
   }
