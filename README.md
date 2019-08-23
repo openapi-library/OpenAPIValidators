@@ -8,7 +8,7 @@ Simple Chai support for asserting that HTTP responses satisfy an OpenAPI spec.
 
 If your server's behaviour doesn't match your API documentation, then you need to correct your server, your documentation, or both. The sooner you know the better.
 
-This plugin allows you to automatically test whether your server's behaviour and documention match. It extends the [Chai Assertion Library](https://www.chaijs.com/) to support the [OpenAPI standard](https://swagger.io/docs/specification/about/) for documenting REST APIs.
+This plugin allows you to automatically test whether your server's behaviour and documentation match. It extends the [Chai Assertion Library](https://www.chaijs.com/) to support the [OpenAPI standard](https://swagger.io/docs/specification/about/) for documenting REST APIs.
 
 ## Features
 - Validates the status and body of HTTP responses against an OpenAPI spec
