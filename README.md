@@ -1,6 +1,9 @@
 # Chai OpenAPI Response Validator
 
+[![downloads](https://img.shields.io/npm/dm/chai-openapi-response-validator)](https://www.npmjs.com/package/chai-openapi-response-validator)
+[![npm](https://img.shields.io/npm/v/chai-openapi-response-validator.svg)](https://www.npmjs.com/package/chai-openapi-response-validator)
 [![Build Status](https://travis-ci.com/RuntimeTools/chai-openapi-response-validator.svg?branch=master)](https://travis-ci.com/RuntimeTools/chai-openapi-response-validator)
+![dependencies](https://img.shields.io/david/RuntimeTools/chai-openapi-response-validator)
 
 Simple Chai support for asserting that HTTP responses satisfy an OpenAPI spec.
 

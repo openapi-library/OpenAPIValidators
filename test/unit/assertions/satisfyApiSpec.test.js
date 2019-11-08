@@ -35,7 +35,7 @@ for (const spec of openApiSpecs) {
   const { openApiVersion, pathToApiSpec } = spec;
 
   // add a path to a server if testing in openAPI 3
-  const serverPath = spec.openApiVersion == 3 ? '/local' : '';
+  const serverPath = openApiVersion == 3 ? '/local' : '';
 
   describe(`expect(res).to.satisfyApiSpec (using an OpenAPI ${openApiVersion} spec)`, function () {
     before(function () {
@@ -355,56 +355,6 @@ for (const spec of openApiSpecs) {
         it('fails when using .not', function () {
           const assertion = () => expect(res).to.not.satisfyApiSpec;
           expect(assertion).to.throw('No \'HEAD\' method defined for path \'/test/HTTPMethod\' in OpenAPI spec');
-        });
-      });
-    });
-    describe('OpenAPI 3 ONLY', function() {
-      before('ensure the version is OpenAPI 3', function() {
-        if (spec.openApiVersion !== 3) {
-          this.skip();
-        }
-      });
-      describe('using a different server', function () {
-        describe('the server path is defined', function() {
-          const differentServer = '/remote';
-          const res = {
-            status: 200,
-            req: {
-              method: 'GET',
-              path: `${differentServer}/test/responseBody/schemaDef`,
-            },
-            body: 'valid body (string)',
-          };
-
-          it('passes', function () {
-            expect(res).to.satisfyApiSpec;
-          });
-
-          it('fails when using .not', function () {
-            const assertion = () => expect(res).to.not.satisfyApiSpec;
-            expect(assertion).to.throw('');
-          });
-        });
-        describe('the server path is NOT defined', function() {
-          const differentServer = '/missing';
-          const res = {
-            status: 200,
-            req: {
-              method: 'GET',
-              path: `${differentServer}/test/responseBody/schemaDef`,
-            },
-            body: 'valid body (string)',
-          };
-
-          it('fails', function () {
-            const assertion = () => expect(res).to.satisfyApiSpec;
-            expect(assertion).to.throw('No server matching \'/missing/test/responseBody/schemaDef\' path defined in OpenAPI spec');
-          });
-          
-          it('fails when using .not', function () {
-            const assertion = () => expect(res).to.not.satisfyApiSpec;
-            expect(assertion).to.throw('No server matching \'/missing/test/responseBody/schemaDef\' path defined in OpenAPI spec');
-          });
         });
       });
     });
