@@ -20,55 +20,49 @@ const path = require('path');
 const chaiResponseValidator = require('../../..');
 
 const pathToApiSpec = path.resolve('test/exampleOpenApiFiles/valid/openapi3.yml');
-
+chai.use(chaiResponseValidator(pathToApiSpec));
 const { expect } = chai;
 
+describe('Using an OA3 spec that defines server paths', function () {
+  describe('res.req.path matches a defined sever path', function () {
+    const differentServer = '/remote';
+    const res = {
+      status: 200,
+      req: {
+        method: 'GET',
+        path: `${differentServer}/test/responseBody/schemaDef`,
+      },
+      body: 'valid body (string)',
+    };
 
-describe('Server tests', function () {
-  before(function () {
-    chai.use(chaiResponseValidator(pathToApiSpec));
-  });
-  describe('using a different server', function () {
-    describe('the server path is defined', function () {
-      const differentServer = '/remote';
-      const res = {
-        status: 200,
-        req: {
-          method: 'GET',
-          path: `${differentServer}/test/responseBody/schemaDef`,
-        },
-        body: 'valid body (string)',
-      };
-
-      it('passes', function () {
-        expect(res).to.satisfyApiSpec;
-      });
-
-      it('fails when using .not', function () {
-        const assertion = () => expect(res).to.not.satisfyApiSpec;
-        expect(assertion).to.throw('');
-      });
+    it('passes', function () {
+      expect(res).to.satisfyApiSpec;
     });
-    describe('the server path is NOT defined', function () {
-      const differentServer = '/missing';
-      const res = {
-        status: 200,
-        req: {
-          method: 'GET',
-          path: `${differentServer}/test/responseBody/schemaDef`,
-        },
-        body: 'valid body (string)',
-      };
 
-      it('fails', function () {
-        const assertion = () => expect(res).to.satisfyApiSpec;
-        expect(assertion).to.throw('No server matching \'/missing/test/responseBody/schemaDef\' path defined in OpenAPI spec');
-      });
+    it('fails when using .not', function () {
+      const assertion = () => expect(res).to.not.satisfyApiSpec;
+      expect(assertion).to.throw('');
+    });
+  });
+  describe('res.req.path does not match a defined sever path', function () {
+    const differentServer = '/missing';
+    const res = {
+      status: 200,
+      req: {
+        method: 'GET',
+        path: `${differentServer}/test/responseBody/schemaDef`,
+      },
+      body: 'valid body (string)',
+    };
 
-      it('fails when using .not', function () {
-        const assertion = () => expect(res).to.not.satisfyApiSpec;
-        expect(assertion).to.throw('No server matching \'/missing/test/responseBody/schemaDef\' path defined in OpenAPI spec');
-      });
+    it('fails', function () {
+      const assertion = () => expect(res).to.satisfyApiSpec;
+      expect(assertion).to.throw('No server matching \'/missing/test/responseBody/schemaDef\' path defined in OpenAPI spec');
+    });
+
+    it('fails when using .not', function () {
+      const assertion = () => expect(res).to.not.satisfyApiSpec;
+      expect(assertion).to.throw('No server matching \'/missing/test/responseBody/schemaDef\' path defined in OpenAPI spec');
     });
   });
 });
