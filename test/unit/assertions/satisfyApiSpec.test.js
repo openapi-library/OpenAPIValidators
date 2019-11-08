@@ -16,6 +16,7 @@
 
 const chai = require('chai');
 const path = require('path');
+const util = require('util');
 
 const chaiResponseValidator = require('../../..');
 
@@ -296,18 +297,18 @@ for (const spec of openApiSpecs) {
           };
 
           it('fails', function () {
+            const errReport = {
+              message: 'The response was not valid.',
+              errors: [
+                {
+                  errorCode: 'type.openapi.responseValidation',
+                  message: 'response should be null',
+                },
+              ],
+              actualResponse: { status: 204, body: 'invalid body (should be empty)' },
+            };
             const assertion = () => expect(res).to.satisfyApiSpec;
-            expect(assertion).to.throw('expected res to satisfy API spec:\n'
-              + '{\n'
-              + '  message: \'The response was not valid.\',\n'
-              + '  errors: [\n'
-              + '    {\n'
-              + '      errorCode: \'type.openapi.responseValidation\',\n'
-              + '      message: \'response should be null\'\n'
-              + '    }\n'
-              + '  ],\n'
-              + '  actualResponse: { status: 204, body: \'invalid body (should be empty)\' }\n'
-              + '}');
+            expect(assertion).to.throw(`expected res to satisfy API spec:\n${util.inspect(errReport)}`);
           });
 
           it('passes when using .not', function () {

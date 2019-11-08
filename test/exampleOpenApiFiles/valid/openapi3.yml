@@ -4,9 +4,9 @@ info:
   description: Has various paths with responses to use in testing
   version: 0.1.0
 servers:
-  - url: /local 
-    description: local 
-  - url: /remote 
+  - url: /local
+    description: local
+  - url: /remote
     description: remote
 paths:
   /test/responseBody/string:
