@@ -8,6 +8,7 @@ assignees: ''
 ---
 
 ### Mission:
+- **OpenAPI version:** 2 and/or 3?
 - **Current user story:**
 - **Proposed gain:**
 - **Proposed cost:** Time.
