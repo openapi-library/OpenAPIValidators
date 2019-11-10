@@ -1,0 +1,24 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Mocha Tests",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "args": [
+                "--timeout",
+                "999999", // timeout length. Required since while debugging we may pause for longer than Mocha's test timeout
+                "--colors",
+                "${workspaceFolder}/test/",
+                "--recursive",
+                "--exit",
+            ],
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+    ]
+}
