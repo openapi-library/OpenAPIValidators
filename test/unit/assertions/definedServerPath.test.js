@@ -24,7 +24,7 @@ chai.use(chaiResponseValidator(pathToApiSpec));
 const { expect } = chai;
 
 describe('Using an OA3 spec that defines server paths', function () {
-  describe('res.req.path matches a defined sever path', function () {
+  describe('res.req.path matches a defined server path', function () {
     const differentServer = '/remote';
     const res = {
       status: 200,
@@ -44,7 +44,7 @@ describe('Using an OA3 spec that defines server paths', function () {
       expect(assertion).to.throw('');
     });
   });
-  describe('res.req.path does not match a defined sever path', function () {
+  describe('res.req.path does not match a defined server path', function () {
     const differentServer = '/missing';
     const res = {
       status: 200,
