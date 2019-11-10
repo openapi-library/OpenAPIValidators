@@ -25,7 +25,7 @@ This plugin allows you to automatically test whether your server's behaviour and
 ## Installation
 This is an addon plugin for the [Chai Assertion Library](http://chaijs.com). Install via [npm](http://npmjs.org).
 ```bash
-$ npm install chai-openapi-response-validator
+$ npm install --save-dev chai-openapi-response-validator
 ```
 
 ## Usage
