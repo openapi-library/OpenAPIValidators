@@ -53,7 +53,7 @@ describe('Parsing responses from different request modules', function () {
             `expected res not to satisfy API spec for '200' response defined for endpoint 'GET /test/responseBody/string' in OpenAPI spec\nres: ${
               util.inspect({
                 status: 200,
-                body: 'valid body (string)',
+                body: 'res.body is a string',
               })
             }`
           );
@@ -72,7 +72,7 @@ describe('Parsing responses from different request modules', function () {
               util.inspect({
                 status: 200,
                 body: {},
-                text: 'valid body (empty object)',
+                text: 'res.body is an empty object; res.text is a string',
               })
             }`
           );
@@ -94,7 +94,7 @@ describe('Parsing responses from different request modules', function () {
             `expected res not to satisfy API spec for '200' response defined for endpoint 'GET /test/responseBody/string' in OpenAPI spec\nres: ${
               util.inspect({
                 status: 200,
-                body: 'valid body (string)',
+                body: 'res.body is a string',
               })
             }`
           );
@@ -113,7 +113,7 @@ describe('Parsing responses from different request modules', function () {
               util.inspect({
                 status: 200,
                 body: {},
-                text: 'valid body (empty object)',
+                text: 'res.body is an empty object; res.text is a string',
               })
             }`
           );
@@ -137,7 +137,7 @@ describe('Parsing responses from different request modules', function () {
           `expected res not to satisfy API spec for '200' response defined for endpoint 'GET /test/responseBody/string' in OpenAPI spec\nres: ${
             util.inspect({
               status: 200,
-              body: 'valid body (string)',
+              body: 'res.body is a string',
             })
           }`
         );
@@ -159,7 +159,7 @@ describe('Parsing responses from different request modules', function () {
           `expected res not to satisfy API spec for '200' response defined for endpoint 'GET /test/responseBody/string' in OpenAPI spec\nres: ${
             util.inspect({
               status: 200,
-              body: 'valid body (string)',
+              body: 'res.body is a string',
             })
           }`
         );

@@ -320,7 +320,7 @@ for (const spec of openApiSpecs) {
                       body: [{ nestedProperty: 'invalid body (should be empty)' }],
                     },
                   },
-                  // ensure our error message shows deep object rather than shortening it to `[Object]`
+                  // check our error message shows deep object rather than shortening it to `[Object]`
                   { showHidden: false, depth: null },
                 )
               }`

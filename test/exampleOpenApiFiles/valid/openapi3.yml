@@ -36,7 +36,7 @@ paths:
     get:
       responses:
         200:
-          description: Response body is empty object
+          description: Response body is an empty object. (Used to test that res.text is populated instead)
           content:
             application/json:
               schema:
