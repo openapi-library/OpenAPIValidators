@@ -1,6 +1,6 @@
 {
   "name": "chai-openapi-response-validator",
-  "version": "0.2.5",
+  "version": "0.3.0",
   "description": "Simple Chai support for asserting that HTTP responses satisfy an OpenAPI spec",
   "main": "index.js",
   "scripts": {
