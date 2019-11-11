@@ -19,7 +19,7 @@ const path = require('path');
 
 const chaiResponseValidator = require('../../..');
 
-const pathToApiSpec = path.resolve('test/exampleOpenApiFiles/valid/openapi3.yml');
+const pathToApiSpec = path.resolve('test/resources/exampleOpenApiFiles/valid/openapi3.yml');
 chai.use(chaiResponseValidator(pathToApiSpec));
 const { expect } = chai;
 
