@@ -32,6 +32,15 @@ paths:
       responses:
         204:
           description: No response body
+  /test/responseBody/emptyObject:
+    get:
+      responses:
+        200:
+          description: Response body is an empty object. (Used to test that res.text is populated instead)
+          content:
+            application/json:
+              schema:
+                type: object
   /test/multipleResponsesDefined:
     get:
       responses:

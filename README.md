@@ -20,16 +20,17 @@ This plugin allows you to automatically test whether your server's behaviour and
 - Supports OpenAPI specs in YAML and JSON formats
 - Supports `$ref` in response schemas (i.e. `$ref: '#/definitions/ComponentType/ComponentName'`)
 - Informs you if your OpenAPI spec is invalid
+- Supports responses from `axios`, `request-promise`, `supertest`, `superagent`, and `chai-http`
 
 ## Installation
-This is a addon plugin for the [Chai Assertion Library](http://chaijs.com). Install via [npm](http://npmjs.org).
+This is an addon plugin for the [Chai Assertion Library](http://chaijs.com). Install via [npm](http://npmjs.org).
 ```bash
-$ npm install chai-openapi-response-validator
+$ npm install --save-dev chai-openapi-response-validator
 ```
 
 ## Usage
 
-### 1. Given a Test file:
+### 1. Write a test:
 
 ```javascript
 // Set up Chai
@@ -46,10 +47,8 @@ chai.use(chaiResponseValidator('path/to/openapi.yml'));
 describe('GET /example/request', function() {
   it('should satisfy OpenAPI spec', async function() {
 
-    // Get an HTTP response using chai-http
-    chai.use(require('chai-http'));
-    const app = require('path/to/app');
-    const res = chai.request(app).get('/example/request');
+    // Get an HTTP response from your server (e.g. using axios)
+    const res = await axios.get('http://localhost:3000/example/request');
 
     expect(res.status).to.equal(200);
 
@@ -59,7 +58,7 @@ describe('GET /example/request', function() {
 });
 ```
 
-### 2. Contents of `path/to/openapi.yml`:
+### 2. Write an OpenAPI Spec (and save at `path/to/openapi.yml`):
 ```yaml
 openapi: 3.0.0
 info:
@@ -86,9 +85,9 @@ paths:
 
 ```
 
-### 3. Validates the response status and body against `openapi.yml`
+### 3. Run your test to validate your server's response against your OpenAPI spec:
 
-#### The assertion passes if the response status and body satisfy  `openapi.yml`:
+#### The assertion passes if the response status and body satisfy `openapi.yml`:
 
 ```javascript
 // Response includes:
@@ -118,7 +117,7 @@ paths:
 Output from test failure:
 
 ```javascript
-     AssertionError: expected res to satisfy API spec:
+AssertionError: expected res to satisfy API spec:
 {
   message: 'The response was not valid.',
   errors: [

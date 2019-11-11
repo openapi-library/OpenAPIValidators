@@ -60,13 +60,15 @@ for (const spec of openApiSpecs) {
             });
 
             it('fails when using .not', function () {
-              const resThatShouldNotSatisfySpec = util.inspect({
-                status: 200,
-                body: 'valid body (string)',
-                text: undefined,
-              });
               const assertion = () => expect(res).to.not.satisfyApiSpec;
-              expect(assertion).to.throw(`expected res not to satisfy API spec for '200' response defined for endpoint 'GET /test/responseBody/string' in OpenAPI spec\nres: ${resThatShouldNotSatisfySpec}`);
+              expect(assertion).to.throw(
+                `expected res not to satisfy API spec for '200' response defined for endpoint 'GET /test/responseBody/string' in OpenAPI spec\nres: ${
+                  util.inspect({
+                    status: 200,
+                    body: 'valid body (string)',
+                  })
+                }`
+              );
             });
           });
 
@@ -291,74 +293,42 @@ for (const spec of openApiSpecs) {
         });
 
         describe('wrong res.body', function () {
-          describe('flat res.body', function () {
-            const res = {
-              status: 204,
-              req: {
-                method: 'GET',
-                path: `${serverPath}/test/responseBody/empty`,
-              },
-              body: 'invalid body (should be empty)',
-            };
+          const res = {
+            status: 204,
+            req: {
+              method: 'GET',
+              path: `${serverPath}/test/responseBody/empty`,
+            },
+            body: [{ nestedProperty: 'invalid body (should be empty)' }],
+          };
 
-            it('fails and outputs a useful error message', function () {
-              const validationError = {
-                message: 'The response was not valid.',
-                errors: [
+          it('fails and outputs a useful error message', function () {
+            const assertion = () => expect(res).to.satisfyApiSpec;
+            expect(assertion).to.throw(
+              `expected res to satisfy API spec:\n${
+                util.inspect(
                   {
-                    errorCode: 'type.openapi.responseValidation',
-                    message: 'response should be null',
+                    message: 'The response was not valid.',
+                    errors: [
+                      {
+                        errorCode: 'type.openapi.responseValidation',
+                        message: 'response should be null',
+                      },
+                    ],
+                    actualResponse: {
+                      status: 204,
+                      body: [{ nestedProperty: 'invalid body (should be empty)' }],
+                    },
                   },
-                ],
-                actualResponse: {
-                  status: 204,
-                  body: 'invalid body (should be empty)',
-                  text: undefined,
-                },
-              };
-              const errorReport = util.inspect(validationError);
-              const assertion = () => expect(res).to.satisfyApiSpec;
-              expect(assertion).to.throw(`expected res to satisfy API spec:\n${errorReport}`);
-            });
-
-            it('passes when using .not', function () {
-              expect(res).to.not.satisfyApiSpec;
-            });
+                  // check our error message shows deep object rather than shortening it to `[Object]`
+                  { showHidden: false, depth: null },
+                )
+              }`
+            );
           });
-          describe('nested res.body', function () {
-            const res = {
-              status: 204,
-              req: {
-                method: 'GET',
-                path: `${serverPath}/test/responseBody/empty`,
-              },
-              body: [{ nestedProperty: 'invalid body (should be empty)' }],
-              text: 'body should be empty',
-            };
 
-            it('fails and outputs a useful error message', function () {
-              const validationError = {
-                message: 'The response was not valid.',
-                errors: [
-                  {
-                    errorCode: 'type.openapi.responseValidation',
-                    message: 'response should be null',
-                  },
-                ],
-                actualResponse: {
-                  status: 204,
-                  body: [{ nestedProperty: 'invalid body (should be empty)' }],
-                  text: 'body should be empty',
-                },
-              };
-              const errorReport = util.inspect(validationError, { showHidden: false, depth: null });
-              const assertion = () => expect(res).to.satisfyApiSpec;
-              expect(assertion).to.throw(`expected res to satisfy API spec:\n${errorReport}`);
-            });
-
-            it('passes when using .not', function () {
-              expect(res).to.not.satisfyApiSpec;
-            });
+          it('passes when using .not', function () {
+            expect(res).to.not.satisfyApiSpec;
           });
         });
       });
