@@ -23,11 +23,11 @@ const chaiResponseValidator = require('../../..');
 const openApiSpecs = [
   {
     openApiVersion: 2,
-    pathToApiSpec: path.resolve('test/exampleOpenApiFiles/valid/openapi2.json'),
+    pathToApiSpec: path.resolve('test/resources/exampleOpenApiFiles/valid/openapi2.json'),
   },
   {
     openApiVersion: 3,
-    pathToApiSpec: path.resolve('test/exampleOpenApiFiles/valid/openapi3.yml'),
+    pathToApiSpec: path.resolve('test/resources/exampleOpenApiFiles/valid/openapi3.yml'),
   },
 ];
 const { expect } = chai;
