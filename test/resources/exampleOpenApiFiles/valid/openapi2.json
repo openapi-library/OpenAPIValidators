@@ -6,6 +6,16 @@
     "version": "0.1.0"
   },
   "paths": {
+    "/test/HTTPMethod": {
+      "get": {
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        }
+      }
+    },
     "/test/multiplePathParams/{param1}/{param2}": {
       "get": {
         "parameters": [
@@ -108,6 +118,22 @@
         }
       }
     },
+    "/test/responseBody/emptyObject": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Response body is an empty object. (Used to test that res.text is populated instead)",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
     "/test/responseBody/schemaDef": {
       "get": {
         "produces": [
@@ -140,7 +166,7 @@
         }
       }
     },
-    "/test/HTTPMethod": {
+    "/test/responseStatus": {
       "get": {
         "parameters": [],
         "responses": {
@@ -150,12 +176,18 @@
         }
       }
     },
-    "/test/responseStatus": {
+    "/test/resReferencesResDefinition": {
       "get": {
+        "produces": [
+          "application/json"
+        ],
         "parameters": [],
         "responses": {
-          "204": {
-            "description": "No response body"
+          "200": {
+            "description": "Response body should be a string",
+            "schema": {
+              "type": "string"
+            }
           }
         }
       }
@@ -166,5 +198,14 @@
       "type": "string"
     }
   },
-  "x-components": {}
+  "x-components": {
+    "responses": {
+      "Response1": {
+        "description": "Response body should be a string",
+        "schema": {
+          "type": "string"
+        }
+      }
+    }
+  }
 }

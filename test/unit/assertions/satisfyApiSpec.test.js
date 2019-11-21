@@ -112,8 +112,35 @@ for (const spec of openApiSpecs) {
           });
         });
 
-        describe('res.req.path matches multiple expected responses', function () {
-          describe('1st expected response', function () {
+        describe('res.req.path matches a response referencing a response definition', function () {
+          const res = {
+            status: 200,
+            req: {
+              method: 'GET',
+              path: `${serverPath}/test/resReferencesResDefinition`,
+            },
+            body: 'valid body (string)',
+          };
+
+          it('passes', function () {
+            expect(res).to.satisfyApiSpec;
+          });
+
+          it('fails when using .not', function () {
+            const assertion = () => expect(res).to.not.satisfyApiSpec;
+            expect(assertion).to.throw(
+              `expected res not to satisfy API spec for '200' response defined for endpoint 'GET /test/resReferencesResDefinition' in OpenAPI spec\nres: ${
+                util.inspect({
+                  status: 200,
+                  body: 'valid body (string)',
+                })
+              }`
+            );
+          });
+        });
+
+        describe('res.req.path matches a path with multiple defined responses', function () {
+          describe('1st defined response', function () {
             const res = {
               status: 201,
               req: {
@@ -133,7 +160,7 @@ for (const spec of openApiSpecs) {
             });
           });
 
-          describe('2nd expected response', function () {
+          describe('2nd defined response', function () {
             const res = {
               status: 202,
               req: {
@@ -153,7 +180,7 @@ for (const spec of openApiSpecs) {
             });
           });
 
-          describe('3rd expected response', function () {
+          describe('3rd defined response', function () {
             const res = {
               status: 203,
               req: {
