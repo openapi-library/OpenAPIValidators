@@ -134,7 +134,7 @@
         }
       }
     },
-    "/test/responseBody/schemaDef": {
+    "/test/responseBody/referencesSchemaObject": {
       "get": {
         "produces": [
           "application/json"
@@ -142,9 +142,9 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Response body should match a schema",
+            "description": "Response body references a schema object",
             "schema": {
-              "$ref": "#/definitions/ExampleSchema"
+              "$ref": "#/definitions/ExampleSchemaObject"
             }
           }
         }
@@ -191,7 +191,7 @@
     }
   },
   "definitions": {
-    "ExampleSchema": {
+    "ExampleSchemaObject": {
       "type": "string"
     }
   },

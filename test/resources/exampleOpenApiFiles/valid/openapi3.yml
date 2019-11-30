@@ -18,15 +18,15 @@ paths:
             application/json:
               schema:
                 type: string
-  /test/responseBody/schemaDef:
+  /test/responseBody/referencesSchemaObject:
     get:
       responses:
         200:
-          description: Response body should match a schema
+          description: Response body references a schema object
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ExampleSchema'
+                $ref: '#/components/schemas/ExampleSchemaObject'
   /test/responseBody/empty:
     get:
       responses:
@@ -118,7 +118,7 @@ paths:
           description: No response body
 components:
   schemas:
-    ExampleSchema:
+    ExampleSchemaObject:
       type: string
   responses:
     Response1:

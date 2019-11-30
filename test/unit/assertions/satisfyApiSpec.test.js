@@ -72,12 +72,12 @@ for (const spec of openApiSpecs) {
             });
           });
 
-          describe('match a (string) schema', function () {
+          describe('match a (string) schema object', function () {
             const res = {
               status: 200,
               req: {
                 method: 'GET',
-                path: `${serverPath}/test/responseBody/schemaDef`,
+                path: `${serverPath}/test/responseBody/referencesSchemaObject`,
               },
               body: 'valid body (string)',
             };
@@ -88,7 +88,7 @@ for (const spec of openApiSpecs) {
 
             it('fails when using .not', function () {
               const assertion = () => expect(res).to.not.satisfyApiSpec;
-              expect(assertion).to.throw('expected res not to satisfy API spec for \'200\' response defined for endpoint \'GET /test/responseBody/schemaDef\' in OpenAPI spec');
+              expect(assertion).to.throw('expected res not to satisfy API spec for \'200\' response defined for endpoint \'GET /test/responseBody/referencesSchemaObject\' in OpenAPI spec');
             });
           });
 
