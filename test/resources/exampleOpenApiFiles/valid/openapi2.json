@@ -6,6 +6,16 @@
     "version": "0.1.0"
   },
   "paths": {
+    "/test/HTTPMethod": {
+      "get": {
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        }
+      }
+    },
     "/test/multiplePathParams/{param1}/{param2}": {
       "get": {
         "parameters": [
@@ -108,7 +118,7 @@
         }
       }
     },
-    "/test/responseBody/schemaDef": {
+    "/test/responseBody/emptyObject": {
       "get": {
         "produces": [
           "application/json"
@@ -116,9 +126,25 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Response body should match a schema",
+            "description": "Response body is an empty object. (Used to test that res.text is populated instead)",
             "schema": {
-              "$ref": "#/definitions/ExampleSchema"
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/test/responseBody/referencesSchemaObject": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Response body references a schema object",
+            "schema": {
+              "$ref": "#/definitions/ExampleSchemaObject"
             }
           }
         }
@@ -140,16 +166,6 @@
         }
       }
     },
-    "/test/HTTPMethod": {
-      "get": {
-        "parameters": [],
-        "responses": {
-          "204": {
-            "description": "No response body"
-          }
-        }
-      }
-    },
     "/test/responseStatus": {
       "get": {
         "parameters": [],
@@ -159,12 +175,32 @@
           }
         }
       }
+    },
+    "/test/responseReferencesResponseDefinitionObject": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ExampleResponseDefinitionObject"
+          }
+        }
+      }
     }
   },
   "definitions": {
-    "ExampleSchema": {
+    "ExampleSchemaObject": {
       "type": "string"
     }
   },
-  "x-components": {}
+  "responses": {
+    "ExampleResponseDefinitionObject": {
+      "description": "Response body should be a string",
+      "schema": {
+        "type": "string"
+      }
+    }
+  }
 }
