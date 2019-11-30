@@ -117,7 +117,7 @@ for (const spec of openApiSpecs) {
             status: 200,
             req: {
               method: 'GET',
-              path: `${serverPath}/test/resReferencesResDefinition`,
+              path: `${serverPath}/test/responseReferencesResponseDefinitionObject`,
             },
             body: 'valid body (string)',
           };
@@ -129,7 +129,7 @@ for (const spec of openApiSpecs) {
           it('fails when using .not', function () {
             const assertion = () => expect(res).to.not.satisfyApiSpec;
             expect(assertion).to.throw(
-              `expected res not to satisfy API spec for '200' response defined for endpoint 'GET /test/resReferencesResDefinition' in OpenAPI spec\nres: ${
+              `expected res not to satisfy API spec for '200' response defined for endpoint 'GET /test/responseReferencesResponseDefinitionObject' in OpenAPI spec\nres: ${
                 util.inspect({
                   status: 200,
                   body: 'valid body (string)',

@@ -41,11 +41,11 @@ paths:
             application/json:
               schema:
                 type: object
-  /test/resReferencesResDefinition:
+  /test/responseReferencesResponseDefinitionObject:
     get:
       responses:
         200:
-          $ref: '#/components/responses/Response1'
+          $ref: '#/components/responses/ExampleResponseDefinitionObject'
   /test/multipleResponsesDefined:
     get:
       responses:
@@ -121,7 +121,7 @@ components:
     ExampleSchemaObject:
       type: string
   responses:
-    Response1:
+    ExampleResponseDefinitionObject:
       description: Response body should be a string
       content:
         application/json:

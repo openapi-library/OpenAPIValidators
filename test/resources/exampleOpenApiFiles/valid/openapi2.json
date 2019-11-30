@@ -176,7 +176,7 @@
         }
       }
     },
-    "/test/resReferencesResDefinition": {
+    "/test/responseReferencesResponseDefinitionObject": {
       "get": {
         "produces": [
           "application/json"
@@ -184,7 +184,7 @@
         "parameters": [],
         "responses": {
           "200": {
-            "$ref": "#/responses/Response1"
+            "$ref": "#/responses/ExampleResponseDefinitionObject"
           }
         }
       }
@@ -196,7 +196,7 @@
     }
   },
   "responses": {
-    "Response1": {
+    "ExampleResponseDefinitionObject": {
       "description": "Response body should be a string",
       "schema": {
         "type": "string"
