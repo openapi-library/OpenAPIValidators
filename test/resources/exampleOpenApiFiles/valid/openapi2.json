@@ -184,10 +184,7 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Response body should be a string",
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/responses/Response1"
           }
         }
       }
@@ -198,13 +195,11 @@
       "type": "string"
     }
   },
-  "x-components": {
-    "responses": {
-      "Response1": {
-        "description": "Response body should be a string",
-        "schema": {
-          "type": "string"
-        }
+  "responses": {
+    "Response1": {
+      "description": "Response body should be a string",
+      "schema": {
+        "type": "string"
       }
     }
   }
