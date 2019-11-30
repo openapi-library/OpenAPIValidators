@@ -30,7 +30,7 @@ describe('Using an OA3 spec that defines server paths', function () {
       status: 200,
       req: {
         method: 'GET',
-        path: `${differentServer}/test/responseBody/schemaDef`,
+        path: `${differentServer}/test/responseBody/string`,
       },
       body: 'valid body (string)',
     };
@@ -50,19 +50,19 @@ describe('Using an OA3 spec that defines server paths', function () {
       status: 200,
       req: {
         method: 'GET',
-        path: `${differentServer}/test/responseBody/schemaDef`,
+        path: `${differentServer}/test/responseBody/string`,
       },
       body: 'valid body (string)',
     };
 
     it('fails', function () {
       const assertion = () => expect(res).to.satisfyApiSpec;
-      expect(assertion).to.throw('No server matching \'/missing/test/responseBody/schemaDef\' path defined in OpenAPI spec');
+      expect(assertion).to.throw('No server matching \'/missing/test/responseBody/string\' path defined in OpenAPI spec');
     });
 
     it('fails when using .not', function () {
       const assertion = () => expect(res).to.not.satisfyApiSpec;
-      expect(assertion).to.throw('No server matching \'/missing/test/responseBody/schemaDef\' path defined in OpenAPI spec');
+      expect(assertion).to.throw('No server matching \'/missing/test/responseBody/string\' path defined in OpenAPI spec');
     });
   });
 });
