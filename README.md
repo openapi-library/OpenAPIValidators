@@ -16,9 +16,9 @@ This plugin allows you to automatically test whether your server's behaviour and
 ## Features
 - Validates the status and body of HTTP responses against an OpenAPI spec
 - Easily load your OpenAPI spec just once in your tests
-- Supports OpenAPI 2 and 3
+- Supports OpenAPI [2](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) and [3](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md)
 - Supports OpenAPI specs in YAML and JSON formats
-- Supports `$ref` in response schemas (i.e. `$ref: '#/definitions/ComponentType/ComponentName'`)
+- Supports `$ref` in response definitions (i.e. `$ref: '#/definitions/ComponentType/ComponentName'`)
 - Informs you if your OpenAPI spec is invalid
 - Supports responses from `axios`, `request-promise`, `supertest`, `superagent`, and `chai-http`
 
