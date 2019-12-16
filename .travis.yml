@@ -1,5 +1,8 @@
 language: node_js
 node_js:
   - node
+os:
+  - osx
+  - windows
 script:
   - npm run test:full
