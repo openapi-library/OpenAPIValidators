@@ -16,7 +16,7 @@
 
 const chai = require('chai');
 const path = require('path');
-const util = require('util');
+const { inspect } = require('util');
 
 const chaiResponseValidator = require('../../..');
 
@@ -83,12 +83,12 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
 
       it('fails', function () {
         const assertion = () => expect(res).to.satisfyApiSpec;
-        expect(assertion).to.throw(`No '/nonExistentEndpointPath' path defined in OpenAPI spec. (Matches servers ${util.inspect(['/'])} but no 'serverUrl/endpointPath' combinations)`);
+        expect(assertion).to.throw(`No '/nonExistentEndpointPath' path defined in OpenAPI spec. (Matches servers ${inspect(['/'])} but no 'server/endpointPath' combinations)`);
       });
 
       it('fails when using .not', function () {
         const assertion = () => expect(res).to.not.satisfyApiSpec;
-        expect(assertion).to.throw(`No '/nonExistentEndpointPath' path defined in OpenAPI spec. (Matches servers ${util.inspect(['/'])} but no 'serverUrl/endpointPath' combinations)`);
+        expect(assertion).to.throw(`No '/nonExistentEndpointPath' path defined in OpenAPI spec. (Matches servers ${inspect(['/'])} but no 'server/endpointPath' combinations)`);
       });
     });
   });
@@ -151,62 +151,94 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
 
       it('fails', function () {
         const assertion = () => expect(res).to.satisfyApiSpec;
-        expect(assertion).to.throw(`No '/nonExistentEndpointPath' path defined in OpenAPI spec. (Matches servers ${util.inspect(['/'])} but no 'serverUrl/endpointPath' combinations)`);
+        expect(assertion).to.throw(`No '/nonExistentEndpointPath' path defined in OpenAPI spec. (Matches servers ${inspect(['/'])} but no 'server/endpointPath' combinations)`);
       });
 
       it('fails when using .not', function () {
         const assertion = () => expect(res).to.not.satisfyApiSpec;
-        expect(assertion).to.throw(`No '/nonExistentEndpointPath' path defined in OpenAPI spec. (Matches servers ${util.inspect(['/'])} but no 'serverUrl/endpointPath' combinations)`);
+        expect(assertion).to.throw(`No '/nonExistentEndpointPath' path defined in OpenAPI spec. (Matches servers ${inspect(['/'])} but no 'server/endpointPath' combinations)`);
       });
     });
   });
 
-  describe('spec\'s server property is an array of servers', function() {
+  describe('spec defines various (relative and absolute) servers', function() {
+    before(function () {
+      const pathToApiSpec = path.join(dirContainingApiSpec, 'variousServers.yml');
+      chai.use(chaiResponseValidator(pathToApiSpec));
+    });
+
+    describe('res.req.path does not match any servers', function () {
+      const res = {
+        status: 200,
+        req: {
+          method: 'GET',
+          path: 'nonExistentServer/test/responseBody/string',
+        },
+        body: 'valid body (string)',
+      };
+
+      it('fails', function () {
+        const assertion = () => expect(res).to.satisfyApiSpec;
+        expect(assertion).to.throw('No server matching \'nonExistentServer/test/responseBody/string\' path defined in OpenAPI spec');
+      });
+
+      it('fails when using .not', function () {
+        const assertion = () => expect(res).to.not.satisfyApiSpec;
+        expect(assertion).to.throw('No server matching \'nonExistentServer/test/responseBody/string\' path defined in OpenAPI spec');
+      });
+    });
+
     const tests = {
-      'default server url (\'/\')': {
-        serverUrl: '',
-        expectedMatchingServers: [
-          '/',
-        ],
-      },
-      'relative server url': {
+      'a relative server url': {
         serverUrl: '/relativeServer',
-        expectedMatchingServers: [
-          '/',
-          '/relativeServer',
-        ],
+        expectedMatchingServers: ['/relativeServer'],
       },
-      'different relative server url': {
+      'a different relative server url': {
         serverUrl: '/differentRelativeServer',
-        expectedMatchingServers: [
-          '/',
-          '/differentRelativeServer',
-        ],
+        expectedMatchingServers: ['/differentRelativeServer'],
       },
-      'multiple relative server urls': {
+      'multiple server urls': {
         serverUrl: '/relativeServer2',
-        expectedMatchingServers: [
-          '/',
-          '/relativeServer',
-          '/relativeServer2',
-        ],
+        expectedMatchingServers: ['/relativeServer', '/relativeServer2'],
+      },
+      'base path of absolute server url with http scheme': {
+        serverUrl: '/basePath1',
+        expectedMatchingServers: ['http://api.example.com/basePath1'],
+      },
+      'base path of absolute server url with https scheme': {
+        serverUrl: '/basePath2',
+        expectedMatchingServers: ['https://api.example.com/basePath2'],
+      },
+      'base path of absolute server url with ws scheme': {
+        serverUrl: '/basePath3',
+        expectedMatchingServers: ['ws://api.example.com/basePath3'],
+      },
+      'base path of absolute server url with wss scheme': {
+        serverUrl: '/basePath4',
+        expectedMatchingServers: ['wss://api.example.com/basePath4'],
+      },
+      'base path of absolute server url with port': {
+        serverUrl: '/basePath5',
+        expectedMatchingServers: ['http://api.example.com:8443/basePath5'],
+      },
+      'base path of absolute server url with localhost': {
+        serverUrl: '/basePath6',
+        expectedMatchingServers: ['http://localhost:3025/basePath6'],
+      },
+      'base path of absolute server url with IPv4 host': {
+        serverUrl: '/basePath7',
+        expectedMatchingServers: ['http://10.0.81.36/basePath7'],
       },
     };
 
     for (const [testName, test] of Object.entries(tests)) {
-      describe(`res.req.path contains a ${testName}`, function() {
-
+      describe(`res.req.path matches ${testName}`, function() {
         const {
           serverUrl,
           expectedMatchingServers,
         } = test;
 
-        before(function () {
-          const pathToApiSpec = path.join(dirContainingApiSpec, 'variousServers.yml');
-          chai.use(chaiResponseValidator(pathToApiSpec));
-        });
-
-        describe(`res.req.path matches a server ('${serverUrl}') and an endpoint path`, function () {
+        describe('res.req.path matches a server and an endpoint path', function () {
           const res = {
             status: 200,
             req: {
@@ -225,27 +257,7 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
             expect(assertion).to.throw('');
           });
         });
-        describe('res.req.path does not match any servers', function () {
-          const res = {
-            status: 200,
-            req: {
-              method: 'GET',
-              path: 'nonExistentServer/test/responseBody/string',
-            },
-            body: 'valid body (string)',
-          };
-
-          it('fails', function () {
-            const assertion = () => expect(res).to.satisfyApiSpec;
-            expect(assertion).to.throw('No server matching \'nonExistentServer/test/responseBody/string\' path defined in OpenAPI spec');
-          });
-
-          it('fails when using .not', function () {
-            const assertion = () => expect(res).to.not.satisfyApiSpec;
-            expect(assertion).to.throw('No server matching \'nonExistentServer/test/responseBody/string\' path defined in OpenAPI spec');
-          });
-        });
-        describe(`res.req.path matches a server ('${serverUrl}') but no endpoint paths`, function () {
+        describe('res.req.path matches a server but no endpoint paths', function () {
           const res = {
             status: 200,
             req: {
@@ -257,15 +269,176 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
 
           it('fails', function () {
             const assertion = () => expect(res).to.satisfyApiSpec;
-            expect(assertion).to.throw(`No '${serverUrl}/nonExistentEndpointPath' path defined in OpenAPI spec. (Matches servers ${util.inspect(expectedMatchingServers)} but no 'serverUrl/endpointPath' combinations)`);
+            expect(assertion).to.throw(`No '${serverUrl}/nonExistentEndpointPath' path defined in OpenAPI spec. (Matches servers ${inspect(expectedMatchingServers)} but no 'server/endpointPath' combinations)`);
           });
 
           it('fails when using .not', function () {
             const assertion = () => expect(res).to.not.satisfyApiSpec;
-            expect(assertion).to.throw(`No '${serverUrl}/nonExistentEndpointPath' path defined in OpenAPI spec. (Matches servers ${util.inspect(expectedMatchingServers)} but no 'serverUrl/endpointPath' combinations)`);
+            expect(assertion).to.throw(`No '${serverUrl}/nonExistentEndpointPath' path defined in OpenAPI spec. (Matches servers ${inspect(expectedMatchingServers)} but no 'server/endpointPath' combinations)`);
           });
         });
       });
     }
+  });
+
+  describe('spec defines only absolute servers with base paths', function() {
+
+    before(function () {
+      const pathToApiSpec = path.join(dirContainingApiSpec, 'onlyAbsoluteServersWithBasePaths.yml');
+      chai.use(chaiResponseValidator(pathToApiSpec));
+    });
+
+    describe('res.req.matches a server base path and an endpoint path', function () {
+      const res = {
+        status: 200,
+        req: {
+          method: 'GET',
+          path: '/basePath1/test/responseBody/string',
+        },
+        body: 'valid body (string)',
+      };
+
+      it('passes', function () {
+        expect(res).to.satisfyApiSpec;
+      });
+
+      it('fails when using .not', function () {
+        const assertion = () => expect(res).to.not.satisfyApiSpec;
+        expect(assertion).to.throw('');
+      });
+    });
+
+    describe('res.req.path matches a server base path but no endpoint paths', function () {
+      const res = {
+        status: 200,
+        req: {
+          method: 'GET',
+          path: '/basePath1/nonExistentEndpointPath',
+        },
+        body: 'valid body (string)',
+      };
+
+      it('fails', function () {
+        const assertion = () => expect(res).to.satisfyApiSpec;
+        expect(assertion).to.throw(`No '/basePath1/nonExistentEndpointPath' path defined in OpenAPI spec. (Matches servers ${inspect(['http://api.example.com/basePath1'])} but no 'server/endpointPath' combinations)`);
+      });
+
+      it('fails when using .not', function () {
+        const assertion = () => expect(res).to.not.satisfyApiSpec;
+        expect(assertion).to.throw(`No '/basePath1/nonExistentEndpointPath' path defined in OpenAPI spec. (Matches servers ${inspect(['http://api.example.com/basePath1'])} but no 'server/endpointPath' combinations)`);
+      });
+    });
+
+    describe('res.req.path does not match any defined server base paths, nor the default base path (\'/\')', function () {
+      const res = {
+        status: 200,
+        req: {
+          method: 'GET',
+          path: 'nonExistentServer/test/responseBody/string',
+        },
+        body: 'valid body (string)',
+      };
+
+      it('fails', function () {
+        const assertion = () => expect(res).to.satisfyApiSpec;
+        expect(assertion).to.throw('No server matching \'nonExistentServer/test/responseBody/string\' path defined in OpenAPI spec');
+      });
+
+      it('fails when using .not', function () {
+        const assertion = () => expect(res).to.not.satisfyApiSpec;
+        expect(assertion).to.throw('No server matching \'nonExistentServer/test/responseBody/string\' path defined in OpenAPI spec');
+      });
+    });
+
+    describe('res.req.path does not match any defined server base paths, but does match the default base path (\'/\')', function () {
+      const res = {
+        status: 200,
+        req: {
+          method: 'GET',
+          path: '/test/responseBody/string',
+        },
+        body: 'valid body (string)',
+      };
+
+      it('fails', function () {
+        const assertion = () => expect(res).to.satisfyApiSpec;
+        expect(assertion).to.throw('No server matching \'/test/responseBody/string\' path defined in OpenAPI spec');
+      });
+
+      it('fails when using .not', function () {
+        const assertion = () => expect(res).to.not.satisfyApiSpec;
+        expect(assertion).to.throw('No server matching \'/test/responseBody/string\' path defined in OpenAPI spec');
+      });
+    });
+  });
+
+  describe('spec defines only absolute servers without base paths', function() {
+
+    before(function () {
+      const pathToApiSpec = path.join(dirContainingApiSpec, 'noServersWithBasePaths.yml');
+      chai.use(chaiResponseValidator(pathToApiSpec));
+    });
+
+    describe('res.req.path matches the default server base path (\'/\') and an endpoint path', function () {
+      const res = {
+        status: 200,
+        req: {
+          method: 'GET',
+          path: '/test/responseBody/string',
+        },
+        body: 'valid body (string)',
+      };
+
+      it('passes', function () {
+        expect(res).to.satisfyApiSpec;
+      });
+
+      it('fails when using .not', function () {
+        const assertion = () => expect(res).to.not.satisfyApiSpec;
+        expect(assertion).to.throw('');
+      });
+    });
+
+    describe('res.req.path matches the default server base path (\'/\') but no endpoint paths', function () {
+      const res = {
+        status: 200,
+        req: {
+          method: 'GET',
+          path: '/nonExistentEndpointPath',
+        },
+        body: 'valid body (string)',
+      };
+
+      it('fails', function () {
+        const assertion = () => expect(res).to.satisfyApiSpec;
+        expect(assertion).to.throw(`No '/nonExistentEndpointPath' path defined in OpenAPI spec. (Matches servers ${inspect(['http://api.example.com'])} but no 'server/endpointPath' combinations)`);
+      });
+
+      it('fails when using .not', function () {
+        const assertion = () => expect(res).to.not.satisfyApiSpec;
+        expect(assertion).to.throw(`No '/nonExistentEndpointPath' path defined in OpenAPI spec. (Matches servers ${inspect(['http://api.example.com'])} but no 'server/endpointPath' combinations)`);
+      });
+    });
+
+    describe('res.req.path does not match the default server base path (\'/\') nor any servers', function () {
+      const res = {
+        status: 200,
+        req: {
+          method: 'GET',
+          path: 'nonExistentServer/test/responseBody/string',
+        },
+        body: 'valid body (string)',
+      };
+
+      it('fails', function () {
+        const assertion = () => expect(res).to.satisfyApiSpec;
+        expect(assertion).to.throw('No server matching \'nonExistentServer/test/responseBody/string\' path defined in OpenAPI spec');
+      });
+
+      it('fails when using .not', function () {
+        const assertion = () => expect(res).to.not.satisfyApiSpec;
+        expect(assertion).to.throw('No server matching \'nonExistentServer/test/responseBody/string\' path defined in OpenAPI spec');
+      });
+    });
   });
 });
