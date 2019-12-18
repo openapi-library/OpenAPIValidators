@@ -1,17 +1,29 @@
 openapi: 3.0.0
 info:
   title: Example OpenApi 3 spec
-  description: Has various paths with responses to use in testing
+  description: Has various server urls
   version: 0.1.0
 servers:
-  - url: /
-    description: default server url
   - url: /relativeServer
     description: relative server url
   - url: /differentRelativeServer
     description: different relative server url
   - url: /relativeServer2
     description: pathnames that match this will also match 'relativeServer'
+  - url: http://api.example.com/basePath1
+    description: different scheme (http)
+  - url: https://api.example.com/basePath2
+    description: different scheme (https)
+  - url: ws://api.example.com/basePath3
+    description: different scheme (ws)
+  - url: wss://api.example.com/basePath4
+    description: different scheme (wss)
+  - url: http://api.example.com:8443/basePath5
+    description: with port
+  - url: http://localhost:3025/basePath6
+    description: different host (localhost)
+  - url: http://10.0.81.36/basePath7
+    description: different host (IPv4)
 paths:
   /test/responseBody/string:
     get:

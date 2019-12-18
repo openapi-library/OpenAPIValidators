@@ -29,7 +29,7 @@ module.exports = function(config) {
     transpilers: [],
     testFramework: 'mocha',
     coverageAnalysis: 'perTest',
-    thresholds: { high: 100, low: 99, break: 95 },
+    thresholds: { high: 100, low: 99, break: 99 },
     maxConcurrentTestRunners: 2, // resolves issue with tests not completing. See: https://github.com/stryker-mutator/stryker/issues/1542#issuecomment-495477158
   });
 };
