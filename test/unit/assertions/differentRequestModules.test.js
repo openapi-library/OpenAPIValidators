@@ -29,7 +29,6 @@ const app = require('../../resources/exampleApp');
 const { port } = require('../../config');
 
 const appOrigin = `http://localhost:${port}`;
-const appPathToTest = '/local/test/responseBody/string';
 const pathToApiSpec = path.resolve('test/resources/exampleOpenApiFiles/valid/openapi3.yml');
 chai.use(chaiAsPromised);
 const { expect } = chai;
@@ -40,104 +39,18 @@ describe('Parsing responses from different request modules', function () {
     chai.use(chaiResponseValidator(pathToApiSpec));
   });
 
-  describe('modules that differentiate between res.body and res.text', function() {
+  describe('chai-http', function() {
+    chai.use(chaiHttp);
 
-    describe('chai-http', function() {
-      chai.use(chaiHttp);
-
-      describe('res.body is a string', function() {
-        const res = chai.request(app).get(appPathToTest);
-        it('passes', async function() {
-          expect(await res).to.satisfyApiSpec;
-        });
-        it('fails when using .not', function () {
-          const assertion = async() => expect(await res).to.not.satisfyApiSpec;
-          return expect(assertion()).to.be.rejectedWith(
-            `expected res not to satisfy API spec for '200' response defined for endpoint 'GET /test/responseBody/string' in OpenAPI spec\nres: ${
-              util.inspect({
-                status: 200,
-                body: 'res.body is a string',
-              })
-            }`
-          );
-        });
-      });
-
-      describe('res.body is an empty object', function() {
-        const res = chai.request(app).get('/local/test/responseBody/emptyObject');
-        it('passes', async function() {
-          expect(await res).to.satisfyApiSpec;
-        });
-        it('fails when using .not', function () {
-          const assertion = async() => expect(await res).to.not.satisfyApiSpec;
-          return expect(assertion()).to.be.rejectedWith(
-            `expected res not to satisfy API spec for '200' response defined for endpoint 'GET /test/responseBody/emptyObject' in OpenAPI spec\nres: ${
-              util.inspect({
-                status: 200,
-                body: {},
-                text: 'res.body is an empty object; res.text is a string',
-              })
-            }`
-          );
-        });
-      });
-
-    });
-
-    describe('supertest', function() {
-
-      describe('res.body is a string', function() {
-        const res = supertest(app).get(appPathToTest);
-        it('passes', async function() {
-          expect(await res).to.satisfyApiSpec;
-        });
-        it('fails when using .not', function () {
-          const assertion = async() => expect(await res).to.not.satisfyApiSpec;
-          return expect(assertion()).to.be.rejectedWith(
-            `expected res not to satisfy API spec for '200' response defined for endpoint 'GET /test/responseBody/string' in OpenAPI spec\nres: ${
-              util.inspect({
-                status: 200,
-                body: 'res.body is a string',
-              })
-            }`
-          );
-        });
-      });
-
-      describe('res.body is an empty object', function() {
-        const res = supertest(app).get('/local/test/responseBody/emptyObject');
-        it('passes', async function() {
-          expect(await res).to.satisfyApiSpec;
-        });
-        it('fails when using .not', function () {
-          const assertion = async() => expect(await res).to.not.satisfyApiSpec;
-          return expect(assertion()).to.be.rejectedWith(
-            `expected res not to satisfy API spec for '200' response defined for endpoint 'GET /test/responseBody/emptyObject' in OpenAPI spec\nres: ${
-              util.inspect({
-                status: 200,
-                body: {},
-                text: 'res.body is an empty object; res.text is a string',
-              })
-            }`
-          );
-        });
-      });
-
-    });
-
-  });
-
-  describe('modules that don\'t differentiate between res.body and res.text', function() {
-
-    describe('axios', function() {
-      const res = axios.get(`${appOrigin}${appPathToTest}`);
+    describe('res header is application/json, and res.body is a string', function() {
+      const res = chai.request(app).get('/local/test/header/application/json/and/responseBody/string');
       it('passes', async function() {
         expect(await res).to.satisfyApiSpec;
       });
       it('fails when using .not', function () {
         const assertion = async() => expect(await res).to.not.satisfyApiSpec;
         return expect(assertion()).to.be.rejectedWith(
-          `expected res not to satisfy API spec for '200' response defined for endpoint 'GET /test/responseBody/string' in OpenAPI spec\nres: ${
+          `expected res not to satisfy API spec for '200' response defined for endpoint 'GET /test/header/application/json/and/responseBody/string' in OpenAPI spec\nres: ${
             util.inspect({
               status: 200,
               body: 'res.body is a string',
@@ -147,10 +60,187 @@ describe('Parsing responses from different request modules', function () {
       });
     });
 
-    describe('request-promise', function() {
+    describe('res header is application/json, and res.body is {}', function() {
+      const res = chai.request(app).get('/local/test/header/application/json/and/responseBody/emptyObject');
+      it('passes', async function() {
+        expect(await res).to.satisfyApiSpec;
+      });
+      it('fails when using .not', function () {
+        const assertion = async() => expect(await res).to.not.satisfyApiSpec;
+        return expect(assertion()).to.be.rejectedWith(
+          `expected res not to satisfy API spec for '200' response defined for endpoint 'GET /test/header/application/json/and/responseBody/emptyObject' in OpenAPI spec\nres: ${
+            util.inspect({
+              status: 200,
+              body: {},
+            })
+          }`
+        );
+      });
+    });
+
+    describe('res header is text/html, res.body is {}, and res.text is a string', function() {
+      const res = chai.request(app).get('/local/test/header/text/html');
+      it('passes', async function() {
+        expect(await res).to.satisfyApiSpec;
+      });
+      it('fails when using .not', function () {
+        const assertion = async() => expect(await res).to.not.satisfyApiSpec;
+        return expect(assertion()).to.be.rejectedWith(
+          `expected res not to satisfy API spec for '200' response defined for endpoint 'GET /test/header/text/html' in OpenAPI spec\nres: ${
+            util.inspect({
+              status: 200,
+              body: {},
+              text: 'res.body is a string',
+            })
+          }`
+        );
+      });
+    });
+
+  });
+
+  describe('supertest', function() {
+
+    describe('res header is application/json, and res.body is a string', function() {
+      const res = supertest(app).get('/local/test/header/application/json/and/responseBody/string');
+      it('passes', async function() {
+        expect(await res).to.satisfyApiSpec;
+      });
+      it('fails when using .not', function () {
+        const assertion = async() => expect(await res).to.not.satisfyApiSpec;
+        return expect(assertion()).to.be.rejectedWith(
+          `expected res not to satisfy API spec for '200' response defined for endpoint 'GET /test/header/application/json/and/responseBody/string' in OpenAPI spec\nres: ${
+            util.inspect({
+              status: 200,
+              body: 'res.body is a string',
+            })
+          }`
+        );
+      });
+    });
+
+    describe('res header is application/json, and res.body is {}', function() {
+      const res = supertest(app).get('/local/test/header/application/json/and/responseBody/emptyObject');
+      it('passes', async function() {
+        expect(await res).to.satisfyApiSpec;
+      });
+      it('fails when using .not', function () {
+        const assertion = async() => expect(await res).to.not.satisfyApiSpec;
+        return expect(assertion()).to.be.rejectedWith(
+          `expected res not to satisfy API spec for '200' response defined for endpoint 'GET /test/header/application/json/and/responseBody/emptyObject' in OpenAPI spec\nres: ${
+            util.inspect({
+              status: 200,
+              body: {},
+            })
+          }`
+        );
+      });
+    });
+
+    describe('res header is text/html, res.body is {}, and res.text is a string', function() {
+      const res = supertest(app).get('/local/test/header/text/html');
+      it('passes', async function() {
+        expect(await res).to.satisfyApiSpec;
+      });
+      it('fails when using .not', function () {
+        const assertion = async() => expect(await res).to.not.satisfyApiSpec;
+        return expect(assertion()).to.be.rejectedWith(
+          `expected res not to satisfy API spec for '200' response defined for endpoint 'GET /test/header/text/html' in OpenAPI spec\nres: ${
+            util.inspect({
+              status: 200,
+              body: {},
+              text: 'res.body is a string',
+            })
+          }`
+        );
+      });
+    });
+
+  });
+
+  describe('axios', function() {
+
+    describe('res header is application/json, and res.body is a string', function() {
+      const res = axios.get(`${appOrigin}/local/test/header/application/json/and/responseBody/string`);
+      it('passes', async function() {
+        expect(await res).to.satisfyApiSpec;
+      });
+      it('fails when using .not', function () {
+        const assertion = async() => expect(await res).to.not.satisfyApiSpec;
+        return expect(assertion()).to.be.rejectedWith(
+          `expected res not to satisfy API spec for '200' response defined for endpoint 'GET /test/header/application/json/and/responseBody/string' in OpenAPI spec\nres: ${
+            util.inspect({
+              status: 200,
+              body: 'res.body is a string',
+            })
+          }`
+        );
+      });
+    });
+
+    describe('res header is application/json, and res.body is {}', function() {
+      const res = axios.get(`${appOrigin}/local/test/header/application/json/and/responseBody/emptyObject`);
+      it('passes', async function() {
+        expect(await res).to.satisfyApiSpec;
+      });
+      it('fails when using .not', function () {
+        const assertion = async() => expect(await res).to.not.satisfyApiSpec;
+        return expect(assertion()).to.be.rejectedWith(
+          `expected res not to satisfy API spec for '200' response defined for endpoint 'GET /test/header/application/json/and/responseBody/emptyObject' in OpenAPI spec\nres: ${
+            util.inspect({
+              status: 200,
+              body: {},
+            })
+          }`
+        );
+      });
+    });
+
+    describe('res header is text/html, res.body is a string', function() {
+      const res = axios.get(`${appOrigin}/local/test/header/text/html`);
+      it('passes', async function() {
+        expect(await res).to.satisfyApiSpec;
+      });
+      it('fails when using .not', function () {
+        const assertion = async() => expect(await res).to.not.satisfyApiSpec;
+        return expect(assertion()).to.be.rejectedWith(
+          `expected res not to satisfy API spec for '200' response defined for endpoint 'GET /test/header/text/html' in OpenAPI spec\nres: ${
+            util.inspect({
+              status: 200,
+              body: 'res.body is a string',
+            })
+          }`
+        );
+      });
+    });
+
+  });
+
+  describe('request-promise', function() {
+    const res = requestPromise({
+      method: 'GET',
+      uri: `${appOrigin}/local/test/header/application/json/and/responseBody/string`,
+      resolveWithFullResponse: true,
+    });
+    it('passes', async function() {
+      expect(await res).to.satisfyApiSpec;
+    });
+    it('fails when using .not', function () {
+      const assertion = async() => expect(await res).to.not.satisfyApiSpec;
+      return expect(assertion()).to.be.rejectedWith(
+        `expected res not to satisfy API spec for '200' response defined for endpoint 'GET /test/header/application/json/and/responseBody/string' in OpenAPI spec\nres: ${
+          util.inspect({
+            status: 200,
+            body: 'res.body is a string',
+          })
+        }`
+      );
+    });
+
+    describe('res header is application/json, and res.body is a string', function() {
       const res = requestPromise({
         method: 'GET',
-        uri: `${appOrigin}${appPathToTest}`,
+        uri: `${appOrigin}/local/test/header/application/json/and/responseBody/string`,
         resolveWithFullResponse: true,
       });
       it('passes', async function() {
@@ -159,7 +249,51 @@ describe('Parsing responses from different request modules', function () {
       it('fails when using .not', function () {
         const assertion = async() => expect(await res).to.not.satisfyApiSpec;
         return expect(assertion()).to.be.rejectedWith(
-          `expected res not to satisfy API spec for '200' response defined for endpoint 'GET /test/responseBody/string' in OpenAPI spec\nres: ${
+          `expected res not to satisfy API spec for '200' response defined for endpoint 'GET /test/header/application/json/and/responseBody/string' in OpenAPI spec\nres: ${
+            util.inspect({
+              status: 200,
+              body: 'res.body is a string',
+            })
+          }`
+        );
+      });
+    });
+
+    describe('res header is application/json, and res.body is \'{}\'', function() {
+      const res = requestPromise({
+        method: 'GET',
+        uri: `${appOrigin}/local/test/header/application/json/and/responseBody/emptyObject`,
+        resolveWithFullResponse: true,
+      });
+      it('passes', async function() {
+        expect(await res).to.satisfyApiSpec;
+      });
+      it('fails when using .not', function () {
+        const assertion = async() => expect(await res).to.not.satisfyApiSpec;
+        return expect(assertion()).to.be.rejectedWith(
+          `expected res not to satisfy API spec for '200' response defined for endpoint 'GET /test/header/application/json/and/responseBody/emptyObject' in OpenAPI spec\nres: ${
+            util.inspect({
+              status: 200,
+              body: '{}',
+            })
+          }`
+        );
+      });
+    });
+
+    describe('res header is text/html, res.body is a string', function() {
+      const res = requestPromise({
+        method: 'GET',
+        uri: `${appOrigin}/local/test/header/text/html`,
+        resolveWithFullResponse: true,
+      });
+      it('passes', async function() {
+        expect(await res).to.satisfyApiSpec;
+      });
+      it('fails when using .not', function () {
+        const assertion = async() => expect(await res).to.not.satisfyApiSpec;
+        return expect(assertion()).to.be.rejectedWith(
+          `expected res not to satisfy API spec for '200' response defined for endpoint 'GET /test/header/text/html' in OpenAPI spec\nres: ${
             util.inspect({
               status: 200,
               body: 'res.body is a string',

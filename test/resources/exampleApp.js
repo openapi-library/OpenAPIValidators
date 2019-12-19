@@ -3,11 +3,16 @@ const { port } = require('../config');
 
 const app = express();
 
-app.get('/local/test/responseBody/string', (req, res) =>
+app.get('/local/test/header/application/json/and/responseBody/string', (req, res) =>
   res.json('res.body is a string')
 );
-app.get('/local/test/responseBody/emptyObject', (req, res) =>
-  res.send('res.body is an empty object; res.text is a string')
+
+app.get('/local/test/header/application/json/and/responseBody/emptyObject', (req, res) =>
+  res.send({})
+);
+
+app.get('/local/test/header/text/html', (req, res) =>
+  res.send('res.body is a string')
 );
 
 app.listen(
