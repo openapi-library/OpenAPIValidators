@@ -190,43 +190,43 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
 
     const tests = {
       'a relative server url': {
-        serverUrl: '/relativeServer',
+        serverBasePath: '/relativeServer',
         expectedMatchingServers: ['/relativeServer'],
       },
       'a different relative server url': {
-        serverUrl: '/differentRelativeServer',
+        serverBasePath: '/differentRelativeServer',
         expectedMatchingServers: ['/differentRelativeServer'],
       },
       'multiple server urls': {
-        serverUrl: '/relativeServer2',
+        serverBasePath: '/relativeServer2',
         expectedMatchingServers: ['/relativeServer', '/relativeServer2'],
       },
       'base path of absolute server url with http scheme': {
-        serverUrl: '/basePath1',
+        serverBasePath: '/basePath1',
         expectedMatchingServers: ['http://api.example.com/basePath1'],
       },
       'base path of absolute server url with https scheme': {
-        serverUrl: '/basePath2',
+        serverBasePath: '/basePath2',
         expectedMatchingServers: ['https://api.example.com/basePath2'],
       },
       'base path of absolute server url with ws scheme': {
-        serverUrl: '/basePath3',
+        serverBasePath: '/basePath3',
         expectedMatchingServers: ['ws://api.example.com/basePath3'],
       },
       'base path of absolute server url with wss scheme': {
-        serverUrl: '/basePath4',
+        serverBasePath: '/basePath4',
         expectedMatchingServers: ['wss://api.example.com/basePath4'],
       },
       'base path of absolute server url with port': {
-        serverUrl: '/basePath5',
+        serverBasePath: '/basePath5',
         expectedMatchingServers: ['http://api.example.com:8443/basePath5'],
       },
       'base path of absolute server url with localhost': {
-        serverUrl: '/basePath6',
+        serverBasePath: '/basePath6',
         expectedMatchingServers: ['http://localhost:3025/basePath6'],
       },
       'base path of absolute server url with IPv4 host': {
-        serverUrl: '/basePath7',
+        serverBasePath: '/basePath7',
         expectedMatchingServers: ['http://10.0.81.36/basePath7'],
       },
     };
@@ -234,7 +234,7 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
     for (const [testName, test] of Object.entries(tests)) {
       describe(`res.req.path matches ${testName}`, function() {
         const {
-          serverUrl,
+          serverBasePath,
           expectedMatchingServers,
         } = test;
 
@@ -243,7 +243,7 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
             status: 200,
             req: {
               method: 'GET',
-              path: `${serverUrl}/test/responseBody/string`,
+              path: `${serverBasePath}/test/responseBody/string`,
             },
             body: 'valid body (string)',
           };
@@ -262,19 +262,19 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
             status: 200,
             req: {
               method: 'GET',
-              path: `${serverUrl}/nonExistentEndpointPath`,
+              path: `${serverBasePath}/nonExistentEndpointPath`,
             },
             body: 'valid body (string)',
           };
 
           it('fails', function () {
             const assertion = () => expect(res).to.satisfyApiSpec;
-            expect(assertion).to.throw(`No '${serverUrl}/nonExistentEndpointPath' path defined in OpenAPI spec. (Matches servers ${inspect(expectedMatchingServers)} but no 'server/endpointPath' combinations)`);
+            expect(assertion).to.throw(`No '${serverBasePath}/nonExistentEndpointPath' path defined in OpenAPI spec. (Matches servers ${inspect(expectedMatchingServers)} but no 'server/endpointPath' combinations)`);
           });
 
           it('fails when using .not', function () {
             const assertion = () => expect(res).to.not.satisfyApiSpec;
-            expect(assertion).to.throw(`No '${serverUrl}/nonExistentEndpointPath' path defined in OpenAPI spec. (Matches servers ${inspect(expectedMatchingServers)} but no 'server/endpointPath' combinations)`);
+            expect(assertion).to.throw(`No '${serverBasePath}/nonExistentEndpointPath' path defined in OpenAPI spec. (Matches servers ${inspect(expectedMatchingServers)} but no 'server/endpointPath' combinations)`);
           });
         });
       });
