@@ -43,7 +43,7 @@ describe('Parsing responses from different request modules', function () {
     chai.use(chaiHttp);
 
     describe('res header is application/json, and res.body is a string', function() {
-      const res = chai.request(app).get('/local/test/header/application/json/and/responseBody/string');
+      const res = chai.request(app).get('/test/header/application/json/and/responseBody/string');
       it('passes', async function() {
         expect(await res).to.satisfyApiSpec;
       });
@@ -61,7 +61,7 @@ describe('Parsing responses from different request modules', function () {
     });
 
     describe('res header is application/json, and res.body is {}', function() {
-      const res = chai.request(app).get('/local/test/header/application/json/and/responseBody/emptyObject');
+      const res = chai.request(app).get('/test/header/application/json/and/responseBody/emptyObject');
       it('passes', async function() {
         expect(await res).to.satisfyApiSpec;
       });
@@ -79,7 +79,7 @@ describe('Parsing responses from different request modules', function () {
     });
 
     describe('res header is text/html, res.body is {}, and res.text is a string', function() {
-      const res = chai.request(app).get('/local/test/header/text/html');
+      const res = chai.request(app).get('/test/header/text/html');
       it('passes', async function() {
         expect(await res).to.satisfyApiSpec;
       });
@@ -102,7 +102,7 @@ describe('Parsing responses from different request modules', function () {
   describe('supertest', function() {
 
     describe('res header is application/json, and res.body is a string', function() {
-      const res = supertest(app).get('/local/test/header/application/json/and/responseBody/string');
+      const res = supertest(app).get('/test/header/application/json/and/responseBody/string');
       it('passes', async function() {
         expect(await res).to.satisfyApiSpec;
       });
@@ -120,7 +120,7 @@ describe('Parsing responses from different request modules', function () {
     });
 
     describe('res header is application/json, and res.body is {}', function() {
-      const res = supertest(app).get('/local/test/header/application/json/and/responseBody/emptyObject');
+      const res = supertest(app).get('/test/header/application/json/and/responseBody/emptyObject');
       it('passes', async function() {
         expect(await res).to.satisfyApiSpec;
       });
@@ -138,7 +138,7 @@ describe('Parsing responses from different request modules', function () {
     });
 
     describe('res header is text/html, res.body is {}, and res.text is a string', function() {
-      const res = supertest(app).get('/local/test/header/text/html');
+      const res = supertest(app).get('/test/header/text/html');
       it('passes', async function() {
         expect(await res).to.satisfyApiSpec;
       });
@@ -161,7 +161,7 @@ describe('Parsing responses from different request modules', function () {
   describe('axios', function() {
 
     describe('res header is application/json, and res.body is a string', function() {
-      const res = axios.get(`${appOrigin}/local/test/header/application/json/and/responseBody/string`);
+      const res = axios.get(`${appOrigin}/test/header/application/json/and/responseBody/string`);
       it('passes', async function() {
         expect(await res).to.satisfyApiSpec;
       });
@@ -179,7 +179,7 @@ describe('Parsing responses from different request modules', function () {
     });
 
     describe('res header is application/json, and res.body is {}', function() {
-      const res = axios.get(`${appOrigin}/local/test/header/application/json/and/responseBody/emptyObject`);
+      const res = axios.get(`${appOrigin}/test/header/application/json/and/responseBody/emptyObject`);
       it('passes', async function() {
         expect(await res).to.satisfyApiSpec;
       });
@@ -197,7 +197,7 @@ describe('Parsing responses from different request modules', function () {
     });
 
     describe('res header is text/html, res.body is a string', function() {
-      const res = axios.get(`${appOrigin}/local/test/header/text/html`);
+      const res = axios.get(`${appOrigin}/test/header/text/html`);
       it('passes', async function() {
         expect(await res).to.satisfyApiSpec;
       });
@@ -219,7 +219,7 @@ describe('Parsing responses from different request modules', function () {
   describe('request-promise', function() {
     const res = requestPromise({
       method: 'GET',
-      uri: `${appOrigin}/local/test/header/application/json/and/responseBody/string`,
+      uri: `${appOrigin}/test/header/application/json/and/responseBody/string`,
       resolveWithFullResponse: true,
     });
     it('passes', async function() {
@@ -240,7 +240,7 @@ describe('Parsing responses from different request modules', function () {
     describe('res header is application/json, and res.body is a string', function() {
       const res = requestPromise({
         method: 'GET',
-        uri: `${appOrigin}/local/test/header/application/json/and/responseBody/string`,
+        uri: `${appOrigin}/test/header/application/json/and/responseBody/string`,
         resolveWithFullResponse: true,
       });
       it('passes', async function() {
@@ -262,7 +262,7 @@ describe('Parsing responses from different request modules', function () {
     describe('res header is application/json, and res.body is \'{}\'', function() {
       const res = requestPromise({
         method: 'GET',
-        uri: `${appOrigin}/local/test/header/application/json/and/responseBody/emptyObject`,
+        uri: `${appOrigin}/test/header/application/json/and/responseBody/emptyObject`,
         resolveWithFullResponse: true,
       });
       it('passes', async function() {
@@ -284,7 +284,7 @@ describe('Parsing responses from different request modules', function () {
     describe('res header is text/html, res.body is a string', function() {
       const res = requestPromise({
         method: 'GET',
-        uri: `${appOrigin}/local/test/header/text/html`,
+        uri: `${appOrigin}/test/header/text/html`,
         resolveWithFullResponse: true,
       });
       it('passes', async function() {

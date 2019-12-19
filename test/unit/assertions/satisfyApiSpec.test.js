@@ -35,9 +35,6 @@ const { expect } = chai;
 for (const spec of openApiSpecs) {
   const { openApiVersion, pathToApiSpec } = spec;
 
-  // add a path to a server if testing in openAPI 3
-  const serverBasePath = openApiVersion == 3 ? '/local' : '';
-
   describe(`expect(res).to.satisfyApiSpec (using an OpenAPI ${openApiVersion} spec)`, function () {
     before(function () {
       chai.use(chaiResponseValidator(pathToApiSpec));
@@ -50,7 +47,7 @@ for (const spec of openApiSpecs) {
               status: 200,
               req: {
                 method: 'GET',
-                path: `${serverBasePath}/test/responseBody/string`,
+                path: '/test/responseBody/string',
               },
               body: 'valid body (string)',
             };
@@ -77,7 +74,7 @@ for (const spec of openApiSpecs) {
               status: 200,
               req: {
                 method: 'GET',
-                path: `${serverBasePath}/test/responseBody/referencesSchemaObject`,
+                path: '/test/responseBody/referencesSchemaObject',
               },
               body: 'valid body (string)',
             };
@@ -97,7 +94,7 @@ for (const spec of openApiSpecs) {
               status: 204,
               req: {
                 method: 'GET',
-                path: `${serverBasePath}/test/responseBody/empty`,
+                path: '/test/responseBody/empty',
               },
             };
 
@@ -117,7 +114,7 @@ for (const spec of openApiSpecs) {
             status: 200,
             req: {
               method: 'GET',
-              path: `${serverBasePath}/test/responseReferencesResponseDefinitionObject`,
+              path: '/test/responseReferencesResponseDefinitionObject',
             },
             body: 'valid body (string)',
           };
@@ -145,7 +142,7 @@ for (const spec of openApiSpecs) {
               status: 201,
               req: {
                 method: 'GET',
-                path: `${serverBasePath}/test/multipleResponsesDefined`,
+                path: '/test/multipleResponsesDefined',
               },
               body: 'valid body (string)',
             };
@@ -165,7 +162,7 @@ for (const spec of openApiSpecs) {
               status: 202,
               req: {
                 method: 'GET',
-                path: `${serverBasePath}/test/multipleResponsesDefined`,
+                path: '/test/multipleResponsesDefined',
               },
               body: 123456, // valid body (integer)
             };
@@ -185,7 +182,7 @@ for (const spec of openApiSpecs) {
               status: 203,
               req: {
                 method: 'GET',
-                path: `${serverBasePath}/test/multipleResponsesDefined`,
+                path: '/test/multipleResponsesDefined',
               },
               // no body
             };
@@ -207,7 +204,7 @@ for (const spec of openApiSpecs) {
               status: 204,
               req: {
                 method: 'GET',
-                path: `${serverBasePath}/test/queryParams?exampleQueryParam=foo`,
+                path: '/test/queryParams?exampleQueryParam=foo',
               },
             };
 
@@ -226,7 +223,7 @@ for (const spec of openApiSpecs) {
               status: 204,
               req: {
                 method: 'GET',
-                path: `${serverBasePath}/test/queryParams?${'exampleQueryParam=foo'}&${'exampleQueryParam2=bar'}`,
+                path: `/test/queryParams?${'exampleQueryParam=foo'}&${'exampleQueryParam2=bar'}`,
               },
             };
 
@@ -245,7 +242,7 @@ for (const spec of openApiSpecs) {
               status: 204,
               req: {
                 method: 'GET',
-                path: `${serverBasePath}/test/pathParams/foo`,
+                path: '/test/pathParams/foo',
               },
             };
 
@@ -264,7 +261,7 @@ for (const spec of openApiSpecs) {
               status: 204,
               req: {
                 method: 'GET',
-                path: `${serverBasePath}/test/multiplePathParams/foo/bar`,
+                path: '/test/multiplePathParams/foo/bar',
               },
             };
 
@@ -283,7 +280,7 @@ for (const spec of openApiSpecs) {
               status: 204,
               req: {
                 method: 'GET',
-                path: `${serverBasePath}/test/pathAndQueryParams/${'foo'}?${'exampleQueryParam=bar'}`,
+                path: `/test/pathAndQueryParams/${'foo'}?${'exampleQueryParam=bar'}`,
               },
             };
 
@@ -304,7 +301,7 @@ for (const spec of openApiSpecs) {
             status: 418,
             req: {
               method: 'GET',
-              path: `${serverBasePath}/test/responseStatus`,
+              path: '/test/responseStatus',
             },
           };
 
@@ -324,7 +321,7 @@ for (const spec of openApiSpecs) {
             status: 204,
             req: {
               method: 'GET',
-              path: `${serverBasePath}/test/responseBody/empty`,
+              path: '/test/responseBody/empty',
             },
             body: [{ nestedProperty: 'invalid body (should be empty)' }],
           };
@@ -367,18 +364,18 @@ for (const spec of openApiSpecs) {
           status: 204,
           req: {
             method: 'GET',
-            path: `${serverBasePath}/does/not/exist`,
+            path: '/does/not/exist',
           },
         };
 
         it('fails', function () {
           const assertion = () => expect(res).to.satisfyApiSpec;
-          expect(assertion).to.throw(`No '${serverBasePath}/does/not/exist' path defined in OpenAPI spec`);
+          expect(assertion).to.throw('No \'/does/not/exist\' path defined in OpenAPI spec');
         });
 
         it('fails when using .not', function () {
           const assertion = () => expect(res).to.not.satisfyApiSpec;
-          expect(assertion).to.throw(`No '${serverBasePath}/does/not/exist' path defined in OpenAPI spec`);
+          expect(assertion).to.throw('No \'/does/not/exist\' path defined in OpenAPI spec');
         });
       });
 
@@ -387,7 +384,7 @@ for (const spec of openApiSpecs) {
           status: 204,
           req: {
             method: 'HEAD',
-            path: `${serverBasePath}/test/HTTPMethod`,
+            path: '/test/HTTPMethod',
           },
         };
 
