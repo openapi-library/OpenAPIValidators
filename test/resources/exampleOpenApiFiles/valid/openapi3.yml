@@ -32,15 +32,6 @@ paths:
       responses:
         204:
           description: No response body
-  /test/responseBody/emptyObject:
-    get:
-      responses:
-        200:
-          description: Response body is an empty object. (Used to test that res.text is populated instead)
-          content:
-            application/json:
-              schema:
-                type: object
   /test/responseReferencesResponseDefinitionObject:
     get:
       responses:
@@ -116,6 +107,33 @@ paths:
       responses:
         204:
           description: No response body
+  /test/header/application/json/and/responseBody/string:
+    get:
+      responses:
+        200:
+          description: Response header is application/json, and response body is a string
+          content:
+            application/json:
+              schema:
+                type: string
+  /test/header/application/json/and/responseBody/emptyObject:
+    get:
+      responses:
+        200:
+          description: Response header is application/json, and response body is an empty object. (Used to test that res.text is populated)
+          content:
+            application/json:
+              schema:
+                type: object
+  /test/header/text/html:
+    get:
+      responses:
+        200:
+          description: Response header is text/html, and response body or text is a string
+          content:
+            text/html:
+              schema:
+                type: string
 components:
   schemas:
     ExampleSchemaObject:
