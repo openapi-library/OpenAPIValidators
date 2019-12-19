@@ -31,11 +31,14 @@ const { port } = require('../../config');
 const appOrigin = `http://localhost:${port}`;
 const appPathToTest = '/local/test/responseBody/string';
 const pathToApiSpec = path.resolve('test/resources/exampleOpenApiFiles/valid/openapi3.yml');
-chai.use(chaiResponseValidator(pathToApiSpec));
 chai.use(chaiAsPromised);
 const { expect } = chai;
 
 describe('Parsing responses from different request modules', function () {
+
+  before(function() {
+    chai.use(chaiResponseValidator(pathToApiSpec));
+  });
 
   describe('modules that differentiate between res.body and res.text', function() {
 
