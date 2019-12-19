@@ -1,0 +1,18 @@
+openapi: 3.0.0
+info:
+  title: Example OpenApi 3 spec
+  description: This spec does not define a server with a base path
+  version: 0.1.0
+servers:
+  - url: http://api.example.com
+    description: absolute server without a base path
+paths:
+  /test/responseBody/string:
+    get:
+      responses:
+        200:
+          description: Response body should be a string
+          content:
+            application/json:
+              schema:
+                type: string
