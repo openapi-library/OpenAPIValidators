@@ -36,7 +36,7 @@ for (const spec of openApiSpecs) {
   const { openApiVersion, pathToApiSpec } = spec;
 
   // add a path to a server if testing in openAPI 3
-  const serverUrl = openApiVersion == 3 ? '/local' : '';
+  const serverBasePath = openApiVersion == 3 ? '/local' : '';
 
   describe(`expect(res).to.satisfyApiSpec (using an OpenAPI ${openApiVersion} spec)`, function () {
     before(function () {
@@ -50,7 +50,7 @@ for (const spec of openApiSpecs) {
               status: 200,
               req: {
                 method: 'GET',
-                path: `${serverUrl}/test/responseBody/string`,
+                path: `${serverBasePath}/test/responseBody/string`,
               },
               body: 'valid body (string)',
             };
@@ -77,7 +77,7 @@ for (const spec of openApiSpecs) {
               status: 200,
               req: {
                 method: 'GET',
-                path: `${serverUrl}/test/responseBody/referencesSchemaObject`,
+                path: `${serverBasePath}/test/responseBody/referencesSchemaObject`,
               },
               body: 'valid body (string)',
             };
@@ -97,7 +97,7 @@ for (const spec of openApiSpecs) {
               status: 204,
               req: {
                 method: 'GET',
-                path: `${serverUrl}/test/responseBody/empty`,
+                path: `${serverBasePath}/test/responseBody/empty`,
               },
             };
 
@@ -117,7 +117,7 @@ for (const spec of openApiSpecs) {
             status: 200,
             req: {
               method: 'GET',
-              path: `${serverUrl}/test/responseReferencesResponseDefinitionObject`,
+              path: `${serverBasePath}/test/responseReferencesResponseDefinitionObject`,
             },
             body: 'valid body (string)',
           };
@@ -145,7 +145,7 @@ for (const spec of openApiSpecs) {
               status: 201,
               req: {
                 method: 'GET',
-                path: `${serverUrl}/test/multipleResponsesDefined`,
+                path: `${serverBasePath}/test/multipleResponsesDefined`,
               },
               body: 'valid body (string)',
             };
@@ -165,7 +165,7 @@ for (const spec of openApiSpecs) {
               status: 202,
               req: {
                 method: 'GET',
-                path: `${serverUrl}/test/multipleResponsesDefined`,
+                path: `${serverBasePath}/test/multipleResponsesDefined`,
               },
               body: 123456, // valid body (integer)
             };
@@ -185,7 +185,7 @@ for (const spec of openApiSpecs) {
               status: 203,
               req: {
                 method: 'GET',
-                path: `${serverUrl}/test/multipleResponsesDefined`,
+                path: `${serverBasePath}/test/multipleResponsesDefined`,
               },
               // no body
             };
@@ -207,7 +207,7 @@ for (const spec of openApiSpecs) {
               status: 204,
               req: {
                 method: 'GET',
-                path: `${serverUrl}/test/queryParams?exampleQueryParam=foo`,
+                path: `${serverBasePath}/test/queryParams?exampleQueryParam=foo`,
               },
             };
 
@@ -226,7 +226,7 @@ for (const spec of openApiSpecs) {
               status: 204,
               req: {
                 method: 'GET',
-                path: `${serverUrl}/test/queryParams?${'exampleQueryParam=foo'}&${'exampleQueryParam2=bar'}`,
+                path: `${serverBasePath}/test/queryParams?${'exampleQueryParam=foo'}&${'exampleQueryParam2=bar'}`,
               },
             };
 
@@ -245,7 +245,7 @@ for (const spec of openApiSpecs) {
               status: 204,
               req: {
                 method: 'GET',
-                path: `${serverUrl}/test/pathParams/foo`,
+                path: `${serverBasePath}/test/pathParams/foo`,
               },
             };
 
@@ -264,7 +264,7 @@ for (const spec of openApiSpecs) {
               status: 204,
               req: {
                 method: 'GET',
-                path: `${serverUrl}/test/multiplePathParams/foo/bar`,
+                path: `${serverBasePath}/test/multiplePathParams/foo/bar`,
               },
             };
 
@@ -283,7 +283,7 @@ for (const spec of openApiSpecs) {
               status: 204,
               req: {
                 method: 'GET',
-                path: `${serverUrl}/test/pathAndQueryParams/${'foo'}?${'exampleQueryParam=bar'}`,
+                path: `${serverBasePath}/test/pathAndQueryParams/${'foo'}?${'exampleQueryParam=bar'}`,
               },
             };
 
@@ -304,7 +304,7 @@ for (const spec of openApiSpecs) {
             status: 418,
             req: {
               method: 'GET',
-              path: `${serverUrl}/test/responseStatus`,
+              path: `${serverBasePath}/test/responseStatus`,
             },
           };
 
@@ -324,7 +324,7 @@ for (const spec of openApiSpecs) {
             status: 204,
             req: {
               method: 'GET',
-              path: `${serverUrl}/test/responseBody/empty`,
+              path: `${serverBasePath}/test/responseBody/empty`,
             },
             body: [{ nestedProperty: 'invalid body (should be empty)' }],
           };
@@ -367,18 +367,18 @@ for (const spec of openApiSpecs) {
           status: 204,
           req: {
             method: 'GET',
-            path: `${serverUrl}/does/not/exist`,
+            path: `${serverBasePath}/does/not/exist`,
           },
         };
 
         it('fails', function () {
           const assertion = () => expect(res).to.satisfyApiSpec;
-          expect(assertion).to.throw(`No '${serverUrl}/does/not/exist' path defined in OpenAPI spec`);
+          expect(assertion).to.throw(`No '${serverBasePath}/does/not/exist' path defined in OpenAPI spec`);
         });
 
         it('fails when using .not', function () {
           const assertion = () => expect(res).to.not.satisfyApiSpec;
-          expect(assertion).to.throw(`No '${serverUrl}/does/not/exist' path defined in OpenAPI spec`);
+          expect(assertion).to.throw(`No '${serverBasePath}/does/not/exist' path defined in OpenAPI spec`);
         });
       });
 
@@ -387,7 +387,7 @@ for (const spec of openApiSpecs) {
           status: 204,
           req: {
             method: 'HEAD',
-            path: `${serverUrl}/test/HTTPMethod`,
+            path: `${serverBasePath}/test/HTTPMethod`,
           },
         };
 
