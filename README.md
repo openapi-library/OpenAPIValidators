@@ -4,6 +4,7 @@
 [![npm](https://img.shields.io/npm/v/chai-openapi-response-validator.svg)](https://www.npmjs.com/package/chai-openapi-response-validator)
 [![Build Status](https://travis-ci.com/RuntimeTools/chai-openapi-response-validator.svg?branch=master)](https://travis-ci.com/RuntimeTools/chai-openapi-response-validator)
 ![dependencies](https://img.shields.io/david/RuntimeTools/chai-openapi-response-validator)
+![style](https://img.shields.io/badge/code%20style-airbnb-ff5a5f.svg)
 
 Simple Chai support for asserting that HTTP responses satisfy an OpenAPI spec.
 
