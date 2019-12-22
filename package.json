@@ -11,7 +11,7 @@
     "test:full": "npm run lint && npm run test:coverage && npm run test:mutation",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "prepublish": "npm run test:full"
+    "prepublishOnly": "npm run test:full"
   },
   "repository": {
     "type": "git",
