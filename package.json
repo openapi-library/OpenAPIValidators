@@ -63,7 +63,8 @@
     "js-yaml": "^3.13.1",
     "openapi-response-validator": "^3.8.1",
     "openapi-schema-validator": "^3.0.3",
-    "path-parser": "^4.2.0"
+    "path-parser": "^4.2.0",
+    "typeof": "^1.0.0"
   },
   "husky": {
     "hooks": {

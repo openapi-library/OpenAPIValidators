@@ -12,11 +12,11 @@ Simple Chai support for asserting that HTTP responses satisfy an OpenAPI spec.
 
 If your server's behaviour doesn't match your API documentation, then you need to correct your server, your documentation, or both. The sooner you know the better.
 
-This plugin allows you to automatically test whether your server's behaviour and documentation match. It extends the [Chai Assertion Library](https://www.chaijs.com/) to support the [OpenAPI standard](https://swagger.io/docs/specification/about/) for documenting REST APIs.
+This plugin lets you automatically test whether your server's behaviour and documentation match. It extends the [Chai Assertion Library](https://www.chaijs.com/) to support the [OpenAPI standard](https://swagger.io/docs/specification/about/) for documenting REST APIs.
 
 ## Features
 - Validates the status and body of HTTP responses against an OpenAPI spec
-- Easily load your OpenAPI spec just once in your tests
+- Load your OpenAPI spec just once in your tests (load from a [filepath](#load-openapi-spec-from-a-filepath) or [object](#load-openapi-spec-from-an-object))
 - Supports OpenAPI [2](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) and [3](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md)
 - Supports OpenAPI specs in YAML and JSON formats
 - Supports `$ref` in response definitions (i.e. `$ref: '#/definitions/ComponentType/ComponentName'`)
@@ -45,11 +45,11 @@ const chaiResponseValidator = require('chai-openapi-response-validator');
 chai.use(chaiResponseValidator('path/to/openapi.yml'));
 
 // Write your test (e.g. using Mocha)
-describe('GET /example/request', function() {
+describe('GET /example/endpoint', function() {
   it('should satisfy OpenAPI spec', async function() {
 
     // Get an HTTP response from your server (e.g. using axios)
-    const res = await axios.get('http://localhost:3000/example/request');
+    const res = await axios.get('http://localhost:3000/example/endpoint');
 
     expect(res.status).to.equal(200);
 
@@ -59,7 +59,7 @@ describe('GET /example/request', function() {
 });
 ```
 
-### 2. Write an OpenAPI Spec (and save at `path/to/openapi.yml`):
+### 2. Write an OpenAPI Spec (and save to `path/to/openapi.yml`):
 ```yaml
 openapi: 3.0.0
 info:
@@ -70,7 +70,7 @@ paths:
     get:
       responses:
         200:
-          description: Response body should be a string
+          description: Response body should be an object with fields 'stringProperty' and 'integerProperty'
           content:
             application/json:
               schema:
@@ -115,7 +115,7 @@ paths:
 };
 ```
 
-Output from test failure:
+##### Output from test failure:
 
 ```javascript
 AssertionError: expected res to satisfy API spec:
@@ -138,6 +138,92 @@ AssertionError: expected res to satisfy API spec:
 }
 ```
 
+### Alternative step 1: load your OpenAPI spec from an object (instead of a filepath):
+```javascript
+// Set up Chai
+const chai = require('chai');
+const expect = chai.expect;
+
+// Import this plugin
+const chaiResponseValidator = require('chai-openapi-response-validator');
+
+// Get an object representing your OpenAPI spec
+const openApiSpec = {
+  openapi: '3.0.0',
+  info: {
+    title: 'Example API',
+    version: '0.1.0',
+  },
+  paths: {
+    '/example/endpoint': {
+      get: {
+        responses: {
+          '200': {
+            description: 'Response body should be a string',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+// Load that OpenAPI object into this plugin
+chai.use(chaiResponseValidator(openApiSpec));
+
+// Write your test (e.g. using Mocha)
+describe('GET /example/endpoint', function() {
+  it('should satisfy OpenAPI spec', async function() {
+
+    // Get an HTTP response from your server (e.g. using axios)
+    const res = await axios.get('http://localhost:3000/example/endpoint');
+
+    expect(res.status).to.equal(200);
+
+    // Assert that the HTTP response satisfies the OpenAPI spec
+    expect(res).to.satisfyApiSpec;
+  });
+});
+```
+
+#### This lets you load your OpenAPI spec from a web endpoint:
+```javascript
+// Set up Chai
+const chai = require('chai');
+const expect = chai.expect;
+
+// Import this plugin
+const chaiResponseValidator = require('chai-openapi-response-validator');
+
+// Write your test (e.g. using Mocha)
+describe('GET /example/endpoint', function() {
+
+  // Load your OpenAPI spec from a web endpoint
+  before(async function() {
+    const axios = require('axios');
+    const response = await axios.get('url/to/openapi/spec');
+    const openApiSpec = response.data; // e.g. { openapi: '3.0.0', <etc> };
+    chai.use(chaiResponseValidator(openApiSpec));
+  });
+
+  it('should satisfy OpenAPI spec', async function() {
+
+    // Get an HTTP response from your server (e.g. using axios)
+    const res = await axios.get('http://localhost:3000/example/endpoint');
+
+    expect(res.status).to.equal(200);
+
+    // Assert that the HTTP response satisfies the OpenAPI spec
+    expect(res).to.satisfyApiSpec;
+  });
+});
+```
 
 ## Contributing
 
