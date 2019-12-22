@@ -70,7 +70,7 @@ paths:
     get:
       responses:
         200:
-          description: Response body should be an object with fields 'stringProperty' and 'integer property'
+          description: Response body should be an object with fields 'stringProperty' and 'integerProperty'
           content:
             application/json:
               schema:
