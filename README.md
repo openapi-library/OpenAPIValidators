@@ -15,8 +15,9 @@ If your server's behaviour doesn't match your API documentation, then you need t
 This plugin lets you automatically test whether your server's behaviour and documentation match. It extends the [Chai Assertion Library](https://www.chaijs.com/) to support the [OpenAPI standard](https://swagger.io/docs/specification/about/) for documenting REST APIs.
 
 ## Features
-- Validates the status and body of HTTP responses against an OpenAPI spec
-- Load your OpenAPI spec just once in your tests (load from a [filepath](#load-openapi-spec-from-a-filepath) or [object](#load-openapi-spec-from-an-object))
+- Validates the status and body of HTTP responses against your OpenAPI spec [(see example)](#in-api-tests-validate-the-status-and-body-of-http-responses-against-your-openapi-spec)
+- Validates objects against schemas defined in your OpenAPI spec [(see example)](#in-unit-tests-validate-objects-against-schemas-defined-in-your-OpenAPI-spec)
+- Load your OpenAPI spec just once in your tests (load from a filepath or object)
 - Supports OpenAPI [2](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) and [3](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md)
 - Supports OpenAPI specs in YAML and JSON formats
 - Supports `$ref` in response definitions (i.e. `$ref: '#/definitions/ComponentType/ComponentName'`)
@@ -31,8 +32,9 @@ $ npm install --save-dev chai-openapi-response-validator
 
 ## Usage
 
-### 1. Write a test:
+### In API tests, validate the status and body of HTTP responses against your OpenAPI spec:
 
+#### 1. Write a test:
 ```javascript
 // Set up Chai
 const chai = require('chai');
@@ -59,7 +61,7 @@ describe('GET /example/endpoint', function() {
 });
 ```
 
-### 2. Write an OpenAPI Spec (and save to `path/to/openapi.yml`):
+#### 2. Write an OpenAPI Spec (and save to `path/to/openapi.yml`):
 ```yaml
 openapi: 3.0.0
 info:
@@ -83,39 +85,38 @@ paths:
                     type: string
                   integerProperty:
                     type: integer
-
 ```
 
-### 3. Run your test to validate your server's response against your OpenAPI spec:
+#### 3. Run your test to validate your server's response against your OpenAPI spec:
 
-#### The assertion passes if the response status and body satisfy `openapi.yml`:
+##### The assertion passes if the response status and body satisfy `openapi.yml`:
 
 ```javascript
 // Response includes:
 {
   status: 200,
   body: {
-    string: 'string',
-    integer: 123,
+    stringProperty: 'string',
+    integerProperty: 123,
   },
 };
 ```
 
 
-#### The assertion fails if the response body is invalid:
+##### The assertion fails if the response body is invalid:
 
 ```javascript
 // Response includes:
 {
   status: 200,
   body: {
-    string: 'string',
-    integer: 'invalid (should be an integer)',
+    stringProperty: 'string',
+    integerProperty: 'invalid (should be an integer)',
   },
 };
 ```
 
-##### Output from test failure:
+###### Output from test failure:
 
 ```javascript
 AssertionError: expected res to satisfy API spec:
@@ -138,7 +139,109 @@ AssertionError: expected res to satisfy API spec:
 }
 ```
 
-### Alternative step 1: load your OpenAPI spec from an object (instead of a filepath):
+### In unit tests, validate objects against schemas defined in your OpenAPI spec:
+#### 1. Write a test:
+```javascript
+// Set up Chai
+const chai = require('chai');
+const expect = chai.expect;
+
+// Import this plugin
+const chaiResponseValidator = require('chai-openapi-response-validator');
+
+// Load an OpenAPI file (YAML or JSON) into this plugin
+chai.use(chaiResponseValidator('path/to/openapi.yml'));
+
+// Write your test (e.g. using Mocha)
+describe('myModule.getObject()', function() {
+  it('should satisfy OpenAPI spec', async function() {
+    // Run the function you want to test
+    const myModule = require('path/to/your/module.js');
+    const output = myModule.getObject();
+
+    // Assert that the output satisfies a schema defined in your OpenAPI spec
+    expect(output).to.satisfySchemaInApiSpec('ExampleSchemaObject');
+  });
+});
+```
+
+#### 2. Write an OpenAPI Spec (and save to `path/to/openapi.yml`):
+```yaml
+openapi: 3.0.0
+info:
+  title: Example API
+  version: 1.0.0
+paths:
+  /example:
+    get:
+      responses:
+        200:
+          description: Response body should be an ExampleSchemaObject
+          content:
+            application/json:
+              schema: '#/components/schemas/ExampleSchemaObject'
+components:
+  schemas:
+    ExampleSchemaObject:
+      type: object
+      required:
+        - stringProperty
+        - integerProperty
+      properties:
+        stringProperty:
+          type: string
+        integerProperty:
+          type: integer
+```
+
+#### 3. Run your test to validate your object against your OpenAPI spec:
+
+##### The assertion passes if the object satisfies the schema `ExampleSchemaObject`:
+
+```javascript
+// object includes:
+{
+  stringProperty: 'string',
+  integerProperty: 123,
+};
+```
+
+
+##### The assertion fails if the object does not satisfy the schema `ExampleSchemaObject`:
+
+```javascript
+// object includes:
+{
+  stringProperty: 123,
+  integerProperty: 123,
+};
+```
+
+###### Output from test failure:
+
+```javascript
+AssertionError: expected object to satisfy schema 'ExampleSchemaObject' defined in API spec:
+{
+  message: 'The object was not valid.',
+  errors: [
+    {
+      errorCode: 'type.openapi.objectValidation',
+      message: 'stringProperty should be string'
+    }
+  ],
+  actualObject: {
+    {
+      stringProperty: 123,
+      integerProperty: 123
+    }
+  }
+}
+```
+
+### Loading your OpenAPI spec (3 different ways):
+
+#### 1. From an absolute filepath ([see above](#usage))
+#### 2. From an object:
 ```javascript
 // Set up Chai
 const chai = require('chai');
@@ -192,7 +295,7 @@ describe('GET /example/endpoint', function() {
 });
 ```
 
-#### This lets you load your OpenAPI spec from a web endpoint:
+#### 3. From a web endpoint:
 ```javascript
 // Set up Chai
 const chai = require('chai');

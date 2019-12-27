@@ -1,0 +1,71 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Has various paths with responses to use in testing",
+    "title": "Example OpenApi 3 spec",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/unused": {
+      "get": {
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "IntegerSchema": {
+      "type": "integer"
+    },
+    "SchemaReferencingAnotherSchema": {
+      "properties": {
+        "property1": {
+          "$ref": "#/definitions/StringSchema"
+        }
+      },
+      "required": [
+        "property1"
+      ]
+    },
+    "SchemaUsingAllOf": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/SimpleObjectSchema"
+        },
+        {
+          "$ref": "#/definitions/SimpleObjectSchemaWithDifferentPropertyName"
+        }
+      ]
+    },
+    "SimpleObjectSchema": {
+      "properties": {
+        "property1": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "property1"
+      ],
+      "type": "object"
+    },
+    "SimpleObjectSchemaWithDifferentPropertyName": {
+      "properties": {
+        "property2": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "property2"
+      ],
+      "type": "object"
+    },
+    "StringSchema": {
+      "type": "string"
+    }
+  },
+  "x-components": {}
+}

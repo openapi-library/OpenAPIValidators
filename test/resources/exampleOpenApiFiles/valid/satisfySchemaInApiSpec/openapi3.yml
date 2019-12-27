@@ -1,0 +1,49 @@
+openapi: 3.0.0
+info:
+  title: Example OpenApi 3 spec
+  description: Has various paths with responses to use in testing
+  version: 0.1.0
+paths:
+  /unused:
+    get:
+      responses:
+        204:
+          description: No response body
+components:
+  schemas:
+    StringSchema:
+      type: string
+    IntegerSchema:
+      type: integer
+    SimpleObjectSchema:
+      type: object
+      required:
+      - property1
+      properties:
+        property1:
+          type: string
+    SimpleObjectSchemaWithDifferentPropertyName:
+      type: object
+      required:
+      - property2
+      properties:
+        property2:
+          type: string
+    SchemaReferencingAnotherSchema:
+      required:
+      - property1
+      properties:
+        property1:
+          $ref: '#/components/schemas/StringSchema'
+    SchemaUsingAllOf:
+      allOf:
+      - $ref: '#/components/schemas/SimpleObjectSchema'
+      - $ref: '#/components/schemas/SimpleObjectSchemaWithDifferentPropertyName'
+    SchemaUsingAnyOf:
+      anyOf:
+      - $ref: '#/components/schemas/SimpleObjectSchema'
+      - $ref: '#/components/schemas/SimpleObjectSchemaWithDifferentPropertyName'
+    SchemaUsingOneOf:
+      oneOf:
+      - $ref: '#/components/schemas/SimpleObjectSchema'
+      - $ref: '#/components/schemas/SimpleObjectSchemaWithDifferentPropertyName'
