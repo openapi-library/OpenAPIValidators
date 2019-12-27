@@ -15,9 +15,9 @@ If your server's behaviour doesn't match your API documentation, then you need t
 This plugin lets you automatically test whether your server's behaviour and documentation match. It extends the [Chai Assertion Library](https://www.chaijs.com/) to support the [OpenAPI standard](https://swagger.io/docs/specification/about/) for documenting REST APIs.
 
 ## Features
-- Validate the status and body of HTTP responses against your OpenAPI spec [(see example)](#validate-the-status-and-body-of-http-responses-against-your-openapi-spec)
-- Validate objects against schemas defined in your OpenAPI spec [(see example)](#validate-objects-against-schemas-defined-in-your-OpenAPI-spec)
-- Load your OpenAPI spec just once in your tests
+- Validates the status and body of HTTP responses against your OpenAPI spec [(see example)](#in-api-tests-validate-the-status-and-body-of-http-responses-against-your-openapi-spec)
+- Validates objects against schemas defined in your OpenAPI spec [(see example)](#in-unit-tests-validate-objects-against-schemas-defined-in-your-OpenAPI-spec)
+- Load your OpenAPI spec just once in your tests (load from a filepath or object)
 - Supports OpenAPI [2](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) and [3](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md)
 - Supports OpenAPI specs in YAML and JSON formats
 - Supports `$ref` in response definitions (i.e. `$ref: '#/definitions/ComponentType/ComponentName'`)
