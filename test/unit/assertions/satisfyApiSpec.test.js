@@ -20,14 +20,15 @@ const util = require('util');
 
 const chaiResponseValidator = require('../../..');
 
+const openApiSpecsDir = path.resolve('test', 'resources', 'exampleOpenApiFiles', 'valid');
 const openApiSpecs = [
   {
     openApiVersion: 2,
-    pathToApiSpec: path.resolve('test/resources/exampleOpenApiFiles/valid/openapi2.json'),
+    pathToApiSpec: path.join(openApiSpecsDir, 'openapi2.json'),
   },
   {
     openApiVersion: 3,
-    pathToApiSpec: path.resolve('test/resources/exampleOpenApiFiles/valid/openapi3.yml'),
+    pathToApiSpec: path.join(openApiSpecsDir, 'openapi3.yml'),
   },
 ];
 const { expect } = chai;
