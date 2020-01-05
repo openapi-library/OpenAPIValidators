@@ -1,0 +1,24 @@
+openapi: 3.0.0
+info:
+  title: Example OpenApi 3 spec
+  description: Has various paths with responses to use in testing
+  version: 0.1.0
+paths:
+  /test:
+    get:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - type: object
+                    properties:
+                      expectedProperty1:
+                        type: string
+                  - type: object
+                    properties:
+                      expectedProperty2:
+                        type: string
+                    # additionalProperties: false # Uncommenting this line exposes the bug
