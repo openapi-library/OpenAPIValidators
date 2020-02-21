@@ -11,6 +11,14 @@ app.get('/test/header/application/json/and/responseBody/emptyObject', (req, res)
   res.send({})
 );
 
+app.get('/test/header/application/json/and/responseBody/boolean', (req, res) =>
+  res.json(false)
+);
+
+app.get('/test/header/application/json/and/responseBody/nullable', (req, res) =>
+  res.json(null)
+);
+
 app.get('/test/header/text/html', (req, res) =>
   res.send('res.body is a string')
 );

@@ -108,6 +108,33 @@ for (const spec of openApiSpecs) {
               expect(assertion).to.throw('expected res not to satisfy API spec for \'204\' response defined for endpoint \'GET /test/responseBody/empty\' in OpenAPI spec');
             });
           });
+
+          describe('be a boolean', function () {
+            const res = {
+              status: 200,
+              req: {
+                method: 'GET',
+                path: '/test/responseBody/boolean',
+              },
+              body: false,
+            };
+
+            it('passes', function () {
+              expect(res).to.satisfyApiSpec;
+            });
+
+            it('fails when using .not', function () {
+              const assertion = () => expect(res).to.not.satisfyApiSpec;
+              expect(assertion).to.throw(
+                `expected res not to satisfy API spec for '200' response defined for endpoint 'GET /test/responseBody/boolean' in OpenAPI spec\nres: ${
+                  util.inspect({
+                    status: 200,
+                    body: false,
+                  })
+                }`
+              );
+            });
+          });
         });
 
         describe('res.req.path matches a response referencing a response definition', function () {
