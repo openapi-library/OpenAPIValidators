@@ -166,6 +166,22 @@
         }
       }
     },
+    "/test/responseBody/boolean": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Response body should be a boolean",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
     "/test/responseStatus": {
       "get": {
         "parameters": [],
