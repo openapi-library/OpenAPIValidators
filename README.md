@@ -332,4 +332,4 @@ describe('GET /example/endpoint', function() {
 
 Thank you very much for considering to contribute!
 
-Please make sure you follow our [Code Of Conduct](https://github.com/openapi-chai/chai-openapi-response-validator/blob/master/CODE_OF_CONDUCT.md) and we also strongly recommend reading our [Contributing Guide](https://github.com/openapi-chai/chai-openapi-response-validator/blob/master/CONTRIBUTING.md).
+Please make sure you follow our [Code Of Conduct](https://github.com/RuntimeTools/chai-openapi-response-validator/blob/master/CODE_OF_CONDUCT.md) and we also strongly recommend reading our [Contributing Guide](https://github.com/RuntimeTools/chai-openapi-response-validator/blob/master/CONTRIBUTING.md).
