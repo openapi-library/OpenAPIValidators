@@ -157,6 +157,11 @@ paths:
             text/html:
               schema:
                 type: string
+  /test/no/content-type/header/and/no/response/body:
+    get:
+      responses:
+        204:
+          description: No content-type response header, and there is no response body
 components:
   schemas:
     ExampleSchemaObject:
