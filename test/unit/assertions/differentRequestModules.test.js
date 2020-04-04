@@ -133,6 +133,25 @@ describe('Parsing responses from different request modules', function () {
       });
     });
 
+    describe('res has no content-type header, res.body is {}, and res.text is empty string', function() {
+      const res = chai.request(app).get('/test/no/content-type/header/and/no/response/body');
+      it('passes', async function() {
+        expect(await res).to.satisfyApiSpec;
+      });
+      it('fails when using .not', function () {
+        const assertion = async() => expect(await res).to.not.satisfyApiSpec;
+        return expect(assertion()).to.be.rejectedWith(
+          `expected res not to satisfy API spec for '204' response defined for endpoint 'GET /test/no/content-type/header/and/no/response/body' in OpenAPI spec\nres: ${
+            util.inspect({
+              status: 204,
+              body: {},
+              text: '',
+            })
+          }`
+        );
+      });
+    });
+
   });
 
   describe('supertest', function() {
@@ -210,6 +229,25 @@ describe('Parsing responses from different request modules', function () {
       });
     });
 
+    describe('res has no content-type header, res.body is {}, and res.text is empty string', function() {
+      const res = supertest(app).get('/test/no/content-type/header/and/no/response/body');
+      it('passes', async function() {
+        expect(await res).to.satisfyApiSpec;
+      });
+      it('fails when using .not', function () {
+        const assertion = async() => expect(await res).to.not.satisfyApiSpec;
+        return expect(assertion()).to.be.rejectedWith(
+          `expected res not to satisfy API spec for '204' response defined for endpoint 'GET /test/no/content-type/header/and/no/response/body' in OpenAPI spec\nres: ${
+            util.inspect({
+              status: 204,
+              body: {},
+              text: '',
+            })
+          }`
+        );
+      });
+    });
+
   });
 
   describe('axios', function() {
@@ -280,6 +318,24 @@ describe('Parsing responses from different request modules', function () {
             util.inspect({
               status: 200,
               body: null,
+            })
+          }`
+        );
+      });
+    });
+
+    describe('res has no content-type header, and res.body is empty string', function() {
+      const res = axios.get(`${appOrigin}/test/no/content-type/header/and/no/response/body`);
+      it('passes', async function() {
+        expect(await res).to.satisfyApiSpec;
+      });
+      it('fails when using .not', function () {
+        const assertion = async() => expect(await res).to.not.satisfyApiSpec;
+        return expect(assertion()).to.be.rejectedWith(
+          `expected res not to satisfy API spec for '204' response defined for endpoint 'GET /test/no/content-type/header/and/no/response/body' in OpenAPI spec\nres: ${
+            util.inspect({
+              status: 204,
+              body: '',
             })
           }`
         );
@@ -391,6 +447,28 @@ describe('Parsing responses from different request modules', function () {
             util.inspect({
               status: 200,
               body: 'null',
+            })
+          }`
+        );
+      });
+    });
+
+    describe('res has no content-type header, and res.body is empty string', function() {
+      const res = requestPromise({
+        method: 'GET',
+        uri: `${appOrigin}/test/no/content-type/header/and/no/response/body`,
+        resolveWithFullResponse: true,
+      });
+      it('passes', async function() {
+        expect(await res).to.satisfyApiSpec;
+      });
+      it('fails when using .not', function () {
+        const assertion = async() => expect(await res).to.not.satisfyApiSpec;
+        return expect(assertion()).to.be.rejectedWith(
+          `expected res not to satisfy API spec for '204' response defined for endpoint 'GET /test/no/content-type/header/and/no/response/body' in OpenAPI spec\nres: ${
+            util.inspect({
+              status: 204,
+              body: '',
             })
           }`
         );

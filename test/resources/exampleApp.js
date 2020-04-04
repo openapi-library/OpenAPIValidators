@@ -23,6 +23,10 @@ app.get('/test/header/text/html', (req, res) =>
   res.send('res.body is a string')
 );
 
+app.get('/test/no/content-type/header/and/no/response/body', (req, res) =>
+  res.sendStatus(204)
+);
+
 app.listen(
   port,
   // () => console.log(`Test app listening on port ${port}.`),
