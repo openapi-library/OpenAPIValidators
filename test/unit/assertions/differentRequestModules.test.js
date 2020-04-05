@@ -345,26 +345,6 @@ describe('Parsing responses from different request modules', function () {
   });
 
   describe('request-promise', function() {
-    const res = requestPromise({
-      method: 'GET',
-      uri: `${appOrigin}/test/header/application/json/and/responseBody/string`,
-      resolveWithFullResponse: true,
-    });
-    it('passes', async function() {
-      expect(await res).to.satisfyApiSpec;
-    });
-    it('fails when using .not', function () {
-      const assertion = async() => expect(await res).to.not.satisfyApiSpec;
-      return expect(assertion()).to.be.rejectedWith(
-        `expected res not to satisfy API spec for '200' response defined for endpoint 'GET /test/header/application/json/and/responseBody/string' in OpenAPI spec\nres: ${
-          util.inspect({
-            status: 200,
-            body: 'res.body is a string',
-          })
-        }`
-      );
-    });
-
     describe('res header is application/json, and res.body is a string', function() {
       const res = requestPromise({
         method: 'GET',
