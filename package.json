@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha test --recursive --exit",
-    "test:coverage": "nyc npm test && nyc report --reporter=html && nyc check-coverage --statements 100 --branches 100 --functions 100 --lines 100",
-    "test:coverage:browse": "npm run test:coverage; open coverage/index.html",
+    "test:coverage": "nyc npm test && nyc report --reporter=lcov && nyc check-coverage --statements 100 --branches 100 --functions 100 --lines 100",
+    "test:coverage:browse": "npm run test:coverage; open coverage/lcov-report/index.html",
     "test:mutation": "stryker run",
     "test:full": "npm run lint && npm run test:coverage && npm run test:mutation",
     "lint": "eslint .",

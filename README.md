@@ -5,6 +5,7 @@
 [![Build Status](https://travis-ci.com/RuntimeTools/chai-openapi-response-validator.svg?branch=master)](https://travis-ci.com/RuntimeTools/chai-openapi-response-validator)
 ![dependencies](https://img.shields.io/david/RuntimeTools/chai-openapi-response-validator)
 ![style](https://img.shields.io/badge/code%20style-airbnb-ff5a5f.svg)
+[![codecov](https://codecov.io/gh/RuntimeTools/chai-openapi-response-validator/branch/master/graph/badge.svg)](https://codecov.io/gh/RuntimeTools/chai-openapi-response-validator)
 
 Simple Chai support for asserting that HTTP responses satisfy an OpenAPI spec.
 

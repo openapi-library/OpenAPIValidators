@@ -6,3 +6,4 @@ os:
   - windows
 script:
   - npm run test:full
+  - bash <(curl -s https://codecov.io/bash)
