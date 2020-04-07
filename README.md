@@ -328,8 +328,39 @@ describe('GET /example/endpoint', function() {
 });
 ```
 
+### Using this plugin with different test runners:
+
+#### Mocha ([see above](#usage))
+
+#### Jest
+Import `chai` and this plugin as you would in Mocha, then use `chai.expect` instead of Jest's global `expect`:
+```javascript
+// Set up Chai with this plugin
+const chai = require('chai');
+const chaiResponseValidator = require('chai-openapi-response-validator');
+chai.use(chaiResponseValidator('path/to/openapi.yml'));
+
+// Write your test
+describe('GET /example/endpoint', function() {
+  it('should satisfy OpenAPI spec', async function() {
+
+    // Get an HTTP response from your server (e.g. using axios)
+    const res = await axios.get('http://localhost:3000/example/endpoint');
+
+    // You can still use Jests's global `expect`
+    expect(res.status).toBe(200);
+
+    // But use Chai's `expect` to use our plugin
+    chai.expect(res).to.satisfyApiSpec;
+  });
+});
+```
+We would like to support a Jest matcher instead, but haven't had time to write one. If there is demand for it, please let us know by [raising an issue](https://github.com/RuntimeTools/chai-openapi-response-validator/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=). Of course, a PR would be very welcome!
+
 ## Contributing
 
 Thank you very much for considering to contribute!
 
-Please make sure you follow our [Code Of Conduct](https://github.com/RuntimeTools/chai-openapi-response-validator/blob/master/CODE_OF_CONDUCT.md) and we also strongly recommend reading our [Contributing Guide](https://github.com/RuntimeTools/chai-openapi-response-validator/blob/master/CONTRIBUTING.md).
+We appreciate [bug reports](https://github.com/RuntimeTools/chai-openapi-response-validator/issues/new?assignees=&labels=bug&template=bug_report.md&title=), [feature requests](https://github.com/RuntimeTools/chai-openapi-response-validator/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=), doc updates, fixing [open issues](https://github.com/RuntimeTools/chai-openapi-response-validator/issues), and other contributions.
+
+Please make sure you follow our [Code Of Conduct](https://github.com/RuntimeTools/chai-openapi-response-validator/blob/master/CODE_OF_CONDUCT.md) and read our [Contributing Guide](https://github.com/RuntimeTools/chai-openapi-response-validator/blob/master/CONTRIBUTING.md).
