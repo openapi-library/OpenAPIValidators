@@ -22,7 +22,7 @@
     "Jonny Spruce <jspruce94@gmail.com>",
     "rwalle61 <richard.lh.waller@gmail.com>"
   ],
-  "license": "MIT",
+  "license": "Apache-2.0",
   "keywords": [
     "chai",
     "chai-plugin",
