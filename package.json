@@ -3,6 +3,7 @@
   "version": "0.7.2",
   "description": "Simple Chai support for asserting that HTTP responses satisfy an OpenAPI spec",
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "test": "mocha test --recursive --exit",
     "test:coverage": "nyc npm test && nyc report --reporter=html && nyc check-coverage --statements 100 --branches 100 --functions 100 --lines 100",

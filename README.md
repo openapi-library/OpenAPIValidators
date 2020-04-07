@@ -23,6 +23,7 @@ This plugin lets you automatically test whether your server's behaviour and docu
 - Supports `$ref` in response definitions (i.e. `$ref: '#/definitions/ComponentType/ComponentName'`)
 - Informs you if your OpenAPI spec is invalid
 - Supports responses from `axios`, `request-promise`, `supertest`, `superagent`, and `chai-http`
+- Bundled with a TypeScript Declaration File for [use in TypeScript projects](#using-this-plugin-in-a-typescript-project)
 
 ## Installation
 This is an addon plugin for the [Chai Assertion Library](http://chaijs.com). Install via [npm](http://npmjs.org).
@@ -327,6 +328,27 @@ describe('GET /example/endpoint', function() {
   });
 });
 ```
+
+### Using this plugin in a TypeScript project
+
+#### Installation
+You don't need to `npm install --save-dev @types/chai-openapi-response-validator` because we bundle our TypeScript Definition file into this package (see `index.d.ts`).
+
+#### Importing
+1. Make sure your `tsconfig.json` includes:
+```javascript
+{
+  "compilerOptions": {
+    esModuleInterop: true,
+  }
+}
+```
+2. Import like this:
+```javascript
+import chai from 'chai';
+import chaiResponseValidator from 'chai-openapi-response-validator';
+```
+
 
 ## Contributing
 
