@@ -134,7 +134,7 @@
         }
       }
     },
-    "/test/responseBody/referencesSchemaObject": {
+    "/test/responseBody/referencesSchemaObject/simple": {
       "get": {
         "produces": [
           "application/json"
@@ -144,7 +144,7 @@
           "200": {
             "description": "Response body references a schema object",
             "schema": {
-              "$ref": "#/definitions/ExampleSchemaObject"
+              "$ref": "#/definitions/StringSchema"
             }
           }
         }
@@ -200,19 +200,19 @@
         "parameters": [],
         "responses": {
           "200": {
-            "$ref": "#/responses/ExampleResponseDefinitionObject"
+            "$ref": "#/responses/SimpleResponseDefinitionObject"
           }
         }
       }
     }
   },
   "definitions": {
-    "ExampleSchemaObject": {
+    "StringSchema": {
       "type": "string"
     }
   },
   "responses": {
-    "ExampleResponseDefinitionObject": {
+    "SimpleResponseDefinitionObject": {
       "description": "Response body should be a string",
       "schema": {
         "type": "string"

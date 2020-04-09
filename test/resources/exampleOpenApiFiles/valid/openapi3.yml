@@ -22,15 +22,15 @@ paths:
             application/json:
               schema:
                 type: boolean
-  /test/responseBody/referencesSchemaObject:
+  /test/responseBody/referencesSchemaObject/simple:
     get:
       responses:
         200:
-          description: Response body references a schema object
+          description: Response body references a simple schema object
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ExampleSchemaObject'
+                $ref: '#/components/schemas/StringSchema'
   /test/responseBody/empty:
     get:
       responses:
@@ -40,7 +40,7 @@ paths:
     get:
       responses:
         200:
-          $ref: '#/components/responses/ExampleResponseDefinitionObject'
+          $ref: '#/components/responses/SimpleResponseDefinitionObject'
   /test/multipleResponsesDefined:
     get:
       responses:
@@ -164,10 +164,10 @@ paths:
           description: No content-type response header, and there is no response body
 components:
   schemas:
-    ExampleSchemaObject:
+    StringSchema:
       type: string
   responses:
-    ExampleResponseDefinitionObject:
+    SimpleResponseDefinitionObject:
       description: Response body should be a string
       content:
         application/json:

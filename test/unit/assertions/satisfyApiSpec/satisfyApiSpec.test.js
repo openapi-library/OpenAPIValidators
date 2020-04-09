@@ -18,7 +18,7 @@ const chai = require('chai');
 const path = require('path');
 const util = require('util');
 
-const chaiResponseValidator = require('../../..');
+const chaiResponseValidator = require('../../../..');
 
 const openApiSpecsDir = path.resolve('test', 'resources', 'exampleOpenApiFiles', 'valid');
 const openApiSpecs = [
@@ -70,12 +70,12 @@ for (const spec of openApiSpecs) {
             });
           });
 
-          describe('match a (string) schema object', function () {
+          describe('match a simple schema object (string)', function () {
             const res = {
               status: 200,
               req: {
                 method: 'GET',
-                path: '/test/responseBody/referencesSchemaObject',
+                path: '/test/responseBody/referencesSchemaObject/simple',
               },
               body: 'valid body (string)',
             };
@@ -86,7 +86,7 @@ for (const spec of openApiSpecs) {
 
             it('fails when using .not', function () {
               const assertion = () => expect(res).to.not.satisfyApiSpec;
-              expect(assertion).to.throw('expected res not to satisfy API spec for \'200\' response defined for endpoint \'GET /test/responseBody/referencesSchemaObject\' in OpenAPI spec');
+              expect(assertion).to.throw('expected res not to satisfy API spec for \'200\' response defined for endpoint \'GET /test/responseBody/referencesSchemaObject/simple\' in OpenAPI spec');
             });
           });
 

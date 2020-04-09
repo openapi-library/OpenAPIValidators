@@ -18,7 +18,7 @@ const chai = require('chai');
 const path = require('path');
 const { inspect } = require('util');
 
-const chaiResponseValidator = require('../../..');
+const chaiResponseValidator = require('../../../..');
 
 const dirContainingApiSpec = path.resolve('test/resources/exampleOpenApiFiles/valid/serversDefinedDifferently');
 const { expect } = chai;

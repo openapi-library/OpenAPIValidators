@@ -24,9 +24,9 @@ const axios = require('axios');
 const supertest = require('supertest');
 const requestPromise = require('request-promise');
 
-const chaiResponseValidator = require('../../..');
-const app = require('../../resources/exampleApp');
-const { port } = require('../../config');
+const chaiResponseValidator = require('../../../..');
+const app = require('../../../resources/exampleApp');
+const { port } = require('../../../config');
 
 const appOrigin = `http://localhost:${port}`;
 const pathToApiSpec = path.resolve('test/resources/exampleOpenApiFiles/valid/openapi3.yml');
