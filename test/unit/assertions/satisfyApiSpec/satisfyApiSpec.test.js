@@ -31,7 +31,7 @@ const openApiSpecs = [
     pathToApiSpec: path.join(openApiSpecsDir, 'openapi3.yml'),
   },
 ];
-const { expect } = chai;
+const { expect, AssertionError } = chai;
 
 for (const spec of openApiSpecs) {
   const { openApiVersion, pathToApiSpec } = spec;
@@ -335,12 +335,11 @@ for (const spec of openApiSpecs) {
 
           it('fails', function () {
             const assertion = () => expect(res).to.satisfyApiSpec;
-            expect(assertion).to.throw('No \'418\' response defined for endpoint \'GET /test/responseStatus\' in OpenAPI spec');
+            expect(assertion).to.throw(AssertionError, 'No \'418\' response defined for endpoint \'GET /test/responseStatus\' in OpenAPI spec');
           });
 
-          it('fails when using .not', function () {
-            const assertion = () => expect(res).to.not.satisfyApiSpec;
-            expect(assertion).to.throw('No \'418\' response defined for endpoint \'GET /test/responseStatus\' in OpenAPI spec');
+          it('passes when using .not', function () {
+            expect(res).to.not.satisfyApiSpec;
           });
         });
 
@@ -398,12 +397,11 @@ for (const spec of openApiSpecs) {
 
         it('fails', function () {
           const assertion = () => expect(res).to.satisfyApiSpec;
-          expect(assertion).to.throw('No \'/does/not/exist\' path defined in OpenAPI spec');
+          expect(assertion).to.throw(AssertionError, 'No \'/does/not/exist\' path defined in OpenAPI spec');
         });
 
-        it('fails when using .not', function () {
-          const assertion = () => expect(res).to.not.satisfyApiSpec;
-          expect(assertion).to.throw('No \'/does/not/exist\' path defined in OpenAPI spec');
+        it('passes when using .not', function () {
+          expect(res).to.not.satisfyApiSpec;
         });
       });
 
@@ -418,12 +416,11 @@ for (const spec of openApiSpecs) {
 
         it('fails', function () {
           const assertion = () => expect(res).to.satisfyApiSpec;
-          expect(assertion).to.throw('No \'HEAD\' method defined for path \'/test/HTTPMethod\' in OpenAPI spec');
+          expect(assertion).to.throw(AssertionError, 'No \'HEAD\' method defined for path \'/test/HTTPMethod\' in OpenAPI spec');
         });
 
-        it('fails when using .not', function () {
-          const assertion = () => expect(res).to.not.satisfyApiSpec;
-          expect(assertion).to.throw('No \'HEAD\' method defined for path \'/test/HTTPMethod\' in OpenAPI spec');
+        it('passes when using .not', function () {
+          expect(res).to.not.satisfyApiSpec;
         });
       });
     });

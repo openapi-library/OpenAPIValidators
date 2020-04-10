@@ -16,7 +16,7 @@ const openApiSpecs = [
   },
 ];
 
-const { expect } = chai;
+const { expect, AssertionError } = chai;
 
 for (const spec of openApiSpecs) {
   const { openApiVersion, pathToApiSpec } = spec;
@@ -368,13 +368,13 @@ for (const spec of openApiSpecs) {
       it('fails', function () {
         const assertion = () =>
           expect(obj).to.satisfySchemaInApiSpec('NonExistentSchema');
-        expect(assertion).to.throw('No schema named \'NonExistentSchema\' in OpenAPI spec');
+        expect(assertion).to.throw(AssertionError, 'The argument to satisfySchemaInApiSpec must match a schema in your API spec');
       });
 
       it('fails when using .not', function () {
         const assertion = () =>
-          expect(obj).to.satisfySchemaInApiSpec('NonExistentSchema');
-        expect(assertion).to.throw('No schema named \'NonExistentSchema\' in OpenAPI spec');
+          expect(obj).to.not.satisfySchemaInApiSpec('NonExistentSchema');
+        expect(assertion).to.throw(AssertionError, 'The argument to satisfySchemaInApiSpec must match a schema in your API spec');
       });
     });
 
