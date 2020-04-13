@@ -1,6 +1,6 @@
 # Contribution Guidelines
 
-We encourage you to contribute to this open source project. This should be as easy as possible for you, but please follow the guidelines here. Following them shows that you respect the time of the developers managing and developing this project. In return, they should reciprocate that respect in addressing your issue or assessing patches and features.
+It should be easy for you to contribute to this open source project. Please follow these guidelines.
 
 ## Table of Contents
 
@@ -12,35 +12,31 @@ We encourage you to contribute to this open source project. This should be as ea
 
 ## Raising Issues
 
-When raising an issue, use the most appropriate issue template, and follow these guidelines:
-
-
 ### Bug Reports
 
-A bug is a **demonstrable problem** that is caused by the code in the repository.
+A bug is a **recreatable** problem that is caused by the code in the repository.
 
 Guidelines for bug reports:
 
-1. **Use [the GitHub issue search](https://github.com/RuntimeTools/chai-openapi-response-validator/issues)** &mdash; check if the issue has already been reported.
+1. **[Check if the issue has already been reported](https://github.com/RuntimeTools/chai-openapi-response-validator/issues)**
 2. **Check if the issue has been fixed** &mdash; try to reproduce it using the latest `master` or development branch in the repository.
-3. **Isolate the problem** &mdash; create a test case to demonstrate your issue. Provide either a repo, gist, or code sample to demonstrate you problem.
-
-A good bug report shouldn't leave others needing to chase you up for more information. Please try to be as detailed as possible in your report. What is your environment? What steps will reproduce the issue? What would you expect to be the outcome? All these details will help people to fix any potential bugs.
+3. **Write a test recreating the bug** &mdash; [use this template to get started quickly](https://github.com/RuntimeTools/chai-openapi-response-validator/blob/master/test/unit/bug-recreation-template.test.js).
 
 
 ### Feature Requests
 
-Feature requests are welcome. But take a moment to find out whether your idea fits with the scope and aims of the project. It's up to *you* to make a strong case to convince the project's developers of the merits of this feature. Please provide as much detail and context as possible.
+Feature requests are welcome. Provide clear reasons for why/how/when you'd use the new feature.
+
+Consider whether your idea fits with the scope and aims of the project. It's up to *you* to convince the project's developers of the merits of this feature.
 
 
 ## Pull Requests
 
-- Good PRs are a fantastic help. PRs for assertions, bug fixes, enhancing the interfaces, increasing test coverage are always welcome.
-- Please adhere to the coding conventions used throughout a project (indentation, accurate comments, etc.) and any other requirements (e.g. linter and test coverage checks). PRs are scrutinized for coding-style. All source code files include the Apache v2.0 license header.
-- PRs should remain focused in scope and avoid containing unrelated commits.
+- Good PRs are a fantastic help. PRs for assertions, bug fixes, documentation, and testing are always welcome.
+- Please adhere to the coding conventions used throughout a project (indentation, accurate comments, etc.) and any other requirements (e.g. linter and test coverage checks).
+- PRs should remain focused in scope and not contain unrelated commits.
 - **Please ask first** before embarking on any significant pull request (e.g. implementing features, refactoring code), otherwise you risk spending a lot of time working on something that the project's developers might not want to merge into the project.
-- **IMPORTANT**: In order for us to accept pull requests from a new contributor, the contributor must indicate that they accept and agree to be bound by the terms of the IBM Contributor License Agreement below. Please do this by adding your name to the [AUTHORS file](https://github.com/RuntimeTools/chai-openapi-response-validator/blob/master/AUTHORS.md)
-in your first pull request.
+- **IMPORTANT**: if this is your first pull request for this project, please add your name to the [AUTHORS file](https://github.com/RuntimeTools/chai-openapi-response-validator/blob/master/AUTHORS.md) in the pull request, which indicates that you accept the IBM Contributor License Agreement [below](#IBM-Contributor-License-Agreement).
 
 Follow this process if you'd like your work considered for inclusion in the project:
 
@@ -49,8 +45,10 @@ Follow this process if you'd like your work considered for inclusion in the proj
 ```bash
 # Clone your fork of the repo into the current directory
 git clone https://github.com/<your-username>/<repo-name>
+
 # Navigate to the newly cloned directory
 cd <repo-name>
+
 # Assign the original repo to a remote called "upstream"
 git remote add upstream https://github.com/<upstream-owner>/<repo-name>
 ```
@@ -86,13 +84,13 @@ npm run test:mutation
 # run eslint check
 npm run lint
 
-# run all checks: linting, tests, code coverage, and mutation testing
+# run all the above checks
 npm run test:full
 ```
 
 5. Commit your changes in logical chunks. Use Git's [interactive rebase](https://help.github.com/articles/interactive-rebase) feature to tidy up your commits before making them public.
 
-    - We use [Husky](https://github.com/typicode/husky) to run code-quality checks on every commit and push. This informs you early on if your code is not ready to be saved in Git history. If a commit or push fails a check, just address the problem, then commit or push again.
+    - We use [Husky](https://github.com/typicode/husky) to run code-quality checks on every commit. This informs you early on if your code is not ready to be saved in Git history. If a commit fails a check, fix the problem then commit again.
 
 6. Locally merge (or rebase) the upstream development branch into your topic branch:
 

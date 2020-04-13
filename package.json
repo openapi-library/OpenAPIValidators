@@ -6,8 +6,8 @@
   "types": "index.d.ts",
   "scripts": {
     "test": "mocha test --recursive --exit",
-    "test:coverage": "nyc npm test && nyc report --reporter=html && nyc check-coverage --statements 100 --branches 100 --functions 100 --lines 100",
-    "test:coverage:browse": "npm run test:coverage; open coverage/index.html",
+    "test:coverage": "nyc npm test && nyc report --reporter=lcov && nyc check-coverage --statements 100 --branches 100 --functions 100 --lines 100",
+    "test:coverage:browse": "npm run test:coverage; open coverage/lcov-report/index.html",
     "test:mutation": "stryker run",
     "test:full": "npm run lint && npm run test:coverage && npm run test:mutation",
     "lint": "eslint .",
@@ -23,7 +23,7 @@
     "Jonny Spruce <jspruce94@gmail.com>",
     "rwalle61 <richard.lh.waller@gmail.com>"
   ],
-  "license": "MIT",
+  "license": "Apache-2.0",
   "keywords": [
     "chai",
     "chai-plugin",
@@ -60,6 +60,7 @@
     "supertest": "^4.0.2"
   },
   "dependencies": {
+    "compress-tag": "^2.0.0",
     "fs-extra": "^8.0.1",
     "js-yaml": "^3.13.1",
     "openapi-response-validator": "^3.8.1",

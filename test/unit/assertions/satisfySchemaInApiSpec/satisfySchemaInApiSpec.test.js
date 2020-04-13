@@ -1,9 +1,11 @@
 const chai = require('chai');
 const path = require('path');
-const { inspect } = require('util');
+const util = require('util');
+const { c } = require('compress-tag');
 
-const chaiResponseValidator = require('../../..');
+const chaiResponseValidator = require('../../../..');
 
+const str = (obj) => util.inspect(obj, { showHidden: false, depth: null });
 const openApiSpecsDir = path.resolve('test', 'resources', 'exampleOpenApiFiles', 'valid', 'satisfySchemaInApiSpec');
 const openApiSpecs = [
   {
@@ -16,7 +18,7 @@ const openApiSpecs = [
   },
 ];
 
-const { expect } = chai;
+const { expect, AssertionError } = chai;
 
 for (const spec of openApiSpecs) {
   const { openApiVersion, pathToApiSpec } = spec;
@@ -31,6 +33,7 @@ for (const spec of openApiSpecs) {
 
       describe('be a string', function () {
         const schemaName = 'StringSchema';
+        const expectedSchema = { type: 'string' };
 
         describe('\'obj\' satisfies the spec', function () {
           const validObj = 'string';
@@ -43,8 +46,9 @@ for (const spec of openApiSpecs) {
             const assertion = () =>
               expect(validObj).to.not.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
-              `expected object not to satisfy schema '${schemaName}'`
-                + ` defined in OpenAPI spec\nobject: ${inspect(validObj)}`
+              c`expected object not to satisfy the '${schemaName}' schema defined in your API spec
+              \nobject was: 'string'
+            \n\nThe '${schemaName}' schema in API spec: ${str(expectedSchema)}`
             );
           });
         });
@@ -56,16 +60,10 @@ for (const spec of openApiSpecs) {
             const assertion = () =>
               expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
-              `expected object to satisfy schema '${schemaName}' defined in API spec:\n${inspect({
-                message: 'The object was not valid.',
-                errors: [
-                  {
-                    errorCode: 'type.openapi.objectValidation',
-                    message: 'object should be string',
-                  },
-                ],
-                actualObject: invalidObj,
-              })}`
+              c`expected object to satisfy the '${schemaName}' schema defined in your API spec
+              \nobject did not satisfy it because: object should be string
+            \n\nobject was: 123
+            \n\nThe '${schemaName}' schema in API spec: ${str(expectedSchema)}`
             );
           });
 
@@ -77,6 +75,7 @@ for (const spec of openApiSpecs) {
 
       describe('be an integer', function () {
         const schemaName = 'IntegerSchema';
+        const expectedSchema = { type: 'integer' };
 
         describe('\'obj\' satisfies the spec', function () {
           const validObj = 123;
@@ -89,8 +88,9 @@ for (const spec of openApiSpecs) {
             const assertion = () =>
               expect(validObj).to.not.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
-              `expected object not to satisfy schema '${schemaName}'`
-                + ` defined in OpenAPI spec\nobject: ${inspect(validObj)}`
+              c`expected object not to satisfy the '${schemaName}' schema defined in your API spec
+              \nobject was: 123
+            \n\nThe '${schemaName}' schema in API spec: ${str(expectedSchema)}`
             );
           });
         });
@@ -102,16 +102,10 @@ for (const spec of openApiSpecs) {
             const assertion = () =>
               expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
-              `expected object to satisfy schema '${schemaName}' defined in API spec:\n${inspect({
-                message: 'The object was not valid.',
-                errors: [
-                  {
-                    errorCode: 'type.openapi.objectValidation',
-                    message: 'object should be integer',
-                  },
-                ],
-                actualObject: invalidObj,
-              })}`
+              c`expected object to satisfy the '${schemaName}' schema defined in your API spec
+              \nobject did not satisfy it because: object should be integer
+            \n\nobject was: 'should be integer'
+            \n\nThe '${schemaName}' schema in API spec: ${str(expectedSchema)}`
             );
           });
 
@@ -123,6 +117,11 @@ for (const spec of openApiSpecs) {
 
       describe('be a simple object', function () {
         const schemaName = 'SimpleObjectSchema';
+        const expectedSchema = {
+          type: 'object',
+          required: [ 'property1'],
+          properties: { property1: { type: 'string' } },
+        };
 
         describe('\'obj\' satisfies the spec', function () {
           const validObj = { property1: 'string' };
@@ -131,12 +130,12 @@ for (const spec of openApiSpecs) {
             expect(validObj).to.satisfySchemaInApiSpec(schemaName);
           });
 
-          it('fails when using .not', function () {
+          it('fails when using .not and outputs a useful error message', function () {
             const assertion = () =>
               expect(validObj).to.not.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
-              `expected object not to satisfy schema '${schemaName}'`
-                + ` defined in OpenAPI spec\nobject: ${inspect(validObj)}`
+              c`object was: ${str(validObj)}
+            \n\nThe '${schemaName}' schema in API spec: ${str(expectedSchema)}`
             );
           });
         });
@@ -148,16 +147,10 @@ for (const spec of openApiSpecs) {
             const assertion = () =>
               expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
-              `expected object to satisfy schema '${schemaName}' defined in API spec:\n${inspect({
-                message: 'The object was not valid.',
-                errors: [
-                  {
-                    errorCode: 'type.openapi.objectValidation',
-                    message: 'property1 should be string',
-                  },
-                ],
-                actualObject: invalidObj,
-              })}`
+              AssertionError,
+              c`object did not satisfy it because: property1 should be string
+            \n\nobject was: ${str(invalidObj)}
+            \n\nThe '${schemaName}' schema in API spec: ${str(expectedSchema)}`
             );
           });
 
@@ -169,6 +162,13 @@ for (const spec of openApiSpecs) {
 
       describe('satisfy a schema referencing another schema', function () {
         const schemaName = 'SchemaReferencingAnotherSchema';
+        const definitions = openApiVersion === 2 ? 'definitions' : 'components/schemas';
+        const expectedSchema = {
+          required: [ 'property1'],
+          properties: {
+            property1: { '$ref': `#/${definitions}/StringSchema` },
+          },
+        };
 
         describe('\'obj\' satisfies the spec', function () {
           const validObj = { property1: 'string' };
@@ -177,12 +177,13 @@ for (const spec of openApiSpecs) {
             expect(validObj).to.satisfySchemaInApiSpec(schemaName);
           });
 
-          it('fails when using .not', function () {
+          it('fails when using .not and outputs a useful error message', function () {
             const assertion = () =>
               expect(validObj).to.not.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
-              `expected object not to satisfy schema '${schemaName}'`
-                + ` defined in OpenAPI spec\nobject: ${inspect(validObj)}`
+              AssertionError,
+              c`object was: ${str(validObj)}
+            \n\nThe '${schemaName}' schema in API spec: ${str(expectedSchema)}`
             );
           });
         });
@@ -194,16 +195,9 @@ for (const spec of openApiSpecs) {
             const assertion = () =>
               expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
-              `expected object to satisfy schema '${schemaName}' defined in API spec:\n${inspect({
-                message: 'The object was not valid.',
-                errors: [
-                  {
-                    errorCode: 'type.openapi.objectValidation',
-                    message: 'property1 should be string',
-                  },
-                ],
-                actualObject: invalidObj,
-              })}`
+              c`object did not satisfy it because: property1 should be string
+            \n\nobject was: ${str(invalidObj)}
+            \n\nThe '${schemaName}' schema in API spec: ${str(expectedSchema)}`,
             );
           });
 
@@ -227,8 +221,8 @@ for (const spec of openApiSpecs) {
             const assertion = () =>
               expect(validObj).to.not.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
-              `expected object not to satisfy schema '${schemaName}'`
-                + ` defined in OpenAPI spec\nobject: ${inspect(validObj)}`
+              AssertionError,
+              'expected object not to satisfy',
             );
           });
         });
@@ -236,20 +230,12 @@ for (const spec of openApiSpecs) {
         describe('\'obj\' does not satisfy the spec', function () {
           const invalidObj = { property1: 'string', property2: 123 };
 
-          it('fails and outputs a useful error message', function () {
+          it('fails', function () {
             const assertion = () =>
               expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
-              `expected object to satisfy schema '${schemaName}' defined in API spec:\n${inspect({
-                message: 'The object was not valid.',
-                errors: [
-                  {
-                    errorCode: 'type.openapi.objectValidation',
-                    message: 'property2 should be string',
-                  },
-                ],
-                actualObject: invalidObj,
-              })}`
+              AssertionError,
+              'object did not satisfy it because: property2 should be string',
             );
           });
 
@@ -274,8 +260,8 @@ for (const spec of openApiSpecs) {
               const assertion = () =>
                 expect(validObj).to.not.satisfySchemaInApiSpec(schemaName);
               expect(assertion).to.throw(
-                `expected object not to satisfy schema '${schemaName}'`
-                  + ` defined in OpenAPI spec\nobject: ${inspect(validObj)}`
+                AssertionError,
+                'expected object not to satisfy',
               );
             });
           });
@@ -287,24 +273,8 @@ for (const spec of openApiSpecs) {
               const assertion = () =>
                 expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
               expect(assertion).to.throw(
-                `expected object to satisfy schema '${schemaName}' defined in API spec:\n${inspect({
-                  message: 'The object was not valid.',
-                  errors: [
-                    {
-                      errorCode: 'type.openapi.objectValidation',
-                      message: 'property1 should be string',
-                    },
-                    {
-                      errorCode: 'type.openapi.objectValidation',
-                      message: 'property2 should be string',
-                    },
-                    {
-                      errorCode: 'type.openapi.objectValidation',
-                      message: 'object should match some schema in anyOf',
-                    },
-                  ],
-                  actualObject: { property1: 123, property2: 123 },
-                })}`
+                AssertionError,
+                'object did not satisfy it because: property1 should be string, property2 should be string, object should match some schema in anyOf',
               );
             });
 
@@ -328,8 +298,8 @@ for (const spec of openApiSpecs) {
               const assertion = () =>
                 expect(validObj).to.not.satisfySchemaInApiSpec(schemaName);
               expect(assertion).to.throw(
-                `expected object not to satisfy schema '${schemaName}'`
-                  + ` defined in OpenAPI spec\nobject: ${inspect(validObj)}`
+                AssertionError,
+                'expected object not to satisfy',
               );
             });
           });
@@ -341,16 +311,8 @@ for (const spec of openApiSpecs) {
               const assertion = () =>
                 expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
               expect(assertion).to.throw(
-                `expected object to satisfy schema '${schemaName}' defined in API spec:\n${inspect({
-                  message: 'The object was not valid.',
-                  errors: [
-                    {
-                      errorCode: 'type.openapi.objectValidation',
-                      message: 'object should match exactly one schema in oneOf',
-                    },
-                  ],
-                  actualObject: invalidObj,
-                })}`
+                AssertionError,
+                'object did not satisfy it because: object should match exactly one schema in oneOf',
               );
             });
 
@@ -368,13 +330,19 @@ for (const spec of openApiSpecs) {
       it('fails', function () {
         const assertion = () =>
           expect(obj).to.satisfySchemaInApiSpec('NonExistentSchema');
-        expect(assertion).to.throw('No schema named \'NonExistentSchema\' in OpenAPI spec');
+        expect(assertion).to.throw(
+          AssertionError,
+          'The argument to satisfySchemaInApiSpec must match a schema in your API spec',
+        );
       });
 
       it('fails when using .not', function () {
         const assertion = () =>
-          expect(obj).to.satisfySchemaInApiSpec('NonExistentSchema');
-        expect(assertion).to.throw('No schema named \'NonExistentSchema\' in OpenAPI spec');
+          expect(obj).to.not.satisfySchemaInApiSpec('NonExistentSchema');
+        expect(assertion).to.throw(
+          AssertionError,
+          'The argument to satisfySchemaInApiSpec must match a schema in your API spec',
+        );
       });
     });
 

@@ -5,8 +5,11 @@
 [![Build Status](https://travis-ci.com/RuntimeTools/chai-openapi-response-validator.svg?branch=master)](https://travis-ci.com/RuntimeTools/chai-openapi-response-validator)
 ![dependencies](https://img.shields.io/david/RuntimeTools/chai-openapi-response-validator)
 ![style](https://img.shields.io/badge/code%20style-airbnb-ff5a5f.svg)
+[![codecov](https://codecov.io/gh/RuntimeTools/chai-openapi-response-validator/branch/master/graph/badge.svg)](https://codecov.io/gh/RuntimeTools/chai-openapi-response-validator)
 
 Simple Chai support for asserting that HTTP responses satisfy an OpenAPI spec.
+
+In your JavaScript tests, simply assert [`expect(responseObject).to.satisfyApiSpec`](#in-api-tests-validate-the-status-and-body-of-http-responses-against-your-openapi-spec)
 
 ## How does this help?
 
@@ -103,7 +106,6 @@ paths:
 };
 ```
 
-
 ##### The assertion fails if the response body is invalid:
 
 ```javascript
@@ -118,29 +120,36 @@ paths:
 ```
 
 ###### Output from test failure:
-
 ```javascript
-AssertionError: expected res to satisfy API spec:
-{
-  message: 'The response was not valid.',
-  errors: [
-    {
-      path: 'integerProperty',
-      errorCode: 'type.openapi.responseValidation',
-      message: 'integerProperty should be integer'
-    }
-  ],
-  actualResponse: {
-    status: 200,
-    body: {
+AssertionError: expected res to satisfy API spec
+
+expected res to satisfy the '200' response defined for endpoint 'GET /example/endpoint' in your API spec
+res did not satisfy it because: integerProperty should be integer
+
+res contained: {
+  body: {
       stringProperty: 'string',
       integerProperty: 'invalid (should be an integer)'
     }
   }
 }
+
+The '200' response defined for endpoint 'GET /example/endpoint' in API spec: {
+  '200': {
+    description: 'Response body should be a string',
+    content: {
+      'application/json': {
+        schema: {
+          type: 'string'
+        }
+      }
+    }
+  },
+}
 ```
 
 ### In unit tests, validate objects against schemas defined in your OpenAPI spec:
+
 #### 1. Write a test:
 ```javascript
 // Set up Chai
@@ -222,18 +231,28 @@ components:
 
 ```javascript
 AssertionError: expected object to satisfy schema 'ExampleSchemaObject' defined in API spec:
-{
-  message: 'The object was not valid.',
-  errors: [
-    {
-      errorCode: 'type.openapi.objectValidation',
-      message: 'stringProperty should be string'
-    }
-  ],
-  actualObject: {
+object did not satisfy it because: stringProperty should be string
+
+object was: {
     {
       stringProperty: 123,
       integerProperty: 123
+    }
+  }
+}
+
+The 'ExampleSchemaObject' schema in API spec: {
+  type: 'object',
+  required: [
+    'stringProperty'
+    'integerProperty'
+  ],
+  properties: {
+    stringProperty: {
+      type: 'string'
+    },
+    integerProperty: {
+      type: 'integer'
     }
   }
 }
@@ -349,9 +368,39 @@ import chai from 'chai';
 import chaiResponseValidator from 'chai-openapi-response-validator';
 ```
 
+### Using this plugin with different test runners:
+
+#### Mocha ([see above](#usage))
+
+#### Jest
+Import `chai` and this plugin as you would in Mocha, then use `chai.expect` instead of Jest's global `expect`:
+```javascript
+// Set up Chai with this plugin
+const chai = require('chai');
+const chaiResponseValidator = require('chai-openapi-response-validator');
+chai.use(chaiResponseValidator('path/to/openapi.yml'));
+
+// Write your test
+describe('GET /example/endpoint', function() {
+  it('should satisfy OpenAPI spec', async function() {
+
+    // Get an HTTP response from your server (e.g. using axios)
+    const res = await axios.get('http://localhost:3000/example/endpoint');
+
+    // You can still use Jests's global `expect`
+    expect(res.status).toBe(200);
+
+    // But use Chai's `expect` to use our plugin
+    chai.expect(res).to.satisfyApiSpec;
+  });
+});
+```
+We are open to writing a Jest matcher if there is demand for it. Please let us know by [raising an issue](https://github.com/RuntimeTools/chai-openapi-response-validator/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=)!
 
 ## Contributing
 
 Thank you very much for considering to contribute!
 
-Please make sure you follow our [Code Of Conduct](https://github.com/RuntimeTools/chai-openapi-response-validator/blob/master/CODE_OF_CONDUCT.md) and we also strongly recommend reading our [Contributing Guide](https://github.com/RuntimeTools/chai-openapi-response-validator/blob/master/CONTRIBUTING.md).
+We appreciate [bug reports](https://github.com/RuntimeTools/chai-openapi-response-validator/issues/new?assignees=&labels=bug&template=bug_report.md&title=), [feature requests](https://github.com/RuntimeTools/chai-openapi-response-validator/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=), doc updates, fixing [open issues](https://github.com/RuntimeTools/chai-openapi-response-validator/issues), and other contributions.
+
+Please make sure you follow our [Code Of Conduct](https://github.com/RuntimeTools/chai-openapi-response-validator/blob/master/CODE_OF_CONDUCT.md) and read our [Contributing Guide](https://github.com/RuntimeTools/chai-openapi-response-validator/blob/master/CONTRIBUTING.md).
