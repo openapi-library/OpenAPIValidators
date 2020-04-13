@@ -22,14 +22,14 @@
       "type": "integer"
     },
     "SchemaReferencingAnotherSchema": {
+      "required": [
+        "property1"
+      ],
       "properties": {
         "property1": {
           "$ref": "#/definitions/StringSchema"
         }
-      },
-      "required": [
-        "property1"
-      ]
+      }
     },
     "SchemaUsingAllOf": {
       "allOf": [
@@ -42,15 +42,15 @@
       ]
     },
     "SimpleObjectSchema": {
+      "type": "object",
+      "required": [
+        "property1"
+      ],
       "properties": {
         "property1": {
           "type": "string"
         }
-      },
-      "required": [
-        "property1"
-      ],
-      "type": "object"
+      }
     },
     "SimpleObjectSchemaWithDifferentPropertyName": {
       "properties": {

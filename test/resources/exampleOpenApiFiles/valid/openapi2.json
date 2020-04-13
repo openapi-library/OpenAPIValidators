@@ -6,8 +6,48 @@
     "version": "0.1.0"
   },
   "paths": {
+    "/test/responseBody/string": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Response body should be a string",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/test/responseBody/boolean": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Response body should be a boolean",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
     "/test/HTTPMethod": {
       "get": {
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        }
+      },
+      "post": {
         "parameters": [],
         "responses": {
           "204": {
@@ -142,7 +182,7 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Response body references a schema object",
+            "description": "Response body references a simple schema object",
             "schema": {
               "$ref": "#/definitions/StringSchema"
             }
@@ -150,7 +190,7 @@
         }
       }
     },
-    "/test/responseBody/string": {
+    "/test/responseBody/object/withMultipleProperties": {
       "get": {
         "produces": [
           "application/json"
@@ -158,25 +198,21 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Response body should be a string",
+            "description": "Response body should be an object with multiple string properties",
             "schema": {
-              "type": "string"
-            }
-          }
-        }
-      }
-    },
-    "/test/responseBody/boolean": {
-      "get": {
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "Response body should be a boolean",
-            "schema": {
-              "type": "boolean"
+              "type": "object",
+              "required": [
+                "property1",
+                "property2"
+              ],
+              "properties": {
+                "property1": {
+                  "type": "string"
+                },
+                "property2": {
+                  "type": "string"
+                }
+              }
             }
           }
         }
@@ -186,6 +222,9 @@
       "get": {
         "parameters": [],
         "responses": {
+          "200": {
+            "description": "No response body"
+          },
           "204": {
             "description": "No response body"
           }
