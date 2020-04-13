@@ -18,10 +18,10 @@ const chai = require('chai');
 const path = require('path');
 const { inspect } = require('util');
 
-const chaiResponseValidator = require('../../..');
+const chaiResponseValidator = require('../../../..');
 
 const dirContainingApiSpec = path.resolve('test/resources/exampleOpenApiFiles/valid/serversDefinedDifferently');
-const { expect } = chai;
+const { expect, AssertionError } = chai;
 
 describe('Using OpenAPI 3 specs that define servers differently', function () {
 
@@ -48,7 +48,7 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
 
       it('fails when using .not', function () {
         const assertion = () => expect(res).to.not.satisfyApiSpec;
-        expect(assertion).to.throw('');
+        expect(assertion).to.throw(AssertionError, '');
       });
     });
     describe('res.req.path does not match any servers', function () {
@@ -63,12 +63,17 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
 
       it('fails', function () {
         const assertion = () => expect(res).to.satisfyApiSpec;
-        expect(assertion).to.throw('No server matching \'nonExistentServer/test/responseBody/string\' path defined in OpenAPI spec');
+        expect(assertion).to.throw(
+          'expected res to satisfy API spec'
+        + '\n\nexpected res to satisfy a \'200\' response defined for endpoint \'GET nonExistentServer/test/responseBody/string\' in your API spec'
+        + '\nres had request path \'nonExistentServer/test/responseBody/string\', but your API spec has no matching path'
+        + '\n\nPaths found in API spec:'
+          // we don't list servers defined in your API spec because there aren't any
+        );
       });
 
-      it('fails when using .not', function () {
-        const assertion = () => expect(res).to.not.satisfyApiSpec;
-        expect(assertion).to.throw('No server matching \'nonExistentServer/test/responseBody/string\' path defined in OpenAPI spec');
+      it('passes when using .not', function () {
+        expect(res).to.not.satisfyApiSpec;
       });
     });
     describe('res.req.path matches the default server (\'/\') but no endpoint paths', function () {
@@ -83,12 +88,17 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
 
       it('fails', function () {
         const assertion = () => expect(res).to.satisfyApiSpec;
-        expect(assertion).to.throw(`No '/nonExistentEndpointPath' path defined in OpenAPI spec. (Matches servers ${inspect(['/'])} but no 'server/endpointPath' combinations)`);
+        expect(assertion).to.throw(
+          'expected res to satisfy API spec'
+        + '\n\nexpected res to satisfy a \'200\' response defined for endpoint \'GET /nonExistentEndpointPath\' in your API spec'
+        + '\nres had request path \'/nonExistentEndpointPath\', but your API spec has no matching path'
+        + '\n\nPaths found in API spec:'
+          // we don't list servers defined in your API spec because there aren't any
+        );
       });
 
-      it('fails when using .not', function () {
-        const assertion = () => expect(res).to.not.satisfyApiSpec;
-        expect(assertion).to.throw(`No '/nonExistentEndpointPath' path defined in OpenAPI spec. (Matches servers ${inspect(['/'])} but no 'server/endpointPath' combinations)`);
+      it('passes when using .not', function () {
+        expect(res).to.not.satisfyApiSpec;
       });
     });
   });
@@ -116,7 +126,7 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
 
       it('fails when using .not', function () {
         const assertion = () => expect(res).to.not.satisfyApiSpec;
-        expect(assertion).to.throw('');
+        expect(assertion).to.throw(AssertionError, '');
       });
     });
     describe('res.req.path does not match any servers', function () {
@@ -131,12 +141,16 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
 
       it('fails', function () {
         const assertion = () => expect(res).to.satisfyApiSpec;
-        expect(assertion).to.throw('No server matching \'nonExistentServer/test/responseBody/string\' path defined in OpenAPI spec');
+        expect(assertion).to.throw(
+          'expected res to satisfy a \'200\' response defined for endpoint \'GET nonExistentServer/test/responseBody/string\' in your API spec'
+        + '\nres had request path \'nonExistentServer/test/responseBody/string\', but your API spec has no matching path'
+        + '\n\nPaths found in API spec:'
+          // we don't list servers defined in your API spec because there aren't any
+        );
       });
 
-      it('fails when using .not', function () {
-        const assertion = () => expect(res).to.not.satisfyApiSpec;
-        expect(assertion).to.throw('No server matching \'nonExistentServer/test/responseBody/string\' path defined in OpenAPI spec');
+      it('passes when using .not', function () {
+        expect(res).to.not.satisfyApiSpec;
       });
     });
     describe('res.req.path matches the default server (\'/\') but no endpoint paths', function () {
@@ -151,12 +165,16 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
 
       it('fails', function () {
         const assertion = () => expect(res).to.satisfyApiSpec;
-        expect(assertion).to.throw(`No '/nonExistentEndpointPath' path defined in OpenAPI spec. (Matches servers ${inspect(['/'])} but no 'server/endpointPath' combinations)`);
+        expect(assertion).to.throw(
+          'expected res to satisfy a \'200\' response defined for endpoint \'GET /nonExistentEndpointPath\' in your API spec'
+        + '\nres had request path \'/nonExistentEndpointPath\', but your API spec has no matching path'
+        + '\n\nPaths found in API spec:'
+          // we don't list servers defined in your API spec because there aren't any
+        );
       });
 
-      it('fails when using .not', function () {
-        const assertion = () => expect(res).to.not.satisfyApiSpec;
-        expect(assertion).to.throw(`No '/nonExistentEndpointPath' path defined in OpenAPI spec. (Matches servers ${inspect(['/'])} but no 'server/endpointPath' combinations)`);
+      it('passes when using .not', function () {
+        expect(res).to.not.satisfyApiSpec;
       });
     });
   });
@@ -179,12 +197,18 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
 
       it('fails', function () {
         const assertion = () => expect(res).to.satisfyApiSpec;
-        expect(assertion).to.throw('No server matching \'nonExistentServer/test/responseBody/string\' path defined in OpenAPI spec');
+        expect(assertion).to.throw(
+          'expected res to satisfy API spec'
+        + '\n\nexpected res to satisfy a \'200\' response defined for endpoint \'GET nonExistentServer/test/responseBody/string\' in your API spec'
+        + '\nres had request path \'nonExistentServer/test/responseBody/string\', but your API spec has no matching path'
+        + '\n\nPaths found in API spec: /test/responseBody/string'
+        + '\n\n\'nonExistentServer/test/responseBody/string\' matches no servers'
+        + '\n\nServers found in API spec: /relativeServer, /differentRelativeServer' // etc.
+        );
       });
 
-      it('fails when using .not', function () {
-        const assertion = () => expect(res).to.not.satisfyApiSpec;
-        expect(assertion).to.throw('No server matching \'nonExistentServer/test/responseBody/string\' path defined in OpenAPI spec');
+      it('passes when using .not', function () {
+        expect(res).to.not.satisfyApiSpec;
       });
     });
 
@@ -254,7 +278,7 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
 
           it('fails when using .not', function () {
             const assertion = () => expect(res).to.not.satisfyApiSpec;
-            expect(assertion).to.throw('');
+            expect(assertion).to.throw(AssertionError, '');
           });
         });
         describe('res.req.path matches a server but no endpoint paths', function () {
@@ -269,12 +293,17 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
 
           it('fails', function () {
             const assertion = () => expect(res).to.satisfyApiSpec;
-            expect(assertion).to.throw(`No '${serverBasePath}/nonExistentEndpointPath' path defined in OpenAPI spec. (Matches servers ${inspect(expectedMatchingServers)} but no 'server/endpointPath' combinations)`);
+            expect(assertion).to.throw(
+              `expected res to satisfy a '200' response defined for endpoint 'GET ${serverBasePath}/nonExistentEndpointPath' in your API spec`
+            + `\nres had request path '${serverBasePath}/nonExistentEndpointPath', but your API spec has no matching path`
+            + '\n\nPaths found in API spec: /test/responseBody/string'
+            + `\n\n'${serverBasePath}/nonExistentEndpointPath' matches servers ${inspect(expectedMatchingServers)} but no <server/endpointPath> combinations`
+            + '\n\nServers found in API spec: /relativeServer, /differentRelativeServer' // etc.
+            );
           });
 
-          it('fails when using .not', function () {
-            const assertion = () => expect(res).to.not.satisfyApiSpec;
-            expect(assertion).to.throw(`No '${serverBasePath}/nonExistentEndpointPath' path defined in OpenAPI spec. (Matches servers ${inspect(expectedMatchingServers)} but no 'server/endpointPath' combinations)`);
+          it('passes when using .not', function () {
+            expect(res).to.not.satisfyApiSpec;
           });
         });
       });
@@ -304,7 +333,7 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
 
       it('fails when using .not', function () {
         const assertion = () => expect(res).to.not.satisfyApiSpec;
-        expect(assertion).to.throw('');
+        expect(assertion).to.throw(AssertionError, '');
       });
     });
 
@@ -320,12 +349,15 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
 
       it('fails', function () {
         const assertion = () => expect(res).to.satisfyApiSpec;
-        expect(assertion).to.throw(`No '/basePath1/nonExistentEndpointPath' path defined in OpenAPI spec. (Matches servers ${inspect(['http://api.example.com/basePath1'])} but no 'server/endpointPath' combinations)`);
+        expect(assertion).to.throw(
+          AssertionError,
+          `'/basePath1/nonExistentEndpointPath' matches servers ${inspect(['http://api.example.com/basePath1'])}`
+        + ' but no <server/endpointPath> combinations',
+        );
       });
 
-      it('fails when using .not', function () {
-        const assertion = () => expect(res).to.not.satisfyApiSpec;
-        expect(assertion).to.throw(`No '/basePath1/nonExistentEndpointPath' path defined in OpenAPI spec. (Matches servers ${inspect(['http://api.example.com/basePath1'])} but no 'server/endpointPath' combinations)`);
+      it('passes when using .not', function () {
+        expect(res).to.not.satisfyApiSpec;
       });
     });
 
@@ -341,12 +373,14 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
 
       it('fails', function () {
         const assertion = () => expect(res).to.satisfyApiSpec;
-        expect(assertion).to.throw('No server matching \'nonExistentServer/test/responseBody/string\' path defined in OpenAPI spec');
+        expect(assertion).to.throw(
+          AssertionError,
+          '\'nonExistentServer/test/responseBody/string\' matches no servers',
+        );
       });
 
-      it('fails when using .not', function () {
-        const assertion = () => expect(res).to.not.satisfyApiSpec;
-        expect(assertion).to.throw('No server matching \'nonExistentServer/test/responseBody/string\' path defined in OpenAPI spec');
+      it('passes when using .not', function () {
+        expect(res).to.not.satisfyApiSpec;
       });
     });
 
@@ -362,12 +396,14 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
 
       it('fails', function () {
         const assertion = () => expect(res).to.satisfyApiSpec;
-        expect(assertion).to.throw('No server matching \'/test/responseBody/string\' path defined in OpenAPI spec');
+        expect(assertion).to.throw(
+          AssertionError,
+          '\'/test/responseBody/string\' matches no servers'
+        );
       });
 
-      it('fails when using .not', function () {
-        const assertion = () => expect(res).to.not.satisfyApiSpec;
-        expect(assertion).to.throw('No server matching \'/test/responseBody/string\' path defined in OpenAPI spec');
+      it('passes when using .not', function () {
+        expect(res).to.not.satisfyApiSpec;
       });
     });
   });
@@ -395,7 +431,7 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
 
       it('fails when using .not', function () {
         const assertion = () => expect(res).to.not.satisfyApiSpec;
-        expect(assertion).to.throw('');
+        expect(assertion).to.throw(AssertionError, '');
       });
     });
 
@@ -411,12 +447,15 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
 
       it('fails', function () {
         const assertion = () => expect(res).to.satisfyApiSpec;
-        expect(assertion).to.throw(`No '/nonExistentEndpointPath' path defined in OpenAPI spec. (Matches servers ${inspect(['http://api.example.com'])} but no 'server/endpointPath' combinations)`);
+        expect(assertion).to.throw(
+          AssertionError,
+          `'/nonExistentEndpointPath' matches servers ${inspect(['http://api.example.com'])}`
+        + ' but no <server/endpointPath> combinations',
+        );
       });
 
-      it('fails when using .not', function () {
-        const assertion = () => expect(res).to.not.satisfyApiSpec;
-        expect(assertion).to.throw(`No '/nonExistentEndpointPath' path defined in OpenAPI spec. (Matches servers ${inspect(['http://api.example.com'])} but no 'server/endpointPath' combinations)`);
+      it('passes when using .not', function () {
+        expect(res).to.not.satisfyApiSpec;
       });
     });
 
@@ -432,12 +471,14 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
 
       it('fails', function () {
         const assertion = () => expect(res).to.satisfyApiSpec;
-        expect(assertion).to.throw('No server matching \'nonExistentServer/test/responseBody/string\' path defined in OpenAPI spec');
+        expect(assertion).to.throw(
+          AssertionError,
+          '\'nonExistentServer/test/responseBody/string\' matches no servers',
+        );
       });
 
-      it('fails when using .not', function () {
-        const assertion = () => expect(res).to.not.satisfyApiSpec;
-        expect(assertion).to.throw('No server matching \'nonExistentServer/test/responseBody/string\' path defined in OpenAPI spec');
+      it('passes when using .not', function () {
+        expect(res).to.not.satisfyApiSpec;
       });
     });
   });

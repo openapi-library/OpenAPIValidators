@@ -9,6 +9,8 @@
 
 Simple Chai support for asserting that HTTP responses satisfy an OpenAPI spec.
 
+In your JavaScript tests, simply assert [`expect(responseObject).to.satisfyApiSpec`](#in-api-tests-validate-the-status-and-body-of-http-responses-against-your-openapi-spec)
+
 ## How does this help?
 
 If your server's behaviour doesn't match your API documentation, then you need to correct your server, your documentation, or both. The sooner you know the better.
@@ -118,25 +120,31 @@ paths:
 ```
 
 ###### Output from test failure:
-
 ```javascript
-AssertionError: expected res to satisfy API spec:
-{
-  message: 'The response was not valid.',
-  errors: [
-    {
-      path: 'integerProperty',
-      errorCode: 'type.openapi.responseValidation',
-      message: 'integerProperty should be integer'
-    }
-  ],
-  actualResponse: {
-    status: 200,
-    body: {
+AssertionError: expected res to satisfy API spec
+
+expected res to satisfy the '200' response defined for endpoint 'GET /example/endpoint' in your API spec
+res did not satisfy it because: integerProperty should be integer
+
+res contained: {
+  body: {
       stringProperty: 'string',
       integerProperty: 'invalid (should be an integer)'
     }
   }
+}
+
+The '200' response defined for endpoint 'GET /example/endpoint' in API spec: {
+  '200': {
+    description: 'Response body should be a string',
+    content: {
+      'application/json': {
+        schema: {
+          type: 'string'
+        }
+      }
+    }
+  },
 }
 ```
 
@@ -222,18 +230,28 @@ components:
 
 ```javascript
 AssertionError: expected object to satisfy schema 'ExampleSchemaObject' defined in API spec:
-{
-  message: 'The object was not valid.',
-  errors: [
-    {
-      errorCode: 'type.openapi.objectValidation',
-      message: 'stringProperty should be string'
-    }
-  ],
-  actualObject: {
+object did not satisfy it because: stringProperty should be string
+
+object was: {
     {
       stringProperty: 123,
       integerProperty: 123
+    }
+  }
+}
+
+The 'ExampleSchemaObject' schema in API spec: {
+  type: 'object',
+  required: [
+    'stringProperty'
+    'integerProperty'
+  ],
+  properties: {
+    stringProperty: {
+      type: 'string'
+    },
+    integerProperty: {
+      type: 'integer'
     }
   }
 }
@@ -356,7 +374,7 @@ describe('GET /example/endpoint', function() {
   });
 });
 ```
-We would like to support a Jest matcher instead, but haven't had time to write one. If there is demand for it, please let us know by [raising an issue](https://github.com/RuntimeTools/chai-openapi-response-validator/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=). Of course, a PR would be very welcome!
+We are open to writing a Jest matcher if there is demand for it. Please let us know by [raising an issue](https://github.com/RuntimeTools/chai-openapi-response-validator/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=)!
 
 ## Contributing
 
