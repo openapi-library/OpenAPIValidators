@@ -6,4 +6,5 @@ os:
   - windows
 cache: yarn
 script:
-  - npm run test:ci && bash <(curl -s https://codecov.io/bash)
+  - npm run lint
+  # - npm run test:ci && bash <(curl -s https://codecov.io/bash)
