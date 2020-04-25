@@ -5,7 +5,7 @@
     "packages/*"
   ],
   "scripts": {
-    "lint": "pushd packages/chai-openapi-response-validator && npm run lint && popd && pushd packages/jest-openapi && npm run lint && popd",
+    "lint": "(cd packages/chai-openapi-response-validator && npm run lint) && (cd packages/jest-openapi && npm run lint)",
     "test": "(cd packages/chai-openapi-response-validator && npm run test) && (cd packages/jest-openapi && npm run test)",
     "test:precommit": "(cd packages/chai-openapi-response-validator && npm run test:precommit) && (cd packages/jest-openapi && npm run test:precommit)",
     "test:ci": "(cd packages/chai-openapi-response-validator && npm run test:ci) && (cd packages/jest-openapi && npm run test:ci)",
