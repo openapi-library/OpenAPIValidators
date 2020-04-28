@@ -37,7 +37,7 @@
   "bugs": {
     "url": "https://github.com/RuntimeTools/OpenAPIValidators/issues"
   },
-  "homepage": "https://github.com/RuntimeTools/OpenAPIValidators/jest-openapi#readme",
+  "homepage": "https://github.com/RuntimeTools/OpenAPIValidators/tree/master/packages/jest-openapi#readme",
   "files": [
     "index.*",
     "src/**/*"

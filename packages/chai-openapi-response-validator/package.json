@@ -37,7 +37,7 @@
   "bugs": {
     "url": "https://github.com/RuntimeTools/OpenAPIValidators/issues"
   },
-  "homepage": "https://github.com/RuntimeTools/OpenAPIValidators/packages/chai-openapi-response-validator#readme",
+  "homepage": "https://github.com/RuntimeTools/OpenAPIValidators/tree/master/packages/chai-openapi-response-validator#readme",
   "files": [
     "index.*",
     "lib/**/*"

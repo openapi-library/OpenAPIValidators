@@ -27,7 +27,7 @@ Features:
 - Informs you if your OpenAPI spec is invalid
 - Supports responses from `axios`, `request-promise`, `supertest`, `superagent`, and `chai-http`
 - Bundled with a TypeScript Declaration File for [use in TypeScript projects](#using-this-plugin-in-a-typescript-project)
-- Use in [Jest](#usage), or use our [sister package](https://github.com/RuntimeTools/OpenAPIValidators/tree/master/packages/chai-openapi-response-validator) for Mocha and other test runners that support [Chai](https://www.chaijs.com/)
+- Use in [Jest](#usage), or use our [sister package](https://github.com/RuntimeTools/OpenAPIValidators/tree/master/packages/chai-openapi-response-validator#readme) for Mocha and other test runners that support Chai
 
 ## Contributing
 
