@@ -16,11 +16,7 @@
     "lint": "eslint {src,__test__}/**/*.js",
     "lint:fix": "npm run lint -- --fix"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/RuntimeTools/OpenAPIValidators.git",
-    "directory": "packages/jest-openapi"
-  },
+  "repository": "https://github.com/RuntimeTools/OpenAPIValidators/tree/master/packages/jest-openapi",
   "author": "rwalle61 <richard.lh.waller@gmail.com>",
   "contributors": [
     "Jonny Spruce <jspruce94@gmail.com>"
