@@ -2,10 +2,10 @@
 
 [![downloads](https://img.shields.io/npm/dm/chai-openapi-response-validator)](https://www.npmjs.com/package/chai-openapi-response-validator)
 [![npm](https://img.shields.io/npm/v/chai-openapi-response-validator.svg)](https://www.npmjs.com/package/chai-openapi-response-validator)
-[![Build Status](https://travis-ci.com/RuntimeTools/openapi-validators.svg?branch=master)](https://travis-ci.com/RuntimeTools/openapi-validators)
-![dependencies](https://img.shields.io/david/RuntimeTools/openapi-validators)
+[![Build Status](https://travis-ci.com/RuntimeTools/OpenAPIValidators.svg?branch=master)](https://travis-ci.com/RuntimeTools/OpenAPIValidators)
+![dependencies](https://img.shields.io/david/RuntimeTools/OpenAPIValidators)
 ![style](https://img.shields.io/badge/code%20style-airbnb-ff5a5f.svg)
-[![codecov](https://codecov.io/gh/RuntimeTools/openapi-validators/branch/master/graph/badge.svg)](https://codecov.io/gh/RuntimeTools/openapi-validators)
+[![codecov](https://codecov.io/gh/RuntimeTools/OpenAPIValidators/branch/master/graph/badge.svg)](https://codecov.io/gh/RuntimeTools/OpenAPIValidators)
 
 Simple Chai support for asserting that HTTP responses satisfy an OpenAPI spec.
 
@@ -27,11 +27,11 @@ Features:
 - Informs you if your OpenAPI spec is invalid
 - Supports responses from `axios`, `request-promise`, `supertest`, `superagent`, and `chai-http`
 - Bundled with a TypeScript Declaration File for [use in TypeScript projects](#using-this-plugin-in-a-typescript-project)
-- Use in [Mocha](#usage), [Jest](https://github.com/RuntimeTools/openapi-validators/tree/master/packages/jest-openapi) and other test runners
+- Use in [Mocha](#usage), [Jest](https://github.com/RuntimeTools/OpenAPIValidators/tree/master/packages/jest-openapi) and other test runners
 
 ## Contributing
 
-If you've come here to help contribute - thanks! Take a look at the [contributing](https://github.com/RuntimeTools/openapi-validators/blob/master/CONTRIBUTING.md) docs to get started.
+If you've come here to help contribute - thanks! Take a look at the [contributing](https://github.com/RuntimeTools/OpenAPIValidators/blob/master/CONTRIBUTING.md) docs to get started.
 
 ## Installation
 This is an addon plugin for the [Chai Assertion Library](http://chaijs.com). Install via [npm](http://npmjs.org).
