@@ -24,7 +24,7 @@ module.exports = function (filepathOrObject) {
     console.error(
       'Unable to find Jest\'s global expect.'
       + '\nPlease check you have configured jest-openapi correctly.'
-      + '\nSee https://github.com/RuntimeTools/openapi-validators/jest-openapi#usage for help.',
+      + '\nSee https://github.com/RuntimeTools/OpenAPIValidators/jest-openapi#usage for help.',
     );
   }
   /* istanbul ignore next */

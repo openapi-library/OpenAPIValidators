@@ -12,13 +12,13 @@
     "test:mutation": "stryker run",
     "posttest:mutation": "rimraf commonTestResources",
     "test:precommit": "npm run lint && npm run test:coverage",
-    "test:ci": "npm run test:precommit && npm run test:mutation",
+    "test:ci": "npm run test:precommit",
     "lint": "eslint {src,__test__}/**/*.js",
     "lint:fix": "npm run lint -- --fix"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RuntimeTools/openapi-validators.git",
+    "url": "git+https://github.com/RuntimeTools/OpenAPIValidators.git",
     "directory": "packages/jest-openapi"
   },
   "author": "rwalle61 <richard.lh.waller@gmail.com>",
@@ -35,9 +35,9 @@
     "assertions"
   ],
   "bugs": {
-    "url": "https://github.com/RuntimeTools/openapi-validators/issues"
+    "url": "https://github.com/RuntimeTools/OpenAPIValidators/issues"
   },
-  "homepage": "https://github.com/RuntimeTools/openapi-validators/jest-openapi#readme",
+  "homepage": "https://github.com/RuntimeTools/OpenAPIValidators/jest-openapi#readme",
   "files": [
     "index.*",
     "src/**/*"
