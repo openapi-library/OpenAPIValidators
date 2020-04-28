@@ -1,0 +1,19 @@
+plugins:
+  - mocha
+  - chai-friendly
+
+env:
+  mocha: true
+
+rules:
+  prefer-arrow-callback: 0
+  no-unused-expressions: 0
+  chai-friendly/no-unused-expressions: error
+  mocha/no-mocha-arrows: error
+  mocha/no-exclusive-tests: error
+  mocha/no-async-describe: error
+  mocha/no-nested-tests: error
+  mocha/no-top-level-hooks: error
+  mocha/max-top-level-suites:
+    - warn
+    - limit: 1

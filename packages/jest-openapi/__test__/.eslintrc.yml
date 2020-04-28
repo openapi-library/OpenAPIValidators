@@ -1,0 +1,10 @@
+plugins:
+  - jest
+extends:
+  - plugin:jest/all
+env:
+  jest/globals: true
+rules:
+  jest/prefer-expect-assertions: off
+  jest/no-disabled-tests: warn
+  jest/lowercase-name: off

@@ -1,5 +1,4 @@
 env:
-  browser: true
   es6: true
   node: true
 extends:
@@ -43,3 +42,8 @@ rules:
     - error
   prefer-const:
     - error
+  func-names: 0
+  max-len:
+    - off
+    - code: 100
+      ignoreComments: true

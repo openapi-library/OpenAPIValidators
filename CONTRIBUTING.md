@@ -1,8 +1,9 @@
 # Contribution Guidelines
 
-It should be easy for you to contribute to this open source project. Please follow these guidelines.
+Thanks for being willing to contribute!
 
-## Table of Contents
+
+We appreciate [bug reports](https://github.com/RuntimeTools/openapi-validators/issues/new?assignees=&labels=bug&template=bug_report.md&title=), [feature requests](https://github.com/RuntimeTools/openapi-validators/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=), doc updates, fixing [open issues](https://github.com/RuntimeTools/openapi-validators/issues), and other contributions. Please follow our [Code Of Conduct](https://github.com/RuntimeTools/openapi-validators/blob/master/CODE_OF_CONDUCT.md) and the guide below.
 
 - [Raising Issues](#raising-issues)
   - [Bug Reports](#bug-reports)
@@ -18,9 +19,9 @@ A bug is a **recreatable** problem that is caused by the code in the repository.
 
 Guidelines for bug reports:
 
-1. **[Check if the issue has already been reported](https://github.com/RuntimeTools/chai-openapi-response-validator/issues)**
+1. **[Check if the issue has already been reported](https://github.com/RuntimeTools/openapi-validators/issues)**
 2. **Check if the issue has been fixed** &mdash; try to reproduce it using the latest `master` or development branch in the repository.
-3. **Write a test recreating the bug** &mdash; [use this template to get started quickly](https://github.com/RuntimeTools/chai-openapi-response-validator/blob/master/test/unit/bug-recreation-template.test.js).
+3. **Write a test recreating the bug** &mdash; [use this template to get started quickly](https://github.com/RuntimeTools/openapi-validators/packages/chai-openapi-response-validator/blob/master/test/unit/bug-recreation-template.test.js).
 
 
 ### Feature Requests
@@ -36,9 +37,9 @@ Consider whether your idea fits with the scope and aims of the project. It's up 
 - Please adhere to the coding conventions used throughout a project (indentation, accurate comments, etc.) and any other requirements (e.g. linter and test coverage checks).
 - PRs should remain focused in scope and not contain unrelated commits.
 - **Please ask first** before embarking on any significant pull request (e.g. implementing features, refactoring code), otherwise you risk spending a lot of time working on something that the project's developers might not want to merge into the project.
-- **IMPORTANT**: if this is your first pull request for this project, please add your name to the [AUTHORS file](https://github.com/RuntimeTools/chai-openapi-response-validator/blob/master/AUTHORS.md) in the pull request, which indicates that you accept the IBM Contributor License Agreement [below](#IBM-Contributor-License-Agreement).
+- **IMPORTANT**: if this is your first pull request for this project, please add your name to the [AUTHORS file](https://github.com/RuntimeTools/openapi-validators/blob/master/AUTHORS.md) in the pull request, which indicates that you accept the IBM Contributor License Agreement [below](#IBM-Contributor-License-Agreement).
 
-Follow this process if you'd like your work considered for inclusion in the project:
+Follow this process if you'd like to work on this project:
 
 1. [Fork](http://help.github.com/fork-a-repo/) the project, clone your fork, and configure the remotes:
 
@@ -68,6 +69,7 @@ git checkout -b <topic-branch-name>
 
 4. Test that your code works:
 
+To test changes to a particular package, you can run these from within the `package/<packageName>` dir (e.g. `package/jest-openapi`):
 ```bash
 # run all tests
 npm test
@@ -85,7 +87,28 @@ npm run test:mutation
 npm run lint
 
 # run all the above checks
-npm run test:full
+npm run test:ci
+```
+
+To test that the shared logic between packages (e.g. the test resources) still works, you can run these from the root dir:
+```bash
+# run all tests
+npm test
+
+# run all tests, with coverage check
+npm run test:coverage
+
+# run all tests, with coverage check, and opens the coverage report in your browser
+npm run test:coverage:browse
+
+# run all tests, with Stryker mutation testing
+npm run test:mutation
+
+# run eslint check
+npm run lint
+
+# run all the above checks
+npm run test:ci
 ```
 
 5. Commit your changes in logical chunks. Use Git's [interactive rebase](https://help.github.com/articles/interactive-rebase) feature to tidy up your commits before making them public.
@@ -127,11 +150,5 @@ This agreement applies to all Contributions You Submit.
 
 - You are not expected to provide support for Your Contribution. However you may provide support for free, for a fee or not at all. You provide Your Contribution on an "AS IS" BASIS as stated in the License.
 
-You will promptly notify the Project if You become aware of any facts or circumstances that would make these commitments inaccurate in any way. To do so, please an issue on the project's GitHub [issue tracker](https://github.com/RuntimeTools/chai-openapi-response-validator/issues).
+You will promptly notify the Project if You become aware of any facts or circumstances that would make these commitments inaccurate in any way. To do so, please an issue on the project's GitHub [issue tracker](https://github.com/RuntimeTools/openapi-validators/issues).
 If You think the Project could make use of content which You did not author, please talk to a committer on the Project. If they like Your idea, they will know the process to get it included.
-
-
-
-## Attribution
-
-These Contribution Guidelines are adapted from the Chai Contribution Guidelines, available at https://github.com/chaijs/chai/blob/master/CONTRIBUTING.md

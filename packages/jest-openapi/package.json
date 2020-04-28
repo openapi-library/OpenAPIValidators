@@ -1,0 +1,63 @@
+{
+  "name": "jest-openapi",
+  "version": "0.9.0",
+  "description": "Jest matchers for asserting that HTTP responses satisfy an OpenAPI spec",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:coverage:browse": "npm run test:coverage; open coverage/lcov-report/index.html",
+    "test:mutation": "stryker run",
+    "posttest:mutation": "rimraf commonTestResources",
+    "test:precommit": "npm run lint && npm run test:coverage",
+    "test:ci": "npm run test:precommit && npm run test:mutation",
+    "lint": "eslint {src,__test__}/**/*.js",
+    "lint:fix": "npm run lint -- --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RuntimeTools/openapi-validators.git",
+    "directory": "packages/jest-openapi"
+  },
+  "author": "rwalle61 <richard.lh.waller@gmail.com>",
+  "contributors": [
+    "Jonny Spruce <jspruce94@gmail.com>"
+  ],
+  "license": "Apache-2.0",
+  "keywords": [
+    "jest",
+    "openapi",
+    "testing",
+    "response",
+    "validate",
+    "assertions"
+  ],
+  "bugs": {
+    "url": "https://github.com/RuntimeTools/openapi-validators/issues"
+  },
+  "homepage": "https://github.com/RuntimeTools/openapi-validators/jest-openapi#readme",
+  "files": [
+    "index.*",
+    "src/**/*"
+  ],
+  "devDependencies": {
+    "@stryker-mutator/core": "^3.1.0",
+    "@stryker-mutator/javascript-mutator": "^3.1.0",
+    "@stryker-mutator/jest-runner": "^3.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-jest": "^23.8.2",
+    "express": "^4.17.1",
+    "fs-extra": "^9.0.0",
+    "jest": "^25.4.0",
+    "rimraf": "^3.0.2"
+  },
+  "dependencies": {
+    "compress-tag": "^2.0.0",
+    "jest-matcher-utils": "^25.4.0",
+    "openapi-validator": "^0.9.0"
+  }
+}

@@ -3,7 +3,6 @@ node_js:
   - node
 os:
   - osx
-  - windows
+cache: yarn
 script:
-  - npm run test:full
-  - bash <(curl -s https://codecov.io/bash)
+  - npm run test:ci && bash <(curl -s https://codecov.io/bash)
