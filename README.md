@@ -16,13 +16,13 @@ If your server's behaviour doesn't match your API documentation, then you need t
 These plugin let you automatically test whether your server's behaviour and documentation match. They extend Chai and Jest to support the [OpenAPI standard](https://swagger.io/docs/specification/about/) for documenting REST APIs. In your JavaScript tests, you can simply assert `expect(responseObject).toSatisfyApiSpec()`
 
 
-### [Chai OpenAPI Response Validator](https://github.com/RuntimeTools/OpenAPIValidators/tree/master/packages/chai-openapi-response-validator):
+### [Chai OpenAPI Response Validator](https://github.com/RuntimeTools/OpenAPIValidators/tree/master/packages/chai-openapi-response-validator#readme):
 
 [![downloads](https://img.shields.io/npm/dm/chai-openapi-response-validator)](https://www.npmjs.com/package/chai-openapi-response-validator)
 [![npm](https://img.shields.io/npm/v/chai-openapi-response-validator.svg)](https://www.npmjs.com/package/chai-openapi-response-validator)
 
 
-### [jest-openapi](https://github.com/RuntimeTools/OpenAPIValidators/tree/master/packages/jest-openapi)
+### [jest-openapi](https://github.com/RuntimeTools/OpenAPIValidators/tree/master/packages/jest-openapi#readme)
 
 [![downloads](https://img.shields.io/npm/dm/jest-openapi)](https://www.npmjs.com/package/jest-openapi)
 [![npm](https://img.shields.io/npm/v/jest-openapi.svg)](https://www.npmjs.com/package/jest-openapi)

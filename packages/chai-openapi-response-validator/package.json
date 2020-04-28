@@ -15,11 +15,7 @@
     "lint": "eslint {lib,test}/**/*.js",
     "lint:fix": "npm run lint -- --fix"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/RuntimeTools/OpenAPIValidators.git",
-    "directory": "packages/chai-openapi-response-validator"
-  },
+  "repository": "https://github.com/RuntimeTools/OpenAPIValidators/tree/master/packages/chai-openapi-response-validator",
   "author": "OpenApiChai <openapichai@gmail.com>",
   "contributors": [
     "Jonny Spruce <jspruce94@gmail.com>",
@@ -37,7 +33,7 @@
   "bugs": {
     "url": "https://github.com/RuntimeTools/OpenAPIValidators/issues"
   },
-  "homepage": "https://github.com/RuntimeTools/OpenAPIValidators/packages/chai-openapi-response-validator#readme",
+  "homepage": "https://github.com/RuntimeTools/OpenAPIValidators/tree/master/packages/chai-openapi-response-validator#readme",
   "files": [
     "index.*",
     "lib/**/*"
