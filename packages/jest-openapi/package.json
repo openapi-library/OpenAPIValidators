@@ -12,7 +12,7 @@
     "test:mutation": "stryker run",
     "posttest:mutation": "rimraf commonTestResources",
     "test:precommit": "npm run lint && npm run test:coverage",
-    "test:ci": "npm run test:precommit && npm run test:mutation",
+    "test:ci": "npm run test:precommit",
     "lint": "eslint {src,__test__}/**/*.js",
     "lint:fix": "npm run lint -- --fix"
   },
