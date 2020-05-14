@@ -21,3 +21,6 @@ declare global {
     }
   }
 }
+
+declare function jestOpenAPI(filepathOrObject: string|object): void;
+export = jestOpenAPI;
