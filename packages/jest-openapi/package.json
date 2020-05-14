@@ -1,6 +1,6 @@
 {
   "name": "jest-openapi",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "description": "Jest matchers for asserting that HTTP responses satisfy an OpenAPI spec",
   "main": "index.js",
   "types": "index.d.ts",
