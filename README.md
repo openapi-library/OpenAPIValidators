@@ -13,7 +13,7 @@ If your server's behaviour doesn't match your API documentation, then you need t
 
 ## Solution
 
-These plugin let you automatically test whether your server's behaviour and documentation match. They extend Chai and Jest to support the [OpenAPI standard](https://swagger.io/docs/specification/about/) for documenting REST APIs. In your JavaScript tests, you can simply assert `expect(responseObject).toSatisfyApiSpec()`
+These test plugins let you automatically test whether your server's behaviour and documentation match. They extend Chai and Jest to support the [OpenAPI standard](https://swagger.io/docs/specification/about/) for documenting REST APIs. In your JavaScript tests, you can simply assert `expect(responseObject).toSatisfyApiSpec()`
 
 
 ### [Chai OpenAPI Response Validator](https://github.com/RuntimeTools/OpenAPIValidators/tree/master/packages/chai-openapi-response-validator#readme):
