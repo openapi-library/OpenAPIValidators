@@ -21,3 +21,6 @@ A clear and concise description of any alternative solutions or features you've 
 
 **Additional context**
 Add any other context or screenshots about the feature request here.
+
+**Are you going to resolve the issue?**
+<!--- Feel free to ask for any help and read our [PR guide](https://github.com/RuntimeTools/OpenAPIValidators/blob/master/CONTRIBUTING.md#pull-requests) -->
