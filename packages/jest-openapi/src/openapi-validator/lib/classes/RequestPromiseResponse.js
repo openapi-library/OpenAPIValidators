@@ -4,7 +4,7 @@ class RequestPromiseResponse extends AbstractResponse {
   constructor(res) {
     super(res);
     this.status = res.statusCode;
-    this.body = res.body;
+    this.body = res.request.headers.accept === 'application/json' ? res.body : res.body.replace(/"/g, '');
     this.req = res.req;
     this.bodyHasNoContent = this.body === '';
   }

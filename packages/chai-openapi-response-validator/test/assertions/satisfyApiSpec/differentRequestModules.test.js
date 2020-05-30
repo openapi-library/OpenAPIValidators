@@ -360,6 +360,29 @@ describe('Parsing responses from different request modules', function () {
     after(function () {
       app.server.close();
     });
+    describe('json is set to true, res header is application/json, and res.body is a string', function () {
+      let res;
+      before(async function () {
+        res = await requestPromise({
+          method: 'GET',
+          uri: `${appOrigin}/test/header/application/json/and/responseBody/string`,
+          resolveWithFullResponse: true,
+          json: true,
+        });
+      });
+      it('passes', function () {
+        expect(res).to.satisfyApiSpec;
+      });
+      it('fails when using .not', function () {
+        const assertion = () => expect(res).to.not.satisfyApiSpec;
+        expect(assertion).to.throw(
+          AssertionError,
+          str({
+            body: 'res.body is a string',
+          }),
+        );
+      });
+    });
     describe('res header is application/json, and res.body is a string', function () {
       let res;
       before(async function () {
@@ -378,6 +401,30 @@ describe('Parsing responses from different request modules', function () {
           AssertionError,
           str({
             body: 'res.body is a string',
+          }),
+        );
+      });
+    });
+
+    describe('json is set to true, res header is application/json, and res.body is {}', function () {
+      let res;
+      before(async function () {
+        res = await requestPromise({
+          method: 'GET',
+          uri: `${appOrigin}/test/header/application/json/and/responseBody/emptyObject`,
+          resolveWithFullResponse: true,
+          json: true,
+        });
+      });
+      it('passes', function () {
+        expect(res).to.satisfyApiSpec;
+      });
+      it('fails when using .not', function () {
+        const assertion = () => expect(res).to.not.satisfyApiSpec;
+        expect(assertion).to.throw(
+          AssertionError,
+          str({
+            body: {},
           }),
         );
       });
