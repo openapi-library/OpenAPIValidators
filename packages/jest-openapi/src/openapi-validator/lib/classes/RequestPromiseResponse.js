@@ -10,7 +10,7 @@ class RequestPromiseResponse extends AbstractResponse {
   }
 
   getBodyForValidation() {
-    if (this.hasNoBody()) {
+    if (this.bodyHasNoContent) {
       return null;
     }
     try {

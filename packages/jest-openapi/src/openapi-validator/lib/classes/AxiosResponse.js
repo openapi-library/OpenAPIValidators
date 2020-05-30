@@ -10,7 +10,7 @@ class AxiosResponse extends AbstractResponse {
   }
 
   getBodyForValidation() {
-    if (this.hasNoBody()) {
+    if (this.bodyHasNoContent) {
       return null;
     }
     return this.body;

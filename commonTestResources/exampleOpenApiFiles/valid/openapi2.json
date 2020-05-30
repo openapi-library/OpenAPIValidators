@@ -190,6 +190,46 @@
         }
       }
     },
+    "/test/responseBody/object/depthOver2": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Response body should be nested object",
+            "schema": {
+              "type": "object",
+              "required": [
+                "a"
+              ],
+              "properties": {
+                "a": {
+                  "type": "object",
+                  "required": [
+                    "b"
+                  ],
+                  "properties": {
+                    "b": {
+                      "type": "object",
+                      "required": [
+                        "c"
+                      ],
+                      "properties": {
+                        "c": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/test/responseBody/object/withMultipleProperties": {
       "get": {
         "produces": [

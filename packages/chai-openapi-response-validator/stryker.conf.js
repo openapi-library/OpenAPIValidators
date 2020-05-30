@@ -33,7 +33,7 @@ module.exports = function (config) {
     transpilers: [],
     testFramework: 'mocha',
     coverageAnalysis: 'perTest',
-    thresholds: { high: 100, low: 99, break: 96 },
+    thresholds: { high: 100, low: 99, break: 98 },
     packageManager: 'yarn',
   });
 };

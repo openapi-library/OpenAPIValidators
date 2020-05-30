@@ -22,6 +22,30 @@ paths:
             application/json:
               schema:
                 type: boolean
+  /test/responseBody/object/depthOver2:
+    get:
+      responses:
+        200:
+          description: Response body should be a nested object
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - a
+                properties:
+                  a:
+                    type: object
+                    required:
+                      - b
+                    properties:
+                      b:
+                        type: object
+                        required:
+                          - c
+                        properties:
+                          c:
+                            type: string
   /test/responseBody/object/withMultipleProperties:
     get:
       responses:
