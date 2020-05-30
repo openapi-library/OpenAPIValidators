@@ -363,7 +363,11 @@ describe('Parsing responses from different request modules', function () {
     describe('res header is application/json, and res.body is a string', function () {
       let res;
       before(async function () {
-        res = await supertest(app).get('/test/header/application/json/and/responseBody/string');
+        res = await requestPromise({
+          method: 'GET',
+          uri: `${appOrigin}/test/header/application/json/and/responseBody/string`,
+          resolveWithFullResponse: true,
+        });
       });
       it('passes', function () {
         expect(res).to.satisfyApiSpec;
