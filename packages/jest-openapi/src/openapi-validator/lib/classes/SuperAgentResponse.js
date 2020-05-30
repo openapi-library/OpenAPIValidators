@@ -13,7 +13,7 @@ class SuperAgentResponse extends AbstractResponse {
   }
 
   getBodyForValidation() {
-    if (this.hasNoBody()) {
+    if (this.bodyHasNoContent) {
       return null;
     }
     if (this.isResTextPopulatedInsteadOfResBody) {

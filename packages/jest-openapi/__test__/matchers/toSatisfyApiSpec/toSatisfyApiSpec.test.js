@@ -175,6 +175,35 @@ openApiSpecs.forEach((spec) => {
               );
             });
           });
+
+          describe('be a object with depth of over 2', () => {
+            const nestedObject = {
+              a: {
+                b: {
+                  c: 'valid string',
+                },
+              },
+            };
+            const res = {
+              status: 200,
+              req: {
+                method: 'GET',
+                path: '/test/responseBody/object/depthOver2',
+              },
+              body: nestedObject,
+            };
+
+            it('passes', () => {
+              expect(res).toSatisfyApiSpec();
+            });
+
+            it('fails when using .not', () => {
+              const assertion = () => expect(res).not.toSatisfyApiSpec();
+              expect(assertion).toThrow(
+                `${red('received')} contained: ${red(str({ body: nestedObject }))}`,
+              );
+            });
+          });
         });
 
         describe('res.req.path matches a response referencing a response definition', () => {
