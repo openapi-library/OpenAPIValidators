@@ -19,9 +19,9 @@ const green = jestMatcherUtils.EXPECTED_COLOR;
 
 const dirContainingApiSpec = path.resolve('../../commonTestResources/exampleOpenApiFiles/valid/serversDefinedDifferently');
 
-describe('using OpenAPI 3 specs that define servers differently', () => {
+describe('Using OpenAPI 3 specs that define servers differently', () => {
   describe('spec has no server property', () => {
-    beforeAll(() => { // eslint-disable-line jest/no-hooks
+    beforeAll(() => {
       const pathToApiSpec = path.join(dirContainingApiSpec, 'noServersProperty.yml');
       jestOpenAPI(pathToApiSpec);
     });
@@ -53,7 +53,7 @@ describe('using OpenAPI 3 specs that define servers differently', () => {
   });
 
   describe('spec\'s server property is an empty array', () => {
-    beforeAll(() => { // eslint-disable-line jest/no-hooks
+    beforeAll(() => {
       const pathToApiSpec = path.join(dirContainingApiSpec, 'serversIsEmptyArray.yml');
       jestOpenAPI(pathToApiSpec);
     });

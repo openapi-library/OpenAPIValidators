@@ -42,6 +42,7 @@ openApiSpecs.forEach((spec) => {
     before(function () {
       chai.use(chaiResponseValidator(pathToApiSpec));
     });
+
     describe('when \'res\' is not a valid HTTP response object', function () {
       const res = {
         status: 204,
@@ -187,7 +188,7 @@ openApiSpecs.forEach((spec) => {
             });
           });
 
-          describe('be a object with depth of over 2', function () {
+          describe('be an object with depth of over 2', function () {
             const nestedObject = {
               a: {
                 b: {

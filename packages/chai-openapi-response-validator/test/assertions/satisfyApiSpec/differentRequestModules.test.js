@@ -128,11 +128,13 @@ describe('Parsing responses from different request modules', function () {
       });
       it('fails when using .not', function () {
         const assertion = () => expect(res).to.not.satisfyApiSpec;
-        expect(assertion).to.throw('expected res not to satisfy');
-        expect(assertion).to.throw(str({
-          body: {},
-          text: 'res.body is a string',
-        }));
+        expect(assertion).to.throw(
+          AssertionError,
+          str({
+            body: {},
+            text: 'res.body is a string',
+          }),
+        );
       });
     });
 
@@ -146,11 +148,13 @@ describe('Parsing responses from different request modules', function () {
       });
       it('fails when using .not', function () {
         const assertion = () => expect(res).to.not.satisfyApiSpec;
-        expect(assertion).to.throw('expected res not to satisfy');
-        expect(assertion).to.throw(str({
-          body: {},
-          text: '',
-        }));
+        expect(assertion).to.throw(
+          AssertionError,
+          str({
+            body: {},
+            text: '',
+          }),
+        );
       });
     });
   });
@@ -204,11 +208,13 @@ describe('Parsing responses from different request modules', function () {
       });
       it('fails when using .not', function () {
         const assertion = () => expect(res).to.not.satisfyApiSpec;
-        expect(assertion).to.throw('expected res not to satisfy');
-        expect(assertion).to.throw(str({
-          body: {},
-          text: 'res.body is a string',
-        }));
+        expect(assertion).to.throw(
+          AssertionError,
+          str({
+            body: {},
+            text: 'res.body is a string',
+          }),
+        );
       });
     });
 
@@ -241,11 +247,13 @@ describe('Parsing responses from different request modules', function () {
       });
       it('fails when using .not', function () {
         const assertion = () => expect(res).to.not.satisfyApiSpec;
-        expect(assertion).to.throw('expected res not to satisfy');
-        expect(assertion).to.throw(str({
-          body: {},
-          text: '',
-        }));
+        expect(assertion).to.throw(
+          AssertionError,
+          str({
+            body: {},
+            text: '',
+          }),
+        );
       });
     });
   });
@@ -360,6 +368,7 @@ describe('Parsing responses from different request modules', function () {
     after(function () {
       app.server.close();
     });
+
     describe('json is set to true, res header is application/json, and res.body is a string', function () {
       let res;
       before(async function () {
@@ -383,6 +392,7 @@ describe('Parsing responses from different request modules', function () {
         );
       });
     });
+
     describe('res header is application/json, and res.body is a string', function () {
       let res;
       before(async function () {

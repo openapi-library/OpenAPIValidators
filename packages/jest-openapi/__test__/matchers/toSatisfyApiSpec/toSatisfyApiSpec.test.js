@@ -45,7 +45,7 @@ openApiSpecs.forEach((spec) => {
   const { openApiVersion, pathToApiSpec } = spec;
 
   describe(`expect(res).toSatisfyApiSpec() (using an OpenAPI ${openApiVersion} spec)`, () => {
-    beforeAll(() => { // eslint-disable-line jest/no-hooks
+    beforeAll(() => {
       jestOpenAPI(pathToApiSpec);
     });
     describe('when \'res\' matches a response defined in the API spec', () => {
@@ -176,7 +176,7 @@ openApiSpecs.forEach((spec) => {
             });
           });
 
-          describe('be a object with depth of over 2', () => {
+          describe('be an object with depth of over 2', () => {
             const nestedObject = {
               a: {
                 b: {
