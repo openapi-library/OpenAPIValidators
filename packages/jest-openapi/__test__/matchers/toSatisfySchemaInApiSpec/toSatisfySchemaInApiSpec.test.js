@@ -45,7 +45,7 @@ openApiSpecs.forEach((spec) => {
   const { openApiVersion, pathToApiSpec } = spec;
 
   describe(`expect(obj).toSatisfySchemaInApiSpec(schemaName) (using an OpenAPI ${openApiVersion} spec)`, () => {
-    beforeAll(() => { // eslint-disable-line jest/no-hooks
+    beforeAll(() => {
       jestOpenAPI(pathToApiSpec);
     });
 

@@ -22,7 +22,6 @@ class RequestPromiseResponse extends AbstractResponse {
       // needs parsing into a JSON object, so just move to the next
       // block and return the body
     }
-
     return this.body;
   }
 }

@@ -7,4 +7,8 @@ env:
 rules:
   jest/prefer-expect-assertions: off
   jest/no-disabled-tests: warn
-  jest/lowercase-name: off
+  jest/lowercase-name:
+    - error
+    - ignore:
+      - describe
+  jest/no-hooks: off
