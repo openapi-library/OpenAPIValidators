@@ -2,7 +2,7 @@
 const RequestPromiseResponse = require('../../src/openapi-validator/lib/classes/RequestPromiseResponse');
 
 describe('RequestPromiseResponse', () => {
-  const json = { request: { headers: { accept: 'application/json' } } };
+  const json = { request: { _json: true } };
   describe('response body as object', () => {
     it('should correctly process body', () => {
       const body = { test: 'object' };
