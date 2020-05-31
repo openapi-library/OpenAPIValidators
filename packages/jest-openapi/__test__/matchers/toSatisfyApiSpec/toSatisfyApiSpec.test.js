@@ -48,6 +48,24 @@ openApiSpecs.forEach((spec) => {
     beforeAll(() => {
       jestOpenAPI(pathToApiSpec);
     });
+
+    describe('when \'res\' is not a valid HTTP response object', () => {
+      const res = {
+        status: 204,
+        body: 'should have a \'path\' property',
+      };
+
+      it('fails', () => {
+        const assertion = () => expect(res).toSatisfyApiSpec();
+        expect(assertion).toThrow(TypeError);
+      });
+
+      it('fails when using .not', () => {
+        const assertion = () => expect(res).not.toSatisfyApiSpec();
+        expect(assertion).toThrow(TypeError);
+      });
+    });
+
     describe('when \'res\' matches a response defined in the API spec', () => {
       describe('\'res\' satisfies the spec', () => {
         describe('spec expects res.body to', () => {
