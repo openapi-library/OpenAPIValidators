@@ -19,9 +19,8 @@ A bug is a **recreatable** problem that is caused by the code in the repository.
 
 Guidelines for bug reports:
 
-1. **[Check if the issue has already been reported](https://github.com/RuntimeTools/OpenAPIValidators/issues)**
-2. **Check if the issue has been fixed** &mdash; try to reproduce it using the latest `master` or development branch in the repository.
-3. **Write a test recreating the bug** &mdash; [use this template to get started quickly](https://github.com/RuntimeTools/OpenAPIValidators/blob/master/packages/chai-openapi-response-validator/test/bug-recreation-template.test.js).
+1. **Check if the [issue has already been reported](https://github.com/RuntimeTools/OpenAPIValidators/issues)**
+2. **Recreate the bug** &mdash; clone `master` and write a quick test. You can use our bug recreation template for [`chai-openapi-response-validator`](https://github.com/RuntimeTools/OpenAPIValidators/blob/master/packages/chai-openapi-response-validator/test/bugRecreationTemplate.test.js) or [`jest-openapi`](https://github.com/RuntimeTools/OpenAPIValidators/blob/master/packages/jest-openapi/__test__/bugRecreationTemplate.test.js).
 
 
 ### Feature Requests
