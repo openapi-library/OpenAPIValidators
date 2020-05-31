@@ -4,7 +4,9 @@ class RequestPromiseResponse extends AbstractResponse {
   constructor(res) {
     super(res);
     this.status = res.statusCode;
-    this.body = res.body.replace(/"/g, '');
+    this.body = res.request._json // eslint-disable-line no-underscore-dangle
+      ? res.body
+      : res.body.replace(/"/g, '');
     this.req = res.req;
     this.bodyHasNoContent = this.body === '';
   }
@@ -20,6 +22,7 @@ class RequestPromiseResponse extends AbstractResponse {
       // needs parsing into a JSON object, so just move to the next
       // block and return the body
     }
+
     return this.body;
   }
 }

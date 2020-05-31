@@ -5,3 +5,4 @@ Authors ordered by first contribution:
  - Alex Dobeck (https://github.com/AlexDobeck)
  - Ben Guthrie (https://github.com/BenGu3)
  - Martijn Vegter (https://github.com/mvegter)
+ - Ludek Novy (https://github.com/ludeknovy)
