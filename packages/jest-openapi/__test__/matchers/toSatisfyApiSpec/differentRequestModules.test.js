@@ -1,7 +1,3 @@
-/**
- * @jest-environment node
- */
-
 const path = require('path');
 const { inspect } = require('util');
 
