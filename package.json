@@ -16,7 +16,7 @@
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-jest": "^23.13.2",
-    "eslint-plugin-mocha": "^6.3.0",
+    "eslint-plugin-mocha": "^7.0.1",
     "express": "^4.17.1",
     "husky": "^4.2.5"
   },
