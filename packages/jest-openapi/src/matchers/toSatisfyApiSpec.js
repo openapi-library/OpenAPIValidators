@@ -41,10 +41,9 @@ function getExpectReceivedToSatisfyApiSpecMsg(actualResponse, openApiSpec, valid
       + `\n${RECEIVED_COLOR('received')} had request path ${RECEIVED_COLOR(requestPath)}, but your API spec has no matching path`
       + `\n\nPaths found in API spec: ${EXPECTED_COLOR(openApiSpec.paths().join(', '))}`;
     if (openApiSpec.didUserDefineServers) {
-      const matchingServers = openApiSpec.getMatchingServerUrls(requestPath);
-      msg += (matchingServers.length)
-        ? `\n\n'${requestPath}' matches servers ${stringify(matchingServers)} but no <server/endpointPath> combinations`
-        : `\n\n'${requestPath}' matches no servers`;
+      msg += (validationError.code === 'SERVER_NOT_FOUND')
+        ? `\n\n'${requestPath}' matches no servers`
+        : `\n\n'${requestPath}' matches servers ${stringify(openApiSpec.getMatchingServerUrls(requestPath))} but no <server/endpointPath> combinations`;
       msg += `\n\nServers found in API spec: ${openApiSpec.getServerUrls().join(', ')}`;
     }
     return msg;
