@@ -10,8 +10,8 @@
     "test:coverage:browse": "npm run test:coverage; open coverage/lcov-report/index.html",
     "test:mutation": "stryker run",
     "posttest:mutation": "rimraf commonTestResources",
-    "test:precommit": "npm run lint && npm run test:coverage && npm run test:mutation",
-    "test:ci": "npm run test:precommit",
+    "test:precommit": "npm run lint && npm run test:coverage",
+    "test:ci": "npm run test:precommit && npm run test:mutation",
     "lint": "eslint {lib,test}/**/*.js",
     "lint:fix": "npm run lint -- --fix"
   },
