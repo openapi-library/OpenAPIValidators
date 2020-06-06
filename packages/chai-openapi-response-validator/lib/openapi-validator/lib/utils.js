@@ -1,10 +1,12 @@
-const util = require('util');
+const { inspect } = require('util');
 const { Path: PathParser } = require('path-parser');
 const url = require('url');
 
 const isEmptyObj = (obj) => !!obj
   && Object.entries(obj).length === 0
   && obj.constructor === Object;
+
+const stringify = (obj) => inspect(obj, { depth: null });
 
 const extractPathname = (actualRequest) => {
   const { pathname } = url.parse(actualRequest.path); // excludes the query (because: path = pathname + query)
