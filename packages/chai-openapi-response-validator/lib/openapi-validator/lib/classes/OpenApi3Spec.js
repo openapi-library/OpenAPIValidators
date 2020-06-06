@@ -11,18 +11,9 @@ const serversPropertyNotProvidedOrIsEmptyArray = (spec) => (
 
 const extractBasePath = (inputUrl) => url.parse(inputUrl).path;
 
-const removeBasePathFromPathname = (basePath, pathname) => ((basePath === '/')
+const getPathnameWithoutBasePath = (basePath, pathname) => ((basePath === '/')
   ? pathname
   : pathname.replace(basePath, ''));
-
-const doesOpenApiPathMatchPathname = (openApiPath, pathname, matchingServerBasePaths) => {
-  const pathInColonForm = utils.convertOpenApiPathToColonForm(openApiPath);
-  const openApiPathMatchesPathname = matchingServerBasePaths.some((basePath) => {
-    const pathnameWithoutServerBasePath = removeBasePathFromPathname(basePath, pathname);
-    return utils.doesColonPathMatchPathname(pathInColonForm, pathnameWithoutServerBasePath);
-  });
-  return openApiPathMatchesPathname;
-};
 
 class OpenApi3Spec extends AbstractOpenApiSpec {
   constructor(spec) {
@@ -74,7 +65,10 @@ class OpenApi3Spec extends AbstractOpenApiSpec {
     if (!matchingServerBasePaths.length) {
       throw new ValidationError('SERVER_NOT_FOUND');
     }
-    const openApiPath = this.paths().find((OAPath) => doesOpenApiPathMatchPathname(OAPath, pathname, matchingServerBasePaths));
+    const possiblePathnames = matchingServerBasePaths.map(
+      (basePath) => getPathnameWithoutBasePath(basePath, pathname),
+    );
+    const openApiPath = utils.findOpenApiPathMatchingPossiblePathnames(possiblePathnames, this.paths());
     if (!openApiPath) {
       throw new ValidationError('PATH_NOT_FOUND');
     }
