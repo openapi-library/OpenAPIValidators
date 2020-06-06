@@ -6,10 +6,10 @@ const isEmptyObj = (obj) => !!obj
   && Object.entries(obj).length === 0
   && obj.constructor === Object;
 
-const stringify = (obj) => util.inspect(
-  obj,
-  { showHidden: false, depth: null },
-);
+const extractPathname = (actualRequest) => {
+  const { pathname } = url.parse(actualRequest.path); // excludes the query (because: path = pathname + query)
+  return pathname;
+};
 
 const convertOpenApiPathToColonForm = (openApiPath) => openApiPath
   .replace(/{/g, ':')
@@ -21,15 +21,29 @@ const doesColonPathMatchPathname = (pathInColonForm, pathname) => {
   return Boolean(pathParamsInPathname);
 };
 
-const extractPathname = (actualRequest) => {
-  const { pathname } = url.parse(actualRequest.path); // excludes the query (because: path = pathname + query)
-  return pathname;
+const doesOpenApiPathMatchPathname = (openApiPath, pathname) => {
+  const pathInColonForm = convertOpenApiPathToColonForm(openApiPath);
+  return doesColonPathMatchPathname(pathInColonForm, pathname);
+};
+
+const findOpenApiPathMatchingPossiblePathnames = (possiblePathnames, OAPaths) => {
+  let openApiPath;
+  for (const pathname of possiblePathnames) { // eslint-disable-line no-restricted-syntax
+    for (const OAPath of OAPaths) { // eslint-disable-line no-restricted-syntax
+      if (OAPath === pathname) {
+        return OAPath;
+      }
+      if (doesOpenApiPathMatchPathname(OAPath, pathname)) {
+        openApiPath = OAPath;
+      }
+    }
+  }
+  return openApiPath;
 };
 
 module.exports = {
   isEmptyObj,
   stringify,
-  convertOpenApiPathToColonForm,
-  doesColonPathMatchPathname,
   extractPathname,
+  findOpenApiPathMatchingPossiblePathnames,
 };
