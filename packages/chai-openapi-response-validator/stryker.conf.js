@@ -35,5 +35,6 @@ module.exports = function (config) {
     coverageAnalysis: 'perTest',
     thresholds: { high: 100, low: 99, break: 98 },
     packageManager: 'yarn',
+    maxConcurrentTestRunners: 1,
   });
 };
