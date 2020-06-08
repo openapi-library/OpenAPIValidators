@@ -43,7 +43,7 @@
     "@stryker-mutator/javascript-mutator": "^3.1.0",
     "@stryker-mutator/jest-runner": "^3.1.0",
     "axios": "^0.19.2",
-    "eslint": "^7.1.0",
+    "eslint": "^7.2.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.17.2",
     "eslint-plugin-jest": "^23.13.2",
