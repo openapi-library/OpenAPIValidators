@@ -41,7 +41,7 @@
   "devDependencies": {
     "@stryker-mutator/core": "^3.1.0",
     "@stryker-mutator/javascript-mutator": "^3.1.0",
-    "@stryker-mutator/jest-runner": "^3.1.0",
+    "@stryker-mutator/jest-runner": "^3.2.4",
     "axios": "^0.19.2",
     "eslint": "^7.2.0",
     "eslint-config-airbnb-base": "^14.1.0",
