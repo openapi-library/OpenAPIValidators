@@ -39,7 +39,7 @@
     "src/**/*"
   ],
   "devDependencies": {
-    "@stryker-mutator/core": "^3.1.0",
+    "@stryker-mutator/core": "^3.2.4",
     "@stryker-mutator/javascript-mutator": "^3.1.0",
     "@stryker-mutator/jest-runner": "^3.1.0",
     "axios": "^0.19.2",
