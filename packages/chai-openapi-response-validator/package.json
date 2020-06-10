@@ -42,7 +42,7 @@
     "@stryker-mutator/core": "^3.1.0",
     "@stryker-mutator/javascript-mutator": "^3.1.0",
     "@stryker-mutator/mocha-framework": "^3.1.0",
-    "@stryker-mutator/mocha-runner": "^3.1.0",
+    "@stryker-mutator/mocha-runner": "^3.2.4",
     "axios": "^0.19.2",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
