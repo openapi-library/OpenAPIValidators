@@ -1,4 +1,3 @@
-
 const RequestPromiseResponse = require('../../src/openapi-validator/lib/classes/RequestPromiseResponse');
 
 describe('RequestPromiseResponse', () => {
