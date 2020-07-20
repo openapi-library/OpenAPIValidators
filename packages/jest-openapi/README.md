@@ -355,5 +355,5 @@ You don't need to `npm install --save-dev @types/jest-openapi` because we bundle
 ```
 2. Import like this:
 ```javascript
-import jestOpenAPI from 'jestOpenAPI';
+import jestOpenAPI from 'jest-openapi';
 ```
