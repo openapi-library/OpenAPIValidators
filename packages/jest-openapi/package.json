@@ -50,7 +50,7 @@
     "express": "^4.17.1",
     "fs-extra": "^9.0.1",
     "jest": "^26.1.0",
-    "request-promise": "^4.2.5",
+    "request-promise": "^4.2.6",
     "rimraf": "^3.0.2",
     "supertest": "^4.0.2"
   },
