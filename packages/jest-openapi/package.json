@@ -56,7 +56,7 @@
   },
   "dependencies": {
     "compress-tag": "^2.0.0",
-    "jest-matcher-utils": "^26.3.0",
+    "jest-matcher-utils": "^26.4.1",
     "openapi-validator": "^0.9.0"
   }
 }
