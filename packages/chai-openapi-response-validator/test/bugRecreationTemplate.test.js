@@ -3,7 +3,9 @@ const path = require('path');
 
 const chaiResponseValidator = require('..');
 
-const dirContainingApiSpec = path.resolve('../../commonTestResources/exampleOpenApiFiles/valid/bugRecreationTemplate');
+const dirContainingApiSpec = path.resolve(
+  '../../commonTestResources/exampleOpenApiFiles/valid/bugRecreationTemplate',
+);
 const { expect } = chai;
 
 describe('Recreate bug (issue #XX)', function () {
