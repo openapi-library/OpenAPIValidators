@@ -15,14 +15,31 @@ module.exports = function (received, openApiSpec) {
   const pass = !validationError;
 
   const matcherHintOptions = {
-    comment: 'Matches \'received\' to a response defined in your API spec, then validates \'received\' against it',
+    comment:
+      "Matches 'received' to a response defined in your API spec, then validates 'received' against it",
     isNot: this.isNot,
     promise: this.promise,
   };
-  const hint = matcherHint('toSatisfyApiSpec', undefined, '', matcherHintOptions);
+  const hint = matcherHint(
+    'toSatisfyApiSpec',
+    undefined,
+    '',
+    matcherHintOptions,
+  );
   const message = pass
-    ? () => getExpectReceivedNotToSatisfyApiSpecMsg(actualResponse, openApiSpec, hint)
-    : () => getExpectReceivedToSatisfyApiSpecMsg(actualResponse, openApiSpec, validationError, hint);
+    ? () =>
+        getExpectReceivedNotToSatisfyApiSpecMsg(
+          actualResponse,
+          openApiSpec,
+          hint,
+        )
+    : () =>
+        getExpectReceivedToSatisfyApiSpecMsg(
+          actualResponse,
+          openApiSpec,
+          validationError,
+          hint,
+        );
 
   return {
     pass,
@@ -30,21 +47,32 @@ module.exports = function (received, openApiSpec) {
   };
 };
 
-function getExpectReceivedToSatisfyApiSpecMsg(actualResponse, openApiSpec, validationError, hint) {
+function getExpectReceivedToSatisfyApiSpecMsg(
+  actualResponse,
+  openApiSpec,
+  validationError,
+  hint,
+) {
   const { status, req } = actualResponse;
   const { method, path: requestPath } = req;
 
   if (['PATH_NOT_FOUND', 'SERVER_NOT_FOUND'].includes(validationError.code)) {
     const endpoint = `${method} ${requestPath}`;
+    // prettier-ignore
     let msg = `${hint
-    }\n\nexpected ${RECEIVED_COLOR('received')} to satisfy a '${status}' response defined for endpoint '${endpoint}' in your API spec`
+      }\n\nexpected ${RECEIVED_COLOR('received')} to satisfy a '${status}' response defined for endpoint '${endpoint}' in your API spec`
       + `\n${RECEIVED_COLOR('received')} had request path ${RECEIVED_COLOR(requestPath)}, but your API spec has no matching path`
       + `\n\nPaths found in API spec: ${EXPECTED_COLOR(openApiSpec.paths().join(', '))}`;
     if (openApiSpec.didUserDefineServers) {
-      msg += (validationError.code === 'SERVER_NOT_FOUND')
-        ? `\n\n'${requestPath}' matches no servers`
-        : `\n\n'${requestPath}' matches servers ${stringify(openApiSpec.getMatchingServerUrls(requestPath))} but no <server/endpointPath> combinations`;
-      msg += `\n\nServers found in API spec: ${openApiSpec.getServerUrls().join(', ')}`;
+      msg +=
+        validationError.code === 'SERVER_NOT_FOUND'
+          ? `\n\n'${requestPath}' matches no servers`
+          : `\n\n'${requestPath}' matches servers ${stringify(
+              openApiSpec.getMatchingServerUrls(requestPath),
+            )} but no <server/endpointPath> combinations`;
+      msg += `\n\nServers found in API spec: ${openApiSpec
+        .getServerUrls()
+        .join(', ')}`;
     }
     return msg;
   }
@@ -54,6 +82,7 @@ function getExpectReceivedToSatisfyApiSpecMsg(actualResponse, openApiSpec, valid
 
   if (validationError.code === 'METHOD_NOT_FOUND') {
     const expectedPathItem = openApiSpec.findExpectedPathItem(req);
+    // prettier-ignore
     return c`${hint}
       \n\nexpected ${RECEIVED_COLOR('received')} to satisfy a '${status}' response defined for endpoint '${endpoint}' in your API spec
       \n${RECEIVED_COLOR('received')} had request method ${RECEIVED_COLOR(method)}, but your API spec has no ${RECEIVED_COLOR(method)} operation defined for path '${path}'
@@ -61,8 +90,13 @@ function getExpectReceivedToSatisfyApiSpecMsg(actualResponse, openApiSpec, valid
   }
 
   if (validationError.code === 'STATUS_NOT_FOUND') {
-    const expectedResponseOperation = openApiSpec.findExpectedResponseOperation(req);
-    const expectedResponseStatuses = Object.keys(expectedResponseOperation.responses).join(', ');
+    const expectedResponseOperation = openApiSpec.findExpectedResponseOperation(
+      req,
+    );
+    const expectedResponseStatuses = Object.keys(
+      expectedResponseOperation.responses,
+    ).join(', ');
+    // prettier-ignore
     return c`${hint}
       \n\nexpected ${RECEIVED_COLOR('received')} to satisfy a '${status}' response defined for endpoint '${endpoint}' in your API spec
       \n${RECEIVED_COLOR('received')} had status ${RECEIVED_COLOR(status)}, but your API spec has no ${RECEIVED_COLOR(status)} response defined for endpoint '${endpoint}'
@@ -71,6 +105,7 @@ function getExpectReceivedToSatisfyApiSpecMsg(actualResponse, openApiSpec, valid
 
   // validationError.code === 'INVALID_BODY'
   const responseDefinition = openApiSpec.findExpectedResponse(actualResponse);
+  // prettier-ignore
   return c`${hint}
     \n\nexpected ${RECEIVED_COLOR('received')} to satisfy the '${status}' response defined for endpoint '${endpoint}' in your API spec
     \n${RECEIVED_COLOR('received')} did not satisfy it because: ${validationError}
@@ -78,11 +113,18 @@ function getExpectReceivedToSatisfyApiSpecMsg(actualResponse, openApiSpec, valid
     \n\nThe '${status}' response defined for endpoint '${endpoint}' in API spec: ${EXPECTED_COLOR(stringify(responseDefinition))}`;
 }
 
-function getExpectReceivedNotToSatisfyApiSpecMsg(actualResponse, openApiSpec, hint) {
+function getExpectReceivedNotToSatisfyApiSpecMsg(
+  actualResponse,
+  openApiSpec,
+  hint,
+) {
   const { status, req } = actualResponse;
   const responseDefinition = openApiSpec.findExpectedResponse(actualResponse);
-  const endpoint = `${req.method} ${openApiSpec.findOpenApiPathMatchingRequest(req)}`;
+  const endpoint = `${req.method} ${openApiSpec.findOpenApiPathMatchingRequest(
+    req,
+  )}`;
 
+  // prettier-ignore
   return c`${hint}
     \n\nexpected ${RECEIVED_COLOR('received')} not to satisfy the '${status}' response defined for endpoint '${endpoint}' in your API spec
     \n\n${RECEIVED_COLOR('received')} contained: ${RECEIVED_COLOR(actualResponse.toString())}

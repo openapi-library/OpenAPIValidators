@@ -10,7 +10,8 @@ const expectReceivedToSatisfySchemaInApiSpec = jestMatcherUtils.matcherHint(
   undefined,
   'schemaName',
   {
-    comment: 'Matches \'received\' to a schema defined in your API spec, then validates \'received\' against it',
+    comment:
+      "Matches 'received' to a schema defined in your API spec, then validates 'received' against it",
     isNot: false,
   },
 );
@@ -20,7 +21,8 @@ const expectReceivedNotToSatisfySchemaInApiSpec = jestMatcherUtils.matcherHint(
   undefined,
   'schemaName',
   {
-    comment: 'Matches \'received\' to a schema defined in your API spec, then validates \'received\' against it',
+    comment:
+      "Matches 'received' to a schema defined in your API spec, then validates 'received' against it",
     isNot: true,
   },
 );
@@ -29,7 +31,9 @@ const red = jestMatcherUtils.RECEIVED_COLOR;
 const green = jestMatcherUtils.EXPECTED_COLOR;
 
 const str = (obj) => util.inspect(obj, { showHidden: false, depth: null });
-const openApiSpecsDir = path.resolve('../../commonTestResources/exampleOpenApiFiles/valid/satisfySchemaInApiSpec');
+const openApiSpecsDir = path.resolve(
+  '../../commonTestResources/exampleOpenApiFiles/valid/satisfySchemaInApiSpec',
+);
 const openApiSpecs = [
   {
     openApiVersion: 2,
@@ -49,12 +53,12 @@ openApiSpecs.forEach((spec) => {
       jestOpenAPI(pathToApiSpec);
     });
 
-    describe('when \'obj\' matches a schema defined in the API spec, such that spec expects obj to', () => {
+    describe("when 'obj' matches a schema defined in the API spec, such that spec expects obj to", () => {
       describe('be a string', () => {
         const schemaName = 'StringSchema';
         const expectedSchema = { type: 'string' };
 
-        describe('\'obj\' satisfies the spec', () => {
+        describe("'obj' satisfies the spec", () => {
           const validObj = 'string';
 
           it('passes', () => {
@@ -62,28 +66,36 @@ openApiSpecs.forEach((spec) => {
           });
 
           it('fails when using .not', () => {
-            const assertion = () => expect(validObj).not.toSatisfySchemaInApiSpec(schemaName);
-            expect(assertion).toThrow(new Error(
-              c`${expectReceivedNotToSatisfySchemaInApiSpec}
-              \n\nexpected ${red('received')} not to satisfy the '${schemaName}' schema defined in your API spec
-              \n${red('received')} was: ${red('\'string\'')}
-              \n\nThe '${schemaName}' schema in API spec: ${green(str(expectedSchema))}`,
-            ));
+            const assertion = () =>
+              expect(validObj).not.toSatisfySchemaInApiSpec(schemaName);
+            expect(assertion).toThrow(
+              new Error(
+                // prettier-ignore
+                c`${expectReceivedNotToSatisfySchemaInApiSpec}
+                \n\nexpected ${red('received')} not to satisfy the '${schemaName}' schema defined in your API spec
+                \n${red('received')} was: ${red('\'string\'')}
+                \n\nThe '${schemaName}' schema in API spec: ${green(str(expectedSchema))}`,
+              ),
+            );
           });
         });
 
-        describe('\'obj\' does not satisfy the spec', () => {
+        describe("'obj' does not satisfy the spec", () => {
           const invalidObj = 123;
 
           it('fails and outputs a useful error message', () => {
-            const assertion = () => expect(invalidObj).toSatisfySchemaInApiSpec(schemaName);
-            expect(assertion).toThrow(new Error(
-              c`${expectReceivedToSatisfySchemaInApiSpec}
-              \n\nexpected ${red('received')} to satisfy the '${schemaName}' schema defined in your API spec
-              \n${red('received')} did not satisfy it because: object should be string
-              \n\n${red('received')} was: ${red(123)}
-              \n\nThe '${schemaName}' schema in API spec: ${green(str(expectedSchema))}`,
-            ));
+            const assertion = () =>
+              expect(invalidObj).toSatisfySchemaInApiSpec(schemaName);
+            expect(assertion).toThrow(
+              new Error(
+                // prettier-ignore
+                c`${expectReceivedToSatisfySchemaInApiSpec}
+                \n\nexpected ${red('received')} to satisfy the '${schemaName}' schema defined in your API spec
+                \n${red('received')} did not satisfy it because: object should be string
+                \n\n${red('received')} was: ${red(123)}
+                \n\nThe '${schemaName}' schema in API spec: ${green(str(expectedSchema))}`,
+              ),
+            );
           });
 
           it('passes when using .not', () => {
@@ -96,7 +108,7 @@ openApiSpecs.forEach((spec) => {
         const schemaName = 'IntegerSchema';
         const expectedSchema = { type: 'integer' };
 
-        describe('\'obj\' satisfies the spec', () => {
+        describe("'obj' satisfies the spec", () => {
           const validObj = 123;
 
           it('passes', () => {
@@ -104,8 +116,10 @@ openApiSpecs.forEach((spec) => {
           });
 
           it('fails when using .not', () => {
-            const assertion = () => expect(validObj).not.toSatisfySchemaInApiSpec(schemaName);
+            const assertion = () =>
+              expect(validObj).not.toSatisfySchemaInApiSpec(schemaName);
             expect(assertion).toThrow(
+              // prettier-ignore
               c`expected ${red('received')} not to satisfy the '${schemaName}' schema defined in your API spec
               \n${red('received')} was: ${red(123)}
               \n\nThe '${schemaName}' schema in API spec: ${green(str(expectedSchema))}`,
@@ -113,12 +127,14 @@ openApiSpecs.forEach((spec) => {
           });
         });
 
-        describe('\'obj\' does not satisfy the spec', () => {
+        describe("'obj' does not satisfy the spec", () => {
           const invalidObj = 'should be integer';
 
           it('fails and outputs a useful error message', () => {
-            const assertion = () => expect(invalidObj).toSatisfySchemaInApiSpec(schemaName);
+            const assertion = () =>
+              expect(invalidObj).toSatisfySchemaInApiSpec(schemaName);
             expect(assertion).toThrow(
+              // prettier-ignore
               c`expected ${red('received')} to satisfy the '${schemaName}' schema defined in your API spec
               \n${red('received')} did not satisfy it because: object should be integer
               \n\n${red('received')} was: ${red('\'should be integer\'')}
@@ -140,7 +156,7 @@ openApiSpecs.forEach((spec) => {
           properties: { property1: { type: 'string' } },
         };
 
-        describe('\'obj\' satisfies the spec', () => {
+        describe("'obj' satisfies the spec", () => {
           const validObj = { property1: 'string' };
 
           it('passes', () => {
@@ -148,20 +164,24 @@ openApiSpecs.forEach((spec) => {
           });
 
           it('fails when using .not and outputs a useful error message', () => {
-            const assertion = () => expect(validObj).not.toSatisfySchemaInApiSpec(schemaName);
+            const assertion = () =>
+              expect(validObj).not.toSatisfySchemaInApiSpec(schemaName);
             expect(assertion).toThrow(
+              // prettier-ignore
               c`${red('received')} was: ${red(str(validObj))}
               \n\nThe '${schemaName}' schema in API spec: ${green(str(expectedSchema))}`,
             );
           });
         });
 
-        describe('\'obj\' does not satisfy the spec', () => {
+        describe("'obj' does not satisfy the spec", () => {
           const invalidObj = { property1: 123 };
 
           it('fails and outputs a useful error message', () => {
-            const assertion = () => expect(invalidObj).toSatisfySchemaInApiSpec(schemaName);
+            const assertion = () =>
+              expect(invalidObj).toSatisfySchemaInApiSpec(schemaName);
             expect(assertion).toThrow(
+              // prettier-ignore
               c`${red('received')} did not satisfy it because: property1 should be string
               \n\n${red('received')} was: ${red(str(invalidObj))}
               \n\nThe '${schemaName}' schema in API spec: ${green(str(expectedSchema))}`,
@@ -176,7 +196,8 @@ openApiSpecs.forEach((spec) => {
 
       describe('satisfy a schema referencing another schema', () => {
         const schemaName = 'SchemaReferencingAnotherSchema';
-        const definitions = openApiVersion === 2 ? 'definitions' : 'components/schemas';
+        const definitions =
+          openApiVersion === 2 ? 'definitions' : 'components/schemas';
         const expectedSchema = {
           required: ['property1'],
           properties: {
@@ -184,7 +205,7 @@ openApiSpecs.forEach((spec) => {
           },
         };
 
-        describe('\'obj\' satisfies the spec', () => {
+        describe("'obj' satisfies the spec", () => {
           const validObj = { property1: 'string' };
 
           it('passes', () => {
@@ -192,20 +213,24 @@ openApiSpecs.forEach((spec) => {
           });
 
           it('fails when using .not and outputs a useful error message', () => {
-            const assertion = () => expect(validObj).not.toSatisfySchemaInApiSpec(schemaName);
+            const assertion = () =>
+              expect(validObj).not.toSatisfySchemaInApiSpec(schemaName);
             expect(assertion).toThrow(
+              // prettier-ignore
               c`${red('received')} was: ${red(str(validObj))}
               \n\nThe '${schemaName}' schema in API spec: ${green(str(expectedSchema))}`,
             );
           });
         });
 
-        describe('\'obj\' does not satisfy the spec', () => {
+        describe("'obj' does not satisfy the spec", () => {
           const invalidObj = { property1: 123 };
 
           it('fails and outputs a useful error message', () => {
-            const assertion = () => expect(invalidObj).toSatisfySchemaInApiSpec(schemaName);
+            const assertion = () =>
+              expect(invalidObj).toSatisfySchemaInApiSpec(schemaName);
             expect(assertion).toThrow(
+              // prettier-ignore
               c`${red('received')} did not satisfy it because: property1 should be string
               \n\n${red('received')} was: ${red(str(invalidObj))}
               \n\nThe '${schemaName}' schema in API spec: ${green(str(expectedSchema))}`,
@@ -221,7 +246,7 @@ openApiSpecs.forEach((spec) => {
       describe('satisfy allOf 2 schemas', () => {
         const schemaName = 'SchemaUsingAllOf';
 
-        describe('\'obj\' satisfies the spec', () => {
+        describe("'obj' satisfies the spec", () => {
           const validObj = { property1: 'string', property2: 'string' };
 
           it('passes', () => {
@@ -229,19 +254,22 @@ openApiSpecs.forEach((spec) => {
           });
 
           it('fails when using .not', () => {
-            const assertion = () => expect(validObj).not.toSatisfySchemaInApiSpec(schemaName);
+            const assertion = () =>
+              expect(validObj).not.toSatisfySchemaInApiSpec(schemaName);
             expect(assertion).toThrow(
               `expected ${red('received')} not to satisfy`,
             );
           });
         });
 
-        describe('\'obj\' does not satisfy the spec', () => {
+        describe("'obj' does not satisfy the spec", () => {
           const invalidObj = { property1: 'string', property2: 123 };
 
           it('fails', () => {
-            const assertion = () => expect(invalidObj).toSatisfySchemaInApiSpec(schemaName);
+            const assertion = () =>
+              expect(invalidObj).toSatisfySchemaInApiSpec(schemaName);
             expect(assertion).toThrow(
+              // prettier-ignore
               `${red('received')} did not satisfy it because: property2 should be string`,
             );
           });
@@ -256,7 +284,7 @@ openApiSpecs.forEach((spec) => {
         describe('satisfy anyOf 2 schemas', () => {
           const schemaName = 'SchemaUsingAnyOf';
 
-          describe('\'obj\' satisfies the spec', () => {
+          describe("'obj' satisfies the spec", () => {
             const validObj = { property1: 123, property2: 'string' };
 
             it('passes', () => {
@@ -264,19 +292,22 @@ openApiSpecs.forEach((spec) => {
             });
 
             it('fails when using .not', () => {
-              const assertion = () => expect(validObj).not.toSatisfySchemaInApiSpec(schemaName);
+              const assertion = () =>
+                expect(validObj).not.toSatisfySchemaInApiSpec(schemaName);
               expect(assertion).toThrow(
                 `expected ${red('received')} not to satisfy`,
               );
             });
           });
 
-          describe('\'obj\' does not satisfy the spec', () => {
+          describe("'obj' does not satisfy the spec", () => {
             const invalidObj = { property1: 123, property2: 123 };
 
             it('fails and outputs a useful error message', () => {
-              const assertion = () => expect(invalidObj).toSatisfySchemaInApiSpec(schemaName);
+              const assertion = () =>
+                expect(invalidObj).toSatisfySchemaInApiSpec(schemaName);
               expect(assertion).toThrow(
+                // prettier-ignore
                 `${red('received')} did not satisfy it because: property1 should be string, property2 should be string, object should match some schema in anyOf`,
               );
             });
@@ -290,7 +321,7 @@ openApiSpecs.forEach((spec) => {
         describe('satisfy oneOf 2 schemas', () => {
           const schemaName = 'SchemaUsingOneOf';
 
-          describe('\'obj\' satisfies the spec', () => {
+          describe("'obj' satisfies the spec", () => {
             const validObj = { property1: 123, property2: 'string' };
 
             it('passes', () => {
@@ -298,19 +329,22 @@ openApiSpecs.forEach((spec) => {
             });
 
             it('fails when using .not', () => {
-              const assertion = () => expect(validObj).not.toSatisfySchemaInApiSpec(schemaName);
+              const assertion = () =>
+                expect(validObj).not.toSatisfySchemaInApiSpec(schemaName);
               expect(assertion).toThrow(
                 `expected ${red('received')} not to satisfy`,
               );
             });
           });
 
-          describe('\'obj\' does not satisfy the spec', () => {
+          describe("'obj' does not satisfy the spec", () => {
             const invalidObj = { property1: 'string', property2: 'string' };
 
             it('fails and outputs a useful error message', () => {
-              const assertion = () => expect(invalidObj).toSatisfySchemaInApiSpec(schemaName);
+              const assertion = () =>
+                expect(invalidObj).toSatisfySchemaInApiSpec(schemaName);
               expect(assertion).toThrow(
+                // prettier-ignore
                 `${red('received')} did not satisfy it because: object should match exactly one schema in oneOf`,
               );
             });
@@ -323,7 +357,7 @@ openApiSpecs.forEach((spec) => {
       }
     });
 
-    describe('when \'obj\' matches NO schemas defined in the API spec', () => {
+    describe("when 'obj' matches NO schemas defined in the API spec", () => {
       const obj = 'foo';
 
       const {
@@ -333,25 +367,31 @@ openApiSpecs.forEach((spec) => {
       } = jestMatcherUtils;
 
       it('fails', () => {
-        const assertion = () => expect(obj).toSatisfySchemaInApiSpec('NonExistentSchema');
-        expect(assertion).toThrow(new Error(
-          matcherErrorMessage(
-            expectReceivedToSatisfySchemaInApiSpec,
-            `${green('schemaName')} must match a schema in your API spec`,
-            printWithType('schemaName', 'NonExistentSchema', printExpected),
+        const assertion = () =>
+          expect(obj).toSatisfySchemaInApiSpec('NonExistentSchema');
+        expect(assertion).toThrow(
+          new Error(
+            matcherErrorMessage(
+              expectReceivedToSatisfySchemaInApiSpec,
+              `${green('schemaName')} must match a schema in your API spec`,
+              printWithType('schemaName', 'NonExistentSchema', printExpected),
+            ),
           ),
-        ));
+        );
       });
 
       it('fails when using .not', () => {
-        const assertion = () => expect(obj).not.toSatisfySchemaInApiSpec('NonExistentSchema');
-        expect(assertion).toThrow(new Error(
-          matcherErrorMessage(
-            expectReceivedNotToSatisfySchemaInApiSpec,
-            `${green('schemaName')} must match a schema in your API spec`,
-            printWithType('schemaName', 'NonExistentSchema', printExpected),
+        const assertion = () =>
+          expect(obj).not.toSatisfySchemaInApiSpec('NonExistentSchema');
+        expect(assertion).toThrow(
+          new Error(
+            matcherErrorMessage(
+              expectReceivedNotToSatisfySchemaInApiSpec,
+              `${green('schemaName')} must match a schema in your API spec`,
+              printWithType('schemaName', 'NonExistentSchema', printExpected),
+            ),
           ),
-        ));
+        );
       });
     });
   });

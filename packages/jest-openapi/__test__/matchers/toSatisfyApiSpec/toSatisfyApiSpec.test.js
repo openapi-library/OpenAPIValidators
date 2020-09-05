@@ -10,7 +10,8 @@ const expectReceivedToSatisfyApiSpec = jestMatcherUtils.matcherHint(
   undefined,
   '',
   {
-    comment: 'Matches \'received\' to a response defined in your API spec, then validates \'received\' against it',
+    comment:
+      "Matches 'received' to a response defined in your API spec, then validates 'received' against it",
     isNot: false,
   },
 );
@@ -20,7 +21,8 @@ const expectReceivedNotToSatisfyApiSpec = jestMatcherUtils.matcherHint(
   undefined,
   '',
   {
-    comment: 'Matches \'received\' to a response defined in your API spec, then validates \'received\' against it',
+    comment:
+      "Matches 'received' to a response defined in your API spec, then validates 'received' against it",
     isNot: true,
   },
 );
@@ -29,7 +31,9 @@ const red = jestMatcherUtils.RECEIVED_COLOR;
 const green = jestMatcherUtils.EXPECTED_COLOR;
 
 const str = (obj) => util.inspect(obj, { showHidden: false, depth: null });
-const openApiSpecsDir = path.resolve('../../commonTestResources/exampleOpenApiFiles/valid');
+const openApiSpecsDir = path.resolve(
+  '../../commonTestResources/exampleOpenApiFiles/valid',
+);
 const openApiSpecs = [
   {
     openApiVersion: 2,
@@ -49,10 +53,10 @@ openApiSpecs.forEach((spec) => {
       jestOpenAPI(pathToApiSpec);
     });
 
-    describe('when \'res\' is not a valid HTTP response object', () => {
+    describe("when 'res' is not a valid HTTP response object", () => {
       const res = {
         status: 204,
-        body: 'should have a \'path\' property',
+        body: "should have a 'path' property",
       };
 
       it('fails', () => {
@@ -66,8 +70,8 @@ openApiSpecs.forEach((spec) => {
       });
     });
 
-    describe('when \'res\' matches a response defined in the API spec', () => {
-      describe('\'res\' satisfies the spec', () => {
+    describe("when 'res' matches a response defined in the API spec", () => {
+      describe("'res' satisfies the spec", () => {
         describe('spec expects res.body to', () => {
           describe('be a string', () => {
             const res = {
@@ -78,21 +82,24 @@ openApiSpecs.forEach((spec) => {
               },
               body: 'valid body (string)',
             };
-            const responseDefinition = openApiVersion === 2
-              // OpenAPI 2
-              ? {
-                200: {
-                  description: 'Response body should be a string',
-                  schema: { type: 'string' },
-                },
-              }
-              // OpenAPI 3
-              : {
-                200: {
-                  description: 'Response body should be a string',
-                  content: { 'application/json': { schema: { type: 'string' } } },
-                },
-              };
+            const responseDefinition =
+              openApiVersion === 2
+                ? // OpenAPI 2
+                  {
+                    200: {
+                      description: 'Response body should be a string',
+                      schema: { type: 'string' },
+                    },
+                  }
+                : // OpenAPI 3
+                  {
+                    200: {
+                      description: 'Response body should be a string',
+                      content: {
+                        'application/json': { schema: { type: 'string' } },
+                      },
+                    },
+                  };
 
             it('passes', () => {
               expect(res).toSatisfyApiSpec();
@@ -100,13 +107,16 @@ openApiSpecs.forEach((spec) => {
 
             it('fails when using .not and outputs a useful error message', () => {
               const assertion = () => expect(res).not.toSatisfyApiSpec();
-              expect(assertion).toThrow(new Error(
-                c`${expectReceivedNotToSatisfyApiSpec}
+              expect(assertion).toThrow(
+                new Error(
+                  // prettier-ignore
+                  c`${expectReceivedNotToSatisfyApiSpec}
                 \n\nexpected ${red('received')} not to satisfy the '200' response defined
                     for endpoint 'GET /test/responseBody/string' in your API spec
                 \n\n${red('received')} contained: ${red(str({ body: 'valid body (string)' }))}
                 \n\nThe '200' response defined for endpoint 'GET /test/responseBody/string' in API spec: ${green(str(responseDefinition))}`,
-              ));
+                ),
+              );
             });
           });
 
@@ -119,21 +129,28 @@ openApiSpecs.forEach((spec) => {
               },
               body: 'valid body (string)',
             };
-            const responseDefinition = openApiVersion === 2
-              // OpenAPI 2
-              ? {
-                200: {
-                  description: 'Response body references a simple schema object',
-                  schema: { $ref: '#/definitions/StringSchema' },
-                },
-              }
-              // OpenAPI 3
-              : {
-                200: {
-                  description: 'Response body references a simple schema object',
-                  content: { 'application/json': { schema: { $ref: '#/components/schemas/StringSchema' } } },
-                },
-              };
+            const responseDefinition =
+              openApiVersion === 2
+                ? // OpenAPI 2
+                  {
+                    200: {
+                      description:
+                        'Response body references a simple schema object',
+                      schema: { $ref: '#/definitions/StringSchema' },
+                    },
+                  }
+                : // OpenAPI 3
+                  {
+                    200: {
+                      description:
+                        'Response body references a simple schema object',
+                      content: {
+                        'application/json': {
+                          schema: { $ref: '#/components/schemas/StringSchema' },
+                        },
+                      },
+                    },
+                  };
 
             it('passes', () => {
               expect(res).toSatisfyApiSpec();
@@ -141,13 +158,16 @@ openApiSpecs.forEach((spec) => {
 
             it('fails when using .not and outputs a useful error message', () => {
               const assertion = () => expect(res).not.toSatisfyApiSpec();
-              expect(assertion).toThrow(new Error(
-                c`${expectReceivedNotToSatisfyApiSpec}
+              expect(assertion).toThrow(
+                new Error(
+                  // prettier-ignore
+                  c`${expectReceivedNotToSatisfyApiSpec}
                 \n\nexpected ${red('received')} not to satisfy the '200' response defined
                     for endpoint 'GET /test/responseBody/referencesSchemaObject/simple' in your API spec
                 \n\n${red('received')} contained: ${red(str({ body: 'valid body (string)' }))}
                 \n\nThe '200' response defined for endpoint 'GET /test/responseBody/referencesSchemaObject/simple' in API spec: ${green(str(responseDefinition))}`,
-              ));
+                ),
+              );
             });
           });
 
@@ -167,6 +187,7 @@ openApiSpecs.forEach((spec) => {
             it('fails when using .not', () => {
               const assertion = () => expect(res).not.toSatisfyApiSpec();
               expect(assertion).toThrow(
+                // prettier-ignore
                 `expected ${red('received')} not to satisfy the '204' response defined for endpoint 'GET /test/responseBody/empty'`,
               );
             });
@@ -189,6 +210,7 @@ openApiSpecs.forEach((spec) => {
             it('fails when using .not', () => {
               const assertion = () => expect(res).not.toSatisfyApiSpec();
               expect(assertion).toThrow(
+                // prettier-ignore
                 `expected ${red('received')} not to satisfy the '200' response defined for endpoint 'GET /test/responseBody/boolean'`,
               );
             });
@@ -218,6 +240,7 @@ openApiSpecs.forEach((spec) => {
             it('fails when using .not', () => {
               const assertion = () => expect(res).not.toSatisfyApiSpec();
               expect(assertion).toThrow(
+                // prettier-ignore
                 `${red('received')} contained: ${red(str({ body: nestedObject }))}`,
               );
             });
@@ -241,6 +264,7 @@ openApiSpecs.forEach((spec) => {
           it('fails when using .not', () => {
             const assertion = () => expect(res).not.toSatisfyApiSpec();
             expect(assertion).toThrow(
+              // prettier-ignore
               `expected ${red('received')} not to satisfy the '200' response defined for endpoint 'GET /test/responseReferencesResponseDefinitionObject`,
             );
           });
@@ -264,6 +288,7 @@ openApiSpecs.forEach((spec) => {
             it('fails when using .not', () => {
               const assertion = () => expect(res).not.toSatisfyApiSpec();
               expect(assertion).toThrow(
+                // prettier-ignore
                 `expected ${red('received')} not to satisfy the '201' response defined for endpoint 'GET /test/multipleResponsesDefined'`,
               );
             });
@@ -286,6 +311,7 @@ openApiSpecs.forEach((spec) => {
             it('fails when using .not', () => {
               const assertion = () => expect(res).not.toSatisfyApiSpec();
               expect(assertion).toThrow(
+                // prettier-ignore
                 `expected ${red('received')} not to satisfy the '202' response defined for endpoint 'GET /test/multipleResponsesDefined'`,
               );
             });
@@ -308,6 +334,7 @@ openApiSpecs.forEach((spec) => {
             it('fails when using .not', () => {
               const assertion = () => expect(res).not.toSatisfyApiSpec();
               expect(assertion).toThrow(
+                // prettier-ignore
                 `expected ${red('received')} not to satisfy the '203' response defined for endpoint 'GET /test/multipleResponsesDefined'`,
               );
             });
@@ -331,6 +358,7 @@ openApiSpecs.forEach((spec) => {
             it('fails when using .not', () => {
               const assertion = () => expect(res).not.toSatisfyApiSpec();
               expect(assertion).toThrow(
+                // prettier-ignore
                 `expected ${red('received')} not to satisfy the '204' response defined for endpoint 'GET /test/queryParams`,
               );
             });
@@ -352,6 +380,7 @@ openApiSpecs.forEach((spec) => {
             it('fails when using .not', () => {
               const assertion = () => expect(res).not.toSatisfyApiSpec();
               expect(assertion).toThrow(
+                // prettier-ignore
                 `expected ${red('received')} not to satisfy the '204' response defined for endpoint 'GET /test/queryParams`,
               );
             });
@@ -373,6 +402,7 @@ openApiSpecs.forEach((spec) => {
             it('fails when using .not', () => {
               const assertion = () => expect(res).not.toSatisfyApiSpec();
               expect(assertion).toThrow(
+                // prettier-ignore
                 `expected ${red('received')} not to satisfy the '204' response defined for endpoint 'GET /test/pathParams/{exampleParam}`,
               );
             });
@@ -394,6 +424,7 @@ openApiSpecs.forEach((spec) => {
             it('fails when using .not', () => {
               const assertion = () => expect(res).not.toSatisfyApiSpec();
               expect(assertion).toThrow(
+                // prettier-ignore
                 `expected ${red('received')} not to satisfy the '204' response defined for endpoint 'GET /test/multiplePathParams/{param1}/{param2}`,
               );
             });
@@ -415,6 +446,7 @@ openApiSpecs.forEach((spec) => {
             it('fails when using .not', () => {
               const assertion = () => expect(res).not.toSatisfyApiSpec();
               expect(assertion).toThrow(
+                // prettier-ignore
                 `expected ${red('received')} not to satisfy the '204' response defined for endpoint 'GET /test/pathAndQueryParams/{examplePathParam}`,
               );
             });
@@ -422,7 +454,7 @@ openApiSpecs.forEach((spec) => {
         });
       });
 
-      describe('\'res\' does NOT satisfy the spec', () => {
+      describe("'res' does NOT satisfy the spec", () => {
         describe('wrong res.status', () => {
           const res = {
             status: 418,
@@ -435,6 +467,7 @@ openApiSpecs.forEach((spec) => {
           it('fails', () => {
             const assertion = () => expect(res).toSatisfyApiSpec();
             expect(assertion).toThrow(
+              // prettier-ignore
               c`${expectReceivedToSatisfyApiSpec}
               \n\nexpected ${red('received')} to satisfy a '418' response defined for endpoint 'GET /test/responseStatus' in your API spec
               \n${red('received')} had status ${red('418')}, but your API spec has no ${red('418')} response defined for endpoint 'GET /test/responseStatus'
@@ -456,27 +489,13 @@ openApiSpecs.forEach((spec) => {
             },
             body: { property1: 123, property2: 123 },
           };
-          const responseDefinition = openApiVersion === 2
-            // OpenAPI 2
-            ? {
-              200: {
-                description: 'Response body should be an object with multiple string properties',
-                schema: {
-                  type: 'object',
-                  required: ['property1', 'property2'],
-                  properties: {
-                    property1: { type: 'string' },
-                    property2: { type: 'string' },
-                  },
-                },
-              },
-            }
-            // OpenAPI 3
-            : {
-              200: {
-                description: 'Response body should be an object with multiple string properties',
-                content: {
-                  'application/json': {
+          const responseDefinition =
+            openApiVersion === 2
+              ? // OpenAPI 2
+                {
+                  200: {
+                    description:
+                      'Response body should be an object with multiple string properties',
                     schema: {
                       type: 'object',
                       required: ['property1', 'property2'],
@@ -486,20 +505,40 @@ openApiSpecs.forEach((spec) => {
                       },
                     },
                   },
-                },
-              },
-            };
+                }
+              : // OpenAPI 3
+                {
+                  200: {
+                    description:
+                      'Response body should be an object with multiple string properties',
+                    content: {
+                      'application/json': {
+                        schema: {
+                          type: 'object',
+                          required: ['property1', 'property2'],
+                          properties: {
+                            property1: { type: 'string' },
+                            property2: { type: 'string' },
+                          },
+                        },
+                      },
+                    },
+                  },
+                };
 
           it('fails and outputs a useful error message', () => {
             const assertion = () => expect(res).toSatisfyApiSpec();
-            expect(assertion).toThrow(new Error(
-              c`${expectReceivedToSatisfyApiSpec}
+            expect(assertion).toThrow(
+              new Error(
+                // prettier-ignore
+                c`${expectReceivedToSatisfyApiSpec}
               \n\nexpected ${red('received')} to satisfy the '200' response defined
                   for endpoint 'GET /test/responseBody/object/withMultipleProperties' in your API spec
               \n${red('received')} did not satisfy it because: property1 should be string, property2 should be string
               \n\n${red('received')} contained: ${red(str({ body: { property1: 123, property2: 123 } }))}
               \n\nThe '200' response defined for endpoint 'GET /test/responseBody/object/withMultipleProperties' in API spec: ${green(str(responseDefinition))}`,
-            ));
+              ),
+            );
           });
 
           it('passes when using .not', () => {
@@ -509,7 +548,7 @@ openApiSpecs.forEach((spec) => {
       });
     });
 
-    describe('when \'res\' matches NO responses defined in the API spec', () => {
+    describe("when 'res' matches NO responses defined in the API spec", () => {
       describe('res matches no paths', () => {
         const res = {
           status: 204,
@@ -522,9 +561,10 @@ openApiSpecs.forEach((spec) => {
         it('fails', () => {
           const assertion = () => expect(res).toSatisfyApiSpec();
           expect(assertion).toThrow(
+            // prettier-ignore
             `expected ${red('received')} to satisfy a '204' response defined for endpoint 'GET /does/not/exist' in your API spec`
-          + `\n${red('received')} had request path ${red('/does/not/exist')}, but your API spec has no matching path`
-          + '\n\nPaths found in API spec:', // etc.
+            + `\n${red('received')} had request path ${red('/does/not/exist')}, but your API spec has no matching path`
+            + '\n\nPaths found in API spec:', // etc.
           );
         });
 
@@ -544,12 +584,15 @@ openApiSpecs.forEach((spec) => {
 
         it('fails', () => {
           const assertion = () => expect(res).toSatisfyApiSpec();
-          expect(assertion).toThrow(new Error(
-            c`${expectReceivedToSatisfyApiSpec}
+          expect(assertion).toThrow(
+            new Error(
+              // prettier-ignore
+              c`${expectReceivedToSatisfyApiSpec}
             \n\nexpected ${red('received')} to satisfy a '204' response defined for endpoint 'HEAD /test/HTTPMethod' in your API spec
             \n${red('received')} had request method ${red('HEAD')}, but your API spec has no ${red('HEAD')} operation defined for path '/test/HTTPMethod'
             \n\nRequest operations found for path '/test/HTTPMethod' in API spec: ${green('GET, POST')}`,
-          ));
+            ),
+          );
         });
 
         it('passes when using .not', () => {
@@ -568,12 +611,15 @@ openApiSpecs.forEach((spec) => {
 
         it('fails', () => {
           const assertion = () => expect(res).toSatisfyApiSpec();
-          expect(assertion).toThrow(new Error(
-            c`${expectReceivedToSatisfyApiSpec}
+          expect(assertion).toThrow(
+            new Error(
+              // prettier-ignore
+              c`${expectReceivedToSatisfyApiSpec}
             \n\nexpected ${red('received')} to satisfy a '204' response defined for endpoint 'HEAD /test/pathParams/{exampleParam}' in your API spec
             \n${red('received')} had request method ${red('HEAD')}, but your API spec has no ${red('HEAD')} operation defined for path '/test/pathParams/{exampleParam}'
             \n\nRequest operations found for path '/test/pathParams/{exampleParam}' in API spec: ${green('GET')}`,
-          ));
+            ),
+          );
         });
 
         it('passes when using .not', () => {

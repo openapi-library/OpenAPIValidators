@@ -11,7 +11,9 @@ const { port } = require('../../../../../commonTestResources/config');
 
 const str = (obj) => inspect(obj, { showHidden: false, depth: null });
 const appOrigin = `http://localhost:${port}`;
-const pathToApiSpec = path.resolve('../../commonTestResources/exampleOpenApiFiles/valid/openapi3.yml');
+const pathToApiSpec = path.resolve(
+  '../../commonTestResources/exampleOpenApiFiles/valid/openapi3.yml',
+);
 
 describe('Parsing responses from different request modules', () => {
   beforeAll(() => {
@@ -23,7 +25,9 @@ describe('Parsing responses from different request modules', () => {
     describe('res header is application/json, and res.body is a string', () => {
       let res;
       beforeAll(async () => {
-        res = await supertest(app).get('/test/header/application/json/and/responseBody/string');
+        res = await supertest(app).get(
+          '/test/header/application/json/and/responseBody/string',
+        );
       });
       it('passes', () => {
         expect(res).toSatisfyApiSpec();
@@ -41,7 +45,9 @@ describe('Parsing responses from different request modules', () => {
     describe('res header is application/json, and res.body is {}', () => {
       let res;
       beforeAll(async () => {
-        res = await supertest(app).get('/test/header/application/json/and/responseBody/emptyObject');
+        res = await supertest(app).get(
+          '/test/header/application/json/and/responseBody/emptyObject',
+        );
       });
       it('passes', () => {
         expect(res).toSatisfyApiSpec();
@@ -78,7 +84,9 @@ describe('Parsing responses from different request modules', () => {
     describe('res header is application/json, and res.body is a null', () => {
       let res;
       beforeAll(async () => {
-        res = await supertest(app).get('/test/header/application/json/and/responseBody/nullable');
+        res = await supertest(app).get(
+          '/test/header/application/json/and/responseBody/nullable',
+        );
       });
       it('passes', () => {
         expect(res).toSatisfyApiSpec();
@@ -96,7 +104,9 @@ describe('Parsing responses from different request modules', () => {
     describe('res has no content-type header, res.body is {}, and res.text is empty string', () => {
       let res;
       beforeAll(async () => {
-        res = await supertest(app).get('/test/no/content-type/header/and/no/response/body');
+        res = await supertest(app).get(
+          '/test/no/content-type/header/and/no/response/body',
+        );
       });
       it('passes', () => {
         expect(res).toSatisfyApiSpec();
@@ -123,7 +133,9 @@ describe('Parsing responses from different request modules', () => {
     describe('res header is application/json, and res.body is a string', () => {
       let res;
       beforeAll(async () => {
-        res = await axios.get(`${appOrigin}/test/header/application/json/and/responseBody/string`);
+        res = await axios.get(
+          `${appOrigin}/test/header/application/json/and/responseBody/string`,
+        );
       });
       it('passes', () => {
         expect(res).toSatisfyApiSpec();
@@ -141,7 +153,9 @@ describe('Parsing responses from different request modules', () => {
     describe('res header is application/json, and res.body is {}', () => {
       let res;
       beforeAll(async () => {
-        res = await axios.get(`${appOrigin}/test/header/application/json/and/responseBody/emptyObject`);
+        res = await axios.get(
+          `${appOrigin}/test/header/application/json/and/responseBody/emptyObject`,
+        );
       });
       it('passes', () => {
         expect(res).toSatisfyApiSpec();
@@ -177,7 +191,9 @@ describe('Parsing responses from different request modules', () => {
     describe('res header is application/json, and res.body is a null', () => {
       let res;
       beforeAll(async () => {
-        res = await axios.get(`${appOrigin}/test/header/application/json/and/responseBody/nullable`);
+        res = await axios.get(
+          `${appOrigin}/test/header/application/json/and/responseBody/nullable`,
+        );
       });
       it('passes', () => {
         expect(res).toSatisfyApiSpec();
@@ -195,7 +211,9 @@ describe('Parsing responses from different request modules', () => {
     describe('res has no content-type header, and res.body is empty string', () => {
       let res;
       beforeAll(async () => {
-        res = await axios.get(`${appOrigin}/test/no/content-type/header/and/no/response/body`);
+        res = await axios.get(
+          `${appOrigin}/test/no/content-type/header/and/no/response/body`,
+        );
       });
       it('passes', () => {
         expect(res).toSatisfyApiSpec();
@@ -287,7 +305,7 @@ describe('Parsing responses from different request modules', () => {
       });
     });
 
-    describe('res header is application/json, and res.body is \'{}\'', () => {
+    describe("res header is application/json, and res.body is '{}'", () => {
       let res;
       beforeAll(async () => {
         res = await requestPromise({

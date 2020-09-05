@@ -16,10 +16,7 @@
 
 module.exports = (config) => {
   config.set({
-    mutate: [
-      'src/**/*.js',
-      '!**/openapi-validator/**/*.js',
-    ],
+    mutate: ['src/**/*.js', '!**/openapi-validator/**/*.js'],
     mutator: 'javascript',
     reporters: ['clear-text', 'dots', 'html'], // see https://stryker-mutator.io/stryker/plugins#reporters
     testRunner: 'jest',

@@ -7,8 +7,8 @@ class SuperAgentResponse extends AbstractResponse {
     this.status = res.status;
     this.body = res.body;
     this.req = res.req;
-    this.isResTextPopulatedInsteadOfResBody = res.text !== '{}'
-      && isEmptyObj(this.body);
+    this.isResTextPopulatedInsteadOfResBody =
+      res.text !== '{}' && isEmptyObj(this.body);
     this.bodyHasNoContent = res.text === '';
   }
 
