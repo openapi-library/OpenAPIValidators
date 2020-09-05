@@ -2,9 +2,8 @@ const { inspect } = require('util');
 const { Path: PathParser } = require('path-parser');
 const url = require('url');
 
-const isEmptyObj = (obj) => !!obj
-  && Object.entries(obj).length === 0
-  && obj.constructor === Object;
+const isEmptyObj = (obj) =>
+  !!obj && Object.entries(obj).length === 0 && obj.constructor === Object;
 
 const stringify = (obj) => inspect(obj, { depth: null });
 
@@ -13,9 +12,8 @@ const extractPathname = (actualRequest) => {
   return pathname;
 };
 
-const convertOpenApiPathToColonForm = (openApiPath) => openApiPath
-  .replace(/{/g, ':')
-  .replace(/}/g, ''); // converts all {foo} to :foo
+const convertOpenApiPathToColonForm = (openApiPath) =>
+  openApiPath.replace(/{/g, ':').replace(/}/g, ''); // converts all {foo} to :foo
 
 const doesColonPathMatchPathname = (pathInColonForm, pathname) => {
   const pathParser = new PathParser(pathInColonForm);
@@ -28,10 +26,15 @@ const doesOpenApiPathMatchPathname = (openApiPath, pathname) => {
   return doesColonPathMatchPathname(pathInColonForm, pathname);
 };
 
-const findOpenApiPathMatchingPossiblePathnames = (possiblePathnames, OAPaths) => {
+const findOpenApiPathMatchingPossiblePathnames = (
+  possiblePathnames,
+  OAPaths,
+) => {
   let openApiPath;
-  for (const pathname of possiblePathnames) { // eslint-disable-line no-restricted-syntax
-    for (const OAPath of OAPaths) { // eslint-disable-line no-restricted-syntax
+  // eslint-disable-next-line no-restricted-syntax
+  for (const pathname of possiblePathnames) {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const OAPath of OAPaths) {
       if (OAPath === pathname) {
         return OAPath;
       }

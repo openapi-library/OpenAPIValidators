@@ -37,7 +37,9 @@ class OpenApiSpec {
    */
   findExpectedResponse(actualResponse) {
     const actualRequest = actualResponse.req;
-    const expectedResponseOperation = this.findExpectedResponseOperation(actualRequest);
+    const expectedResponseOperation = this.findExpectedResponseOperation(
+      actualRequest,
+    );
     if (!expectedResponseOperation) {
       throw new ValidationError('METHOD_NOT_FOUND');
     }

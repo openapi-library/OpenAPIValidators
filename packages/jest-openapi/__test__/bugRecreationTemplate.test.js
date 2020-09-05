@@ -3,7 +3,9 @@ const { inspect } = require('util');
 
 const jestOpenAPI = require('..');
 
-const dirContainingApiSpec = path.resolve('../../commonTestResources/exampleOpenApiFiles/valid/bugRecreationTemplate');
+const dirContainingApiSpec = path.resolve(
+  '../../commonTestResources/exampleOpenApiFiles/valid/bugRecreationTemplate',
+);
 
 describe('Recreate bug (issue #XX)', () => {
   beforeAll(() => {

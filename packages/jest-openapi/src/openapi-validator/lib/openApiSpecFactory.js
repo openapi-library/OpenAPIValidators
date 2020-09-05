@@ -29,8 +29,10 @@ function loadSpec(arg) {
     }
     throw new Error(`Received type '${argType}'`);
   } catch (error) {
-    throw new Error('The provided argument must be either an absolute filepath or '
-     + `an object representing an OpenAPI specification.\nError details: ${error.message}`);
+    throw new Error(
+      'The provided argument must be either an absolute filepath or ' +
+        `an object representing an OpenAPI specification.\nError details: ${error.message}`,
+    );
   }
 }
 
@@ -48,7 +50,9 @@ function loadFile(filepath) {
 
 function validateSpec(spec) {
   try {
-    const validator = new OpenAPISchemaValidator({ version: getOpenApiVersion(spec) });
+    const validator = new OpenAPISchemaValidator({
+      version: getOpenApiVersion(spec),
+    });
     const { errors } = validator.validate(spec);
     if (errors.length > 0) {
       throw new Error(utils.stringify(errors));
@@ -59,10 +63,11 @@ function validateSpec(spec) {
 }
 
 function getOpenApiVersion(openApiSpec) {
-  return openApiSpec.swagger // '2.0'
-   || openApiSpec.openapi; // '3.X.X'
+  return (
+    openApiSpec.swagger || // '2.0'
+    openApiSpec.openapi // '3.X.X'
+  );
 }
-
 
 module.exports = {
   makeApiSpec,

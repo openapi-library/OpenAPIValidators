@@ -12,11 +12,17 @@ const { stringify } = require('../utils');
 
 module.exports = function (received, schemaName, openApiSpec) {
   const matcherHintOptions = {
-    comment: 'Matches \'received\' to a schema defined in your API spec, then validates \'received\' against it',
+    comment:
+      "Matches 'received' to a schema defined in your API spec, then validates 'received' against it",
     isNot: this.isNot,
     promise: this.promise,
   };
-  const hint = matcherHint('toSatisfySchemaInApiSpec', undefined, 'schemaName', matcherHintOptions);
+  const hint = matcherHint(
+    'toSatisfySchemaInApiSpec',
+    undefined,
+    'schemaName',
+    matcherHintOptions,
+  );
 
   const schema = openApiSpec.getSchemaObject(schemaName);
   if (!schema) {
@@ -34,8 +40,21 @@ module.exports = function (received, schemaName, openApiSpec) {
   const pass = !validationError;
 
   const message = pass
-    ? () => getExpectReceivedNotToSatisfySchemaInApiSpecMsg(received, schemaName, schema, hint)
-    : () => getExpectReceivedToSatisfySchemaInApiSpecMsg(received, schemaName, schema, validationError, hint);
+    ? () =>
+        getExpectReceivedNotToSatisfySchemaInApiSpecMsg(
+          received,
+          schemaName,
+          schema,
+          hint,
+        )
+    : () =>
+        getExpectReceivedToSatisfySchemaInApiSpecMsg(
+          received,
+          schemaName,
+          schema,
+          validationError,
+          hint,
+        );
 
   return {
     pass,
@@ -43,7 +62,14 @@ module.exports = function (received, schemaName, openApiSpec) {
   };
 };
 
-function getExpectReceivedToSatisfySchemaInApiSpecMsg(received, schemaName, schema, validationError, hint) {
+function getExpectReceivedToSatisfySchemaInApiSpecMsg(
+  received,
+  schemaName,
+  schema,
+  validationError,
+  hint,
+) {
+  // prettier-ignore
   return c`${hint}
     \n\nexpected ${RECEIVED_COLOR('received')} to satisfy the '${schemaName}' schema defined in your API spec
     \n${RECEIVED_COLOR('received')} did not satisfy it because: ${validationError}
@@ -51,7 +77,13 @@ function getExpectReceivedToSatisfySchemaInApiSpecMsg(received, schemaName, sche
     \n\nThe '${schemaName}' schema in API spec: ${EXPECTED_COLOR(stringify(schema))}`;
 }
 
-function getExpectReceivedNotToSatisfySchemaInApiSpecMsg(received, schemaName, schema, hint) {
+function getExpectReceivedNotToSatisfySchemaInApiSpecMsg(
+  received,
+  schemaName,
+  schema,
+  hint,
+) {
+  // prettier-ignore
   return c`${hint}
     \n\nexpected ${RECEIVED_COLOR('received')} not to satisfy the '${schemaName}' schema defined in your API spec
     \n${RECEIVED_COLOR('received')} was: ${RECEIVED_COLOR(stringify(received))}
