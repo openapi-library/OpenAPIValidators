@@ -39,7 +39,7 @@ If you've come here to help contribute - thanks! Take a look at the [contributin
 With [npm](http://npmjs.org):
 
 ```bash
-$ npm install --save-dev jest-openapi
+npm install --save-dev jest-openapi
 ```
 
 ## Usage
