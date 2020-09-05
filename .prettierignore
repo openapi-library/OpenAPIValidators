@@ -1,7 +1,12 @@
-# dependencies
-**/node_modules
-yarn.lock
+# copied from .gitignore:
+node_modules
+.nyc_output/
+coverage/
+.stryker-tmp/
+stryker.log
+reports
+packages/**/commonTestResources
+.DS_STORE
 
-# testing
-**/.nyc_output
-**/coverage
+# extra:
+yarn.lock
