@@ -56,8 +56,8 @@ const jestOpenAPI = require('jest-openapi');
 jestOpenAPI('path/to/openapi.yml');
 
 // Write your test
-describe('GET /example/endpoint', function () {
-  it('should satisfy OpenAPI spec', async function () {
+describe('GET /example/endpoint', () => {
+  it('should satisfy OpenAPI spec', async () => {
     // Get an HTTP response from your server (e.g. using axios)
     const res = await axios.get('http://localhost:3000/example/endpoint');
 
@@ -166,8 +166,8 @@ const jestOpenAPI = require('jest-openapi');
 jestOpenAPI('path/to/openapi.yml');
 
 // Write your test
-describe('myModule.getObject()', function () {
-  it('should satisfy OpenAPI spec', async function () {
+describe('myModule.getObject()', () => {
+  it('should satisfy OpenAPI spec', async () => {
     // Run the function you want to test
     const myModule = require('path/to/your/module.js');
     const output = myModule.getObject();
@@ -304,8 +304,8 @@ const openApiSpec = {
 jestOpenAPI(openApiSpec);
 
 // Write your test
-describe('GET /example/endpoint', function () {
-  it('should satisfy OpenAPI spec', async function () {
+describe('GET /example/endpoint', () => {
+  it('should satisfy OpenAPI spec', async () => {
     // Get an HTTP response from your server (e.g. using axios)
     const res = await axios.get('http://localhost:3000/example/endpoint');
 
@@ -324,16 +324,16 @@ describe('GET /example/endpoint', function () {
 const jestOpenAPI = require('jest-openapi');
 
 // Write your test
-describe('GET /example/endpoint', function () {
+describe('GET /example/endpoint', () => {
   // Load your OpenAPI spec from a web endpoint
-  before(async function () {
+  before(async () => {
     const axios = require('axios');
     const response = await axios.get('url/to/openapi/spec');
     const openApiSpec = response.data; // e.g. { openapi: '3.0.0', <etc> };
     jestOpenAPI(openApiSpec);
   });
 
-  it('should satisfy OpenAPI spec', async function () {
+  it('should satisfy OpenAPI spec', async () => {
     // Get an HTTP response from your server (e.g. using axios)
     const res = await axios.get('http://localhost:3000/example/endpoint');
 

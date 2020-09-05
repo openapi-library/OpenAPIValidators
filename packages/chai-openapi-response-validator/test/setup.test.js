@@ -24,24 +24,24 @@ const genericArgTypeErrMsg =
   'The provided argument must be either an absolute filepath or' +
   ' an object representing an OpenAPI specification.\nError details: ';
 
-describe('chaiResponseValidator(pathToApiSpec)', function () {
-  describe('neither string nor object', function () {
-    describe('number', function () {
-      it('throws a relevant error', function () {
+describe('chaiResponseValidator(pathToApiSpec)', () => {
+  describe('neither string nor object', () => {
+    describe('number', () => {
+      it('throws a relevant error', () => {
         const func = () => chaiResponseValidator(123);
         expect(func).to.throw(`${genericArgTypeErrMsg}Received type 'number'`);
       });
     });
-    describe('array', function () {
-      it('throws a relevant error', function () {
+    describe('array', () => {
+      it('throws a relevant error', () => {
         const func = () => chaiResponseValidator([]);
         expect(func).to.throw(`${genericArgTypeErrMsg}Received type 'array'`);
       });
     });
   });
 
-  describe('non-absolute path', function () {
-    it('throws a relevant error', function () {
+  describe('non-absolute path', () => {
+    it('throws a relevant error', () => {
       const func = () => chaiResponseValidator('./');
       expect(func).to.throw(
         `${genericArgTypeErrMsg}'./' is not an absolute filepath`,
@@ -49,8 +49,8 @@ describe('chaiResponseValidator(pathToApiSpec)', function () {
     });
   });
 
-  describe('absolute path to a non-existent file', function () {
-    it('throws a relevant error', function () {
+  describe('absolute path to a non-existent file', () => {
+    it('throws a relevant error', () => {
       const func = () => chaiResponseValidator('/non-existent-file.yml');
       expect(func).to.throw(
         `${genericArgTypeErrMsg}ENOENT: no such file or directory, open '/non-existent-file.yml'`,
@@ -58,8 +58,8 @@ describe('chaiResponseValidator(pathToApiSpec)', function () {
     });
   });
 
-  describe('absolute path to a file that is neither YAML nor JSON', function () {
-    it('throws a relevant error', function () {
+  describe('absolute path to a file that is neither YAML nor JSON', () => {
+    it('throws a relevant error', () => {
       const pathToApiSpec = path.resolve(
         '../../commonTestResources/exampleOpenApiFiles/invalid/fileFormat/neitherYamlNorJson.js',
       );
@@ -68,9 +68,9 @@ describe('chaiResponseValidator(pathToApiSpec)', function () {
     });
   });
 
-  describe('absolute path to an invalid OpenAPI file', function () {
-    describe('YAML file that is empty', function () {
-      it('throws a relevant error', function () {
+  describe('absolute path to an invalid OpenAPI file', () => {
+    describe('YAML file that is empty', () => {
+      it('throws a relevant error', () => {
         const pathToApiSpec = path.resolve(
           '../../commonTestResources/exampleOpenApiFiles/invalid/fileFormat/emptyYaml.yml',
         );
@@ -80,8 +80,8 @@ describe('chaiResponseValidator(pathToApiSpec)', function () {
         );
       });
     });
-    describe('YAML file that is invalid YAML', function () {
-      it('throws a relevant error', function () {
+    describe('YAML file that is invalid YAML', () => {
+      it('throws a relevant error', () => {
         const pathToApiSpec = path.resolve(
           '../../commonTestResources/exampleOpenApiFiles/invalid/fileFormat/invalidYamlFormat.yml',
         );
@@ -91,8 +91,8 @@ describe('chaiResponseValidator(pathToApiSpec)', function () {
         );
       });
     });
-    describe('JSON file that is invalid JSON', function () {
-      it('throws a relevant error', function () {
+    describe('JSON file that is invalid JSON', () => {
+      it('throws a relevant error', () => {
         const pathToApiSpec = path.resolve(
           '../../commonTestResources/exampleOpenApiFiles/invalid/fileFormat/invalidJsonFormat.json',
         );
@@ -102,8 +102,8 @@ describe('chaiResponseValidator(pathToApiSpec)', function () {
         );
       });
     });
-    describe('YAML file that is invalid OpenAPI 3', function () {
-      it('throws a relevant error', function () {
+    describe('YAML file that is invalid OpenAPI 3', () => {
+      it('throws a relevant error', () => {
         const pathToApiSpec = path.resolve(
           '../../commonTestResources/exampleOpenApiFiles/invalid/openApi/openApi3.yml',
         );
@@ -111,8 +111,8 @@ describe('chaiResponseValidator(pathToApiSpec)', function () {
         expect(func).to.throw('Invalid OpenAPI spec:');
       });
     });
-    describe('JSON file that is invalid OpenAPI 2', function () {
-      it('throws a relevant error', function () {
+    describe('JSON file that is invalid OpenAPI 2', () => {
+      it('throws a relevant error', () => {
         const pathToApiSpec = path.resolve(
           '../../commonTestResources/exampleOpenApiFiles/invalid/openApi/openApi2.json',
         );
@@ -122,17 +122,17 @@ describe('chaiResponseValidator(pathToApiSpec)', function () {
     });
   });
 
-  describe('absolute path to a valid OpenAPI file', function () {
-    describe('YAML', function () {
-      it('returns a function', function () {
+  describe('absolute path to a valid OpenAPI file', () => {
+    describe('YAML', () => {
+      it('returns a function', () => {
         const pathToApiSpec = path.resolve(
           '../../commonTestResources/exampleOpenApiFiles/valid/openapi3.yml',
         );
         expect(chaiResponseValidator(pathToApiSpec)).to.be.a('function');
       });
     });
-    describe('JSON', function () {
-      it('returns a function', function () {
+    describe('JSON', () => {
+      it('returns a function', () => {
         const pathToApiSpec = path.resolve(
           '../../commonTestResources/exampleOpenApiFiles/valid/openapi3.json',
         );
@@ -141,8 +141,8 @@ describe('chaiResponseValidator(pathToApiSpec)', function () {
     });
   });
 
-  describe('object representing a valid OpenAPI file', function () {
-    it('returns a function', function () {
+  describe('object representing a valid OpenAPI file', () => {
+    it('returns a function', () => {
       const pathToApiSpec = path.resolve(
         '../../commonTestResources/exampleOpenApiFiles/valid/openapi3.json',
       );
@@ -150,8 +150,8 @@ describe('chaiResponseValidator(pathToApiSpec)', function () {
       expect(chaiResponseValidator(apiSpec)).to.be.a('function');
     });
   });
-  describe('object not representing a valid OpenAPI file', function () {
-    it('throws a relevant error', function () {
+  describe('object not representing a valid OpenAPI file', () => {
+    it('throws a relevant error', () => {
       const func = () => chaiResponseValidator({ foo: 'foo' });
       expect(func).to.throw('Invalid OpenAPI spec: [');
     });

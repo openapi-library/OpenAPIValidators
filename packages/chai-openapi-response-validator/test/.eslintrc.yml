@@ -9,7 +9,7 @@ extends:
   - plugin:mocha/recommended
 
 rules:
-  prefer-arrow-callback: 0
   no-unused-expressions: 0
   chai-friendly/no-unused-expressions: error
   mocha/no-setup-in-describe: off
+  mocha/no-mocha-arrows: off
