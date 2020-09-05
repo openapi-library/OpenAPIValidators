@@ -39,7 +39,7 @@ If you've come here to help contribute - thanks! Take a look at the [contributin
 This is an addon plugin for the [Chai Assertion Library](http://chaijs.com). Install via [npm](http://npmjs.org).
 
 ```bash
-$ npm install --save-dev chai-openapi-response-validator
+npm install --save-dev chai-openapi-response-validator
 ```
 
 ## Usage
