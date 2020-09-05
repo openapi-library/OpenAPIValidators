@@ -4,6 +4,9 @@
   "workspaces": [
     "packages/*"
   ],
+  "engines": {
+    "node": ">=10.0.0"
+  },
   "scripts": {
     "format": "(cd packages/chai-openapi-response-validator && npm run format) && (cd packages/jest-openapi && npm run format)",
     "lint": "(cd packages/chai-openapi-response-validator && npm run lint) && (cd packages/jest-openapi && npm run lint)",
