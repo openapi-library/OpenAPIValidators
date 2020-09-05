@@ -16,9 +16,7 @@
 
 module.exports = function (config) {
   config.set({
-    mutate: [
-      'lib/**/*.js',
-    ],
+    mutate: ['lib/**/*.js'],
     mutator: 'javascript',
     reporters: ['clear-text', 'dots', 'html'], // see https://stryker-mutator.io/stryker/plugins#reporters
     testRunner: 'mocha',

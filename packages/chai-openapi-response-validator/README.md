@@ -18,6 +18,7 @@ If your server's behaviour doesn't match your API documentation, then you need t
 This plugin lets you automatically test whether your server's behaviour and documentation match. It extends the [Chai Assertion Library](https://www.chaijs.com/) to support the [OpenAPI standard](https://swagger.io/docs/specification/about/) for documenting REST APIs. In your JavaScript tests, you can simply assert [`expect(responseObject).to.satisfyApiSpec`](#in-api-tests-validate-the-status-and-body-of-http-responses-against-your-openapi-spec)
 
 Features:
+
 - Validates the status and body of HTTP responses against your OpenAPI spec [(see example)](#in-api-tests-validate-the-status-and-body-of-http-responses-against-your-openapi-spec)
 - Validates objects against schemas defined in your OpenAPI spec [(see example)](#in-unit-tests-validate-objects-against-schemas-defined-in-your-OpenAPI-spec)
 - Load your OpenAPI spec just once in your tests (load from a filepath or object)
@@ -34,7 +35,9 @@ Features:
 If you've come here to help contribute - thanks! Take a look at the [contributing](https://github.com/RuntimeTools/OpenAPIValidators/blob/master/CONTRIBUTING.md) docs to get started.
 
 ## Installation
+
 This is an addon plugin for the [Chai Assertion Library](http://chaijs.com). Install via [npm](http://npmjs.org).
+
 ```bash
 $ npm install --save-dev chai-openapi-response-validator
 ```
@@ -44,6 +47,7 @@ $ npm install --save-dev chai-openapi-response-validator
 ### In API tests, validate the status and body of HTTP responses against your OpenAPI spec:
 
 #### 1. Write a test:
+
 ```javascript
 // Set up Chai
 const chai = require('chai');
@@ -56,9 +60,8 @@ const chaiResponseValidator = require('chai-openapi-response-validator');
 chai.use(chaiResponseValidator('path/to/openapi.yml'));
 
 // Write your test (e.g. using Mocha)
-describe('GET /example/endpoint', function() {
-  it('should satisfy OpenAPI spec', async function() {
-
+describe('GET /example/endpoint', function () {
+  it('should satisfy OpenAPI spec', async function () {
     // Get an HTTP response from your server (e.g. using axios)
     const res = await axios.get('http://localhost:3000/example/endpoint');
 
@@ -71,6 +74,7 @@ describe('GET /example/endpoint', function() {
 ```
 
 #### 2. Write an OpenAPI Spec (and save to `path/to/openapi.yml`):
+
 ```yaml
 openapi: 3.0.0
 info:
@@ -125,6 +129,7 @@ paths:
 ```
 
 ###### Output from test failure:
+
 ```javascript
 AssertionError: expected res to satisfy API spec
 
@@ -156,6 +161,7 @@ The '200' response defined for endpoint 'GET /example/endpoint' in API spec: {
 ### In unit tests, validate objects against schemas defined in your OpenAPI spec:
 
 #### 1. Write a test:
+
 ```javascript
 // Set up Chai
 const chai = require('chai');
@@ -168,8 +174,8 @@ const chaiResponseValidator = require('chai-openapi-response-validator');
 chai.use(chaiResponseValidator('path/to/openapi.yml'));
 
 // Write your test (e.g. using Mocha)
-describe('myModule.getObject()', function() {
-  it('should satisfy OpenAPI spec', async function() {
+describe('myModule.getObject()', function () {
+  it('should satisfy OpenAPI spec', async function () {
     // Run the function you want to test
     const myModule = require('path/to/your/module.js');
     const output = myModule.getObject();
@@ -181,6 +187,7 @@ describe('myModule.getObject()', function() {
 ```
 
 #### 2. Write an OpenAPI Spec (and save to `path/to/openapi.yml`):
+
 ```yaml
 openapi: 3.0.0
 info:
@@ -220,7 +227,6 @@ components:
   integerProperty: 123,
 };
 ```
-
 
 ##### The assertion fails if the object does not satisfy the schema `ExampleSchemaObject`:
 
@@ -266,7 +272,9 @@ The 'ExampleSchemaObject' schema in API spec: {
 ### Loading your OpenAPI spec (3 different ways):
 
 #### 1. From an absolute filepath ([see above](#usage))
+
 #### 2. From an object:
+
 ```javascript
 // Set up Chai
 const chai = require('chai');
@@ -286,7 +294,7 @@ const openApiSpec = {
     '/example/endpoint': {
       get: {
         responses: {
-          '200': {
+          200: {
             description: 'Response body should be a string',
             content: {
               'application/json': {
@@ -306,9 +314,8 @@ const openApiSpec = {
 chai.use(chaiResponseValidator(openApiSpec));
 
 // Write your test (e.g. using Mocha)
-describe('GET /example/endpoint', function() {
-  it('should satisfy OpenAPI spec', async function() {
-
+describe('GET /example/endpoint', function () {
+  it('should satisfy OpenAPI spec', async function () {
     // Get an HTTP response from your server (e.g. using axios)
     const res = await axios.get('http://localhost:3000/example/endpoint');
 
@@ -321,6 +328,7 @@ describe('GET /example/endpoint', function() {
 ```
 
 #### 3. From a web endpoint:
+
 ```javascript
 // Set up Chai
 const chai = require('chai');
@@ -330,18 +338,16 @@ const expect = chai.expect;
 const chaiResponseValidator = require('chai-openapi-response-validator');
 
 // Write your test (e.g. using Mocha)
-describe('GET /example/endpoint', function() {
-
+describe('GET /example/endpoint', function () {
   // Load your OpenAPI spec from a web endpoint
-  before(async function() {
+  before(async function () {
     const axios = require('axios');
     const response = await axios.get('url/to/openapi/spec');
     const openApiSpec = response.data; // e.g. { openapi: '3.0.0', <etc> };
     chai.use(chaiResponseValidator(openApiSpec));
   });
 
-  it('should satisfy OpenAPI spec', async function() {
-
+  it('should satisfy OpenAPI spec', async function () {
     // Get an HTTP response from your server (e.g. using axios)
     const res = await axios.get('http://localhost:3000/example/endpoint');
 
@@ -356,10 +362,13 @@ describe('GET /example/endpoint', function() {
 ### Using this plugin in a TypeScript project
 
 #### Installation
+
 You don't need to `npm install --save-dev @types/chai-openapi-response-validator` because we bundle our TypeScript Definition file into this package (see `index.d.ts`).
 
 #### Importing
+
 1. Make sure your `tsconfig.json` includes:
+
 ```javascript
 {
   "compilerOptions": {
@@ -367,7 +376,9 @@ You don't need to `npm install --save-dev @types/chai-openapi-response-validator
   }
 }
 ```
+
 2. Import like this:
+
 ```javascript
 import chai from 'chai';
 import chaiResponseValidator from 'chai-openapi-response-validator';

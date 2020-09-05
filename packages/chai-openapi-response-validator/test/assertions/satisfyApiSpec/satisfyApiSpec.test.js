@@ -22,7 +22,9 @@ const { c } = require('compress-tag');
 const chaiResponseValidator = require('../../..');
 
 const str = (obj) => util.inspect(obj, { showHidden: false, depth: null });
-const openApiSpecsDir = path.resolve('../../commonTestResources/exampleOpenApiFiles/valid');
+const openApiSpecsDir = path.resolve(
+  '../../commonTestResources/exampleOpenApiFiles/valid',
+);
 const openApiSpecs = [
   {
     openApiVersion: 2,
@@ -43,10 +45,10 @@ openApiSpecs.forEach((spec) => {
       chai.use(chaiResponseValidator(pathToApiSpec));
     });
 
-    describe('when \'res\' is not a valid HTTP response object', function () {
+    describe("when 'res' is not a valid HTTP response object", function () {
       const res = {
         status: 204,
-        body: 'should have a \'path\' property',
+        body: "should have a 'path' property",
       };
 
       it('fails', function () {
@@ -60,8 +62,8 @@ openApiSpecs.forEach((spec) => {
       });
     });
 
-    describe('when \'res\' matches a response defined in the API spec', function () {
-      describe('\'res\' satisfies the spec', function () {
+    describe("when 'res' matches a response defined in the API spec", function () {
+      describe("'res' satisfies the spec", function () {
         describe('spec expects res.body to', function () {
           describe('be a string', function () {
             const res = {
@@ -72,21 +74,24 @@ openApiSpecs.forEach((spec) => {
               },
               body: 'valid body (string)',
             };
-            const responseDefinition = openApiVersion === 2
-              // OpenAPI 2
-              ? {
-                200: {
-                  description: 'Response body should be a string',
-                  schema: { type: 'string' },
-                },
-              }
-              // OpenAPI 3
-              : {
-                200: {
-                  description: 'Response body should be a string',
-                  content: { 'application/json': { schema: { type: 'string' } } },
-                },
-              };
+            const responseDefinition =
+              openApiVersion === 2
+                ? // OpenAPI 2
+                  {
+                    200: {
+                      description: 'Response body should be a string',
+                      schema: { type: 'string' },
+                    },
+                  }
+                : // OpenAPI 3
+                  {
+                    200: {
+                      description: 'Response body should be a string',
+                      content: {
+                        'application/json': { schema: { type: 'string' } },
+                      },
+                    },
+                  };
 
             it('passes', function () {
               expect(res).to.satisfyApiSpec;
@@ -99,7 +104,9 @@ openApiSpecs.forEach((spec) => {
               \n\nexpected res not to satisfy the '200' response defined
                   for endpoint 'GET /test/responseBody/string' in your API spec
               \n\nres contained: ${str({ body: 'valid body (string)' })}
-              \n\nThe '200' response defined for endpoint 'GET /test/responseBody/string' in API spec: ${str(responseDefinition)}`,
+              \n\nThe '200' response defined for endpoint 'GET /test/responseBody/string' in API spec: ${str(
+                responseDefinition,
+              )}`,
               );
             });
           });
@@ -113,21 +120,28 @@ openApiSpecs.forEach((spec) => {
               },
               body: 'valid body (string)',
             };
-            const responseDefinition = openApiVersion === 2
-              // OpenAPI 2
-              ? {
-                200: {
-                  description: 'Response body references a simple schema object',
-                  schema: { $ref: '#/definitions/StringSchema' },
-                },
-              }
-              // OpenAPI 3
-              : {
-                200: {
-                  description: 'Response body references a simple schema object',
-                  content: { 'application/json': { schema: { $ref: '#/components/schemas/StringSchema' } } },
-                },
-              };
+            const responseDefinition =
+              openApiVersion === 2
+                ? // OpenAPI 2
+                  {
+                    200: {
+                      description:
+                        'Response body references a simple schema object',
+                      schema: { $ref: '#/definitions/StringSchema' },
+                    },
+                  }
+                : // OpenAPI 3
+                  {
+                    200: {
+                      description:
+                        'Response body references a simple schema object',
+                      content: {
+                        'application/json': {
+                          schema: { $ref: '#/components/schemas/StringSchema' },
+                        },
+                      },
+                    },
+                  };
 
             it('passes', function () {
               expect(res).to.satisfyApiSpec;
@@ -140,7 +154,9 @@ openApiSpecs.forEach((spec) => {
               \n\nexpected res not to satisfy the '200' response defined
                   for endpoint 'GET /test/responseBody/referencesSchemaObject/simple' in your API spec
               \n\nres contained: ${str({ body: 'valid body (string)' })}
-              \n\nThe '200' response defined for endpoint 'GET /test/responseBody/referencesSchemaObject/simple' in API spec: ${str(responseDefinition)}`,
+              \n\nThe '200' response defined for endpoint 'GET /test/responseBody/referencesSchemaObject/simple' in API spec: ${str(
+                responseDefinition,
+              )}`,
               );
             });
           });
@@ -161,7 +177,7 @@ openApiSpecs.forEach((spec) => {
             it('fails when using .not', function () {
               const assertion = () => expect(res).to.not.satisfyApiSpec;
               expect(assertion).to.throw(
-                'expected res not to satisfy the \'204\' response defined for endpoint \'GET /test/responseBody/empty\'',
+                "expected res not to satisfy the '204' response defined for endpoint 'GET /test/responseBody/empty'",
               );
             });
           });
@@ -183,7 +199,7 @@ openApiSpecs.forEach((spec) => {
             it('fails when using .not', function () {
               const assertion = () => expect(res).to.not.satisfyApiSpec;
               expect(assertion).to.throw(
-                'expected res not to satisfy the \'200\' response defined for endpoint \'GET /test/responseBody/boolean\'',
+                "expected res not to satisfy the '200' response defined for endpoint 'GET /test/responseBody/boolean'",
               );
             });
           });
@@ -235,7 +251,7 @@ openApiSpecs.forEach((spec) => {
           it('fails when using .not', function () {
             const assertion = () => expect(res).to.not.satisfyApiSpec;
             expect(assertion).to.throw(
-              'expected res not to satisfy the \'200\' response defined for endpoint \'GET /test/responseReferencesResponseDefinitionObject',
+              "expected res not to satisfy the '200' response defined for endpoint 'GET /test/responseReferencesResponseDefinitionObject",
             );
           });
         });
@@ -258,7 +274,7 @@ openApiSpecs.forEach((spec) => {
             it('fails when using .not', function () {
               const assertion = () => expect(res).to.not.satisfyApiSpec;
               expect(assertion).to.throw(
-                'expected res not to satisfy the \'201\' response defined for endpoint \'GET /test/multipleResponsesDefined\'',
+                "expected res not to satisfy the '201' response defined for endpoint 'GET /test/multipleResponsesDefined'",
               );
             });
           });
@@ -280,7 +296,7 @@ openApiSpecs.forEach((spec) => {
             it('fails when using .not', function () {
               const assertion = () => expect(res).to.not.satisfyApiSpec;
               expect(assertion).to.throw(
-                'expected res not to satisfy the \'202\' response defined for endpoint \'GET /test/multipleResponsesDefined\'',
+                "expected res not to satisfy the '202' response defined for endpoint 'GET /test/multipleResponsesDefined'",
               );
             });
           });
@@ -302,7 +318,7 @@ openApiSpecs.forEach((spec) => {
             it('fails when using .not', function () {
               const assertion = () => expect(res).to.not.satisfyApiSpec;
               expect(assertion).to.throw(
-                'expected res not to satisfy the \'203\' response defined for endpoint \'GET /test/multipleResponsesDefined\'',
+                "expected res not to satisfy the '203' response defined for endpoint 'GET /test/multipleResponsesDefined'",
               );
             });
           });
@@ -325,7 +341,7 @@ openApiSpecs.forEach((spec) => {
             it('fails when using .not', function () {
               const assertion = () => expect(res).to.not.satisfyApiSpec;
               expect(assertion).to.throw(
-                'expected res not to satisfy the \'204\' response defined for endpoint \'GET /test/queryParams\'',
+                "expected res not to satisfy the '204' response defined for endpoint 'GET /test/queryParams'",
               );
             });
           });
@@ -346,7 +362,7 @@ openApiSpecs.forEach((spec) => {
             it('fails when using .not', function () {
               const assertion = () => expect(res).to.not.satisfyApiSpec;
               expect(assertion).to.throw(
-                'expected res not to satisfy the \'204\' response defined for endpoint \'GET /test/queryParams\'',
+                "expected res not to satisfy the '204' response defined for endpoint 'GET /test/queryParams'",
               );
             });
           });
@@ -367,7 +383,7 @@ openApiSpecs.forEach((spec) => {
             it('fails when using .not', function () {
               const assertion = () => expect(res).to.not.satisfyApiSpec;
               expect(assertion).to.throw(
-                'expected res not to satisfy the \'204\' response defined for endpoint \'GET /test/pathParams/{exampleParam}\'',
+                "expected res not to satisfy the '204' response defined for endpoint 'GET /test/pathParams/{exampleParam}'",
               );
             });
           });
@@ -388,7 +404,7 @@ openApiSpecs.forEach((spec) => {
             it('fails when using .not', function () {
               const assertion = () => expect(res).to.not.satisfyApiSpec;
               expect(assertion).to.throw(
-                'expected res not to satisfy the \'204\' response defined for endpoint \'GET /test/multiplePathParams/{param1}/{param2}\'',
+                "expected res not to satisfy the '204' response defined for endpoint 'GET /test/multiplePathParams/{param1}/{param2}'",
               );
             });
           });
@@ -409,14 +425,14 @@ openApiSpecs.forEach((spec) => {
             it('fails when using .not', function () {
               const assertion = () => expect(res).to.not.satisfyApiSpec;
               expect(assertion).to.throw(
-                'expected res not to satisfy the \'204\' response defined for endpoint \'GET /test/pathAndQueryParams/{examplePathParam}\'',
+                "expected res not to satisfy the '204' response defined for endpoint 'GET /test/pathAndQueryParams/{examplePathParam}'",
               );
             });
           });
         });
       });
 
-      describe('\'res\' does NOT satisfy the spec', function () {
+      describe("'res' does NOT satisfy the spec", function () {
         describe('wrong res.status', function () {
           const res = {
             status: 418,
@@ -450,27 +466,13 @@ openApiSpecs.forEach((spec) => {
             },
             body: { property1: 123, property2: 123 },
           };
-          const responseDefinition = openApiVersion === 2
-            // OpenAPI 2
-            ? {
-              200: {
-                description: 'Response body should be an object with multiple string properties',
-                schema: {
-                  type: 'object',
-                  required: ['property1', 'property2'],
-                  properties: {
-                    property1: { type: 'string' },
-                    property2: { type: 'string' },
-                  },
-                },
-              },
-            }
-            // OpenAPI 3
-            : {
-              200: {
-                description: 'Response body should be an object with multiple string properties',
-                content: {
-                  'application/json': {
+          const responseDefinition =
+            openApiVersion === 2
+              ? // OpenAPI 2
+                {
+                  200: {
+                    description:
+                      'Response body should be an object with multiple string properties',
                     schema: {
                       type: 'object',
                       required: ['property1', 'property2'],
@@ -480,9 +482,26 @@ openApiSpecs.forEach((spec) => {
                       },
                     },
                   },
-                },
-              },
-            };
+                }
+              : // OpenAPI 3
+                {
+                  200: {
+                    description:
+                      'Response body should be an object with multiple string properties',
+                    content: {
+                      'application/json': {
+                        schema: {
+                          type: 'object',
+                          required: ['property1', 'property2'],
+                          properties: {
+                            property1: { type: 'string' },
+                            property2: { type: 'string' },
+                          },
+                        },
+                      },
+                    },
+                  },
+                };
 
           it('fails and outputs a useful error message', function () {
             const assertion = () => expect(res).to.satisfyApiSpec;
@@ -491,8 +510,12 @@ openApiSpecs.forEach((spec) => {
             \n\nexpected res to satisfy the '200' response defined
                 for endpoint 'GET /test/responseBody/object/withMultipleProperties' in your API spec
               \nres did not satisfy it because: property1 should be string, property2 should be string
-            \n\nres contained: ${str({ body: { property1: 123, property2: 123 } })}
-            \n\nThe '200' response defined for endpoint 'GET /test/responseBody/object/withMultipleProperties' in API spec: ${str(responseDefinition)}`,
+            \n\nres contained: ${str({
+              body: { property1: 123, property2: 123 },
+            })}
+            \n\nThe '200' response defined for endpoint 'GET /test/responseBody/object/withMultipleProperties' in API spec: ${str(
+              responseDefinition,
+            )}`,
             );
           });
 
@@ -503,7 +526,7 @@ openApiSpecs.forEach((spec) => {
       });
     });
 
-    describe('when \'res\' matches NO responses defined in the API spec', function () {
+    describe("when 'res' matches NO responses defined in the API spec", function () {
       describe('res matches no paths', function () {
         const res = {
           status: 204,
@@ -516,9 +539,9 @@ openApiSpecs.forEach((spec) => {
         it('fails', function () {
           const assertion = () => expect(res).to.satisfyApiSpec;
           expect(assertion).to.throw(
-            'expected res to satisfy a \'204\' response defined for endpoint \'GET /does/not/exist\' in your API spec'
-          + '\nres had request path \'/does/not/exist\', but your API spec has no matching path'
-          + '\n\nPaths found in API spec: /test/responseBody/string, /test/responseBody/boolean', // etc.
+            "expected res to satisfy a '204' response defined for endpoint 'GET /does/not/exist' in your API spec" +
+              "\nres had request path '/does/not/exist', but your API spec has no matching path" +
+              '\n\nPaths found in API spec: /test/responseBody/string, /test/responseBody/boolean', // etc.
           );
         });
 

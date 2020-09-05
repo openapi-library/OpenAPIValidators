@@ -6,7 +6,9 @@ const { c } = require('compress-tag');
 const chaiResponseValidator = require('../../..');
 
 const str = (obj) => util.inspect(obj, { showHidden: false, depth: null });
-const openApiSpecsDir = path.resolve('../../commonTestResources/exampleOpenApiFiles/valid/satisfySchemaInApiSpec');
+const openApiSpecsDir = path.resolve(
+  '../../commonTestResources/exampleOpenApiFiles/valid/satisfySchemaInApiSpec',
+);
 const openApiSpecs = [
   {
     openApiVersion: 2,
@@ -28,12 +30,12 @@ openApiSpecs.forEach((spec) => {
       chai.use(chaiResponseValidator(pathToApiSpec));
     });
 
-    describe('when \'obj\' matches a schema defined in the API spec, such that spec expects obj to', function () {
+    describe("when 'obj' matches a schema defined in the API spec, such that spec expects obj to", function () {
       describe('be a string', function () {
         const schemaName = 'StringSchema';
         const expectedSchema = { type: 'string' };
 
-        describe('\'obj\' satisfies the spec', function () {
+        describe("'obj' satisfies the spec", function () {
           const validObj = 'string';
 
           it('passes', function () {
@@ -41,7 +43,8 @@ openApiSpecs.forEach((spec) => {
           });
 
           it('fails when using .not', function () {
-            const assertion = () => expect(validObj).to.not.satisfySchemaInApiSpec(schemaName);
+            const assertion = () =>
+              expect(validObj).to.not.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
               c`expected object not to satisfy the '${schemaName}' schema defined in your API spec
               \nobject was: 'string'
@@ -50,11 +53,12 @@ openApiSpecs.forEach((spec) => {
           });
         });
 
-        describe('\'obj\' does not satisfy the spec', function () {
+        describe("'obj' does not satisfy the spec", function () {
           const invalidObj = 123;
 
           it('fails and outputs a useful error message', function () {
-            const assertion = () => expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
+            const assertion = () =>
+              expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
               c`expected object to satisfy the '${schemaName}' schema defined in your API spec
               \nobject did not satisfy it because: object should be string
@@ -73,7 +77,7 @@ openApiSpecs.forEach((spec) => {
         const schemaName = 'IntegerSchema';
         const expectedSchema = { type: 'integer' };
 
-        describe('\'obj\' satisfies the spec', function () {
+        describe("'obj' satisfies the spec", function () {
           const validObj = 123;
 
           it('passes', function () {
@@ -81,7 +85,8 @@ openApiSpecs.forEach((spec) => {
           });
 
           it('fails when using .not', function () {
-            const assertion = () => expect(validObj).to.not.satisfySchemaInApiSpec(schemaName);
+            const assertion = () =>
+              expect(validObj).to.not.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
               c`expected object not to satisfy the '${schemaName}' schema defined in your API spec
               \nobject was: 123
@@ -90,11 +95,12 @@ openApiSpecs.forEach((spec) => {
           });
         });
 
-        describe('\'obj\' does not satisfy the spec', function () {
+        describe("'obj' does not satisfy the spec", function () {
           const invalidObj = 'should be integer';
 
           it('fails and outputs a useful error message', function () {
-            const assertion = () => expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
+            const assertion = () =>
+              expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
               c`expected object to satisfy the '${schemaName}' schema defined in your API spec
               \nobject did not satisfy it because: object should be integer
@@ -117,7 +123,7 @@ openApiSpecs.forEach((spec) => {
           properties: { property1: { type: 'string' } },
         };
 
-        describe('\'obj\' satisfies the spec', function () {
+        describe("'obj' satisfies the spec", function () {
           const validObj = { property1: 'string' };
 
           it('passes', function () {
@@ -125,7 +131,8 @@ openApiSpecs.forEach((spec) => {
           });
 
           it('fails when using .not and outputs a useful error message', function () {
-            const assertion = () => expect(validObj).to.not.satisfySchemaInApiSpec(schemaName);
+            const assertion = () =>
+              expect(validObj).to.not.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
               c`object was: ${str(validObj)}
             \n\nThe '${schemaName}' schema in API spec: ${str(expectedSchema)}`,
@@ -133,11 +140,12 @@ openApiSpecs.forEach((spec) => {
           });
         });
 
-        describe('\'obj\' does not satisfy the spec', function () {
+        describe("'obj' does not satisfy the spec", function () {
           const invalidObj = { property1: 123 };
 
           it('fails and outputs a useful error message', function () {
-            const assertion = () => expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
+            const assertion = () =>
+              expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
               AssertionError,
               c`object did not satisfy it because: property1 should be string
@@ -154,7 +162,8 @@ openApiSpecs.forEach((spec) => {
 
       describe('satisfy a schema referencing another schema', function () {
         const schemaName = 'SchemaReferencingAnotherSchema';
-        const definitions = openApiVersion === 2 ? 'definitions' : 'components/schemas';
+        const definitions =
+          openApiVersion === 2 ? 'definitions' : 'components/schemas';
         const expectedSchema = {
           required: ['property1'],
           properties: {
@@ -162,7 +171,7 @@ openApiSpecs.forEach((spec) => {
           },
         };
 
-        describe('\'obj\' satisfies the spec', function () {
+        describe("'obj' satisfies the spec", function () {
           const validObj = { property1: 'string' };
 
           it('passes', function () {
@@ -170,7 +179,8 @@ openApiSpecs.forEach((spec) => {
           });
 
           it('fails when using .not and outputs a useful error message', function () {
-            const assertion = () => expect(validObj).to.not.satisfySchemaInApiSpec(schemaName);
+            const assertion = () =>
+              expect(validObj).to.not.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
               AssertionError,
               c`object was: ${str(validObj)}
@@ -179,11 +189,12 @@ openApiSpecs.forEach((spec) => {
           });
         });
 
-        describe('\'obj\' does not satisfy the spec', function () {
+        describe("'obj' does not satisfy the spec", function () {
           const invalidObj = { property1: 123 };
 
           it('fails and outputs a useful error message', function () {
-            const assertion = () => expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
+            const assertion = () =>
+              expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
               c`object did not satisfy it because: property1 should be string
             \n\nobject was: ${str(invalidObj)}
@@ -200,7 +211,7 @@ openApiSpecs.forEach((spec) => {
       describe('satisfy allOf 2 schemas', function () {
         const schemaName = 'SchemaUsingAllOf';
 
-        describe('\'obj\' satisfies the spec', function () {
+        describe("'obj' satisfies the spec", function () {
           const validObj = { property1: 'string', property2: 'string' };
 
           it('passes', function () {
@@ -208,7 +219,8 @@ openApiSpecs.forEach((spec) => {
           });
 
           it('fails when using .not', function () {
-            const assertion = () => expect(validObj).to.not.satisfySchemaInApiSpec(schemaName);
+            const assertion = () =>
+              expect(validObj).to.not.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
               AssertionError,
               'expected object not to satisfy',
@@ -216,11 +228,12 @@ openApiSpecs.forEach((spec) => {
           });
         });
 
-        describe('\'obj\' does not satisfy the spec', function () {
+        describe("'obj' does not satisfy the spec", function () {
           const invalidObj = { property1: 'string', property2: 123 };
 
           it('fails', function () {
-            const assertion = () => expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
+            const assertion = () =>
+              expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
               AssertionError,
               'object did not satisfy it because: property2 should be string',
@@ -237,7 +250,7 @@ openApiSpecs.forEach((spec) => {
         describe('satisfy anyOf 2 schemas', function () {
           const schemaName = 'SchemaUsingAnyOf';
 
-          describe('\'obj\' satisfies the spec', function () {
+          describe("'obj' satisfies the spec", function () {
             const validObj = { property1: 123, property2: 'string' };
 
             it('passes', function () {
@@ -245,7 +258,8 @@ openApiSpecs.forEach((spec) => {
             });
 
             it('fails when using .not', function () {
-              const assertion = () => expect(validObj).to.not.satisfySchemaInApiSpec(schemaName);
+              const assertion = () =>
+                expect(validObj).to.not.satisfySchemaInApiSpec(schemaName);
               expect(assertion).to.throw(
                 AssertionError,
                 'expected object not to satisfy',
@@ -253,11 +267,12 @@ openApiSpecs.forEach((spec) => {
             });
           });
 
-          describe('\'obj\' does not satisfy the spec', function () {
+          describe("'obj' does not satisfy the spec", function () {
             const invalidObj = { property1: 123, property2: 123 };
 
             it('fails and outputs a useful error message', function () {
-              const assertion = () => expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
+              const assertion = () =>
+                expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
               expect(assertion).to.throw(
                 AssertionError,
                 'object did not satisfy it because: property1 should be string, property2 should be string, object should match some schema in anyOf',
@@ -273,7 +288,7 @@ openApiSpecs.forEach((spec) => {
         describe('satisfy oneOf 2 schemas', function () {
           const schemaName = 'SchemaUsingOneOf';
 
-          describe('\'obj\' satisfies the spec', function () {
+          describe("'obj' satisfies the spec", function () {
             const validObj = { property1: 123, property2: 'string' };
 
             it('passes', function () {
@@ -281,7 +296,8 @@ openApiSpecs.forEach((spec) => {
             });
 
             it('fails when using .not', function () {
-              const assertion = () => expect(validObj).to.not.satisfySchemaInApiSpec(schemaName);
+              const assertion = () =>
+                expect(validObj).to.not.satisfySchemaInApiSpec(schemaName);
               expect(assertion).to.throw(
                 AssertionError,
                 'expected object not to satisfy',
@@ -289,11 +305,12 @@ openApiSpecs.forEach((spec) => {
             });
           });
 
-          describe('\'obj\' does not satisfy the spec', function () {
+          describe("'obj' does not satisfy the spec", function () {
             const invalidObj = { property1: 'string', property2: 'string' };
 
             it('fails and outputs a useful error message', function () {
-              const assertion = () => expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
+              const assertion = () =>
+                expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
               expect(assertion).to.throw(
                 AssertionError,
                 'object did not satisfy it because: object should match exactly one schema in oneOf',
@@ -308,11 +325,12 @@ openApiSpecs.forEach((spec) => {
       }
     });
 
-    describe('when \'obj\' matches NO schemas defined in the API spec', function () {
+    describe("when 'obj' matches NO schemas defined in the API spec", function () {
       const obj = 'foo';
 
       it('fails', function () {
-        const assertion = () => expect(obj).to.satisfySchemaInApiSpec('NonExistentSchema');
+        const assertion = () =>
+          expect(obj).to.satisfySchemaInApiSpec('NonExistentSchema');
         expect(assertion).to.throw(
           AssertionError,
           'The argument to satisfySchemaInApiSpec must match a schema in your API spec',
@@ -320,7 +338,8 @@ openApiSpecs.forEach((spec) => {
       });
 
       it('fails when using .not', function () {
-        const assertion = () => expect(obj).to.not.satisfySchemaInApiSpec('NonExistentSchema');
+        const assertion = () =>
+          expect(obj).to.not.satisfySchemaInApiSpec('NonExistentSchema');
         expect(assertion).to.throw(
           AssertionError,
           'The argument to satisfySchemaInApiSpec must match a schema in your API spec',

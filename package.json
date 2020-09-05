@@ -5,6 +5,7 @@
     "packages/*"
   ],
   "scripts": {
+    "format": "(cd packages/chai-openapi-response-validator && npm run format) && (cd packages/jest-openapi && npm run format)",
     "lint": "(cd packages/chai-openapi-response-validator && npm run lint) && (cd packages/jest-openapi && npm run lint)",
     "test": "(cd packages/chai-openapi-response-validator && npm run test) && (cd packages/jest-openapi && npm run test)",
     "test:precommit": "(cd packages/chai-openapi-response-validator && npm run test:precommit) && (cd packages/jest-openapi && npm run test:precommit)",
@@ -14,11 +15,13 @@
   "devDependencies": {
     "eslint": "^7.7.0",
     "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jest": "^23.20.0",
     "eslint-plugin-mocha": "^8.0.0",
     "express": "^4.17.1",
-    "husky": "^4.2.5"
+    "husky": "^4.2.5",
+    "prettier": "^2.1.1"
   },
   "husky": {
     "hooks": {
