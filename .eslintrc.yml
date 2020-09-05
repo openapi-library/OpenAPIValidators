@@ -1,13 +1,16 @@
+parserOptions:
+  ecmaVersion: 2018
+  sourceType: module
+
 env:
   es6: true
   node: true
+
 extends:
   - airbnb-base
   - eslint:recommended
   - prettier # must go last, to turn off some previous rules
-parserOptions:
-  ecmaVersion: 2018
-  sourceType: module
+
 rules:
   func-names: 0
   no-use-before-define: 0

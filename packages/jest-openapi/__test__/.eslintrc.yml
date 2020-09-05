@@ -1,9 +1,12 @@
-plugins:
-  - jest
-extends:
-  - plugin:jest/all
 env:
   jest/globals: true
+
+plugins:
+  - jest
+
+extends:
+  - plugin:jest/all
+
 rules:
   jest/prefer-expect-assertions: off
   jest/no-disabled-tests: warn
