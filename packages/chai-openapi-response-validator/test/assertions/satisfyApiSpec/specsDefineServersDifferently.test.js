@@ -25,9 +25,9 @@ const dirContainingApiSpec = path.resolve(
 );
 const { expect, AssertionError } = chai;
 
-describe('Using OpenAPI 3 specs that define servers differently', function () {
-  describe('spec has no server property', function () {
-    before(function () {
+describe('Using OpenAPI 3 specs that define servers differently', () => {
+  describe('spec has no server property', () => {
+    before(() => {
       const pathToApiSpec = path.join(
         dirContainingApiSpec,
         'noServersProperty.yml',
@@ -35,7 +35,7 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
       chai.use(chaiResponseValidator(pathToApiSpec));
     });
 
-    describe("res.req.path matches the default server ('/') and an endpoint path", function () {
+    describe("res.req.path matches the default server ('/') and an endpoint path", () => {
       const res = {
         status: 200,
         req: {
@@ -45,16 +45,16 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
         body: 'valid body (string)',
       };
 
-      it('passes', function () {
+      it('passes', () => {
         expect(res).to.satisfyApiSpec;
       });
 
-      it('fails when using .not', function () {
+      it('fails when using .not', () => {
         const assertion = () => expect(res).to.not.satisfyApiSpec;
         expect(assertion).to.throw(AssertionError, '');
       });
     });
-    describe('res.req.path does not match any servers', function () {
+    describe('res.req.path does not match any servers', () => {
       const res = {
         status: 200,
         req: {
@@ -64,7 +64,7 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
         body: 'valid body (string)',
       };
 
-      it('fails', function () {
+      it('fails', () => {
         const assertion = () => expect(res).to.satisfyApiSpec;
         expect(assertion).to.throw(
           "expected res to satisfy a '200' response defined for endpoint 'GET nonExistentServer/test/responseBody/string' in your API spec" +
@@ -74,11 +74,11 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
         );
       });
 
-      it('passes when using .not', function () {
+      it('passes when using .not', () => {
         expect(res).to.not.satisfyApiSpec;
       });
     });
-    describe("res.req.path matches the default server ('/') but no endpoint paths", function () {
+    describe("res.req.path matches the default server ('/') but no endpoint paths", () => {
       const res = {
         status: 200,
         req: {
@@ -88,7 +88,7 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
         body: 'valid body (string)',
       };
 
-      it('fails', function () {
+      it('fails', () => {
         const assertion = () => expect(res).to.satisfyApiSpec;
         expect(assertion).to.throw(
           "expected res to satisfy a '200' response defined for endpoint 'GET /nonExistentEndpointPath' in your API spec" +
@@ -98,14 +98,14 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
         );
       });
 
-      it('passes when using .not', function () {
+      it('passes when using .not', () => {
         expect(res).to.not.satisfyApiSpec;
       });
     });
   });
 
-  describe("spec's server property is an empty array", function () {
-    before(function () {
+  describe("spec's server property is an empty array", () => {
+    before(() => {
       const pathToApiSpec = path.join(
         dirContainingApiSpec,
         'serversIsEmptyArray.yml',
@@ -113,7 +113,7 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
       chai.use(chaiResponseValidator(pathToApiSpec));
     });
 
-    describe("res.req.path matches the default server ('/') and an endpoint path", function () {
+    describe("res.req.path matches the default server ('/') and an endpoint path", () => {
       const res = {
         status: 200,
         req: {
@@ -123,16 +123,16 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
         body: 'valid body (string)',
       };
 
-      it('passes', function () {
+      it('passes', () => {
         expect(res).to.satisfyApiSpec;
       });
 
-      it('fails when using .not', function () {
+      it('fails when using .not', () => {
         const assertion = () => expect(res).to.not.satisfyApiSpec;
         expect(assertion).to.throw(AssertionError, '');
       });
     });
-    describe('res.req.path does not match any servers', function () {
+    describe('res.req.path does not match any servers', () => {
       const res = {
         status: 200,
         req: {
@@ -142,7 +142,7 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
         body: 'valid body (string)',
       };
 
-      it('fails', function () {
+      it('fails', () => {
         const assertion = () => expect(res).to.satisfyApiSpec;
         expect(assertion).to.throw(
           "expected res to satisfy a '200' response defined for endpoint 'GET nonExistentServer/test/responseBody/string' in your API spec" +
@@ -152,11 +152,11 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
         );
       });
 
-      it('passes when using .not', function () {
+      it('passes when using .not', () => {
         expect(res).to.not.satisfyApiSpec;
       });
     });
-    describe("res.req.path matches the default server ('/') but no endpoint paths", function () {
+    describe("res.req.path matches the default server ('/') but no endpoint paths", () => {
       const res = {
         status: 200,
         req: {
@@ -166,7 +166,7 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
         body: 'valid body (string)',
       };
 
-      it('fails', function () {
+      it('fails', () => {
         const assertion = () => expect(res).to.satisfyApiSpec;
         expect(assertion).to.throw(
           "expected res to satisfy a '200' response defined for endpoint 'GET /nonExistentEndpointPath' in your API spec" +
@@ -176,14 +176,14 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
         );
       });
 
-      it('passes when using .not', function () {
+      it('passes when using .not', () => {
         expect(res).to.not.satisfyApiSpec;
       });
     });
   });
 
-  describe('spec defines various (relative and absolute) servers', function () {
-    before(function () {
+  describe('spec defines various (relative and absolute) servers', () => {
+    before(() => {
       const pathToApiSpec = path.join(
         dirContainingApiSpec,
         'variousServers.yml',
@@ -191,7 +191,7 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
       chai.use(chaiResponseValidator(pathToApiSpec));
     });
 
-    describe('res.req.path does not match any servers', function () {
+    describe('res.req.path does not match any servers', () => {
       const res = {
         status: 200,
         req: {
@@ -201,7 +201,7 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
         body: 'valid body (string)',
       };
 
-      it('fails', function () {
+      it('fails', () => {
         const assertion = () => expect(res).to.satisfyApiSpec;
         expect(assertion).to.throw(
           'expected res to satisfy API spec' +
@@ -213,7 +213,7 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
         );
       });
 
-      it('passes when using .not', function () {
+      it('passes when using .not', () => {
         expect(res).to.not.satisfyApiSpec;
       });
     });
@@ -262,10 +262,10 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
     };
 
     Object.entries(tests).forEach(([testName, test]) => {
-      describe(`res.req.path matches ${testName}`, function () {
+      describe(`res.req.path matches ${testName}`, () => {
         const { serverBasePath, expectedMatchingServers } = test;
 
-        describe('res.req.path matches a server and an endpoint path', function () {
+        describe('res.req.path matches a server and an endpoint path', () => {
           const res = {
             status: 200,
             req: {
@@ -275,16 +275,16 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
             body: 'valid body (string)',
           };
 
-          it('passes', function () {
+          it('passes', () => {
             expect(res).to.satisfyApiSpec;
           });
 
-          it('fails when using .not', function () {
+          it('fails when using .not', () => {
             const assertion = () => expect(res).to.not.satisfyApiSpec;
             expect(assertion).to.throw(AssertionError, '');
           });
         });
-        describe('res.req.path matches a server but no endpoint paths', function () {
+        describe('res.req.path matches a server but no endpoint paths', () => {
           const res = {
             status: 200,
             req: {
@@ -294,7 +294,7 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
             body: 'valid body (string)',
           };
 
-          it('fails', function () {
+          it('fails', () => {
             const assertion = () => expect(res).to.satisfyApiSpec;
             expect(assertion).to.throw(
               `expected res to satisfy a '200' response defined for endpoint 'GET ${serverBasePath}/nonExistentEndpointPath' in your API spec` +
@@ -307,7 +307,7 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
             );
           });
 
-          it('passes when using .not', function () {
+          it('passes when using .not', () => {
             expect(res).to.not.satisfyApiSpec;
           });
         });
@@ -315,8 +315,8 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
     });
   });
 
-  describe('spec defines only absolute servers with base paths', function () {
-    before(function () {
+  describe('spec defines only absolute servers with base paths', () => {
+    before(() => {
       const pathToApiSpec = path.join(
         dirContainingApiSpec,
         'onlyAbsoluteServersWithBasePaths.yml',
@@ -324,7 +324,7 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
       chai.use(chaiResponseValidator(pathToApiSpec));
     });
 
-    describe('res.req.matches a server base path and an endpoint path', function () {
+    describe('res.req.matches a server base path and an endpoint path', () => {
       const res = {
         status: 200,
         req: {
@@ -334,17 +334,17 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
         body: 'valid body (string)',
       };
 
-      it('passes', function () {
+      it('passes', () => {
         expect(res).to.satisfyApiSpec;
       });
 
-      it('fails when using .not', function () {
+      it('fails when using .not', () => {
         const assertion = () => expect(res).to.not.satisfyApiSpec;
         expect(assertion).to.throw(AssertionError, '');
       });
     });
 
-    describe('res.req.path matches a server base path but no endpoint paths', function () {
+    describe('res.req.path matches a server base path but no endpoint paths', () => {
       const res = {
         status: 200,
         req: {
@@ -354,7 +354,7 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
         body: 'valid body (string)',
       };
 
-      it('fails', function () {
+      it('fails', () => {
         const assertion = () => expect(res).to.satisfyApiSpec;
         expect(assertion).to.throw(
           AssertionError,
@@ -364,12 +364,12 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
         );
       });
 
-      it('passes when using .not', function () {
+      it('passes when using .not', () => {
         expect(res).to.not.satisfyApiSpec;
       });
     });
 
-    describe("res.req.path does not match any defined server base paths, nor the default base path ('/')", function () {
+    describe("res.req.path does not match any defined server base paths, nor the default base path ('/')", () => {
       const res = {
         status: 200,
         req: {
@@ -379,7 +379,7 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
         body: 'valid body (string)',
       };
 
-      it('fails', function () {
+      it('fails', () => {
         const assertion = () => expect(res).to.satisfyApiSpec;
         expect(assertion).to.throw(
           AssertionError,
@@ -387,12 +387,12 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
         );
       });
 
-      it('passes when using .not', function () {
+      it('passes when using .not', () => {
         expect(res).to.not.satisfyApiSpec;
       });
     });
 
-    describe("res.req.path does not match any defined server base paths, but does match the default base path ('/')", function () {
+    describe("res.req.path does not match any defined server base paths, but does match the default base path ('/')", () => {
       const res = {
         status: 200,
         req: {
@@ -402,7 +402,7 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
         body: 'valid body (string)',
       };
 
-      it('fails', function () {
+      it('fails', () => {
         const assertion = () => expect(res).to.satisfyApiSpec;
         expect(assertion).to.throw(
           AssertionError,
@@ -410,14 +410,14 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
         );
       });
 
-      it('passes when using .not', function () {
+      it('passes when using .not', () => {
         expect(res).to.not.satisfyApiSpec;
       });
     });
   });
 
-  describe('spec defines only absolute servers without base paths', function () {
-    before(function () {
+  describe('spec defines only absolute servers without base paths', () => {
+    before(() => {
       const pathToApiSpec = path.join(
         dirContainingApiSpec,
         'noServersWithBasePaths.yml',
@@ -425,7 +425,7 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
       chai.use(chaiResponseValidator(pathToApiSpec));
     });
 
-    describe("res.req.path matches the default server base path ('/') and an endpoint path", function () {
+    describe("res.req.path matches the default server base path ('/') and an endpoint path", () => {
       const res = {
         status: 200,
         req: {
@@ -435,17 +435,17 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
         body: 'valid body (string)',
       };
 
-      it('passes', function () {
+      it('passes', () => {
         expect(res).to.satisfyApiSpec;
       });
 
-      it('fails when using .not', function () {
+      it('fails when using .not', () => {
         const assertion = () => expect(res).to.not.satisfyApiSpec;
         expect(assertion).to.throw(AssertionError, '');
       });
     });
 
-    describe("res.req.path matches the default server base path ('/') but no endpoint paths", function () {
+    describe("res.req.path matches the default server base path ('/') but no endpoint paths", () => {
       const res = {
         status: 200,
         req: {
@@ -455,7 +455,7 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
         body: 'valid body (string)',
       };
 
-      it('fails', function () {
+      it('fails', () => {
         const assertion = () => expect(res).to.satisfyApiSpec;
         expect(assertion).to.throw(
           AssertionError,
@@ -465,12 +465,12 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
         );
       });
 
-      it('passes when using .not', function () {
+      it('passes when using .not', () => {
         expect(res).to.not.satisfyApiSpec;
       });
     });
 
-    describe("res.req.path does not match the default server base path ('/') nor any servers", function () {
+    describe("res.req.path does not match the default server base path ('/') nor any servers", () => {
       const res = {
         status: 200,
         req: {
@@ -480,7 +480,7 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
         body: 'valid body (string)',
       };
 
-      it('fails', function () {
+      it('fails', () => {
         const assertion = () => expect(res).to.satisfyApiSpec;
         expect(assertion).to.throw(
           AssertionError,
@@ -488,7 +488,7 @@ describe('Using OpenAPI 3 specs that define servers differently', function () {
         );
       });
 
-      it('passes when using .not', function () {
+      it('passes when using .not', () => {
         expect(res).to.not.satisfyApiSpec;
       });
     });

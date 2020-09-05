@@ -8,8 +8,8 @@ const dirContainingApiSpec = path.resolve(
 );
 const { expect } = chai;
 
-describe('Recreate bug (issue #XX)', function () {
-  before(function () {
+describe('Recreate bug (issue #XX)', () => {
+  before(() => {
     const pathToApiSpec = path.join(dirContainingApiSpec, 'openapi.yml');
     chai.use(chaiResponseValidator(pathToApiSpec));
   });
@@ -25,11 +25,11 @@ describe('Recreate bug (issue #XX)', function () {
     },
   };
 
-  it('passes', function () {
+  it('passes', () => {
     expect(res).to.satisfyApiSpec;
   });
 
-  it('fails when using .not', function () {
+  it('fails when using .not', () => {
     const assertion = () => expect(res).to.not.satisfyApiSpec;
     expect(assertion).to.throw();
   });

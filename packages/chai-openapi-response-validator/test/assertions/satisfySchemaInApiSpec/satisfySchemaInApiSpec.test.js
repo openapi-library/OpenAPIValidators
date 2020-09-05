@@ -25,24 +25,24 @@ const { expect, AssertionError } = chai;
 openApiSpecs.forEach((spec) => {
   const { openApiVersion, pathToApiSpec } = spec;
 
-  describe(`expect(obj).to.satisfySchemaInApiSpec(schemaName) (using an OpenAPI ${openApiVersion} spec)`, function () {
-    before(function () {
+  describe(`expect(obj).to.satisfySchemaInApiSpec(schemaName) (using an OpenAPI ${openApiVersion} spec)`, () => {
+    before(() => {
       chai.use(chaiResponseValidator(pathToApiSpec));
     });
 
-    describe("when 'obj' matches a schema defined in the API spec, such that spec expects obj to", function () {
-      describe('be a string', function () {
+    describe("when 'obj' matches a schema defined in the API spec, such that spec expects obj to", () => {
+      describe('be a string', () => {
         const schemaName = 'StringSchema';
         const expectedSchema = { type: 'string' };
 
-        describe("'obj' satisfies the spec", function () {
+        describe("'obj' satisfies the spec", () => {
           const validObj = 'string';
 
-          it('passes', function () {
+          it('passes', () => {
             expect(validObj).to.satisfySchemaInApiSpec(schemaName);
           });
 
-          it('fails when using .not', function () {
+          it('fails when using .not', () => {
             const assertion = () =>
               expect(validObj).to.not.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
@@ -53,10 +53,10 @@ openApiSpecs.forEach((spec) => {
           });
         });
 
-        describe("'obj' does not satisfy the spec", function () {
+        describe("'obj' does not satisfy the spec", () => {
           const invalidObj = 123;
 
-          it('fails and outputs a useful error message', function () {
+          it('fails and outputs a useful error message', () => {
             const assertion = () =>
               expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
@@ -67,24 +67,24 @@ openApiSpecs.forEach((spec) => {
             );
           });
 
-          it('passes when using .not', function () {
+          it('passes when using .not', () => {
             expect(invalidObj).to.not.satisfySchemaInApiSpec(schemaName);
           });
         });
       });
 
-      describe('be an integer', function () {
+      describe('be an integer', () => {
         const schemaName = 'IntegerSchema';
         const expectedSchema = { type: 'integer' };
 
-        describe("'obj' satisfies the spec", function () {
+        describe("'obj' satisfies the spec", () => {
           const validObj = 123;
 
-          it('passes', function () {
+          it('passes', () => {
             expect(validObj).to.satisfySchemaInApiSpec(schemaName);
           });
 
-          it('fails when using .not', function () {
+          it('fails when using .not', () => {
             const assertion = () =>
               expect(validObj).to.not.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
@@ -95,10 +95,10 @@ openApiSpecs.forEach((spec) => {
           });
         });
 
-        describe("'obj' does not satisfy the spec", function () {
+        describe("'obj' does not satisfy the spec", () => {
           const invalidObj = 'should be integer';
 
-          it('fails and outputs a useful error message', function () {
+          it('fails and outputs a useful error message', () => {
             const assertion = () =>
               expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
@@ -109,13 +109,13 @@ openApiSpecs.forEach((spec) => {
             );
           });
 
-          it('passes when using .not', function () {
+          it('passes when using .not', () => {
             expect(invalidObj).to.not.satisfySchemaInApiSpec(schemaName);
           });
         });
       });
 
-      describe('be a simple object', function () {
+      describe('be a simple object', () => {
         const schemaName = 'SimpleObjectSchema';
         const expectedSchema = {
           type: 'object',
@@ -123,14 +123,14 @@ openApiSpecs.forEach((spec) => {
           properties: { property1: { type: 'string' } },
         };
 
-        describe("'obj' satisfies the spec", function () {
+        describe("'obj' satisfies the spec", () => {
           const validObj = { property1: 'string' };
 
-          it('passes', function () {
+          it('passes', () => {
             expect(validObj).to.satisfySchemaInApiSpec(schemaName);
           });
 
-          it('fails when using .not and outputs a useful error message', function () {
+          it('fails when using .not and outputs a useful error message', () => {
             const assertion = () =>
               expect(validObj).to.not.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
@@ -140,10 +140,10 @@ openApiSpecs.forEach((spec) => {
           });
         });
 
-        describe("'obj' does not satisfy the spec", function () {
+        describe("'obj' does not satisfy the spec", () => {
           const invalidObj = { property1: 123 };
 
-          it('fails and outputs a useful error message', function () {
+          it('fails and outputs a useful error message', () => {
             const assertion = () =>
               expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
@@ -154,13 +154,13 @@ openApiSpecs.forEach((spec) => {
             );
           });
 
-          it('passes when using .not', function () {
+          it('passes when using .not', () => {
             expect(invalidObj).to.not.satisfySchemaInApiSpec(schemaName);
           });
         });
       });
 
-      describe('satisfy a schema referencing another schema', function () {
+      describe('satisfy a schema referencing another schema', () => {
         const schemaName = 'SchemaReferencingAnotherSchema';
         const definitions =
           openApiVersion === 2 ? 'definitions' : 'components/schemas';
@@ -171,14 +171,14 @@ openApiSpecs.forEach((spec) => {
           },
         };
 
-        describe("'obj' satisfies the spec", function () {
+        describe("'obj' satisfies the spec", () => {
           const validObj = { property1: 'string' };
 
-          it('passes', function () {
+          it('passes', () => {
             expect(validObj).to.satisfySchemaInApiSpec(schemaName);
           });
 
-          it('fails when using .not and outputs a useful error message', function () {
+          it('fails when using .not and outputs a useful error message', () => {
             const assertion = () =>
               expect(validObj).to.not.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
@@ -189,10 +189,10 @@ openApiSpecs.forEach((spec) => {
           });
         });
 
-        describe("'obj' does not satisfy the spec", function () {
+        describe("'obj' does not satisfy the spec", () => {
           const invalidObj = { property1: 123 };
 
-          it('fails and outputs a useful error message', function () {
+          it('fails and outputs a useful error message', () => {
             const assertion = () =>
               expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
@@ -202,23 +202,23 @@ openApiSpecs.forEach((spec) => {
             );
           });
 
-          it('passes when using .not', function () {
+          it('passes when using .not', () => {
             expect(invalidObj).to.not.satisfySchemaInApiSpec(schemaName);
           });
         });
       });
 
-      describe('satisfy allOf 2 schemas', function () {
+      describe('satisfy allOf 2 schemas', () => {
         const schemaName = 'SchemaUsingAllOf';
 
-        describe("'obj' satisfies the spec", function () {
+        describe("'obj' satisfies the spec", () => {
           const validObj = { property1: 'string', property2: 'string' };
 
-          it('passes', function () {
+          it('passes', () => {
             expect(validObj).to.satisfySchemaInApiSpec(schemaName);
           });
 
-          it('fails when using .not', function () {
+          it('fails when using .not', () => {
             const assertion = () =>
               expect(validObj).to.not.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
@@ -228,10 +228,10 @@ openApiSpecs.forEach((spec) => {
           });
         });
 
-        describe("'obj' does not satisfy the spec", function () {
+        describe("'obj' does not satisfy the spec", () => {
           const invalidObj = { property1: 'string', property2: 123 };
 
-          it('fails', function () {
+          it('fails', () => {
             const assertion = () =>
               expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
@@ -240,24 +240,24 @@ openApiSpecs.forEach((spec) => {
             );
           });
 
-          it('passes when using .not', function () {
+          it('passes when using .not', () => {
             expect(invalidObj).to.not.satisfySchemaInApiSpec(schemaName);
           });
         });
       });
 
       if (openApiVersion === 3) {
-        describe('satisfy anyOf 2 schemas', function () {
+        describe('satisfy anyOf 2 schemas', () => {
           const schemaName = 'SchemaUsingAnyOf';
 
-          describe("'obj' satisfies the spec", function () {
+          describe("'obj' satisfies the spec", () => {
             const validObj = { property1: 123, property2: 'string' };
 
-            it('passes', function () {
+            it('passes', () => {
               expect(validObj).to.satisfySchemaInApiSpec(schemaName);
             });
 
-            it('fails when using .not', function () {
+            it('fails when using .not', () => {
               const assertion = () =>
                 expect(validObj).to.not.satisfySchemaInApiSpec(schemaName);
               expect(assertion).to.throw(
@@ -267,10 +267,10 @@ openApiSpecs.forEach((spec) => {
             });
           });
 
-          describe("'obj' does not satisfy the spec", function () {
+          describe("'obj' does not satisfy the spec", () => {
             const invalidObj = { property1: 123, property2: 123 };
 
-            it('fails and outputs a useful error message', function () {
+            it('fails and outputs a useful error message', () => {
               const assertion = () =>
                 expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
               expect(assertion).to.throw(
@@ -279,23 +279,23 @@ openApiSpecs.forEach((spec) => {
               );
             });
 
-            it('passes when using .not', function () {
+            it('passes when using .not', () => {
               expect(invalidObj).to.not.satisfySchemaInApiSpec(schemaName);
             });
           });
         });
 
-        describe('satisfy oneOf 2 schemas', function () {
+        describe('satisfy oneOf 2 schemas', () => {
           const schemaName = 'SchemaUsingOneOf';
 
-          describe("'obj' satisfies the spec", function () {
+          describe("'obj' satisfies the spec", () => {
             const validObj = { property1: 123, property2: 'string' };
 
-            it('passes', function () {
+            it('passes', () => {
               expect(validObj).to.satisfySchemaInApiSpec(schemaName);
             });
 
-            it('fails when using .not', function () {
+            it('fails when using .not', () => {
               const assertion = () =>
                 expect(validObj).to.not.satisfySchemaInApiSpec(schemaName);
               expect(assertion).to.throw(
@@ -305,10 +305,10 @@ openApiSpecs.forEach((spec) => {
             });
           });
 
-          describe("'obj' does not satisfy the spec", function () {
+          describe("'obj' does not satisfy the spec", () => {
             const invalidObj = { property1: 'string', property2: 'string' };
 
-            it('fails and outputs a useful error message', function () {
+            it('fails and outputs a useful error message', () => {
               const assertion = () =>
                 expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
               expect(assertion).to.throw(
@@ -317,7 +317,7 @@ openApiSpecs.forEach((spec) => {
               );
             });
 
-            it('passes when using .not', function () {
+            it('passes when using .not', () => {
               expect(invalidObj).to.not.satisfySchemaInApiSpec(schemaName);
             });
           });
@@ -325,10 +325,10 @@ openApiSpecs.forEach((spec) => {
       }
     });
 
-    describe("when 'obj' matches NO schemas defined in the API spec", function () {
+    describe("when 'obj' matches NO schemas defined in the API spec", () => {
       const obj = 'foo';
 
-      it('fails', function () {
+      it('fails', () => {
         const assertion = () =>
           expect(obj).to.satisfySchemaInApiSpec('NonExistentSchema');
         expect(assertion).to.throw(
@@ -337,7 +337,7 @@ openApiSpecs.forEach((spec) => {
         );
       });
 
-      it('fails when using .not', function () {
+      it('fails when using .not', () => {
         const assertion = () =>
           expect(obj).to.not.satisfySchemaInApiSpec('NonExistentSchema');
         expect(assertion).to.throw(

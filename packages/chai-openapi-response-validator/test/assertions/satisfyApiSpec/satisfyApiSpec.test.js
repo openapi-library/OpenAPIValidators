@@ -40,32 +40,32 @@ const { expect } = chai;
 openApiSpecs.forEach((spec) => {
   const { openApiVersion, pathToApiSpec } = spec;
 
-  describe(`expect(res).to.satisfyApiSpec (using an OpenAPI ${openApiVersion} spec)`, function () {
-    before(function () {
+  describe(`expect(res).to.satisfyApiSpec (using an OpenAPI ${openApiVersion} spec)`, () => {
+    before(() => {
       chai.use(chaiResponseValidator(pathToApiSpec));
     });
 
-    describe("when 'res' is not a valid HTTP response object", function () {
+    describe("when 'res' is not a valid HTTP response object", () => {
       const res = {
         status: 204,
         body: "should have a 'path' property",
       };
 
-      it('fails', function () {
+      it('fails', () => {
         const assertion = () => expect(res).to.satisfyApiSpec;
         expect(assertion).to.throw(TypeError);
       });
 
-      it('fails when using .not', function () {
+      it('fails when using .not', () => {
         const assertion = () => expect(res).to.not.satisfyApiSpec;
         expect(assertion).to.throw(TypeError);
       });
     });
 
-    describe("when 'res' matches a response defined in the API spec", function () {
-      describe("'res' satisfies the spec", function () {
-        describe('spec expects res.body to', function () {
-          describe('be a string', function () {
+    describe("when 'res' matches a response defined in the API spec", () => {
+      describe("'res' satisfies the spec", () => {
+        describe('spec expects res.body to', () => {
+          describe('be a string', () => {
             const res = {
               status: 200,
               req: {
@@ -93,11 +93,11 @@ openApiSpecs.forEach((spec) => {
                     },
                   };
 
-            it('passes', function () {
+            it('passes', () => {
               expect(res).to.satisfyApiSpec;
             });
 
-            it('fails when using .not and outputs a useful error message', function () {
+            it('fails when using .not and outputs a useful error message', () => {
               const assertion = () => expect(res).to.not.satisfyApiSpec;
               expect(assertion).to.throw(
                 c`expected res not to satisfy API spec
@@ -111,7 +111,7 @@ openApiSpecs.forEach((spec) => {
             });
           });
 
-          describe('match a simple schema object (string)', function () {
+          describe('match a simple schema object (string)', () => {
             const res = {
               status: 200,
               req: {
@@ -143,11 +143,11 @@ openApiSpecs.forEach((spec) => {
                     },
                   };
 
-            it('passes', function () {
+            it('passes', () => {
               expect(res).to.satisfyApiSpec;
             });
 
-            it('fails when using .not and outputs a useful error message', function () {
+            it('fails when using .not and outputs a useful error message', () => {
               const assertion = () => expect(res).to.not.satisfyApiSpec;
               expect(assertion).to.throw(
                 c`expected res not to satisfy API spec
@@ -161,7 +161,7 @@ openApiSpecs.forEach((spec) => {
             });
           });
 
-          describe('be empty', function () {
+          describe('be empty', () => {
             const res = {
               status: 204,
               req: {
@@ -170,11 +170,11 @@ openApiSpecs.forEach((spec) => {
               },
             };
 
-            it('passes', function () {
+            it('passes', () => {
               expect(res).to.satisfyApiSpec;
             });
 
-            it('fails when using .not', function () {
+            it('fails when using .not', () => {
               const assertion = () => expect(res).to.not.satisfyApiSpec;
               expect(assertion).to.throw(
                 "expected res not to satisfy the '204' response defined for endpoint 'GET /test/responseBody/empty'",
@@ -182,7 +182,7 @@ openApiSpecs.forEach((spec) => {
             });
           });
 
-          describe('be a boolean', function () {
+          describe('be a boolean', () => {
             const res = {
               status: 200,
               req: {
@@ -192,11 +192,11 @@ openApiSpecs.forEach((spec) => {
               body: false,
             };
 
-            it('passes', function () {
+            it('passes', () => {
               expect(res).to.satisfyApiSpec;
             });
 
-            it('fails when using .not', function () {
+            it('fails when using .not', () => {
               const assertion = () => expect(res).to.not.satisfyApiSpec;
               expect(assertion).to.throw(
                 "expected res not to satisfy the '200' response defined for endpoint 'GET /test/responseBody/boolean'",
@@ -204,7 +204,7 @@ openApiSpecs.forEach((spec) => {
             });
           });
 
-          describe('be an object with depth of over 2', function () {
+          describe('be an object with depth of over 2', () => {
             const nestedObject = {
               a: {
                 b: {
@@ -221,11 +221,11 @@ openApiSpecs.forEach((spec) => {
               body: nestedObject,
             };
 
-            it('passes', function () {
+            it('passes', () => {
               expect(res).to.satisfyApiSpec;
             });
 
-            it('fails when using .not', function () {
+            it('fails when using .not', () => {
               const assertion = () => expect(res).to.not.satisfyApiSpec;
               expect(assertion).to.throw(
                 `res contained: ${str({ body: nestedObject })}`,
@@ -234,7 +234,7 @@ openApiSpecs.forEach((spec) => {
           });
         });
 
-        describe('res.req.path matches a response referencing a response definition', function () {
+        describe('res.req.path matches a response referencing a response definition', () => {
           const res = {
             status: 200,
             req: {
@@ -244,11 +244,11 @@ openApiSpecs.forEach((spec) => {
             body: 'valid body (string)',
           };
 
-          it('passes', function () {
+          it('passes', () => {
             expect(res).to.satisfyApiSpec;
           });
 
-          it('fails when using .not', function () {
+          it('fails when using .not', () => {
             const assertion = () => expect(res).to.not.satisfyApiSpec;
             expect(assertion).to.throw(
               "expected res not to satisfy the '200' response defined for endpoint 'GET /test/responseReferencesResponseDefinitionObject",
@@ -256,8 +256,8 @@ openApiSpecs.forEach((spec) => {
           });
         });
 
-        describe('res.req.path matches a path with multiple defined responses', function () {
-          describe('1st defined response', function () {
+        describe('res.req.path matches a path with multiple defined responses', () => {
+          describe('1st defined response', () => {
             const res = {
               status: 201,
               req: {
@@ -267,11 +267,11 @@ openApiSpecs.forEach((spec) => {
               body: 'valid body (string)',
             };
 
-            it('passes', function () {
+            it('passes', () => {
               expect(res).to.satisfyApiSpec;
             });
 
-            it('fails when using .not', function () {
+            it('fails when using .not', () => {
               const assertion = () => expect(res).to.not.satisfyApiSpec;
               expect(assertion).to.throw(
                 "expected res not to satisfy the '201' response defined for endpoint 'GET /test/multipleResponsesDefined'",
@@ -279,7 +279,7 @@ openApiSpecs.forEach((spec) => {
             });
           });
 
-          describe('2nd defined response', function () {
+          describe('2nd defined response', () => {
             const res = {
               status: 202,
               req: {
@@ -289,11 +289,11 @@ openApiSpecs.forEach((spec) => {
               body: 123456, // valid body (integer)
             };
 
-            it('passes', function () {
+            it('passes', () => {
               expect(res).to.satisfyApiSpec;
             });
 
-            it('fails when using .not', function () {
+            it('fails when using .not', () => {
               const assertion = () => expect(res).to.not.satisfyApiSpec;
               expect(assertion).to.throw(
                 "expected res not to satisfy the '202' response defined for endpoint 'GET /test/multipleResponsesDefined'",
@@ -301,7 +301,7 @@ openApiSpecs.forEach((spec) => {
             });
           });
 
-          describe('3rd defined response', function () {
+          describe('3rd defined response', () => {
             const res = {
               status: 203,
               req: {
@@ -311,11 +311,11 @@ openApiSpecs.forEach((spec) => {
               // no body
             };
 
-            it('passes', function () {
+            it('passes', () => {
               expect(res).to.satisfyApiSpec;
             });
 
-            it('fails when using .not', function () {
+            it('fails when using .not', () => {
               const assertion = () => expect(res).to.not.satisfyApiSpec;
               expect(assertion).to.throw(
                 "expected res not to satisfy the '203' response defined for endpoint 'GET /test/multipleResponsesDefined'",
@@ -324,8 +324,8 @@ openApiSpecs.forEach((spec) => {
           });
         });
 
-        describe('res.req.path contains parameters', function () {
-          describe('a query param', function () {
+        describe('res.req.path contains parameters', () => {
+          describe('a query param', () => {
             const res = {
               status: 204,
               req: {
@@ -334,11 +334,11 @@ openApiSpecs.forEach((spec) => {
               },
             };
 
-            it('passes', function () {
+            it('passes', () => {
               expect(res).to.satisfyApiSpec;
             });
 
-            it('fails when using .not', function () {
+            it('fails when using .not', () => {
               const assertion = () => expect(res).to.not.satisfyApiSpec;
               expect(assertion).to.throw(
                 "expected res not to satisfy the '204' response defined for endpoint 'GET /test/queryParams'",
@@ -346,7 +346,7 @@ openApiSpecs.forEach((spec) => {
             });
           });
 
-          describe('multiple query params', function () {
+          describe('multiple query params', () => {
             const res = {
               status: 204,
               req: {
@@ -355,11 +355,11 @@ openApiSpecs.forEach((spec) => {
               },
             };
 
-            it('passes', function () {
+            it('passes', () => {
               expect(res).to.satisfyApiSpec;
             });
 
-            it('fails when using .not', function () {
+            it('fails when using .not', () => {
               const assertion = () => expect(res).to.not.satisfyApiSpec;
               expect(assertion).to.throw(
                 "expected res not to satisfy the '204' response defined for endpoint 'GET /test/queryParams'",
@@ -367,7 +367,7 @@ openApiSpecs.forEach((spec) => {
             });
           });
 
-          describe('a path param', function () {
+          describe('a path param', () => {
             const res = {
               status: 204,
               req: {
@@ -376,11 +376,11 @@ openApiSpecs.forEach((spec) => {
               },
             };
 
-            it('passes', function () {
+            it('passes', () => {
               expect(res).to.satisfyApiSpec;
             });
 
-            it('fails when using .not', function () {
+            it('fails when using .not', () => {
               const assertion = () => expect(res).to.not.satisfyApiSpec;
               expect(assertion).to.throw(
                 "expected res not to satisfy the '204' response defined for endpoint 'GET /test/pathParams/{exampleParam}'",
@@ -388,7 +388,7 @@ openApiSpecs.forEach((spec) => {
             });
           });
 
-          describe('multiple path params', function () {
+          describe('multiple path params', () => {
             const res = {
               status: 204,
               req: {
@@ -397,11 +397,11 @@ openApiSpecs.forEach((spec) => {
               },
             };
 
-            it('passes', function () {
+            it('passes', () => {
               expect(res).to.satisfyApiSpec;
             });
 
-            it('fails when using .not', function () {
+            it('fails when using .not', () => {
               const assertion = () => expect(res).to.not.satisfyApiSpec;
               expect(assertion).to.throw(
                 "expected res not to satisfy the '204' response defined for endpoint 'GET /test/multiplePathParams/{param1}/{param2}'",
@@ -409,7 +409,7 @@ openApiSpecs.forEach((spec) => {
             });
           });
 
-          describe('path and query params together', function () {
+          describe('path and query params together', () => {
             const res = {
               status: 204,
               req: {
@@ -418,11 +418,11 @@ openApiSpecs.forEach((spec) => {
               },
             };
 
-            it('passes', function () {
+            it('passes', () => {
               expect(res).to.satisfyApiSpec;
             });
 
-            it('fails when using .not', function () {
+            it('fails when using .not', () => {
               const assertion = () => expect(res).to.not.satisfyApiSpec;
               expect(assertion).to.throw(
                 "expected res not to satisfy the '204' response defined for endpoint 'GET /test/pathAndQueryParams/{examplePathParam}'",
@@ -432,8 +432,8 @@ openApiSpecs.forEach((spec) => {
         });
       });
 
-      describe("'res' does NOT satisfy the spec", function () {
-        describe('wrong res.status', function () {
+      describe("'res' does NOT satisfy the spec", () => {
+        describe('wrong res.status', () => {
           const res = {
             status: 418,
             req: {
@@ -442,7 +442,7 @@ openApiSpecs.forEach((spec) => {
             },
           };
 
-          it('fails', function () {
+          it('fails', () => {
             const assertion = () => expect(res).to.satisfyApiSpec;
             expect(assertion).to.throw(
               c`expected res to satisfy API spec
@@ -452,12 +452,12 @@ openApiSpecs.forEach((spec) => {
             );
           });
 
-          it('passes when using .not', function () {
+          it('passes when using .not', () => {
             expect(res).to.not.satisfyApiSpec;
           });
         });
 
-        describe('wrong res.body (multiple errors)', function () {
+        describe('wrong res.body (multiple errors)', () => {
           const res = {
             status: 200,
             req: {
@@ -503,7 +503,7 @@ openApiSpecs.forEach((spec) => {
                   },
                 };
 
-          it('fails and outputs a useful error message', function () {
+          it('fails and outputs a useful error message', () => {
             const assertion = () => expect(res).to.satisfyApiSpec;
             expect(assertion).to.throw(
               c`expected res to satisfy API spec
@@ -519,15 +519,15 @@ openApiSpecs.forEach((spec) => {
             );
           });
 
-          it('passes when using .not', function () {
+          it('passes when using .not', () => {
             expect(res).to.not.satisfyApiSpec;
           });
         });
       });
     });
 
-    describe("when 'res' matches NO responses defined in the API spec", function () {
-      describe('res matches no paths', function () {
+    describe("when 'res' matches NO responses defined in the API spec", () => {
+      describe('res matches no paths', () => {
         const res = {
           status: 204,
           req: {
@@ -536,7 +536,7 @@ openApiSpecs.forEach((spec) => {
           },
         };
 
-        it('fails', function () {
+        it('fails', () => {
           const assertion = () => expect(res).to.satisfyApiSpec;
           expect(assertion).to.throw(
             "expected res to satisfy a '204' response defined for endpoint 'GET /does/not/exist' in your API spec" +
@@ -545,12 +545,12 @@ openApiSpecs.forEach((spec) => {
           );
         });
 
-        it('passes when using .not', function () {
+        it('passes when using .not', () => {
           expect(res).to.not.satisfyApiSpec;
         });
       });
 
-      describe('res matches a path but none of its HTTP methods', function () {
+      describe('res matches a path but none of its HTTP methods', () => {
         const res = {
           status: 204,
           req: {
@@ -559,7 +559,7 @@ openApiSpecs.forEach((spec) => {
           },
         };
 
-        it('fails', function () {
+        it('fails', () => {
           const assertion = () => expect(res).to.satisfyApiSpec;
           expect(assertion).to.throw(
             c`expected res to satisfy API spec
@@ -569,12 +569,12 @@ openApiSpecs.forEach((spec) => {
           );
         });
 
-        it('passes when using .not', function () {
+        it('passes when using .not', () => {
           expect(res).to.not.satisfyApiSpec;
         });
       });
 
-      describe('res matches a path with path params but none of its HTTP methods', function () {
+      describe('res matches a path with path params but none of its HTTP methods', () => {
         const res = {
           status: 204,
           req: {
@@ -583,7 +583,7 @@ openApiSpecs.forEach((spec) => {
           },
         };
 
-        it('fails', function () {
+        it('fails', () => {
           const assertion = () => expect(res).to.satisfyApiSpec;
           expect(assertion).to.throw(
             c`expected res to satisfy API spec
@@ -593,7 +593,7 @@ openApiSpecs.forEach((spec) => {
           );
         });
 
-        it('passes when using .not', function () {
+        it('passes when using .not', () => {
           expect(res).to.not.satisfyApiSpec;
         });
       });

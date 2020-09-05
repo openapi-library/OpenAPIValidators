@@ -12,6 +12,7 @@ extends:
   - prettier # must go last, to turn off some previous rules
 
 rules:
+  prefer-arrow-callback: error
   func-names: 0
   no-use-before-define: 0
   require-await: error
