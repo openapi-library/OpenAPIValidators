@@ -8,9 +8,9 @@ class OpenApi2Spec extends AbstractOpenApiSpec {
     if(basePath && !pathname.startsWith(basePath)) {
       throw new ValidationError('PATH_NOT_FOUND');
     }
-    const endpoint = pathname.replace(basePath, '');
+    const pathnameWithoutBasePath = pathname.replace(basePath, '');
     const openApiPath = utils.findOpenApiPathMatchingPossiblePathnames(
-      [endpoint],
+      [pathnameWithoutBasePath],
       this.paths(),
     );
     if (!openApiPath) {
