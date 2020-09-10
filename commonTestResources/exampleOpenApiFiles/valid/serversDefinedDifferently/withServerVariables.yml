@@ -1,0 +1,40 @@
+openapi: 3.0.0
+info:
+  title: Example OpenApi 3 spec
+  description: Has server variables
+  version: 0.1.0
+servers:
+  - url:  https://test.com:{portVar}
+    description: relative server url
+    variables:
+      portVar:
+        enum: 
+          - '1234'
+          - '5678'
+        default: '1234'
+        description: variable at end of server path, like port number
+  - url:  https://{subdomainVar}.test.com:{portVar}
+    description: relative server url
+    variables:
+      subdomainVar: 
+        enum:
+          - default 
+          - nondefault
+        default: default
+        description: variable at start of server path
+      portVar:
+        enum: 
+          - '1234'
+          - '5678'
+        default: '1234'
+        description: variable at end of server path, like port number
+paths:
+  /test/responseBody/string:
+    get:
+      responses:
+        200:
+          description: Response body should be a string
+          content:
+            application/json:
+              schema:
+                type: string

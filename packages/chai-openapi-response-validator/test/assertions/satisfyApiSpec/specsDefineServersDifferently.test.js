@@ -493,4 +493,127 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
       });
     });
   });
+
+  describe('spec uses server variables to define server', () => {
+    before(() => {
+      const pathToApiSpec = path.join(
+        dirContainingApiSpec,
+        'withServerVariables.yml',
+      );
+      chai.use(chaiResponseValidator(pathToApiSpec));
+    });
+
+    describe("res.req.path matches the server path with a single variable", () => {
+      const res = {
+        status: 200,
+        req: {
+          method: 'GET',
+          path: 'https://test.com:1234/test/responseBody/string',
+        },
+        body: 'valid body (string)',
+      };
+
+      it('passes', () => {
+        expect(res).to.satisfyApiSpec;
+      });
+
+      it('fails when using .not', () => {
+        const assertion = () => expect(res).to.not.satisfyApiSpec;
+        expect(assertion).to.throw(AssertionError, '');
+      });
+    });
+
+    describe("res.req.path matches the server path with default variables and an endpoint path", () => {
+      const res = {
+        status: 200,
+        req: {
+          method: 'GET',
+          path: 'https://default.test.com:1234/test/responseBody/string',
+        },
+        body: 'valid body (string)',
+      };
+
+      it('passes', () => {
+        expect(res).to.satisfyApiSpec;
+      });
+
+      it('fails when using .not', () => {
+        const assertion = () => expect(res).to.not.satisfyApiSpec;
+        expect(assertion).to.throw(AssertionError, '');
+      });
+    });
+
+    describe("res.req.path matches the server path with non-default variables and an endpoint path", () => {
+      const res = {
+        status: 200,
+        req: {
+          method: 'GET',
+          path: 'https://nondefault.test.com:5678/test/responseBody/string',
+        },
+        body: 'valid body (string)',
+      };
+
+      it('passes', () => {
+        expect(res).to.satisfyApiSpec;
+      });
+
+      it('fails when using .not', () => {
+        const assertion = () => expect(res).to.not.satisfyApiSpec;
+        expect(assertion).to.throw(AssertionError, '');
+      });
+    });
+
+    describe("res.req.path matches the server path with default variables but no endpoint paths", () => {
+      const res = {
+        status: 200,
+        req: {
+          method: 'GET',
+          path: '/nonExistentEndpointPath',
+        },
+        body: 'valid body (string)',
+      };
+
+      it('fails', () => {
+        const assertion = () => expect(res).to.satisfyApiSpec;
+        expect(assertion).to.throw(
+          AssertionError,
+          `'/nonExistentEndpointPath' matches servers ${inspect([
+            'https://test.com:1234',
+            'https://test.com:5678',
+            'https://default.test.com:1234',
+            'https://default.test.com:5678',
+            'https://nondefault.test.com:1234',
+            'https://nondefault.test.com:5678',
+          ])} but no <server/endpointPath> combinations`,
+        );
+      });
+
+      it('passes when using .not', () => {
+        expect(res).to.not.satisfyApiSpec;
+      });
+    });
+
+    describe("res.req.path does not match the default server base path ('/') nor any servers", () => {
+      const res = {
+        status: 200,
+        req: {
+          method: 'GET',
+          path: 'nonExistentServer/test/responseBody/string',
+        },
+        body: 'valid body (string)',
+      };
+
+      it('fails', () => {
+        const assertion = () => expect(res).to.satisfyApiSpec;
+        expect(assertion).to.throw(
+          AssertionError,
+          "'nonExistentServer/test/responseBody/string' matches no servers",
+        );
+      });
+
+      it('passes when using .not', () => {
+        expect(res).to.not.satisfyApiSpec;
+      });
+    });
+  });
 });

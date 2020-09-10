@@ -1,5 +1,4 @@
 const url = require('url');
-
 const utils = require('../utils');
 const AbstractOpenApiSpec = require('./AbstractOpenApiSpec');
 const ValidationError = require('./errors/ValidationError');
@@ -38,19 +37,24 @@ class OpenApi3Spec extends AbstractOpenApiSpec {
   }
 
   getServerUrls() {
-    return this.servers().map((server) => server.url);
+    return this.servers().reduce((allServerURLs, server) =>
+      allServerURLs.concat(replaceServerVarsInURLs([server.url], createServerVarMap(server))), 
+      []
+    );
   }
 
   getServerBasePaths() {
-    const basePaths = this.servers().map((server) =>
-      extractBasePath(server.url),
+    const basePaths = this.getServerUrls().map((sURL) =>
+      extractBasePath(sURL),
     );
     return basePaths;
   }
 
   getMatchingServerUrls(pathname) {
-    const matchingServerUrls = this.getServerUrls().filter((URL) =>
-      pathname.startsWith(extractBasePath(URL)),
+    const matchingServerUrls = this.getServerUrls().filter((URL) => {
+      const result = pathname.startsWith(extractBasePath(URL))
+      return result;
+    }
     );
     return matchingServerUrls;
   }
@@ -106,6 +110,45 @@ class OpenApi3Spec extends AbstractOpenApiSpec {
   getSchemaObjects() {
     return this.getComponentDefinitions().schemas;
   }
+}
+
+function createServerVarMap(server) {
+  if (!server.variables)
+    return new Map()
+
+  const serverVarMap = new Map();
+  const serverVars = Object.keys(server.variables);
+
+  serverVars.forEach(serverVar => {
+    serverVarMap.set(serverVar, server.variables[serverVar].enum);
+  });
+
+  return serverVarMap;
+}
+
+function replaceServerVarsInURLs (serverURLs, serverVarMap) {
+  if(serverVarMap.size === 0) {
+    return serverURLs;
+  }
+
+  const replacedServerURLs = [];
+
+  const serverVarName = serverVarMap.keys().next().value;
+  const ServerVarEnums = serverVarMap.get(serverVarName);
+  
+  serverVarMap.delete(serverVarName);
+  
+  serverURLs.forEach(serverURL => {
+    ServerVarEnums.forEach(serverVarEnum => {
+      replacedServerURLs.push(replaceServerVarInURL(serverURL, serverVarName, serverVarEnum));
+    });
+  });
+
+  return replaceServerVarsInURLs(replacedServerURLs, serverVarMap);
+}
+
+function replaceServerVarInURL (serverURL, serverVar, serverEnum) {
+  return serverURL.replace(new RegExp(`\\{${serverVar}\\}`, 'g'), serverEnum);
 }
 
 module.exports = OpenApi3Spec;
