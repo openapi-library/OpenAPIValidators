@@ -1,0 +1,17 @@
+swagger: '2.0'
+info:
+  description: Has one path.
+  title: Example OpenApi 2 spec with basePath
+  version: 0.1.0
+basePath: /test
+paths:
+  /responseBody/string:
+    get:
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: Response body should be a string
+          schema:
+            type: string
