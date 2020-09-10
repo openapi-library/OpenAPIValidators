@@ -6,3 +6,4 @@ Authors ordered by first contribution:
  - Ben Guthrie (https://github.com/BenGu3)
  - Martijn Vegter (https://github.com/mvegter)
  - Ludek Novy (https://github.com/ludeknovy)
+ - Tommy Giardina (https://github.com/tgiardina)
