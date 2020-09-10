@@ -2,10 +2,15 @@ const utils = require('../utils');
 const AbstractOpenApiSpec = require('./AbstractOpenApiSpec');
 const ValidationError = require('./errors/ValidationError');
 
-class OpenApi2Spec extends AbstractOpenApiSpec {
+class OpenApi2Spec extends AbstractOpenApiSpec { 
   findOpenApiPathMatchingPathname(pathname) {
+    const { basePath } = this.spec;
+    if(basePath && !pathname.startsWith(basePath)) {
+      throw new ValidationError('PATH_NOT_FOUND');
+    }
+    const endpoint = pathname.replace(basePath, '');
     const openApiPath = utils.findOpenApiPathMatchingPossiblePathnames(
-      [pathname],
+      [endpoint],
       this.paths(),
     );
     if (!openApiPath) {

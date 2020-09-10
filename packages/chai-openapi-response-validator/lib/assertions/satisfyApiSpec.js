@@ -44,7 +44,7 @@ function getExpectedResToSatisfyApiSpecMsg(
       'expected res to satisfy API spec' +
       `\n\nexpected res to satisfy a '${status}' response defined for endpoint '${endpoint}' in your API spec` +
       `\nres had request path '${requestPath}', but your API spec has no matching path` +
-      `\n\nPaths found in API spec: ${openApiSpec.paths().join(', ')}`;
+      `\n\nPaths found in API spec: ${openApiSpec.paths().map(path => (openApiSpec.spec.basePath || "")+path).join(', ')}`;
     if (openApiSpec.didUserDefineServers) {
       msg +=
         validationError.code === 'SERVER_NOT_FOUND'
