@@ -48,12 +48,12 @@ describe('Using OpenAPI 2 specs that define a basePath', () => {
       expect(assertion).to.throw(AssertionError, '');
     });
   });
-  describe('res.req.path does not match any paths', () => {
+  describe('res.req.path does not include the basePath', () => {
     const res = {
       status: 200,
       req: {
         method: 'GET',
-        path: 'nonExistentServer/test/responseBody/string',
+        path: '/responseBody/string',
       },
       body: 'valid body (string)',
     };
@@ -61,8 +61,8 @@ describe('Using OpenAPI 2 specs that define a basePath', () => {
     it('fails', () => {
       const assertion = () => expect(res).to.satisfyApiSpec;
       expect(assertion).to.throw(
-        "expected res to satisfy a '200' response defined for endpoint 'GET nonExistentServer/test/responseBody/string' in your API spec" +
-        "\nres had request path 'nonExistentServer/test/responseBody/string', but your API spec has no matching path" +
+        "expected res to satisfy a '200' response defined for endpoint 'GET /responseBody/string' in your API spec" +
+        "\nres had request path '/responseBody/string', but your API spec has no matching path" +
                 '\n\nPaths found in API spec: /test/responseBody/string'
       );
     });
