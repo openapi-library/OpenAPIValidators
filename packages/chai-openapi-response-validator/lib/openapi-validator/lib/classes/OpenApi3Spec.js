@@ -38,7 +38,7 @@ class OpenApi3Spec extends AbstractOpenApiSpec {
 
   getServerUrls() {
     return this.servers().reduce((allServerURLs, server) =>
-      allServerURLs.concat(replaceServerVarsInURLs([server.url], createServerVarMap(server))), 
+      allServerURLs.concat(replaceServerVariablesInURLs([server.url], createServerVariableMap(server))), 
       []
     );
   }
@@ -51,10 +51,8 @@ class OpenApi3Spec extends AbstractOpenApiSpec {
   }
 
   getMatchingServerUrls(pathname) {
-    const matchingServerUrls = this.getServerUrls().filter((URL) => {
-      const result = pathname.startsWith(extractBasePath(URL))
-      return result;
-    }
+    const matchingServerUrls = this.getServerUrls().filter((URL) =>
+      pathname.startsWith(extractBasePath(URL)),
     );
     return matchingServerUrls;
   }
@@ -112,43 +110,43 @@ class OpenApi3Spec extends AbstractOpenApiSpec {
   }
 }
 
-function createServerVarMap(server) {
+function createServerVariableMap(server) {
   if (!server.variables)
     return new Map()
 
-  const serverVarMap = new Map();
-  const serverVars = Object.keys(server.variables);
+  const serverVariableMap = new Map();
+  const serverVariables = Object.keys(server.variables);
 
-  serverVars.forEach(serverVar => {
-    serverVarMap.set(serverVar, server.variables[serverVar].enum);
+  serverVariables.forEach(serverVariable => {
+    serverVariableMap.set(serverVariable, server.variables[serverVariable].enum);
   });
 
-  return serverVarMap;
+  return serverVariableMap;
 }
 
-function replaceServerVarsInURLs (serverURLs, serverVarMap) {
-  if(serverVarMap.size === 0) {
+function replaceServerVariablesInURLs (serverURLs, serverVariableMap) {
+  if(serverVariableMap.size === 0) {
     return serverURLs;
   }
 
   const replacedServerURLs = [];
 
-  const serverVarName = serverVarMap.keys().next().value;
-  const ServerVarEnums = serverVarMap.get(serverVarName);
+  const serverVariableName = serverVariableMap.keys().next().value;
+  const ServerVariableEnums = serverVariableMap.get(serverVariableName);
   
-  serverVarMap.delete(serverVarName);
+  serverVariableMap.delete(serverVariableName);
   
   serverURLs.forEach(serverURL => {
-    ServerVarEnums.forEach(serverVarEnum => {
-      replacedServerURLs.push(replaceServerVarInURL(serverURL, serverVarName, serverVarEnum));
+    ServerVariableEnums.forEach(serverVariableEnum => {
+      replacedServerURLs.push(replaceServerVariableInURL(serverURL, serverVariableName, serverVariableEnum));
     });
   });
 
-  return replaceServerVarsInURLs(replacedServerURLs, serverVarMap);
+  return replaceServerVariablesInURLs(replacedServerURLs, serverVariableMap);
 }
 
-function replaceServerVarInURL (serverURL, serverVar, serverEnum) {
-  return serverURL.replace(new RegExp(`\\{${serverVar}\\}`, 'g'), serverEnum);
+function replaceServerVariableInURL (serverURL, serverVariable, serverEnum) {
+  return serverURL.replace(new RegExp(`\\{${serverVariable}\\}`, 'g'), serverEnum);
 }
 
 module.exports = OpenApi3Spec;

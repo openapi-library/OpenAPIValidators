@@ -494,7 +494,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
     });
   });
 
-  describe('spec uses server variables to define server', () => {
+  describe('spec defines server using server variables', () => {
     before(() => {
       const pathToApiSpec = path.join(
         dirContainingApiSpec,
@@ -508,7 +508,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
         status: 200,
         req: {
           method: 'GET',
-          path: 'https://test.com:1234/test/responseBody/string',
+          path: '/defaultPathVariable/test/responseBody/string',
         },
         body: 'valid body (string)',
       };
@@ -528,7 +528,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
         status: 200,
         req: {
           method: 'GET',
-          path: 'https://default.test.com:1234/test/responseBody/string',
+          path: '/defaultFirstPathVariable/defaultSecondPathVariable/test/responseBody/string',
         },
         body: 'valid body (string)',
       };
@@ -548,7 +548,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
         status: 200,
         req: {
           method: 'GET',
-          path: 'https://nondefault.test.com:5678/test/responseBody/string',
+          path: '/nonDefaultFirstPathVariable/nonDefaultSecondPathVariable/test/responseBody/string',
         },
         body: 'valid body (string)',
       };
@@ -568,7 +568,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
         status: 200,
         req: {
           method: 'GET',
-          path: '/nonExistentEndpointPath',
+          path: '/defaultPathVariable/nonExistentEndpointPath',
         },
         body: 'valid body (string)',
       };
@@ -577,13 +577,9 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
         const assertion = () => expect(res).to.satisfyApiSpec;
         expect(assertion).to.throw(
           AssertionError,
-          `'/nonExistentEndpointPath' matches servers ${inspect([
-            'https://test.com:1234',
-            'https://test.com:5678',
-            'https://default.test.com:1234',
-            'https://default.test.com:5678',
-            'https://nondefault.test.com:1234',
-            'https://nondefault.test.com:5678',
+          `'/defaultPathVariable/nonExistentEndpointPath' matches servers ${inspect([
+            'https://test.com:1234/defaultPathVariable',
+            'https://test.com:5678/defaultPathVariable',
           ])} but no <server/endpointPath> combinations`,
         );
       });

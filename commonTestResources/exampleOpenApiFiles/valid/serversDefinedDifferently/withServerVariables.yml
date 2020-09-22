@@ -4,30 +4,48 @@ info:
   description: Has server variables
   version: 0.1.0
 servers:
-  - url:  https://test.com:{portVar}
+  - url:  https://test.com:{portVariable}/{pathVariable}
     description: relative server url
     variables:
-      portVar:
+      portVariable:
         enum: 
           - '1234'
           - '5678'
         default: '1234'
         description: variable at end of server path, like port number
-  - url:  https://{subdomainVar}.test.com:{portVar}
+      pathVariable:
+        enum: 
+          - 'defaultPathVariable'
+          - 'nonDefaultPathVariable'
+        default: 'defaultPathVariable'
+        description: a variable defined with the server but used in the path
+  - url:  https://{subdomainVariable}.test.com:{portVariable}/{firstPathVariable}/{secondPathVariable}
     description: relative server url
     variables:
-      subdomainVar: 
+      subdomainVariable: 
         enum:
-          - default 
-          - nondefault
-        default: default
+          - defaultVariable 
+          - nonDefaultVariable
+        default: defaultVariable
         description: variable at start of server path
-      portVar:
+      portVariable:
         enum: 
           - '1234'
           - '5678'
         default: '1234'
         description: variable at end of server path, like port number
+      firstPathVariable:
+        enum: 
+          - 'defaultFirstPathVariable'
+          - 'nonDefaultFirstPathVariable'
+        default: 'defaultPathVariable'
+        description: a variable defined with the server but used in the path
+      secondPathVariable:
+        enum: 
+          - 'defaultSecondPathVariable'
+          - 'nonDefaultSecondPathVariable'
+        default: 'defaultSecondPathVariable'
+        description: a second path variable defined in the server URL
 paths:
   /test/responseBody/string:
     get:
