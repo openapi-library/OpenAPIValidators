@@ -3,9 +3,14 @@ const OpenAPIResponseValidator = require('openapi-response-validator').default;
 const { extractPathname } = require('../utils');
 const ValidationError = require('./errors/ValidationError');
 
+const getVersion = (spec) => 
+  spec.openapi && spec.openapi[0]
+  || spec.swagger && spec.swagger[0];
+
 class OpenApiSpec {
   constructor(spec) {
     this.spec = spec;
+    this.version = getVersion(spec);
   }
 
   /**
