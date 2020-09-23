@@ -7,11 +7,8 @@ basePath: /test
 paths:
   /responseBody/string:
     get:
-      produces:
-        - application/json
-      parameters: []
       responses:
-        '200':
+        200:
           description: Response body should be a string
           schema:
             type: string
