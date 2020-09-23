@@ -2,11 +2,19 @@ const utils = require('../utils');
 const AbstractOpenApiSpec = require('./AbstractOpenApiSpec');
 const ValidationError = require('./errors/ValidationError');
 
-class OpenApi2Spec extends AbstractOpenApiSpec { 
+const serversPropertyNotProvidedOrIsEmptyArray = (spec) =>
+  !Object.prototype.hasOwnProperty.call(spec, 'servers') ||
+  !spec.servers.length;
+
+class OpenApi2Spec extends AbstractOpenApiSpec {
+  constructor(spec) {
+    super(spec);
+    this.didUserDefineBasePath = Object.prototype.hasOwnProperty.call(spec, 'basePath');
+  }
   findOpenApiPathMatchingPathname(pathname) {
     const { basePath } = this.spec;
     if(basePath && !pathname.startsWith(basePath)) {
-      throw new ValidationError('PATH_NOT_FOUND');
+      throw new ValidationError('SERVER_NOT_FOUND');
     }
     const pathnameWithoutBasePath = pathname.replace(basePath, '');
     const openApiPath = utils.findOpenApiPathMatchingPossiblePathnames(
