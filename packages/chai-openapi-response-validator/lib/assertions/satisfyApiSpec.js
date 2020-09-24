@@ -42,19 +42,32 @@ function getExpectedResToSatisfyApiSpecMsg(
     const endpoint = `${method} ${requestPath}`;
     let msg =
       'expected res to satisfy API spec' +
-      `\n\nexpected res to satisfy a '${status}' response defined for endpoint '${endpoint}' in your API spec` +
-      `\nres had request path '${requestPath}', but your API spec has no matching path` +
-      `\n\nPaths found in API spec: ${openApiSpec.paths().map(path => (openApiSpec.spec.basePath || "")+path).join(', ')}`;
-    if (openApiSpec.didUserDefineServers) {
+      `\n\nexpected res to satisfy a '${status}' response defined for endpoint '${endpoint}' in your API spec`;
+    if (openApiSpec.version === '2') {
+      if (openApiSpec.didUserDefineBasePath && validationError.code === 'SERVER_NOT_FOUND') {
+        msg +=
+          `\nres had request path '${requestPath}', but your API spec has basePath '${openApiSpec.spec.basePath}'`;
+      } else {
+        msg +=
+          `\nres had request path '${requestPath}', but your API spec has no matching path` +
+          `\n\nPaths found in API spec: ${openApiSpec.paths().join(', ')}` +
+          `\n\n'${requestPath}' matches basePath \`${openApiSpec.spec.basePath}\` but no <basePath/endpointPath> combinations`;                  
+      }
+    } else {
       msg +=
-        validationError.code === 'SERVER_NOT_FOUND'
+        `\nres had request path '${requestPath}', but your API spec has no matching path` +
+        `\n\nPaths found in API spec: ${openApiSpec.paths().join(', ')}`;
+      if(openApiSpec.didUserDefineServers) {
+        msg +=
+          validationError.code === 'SERVER_NOT_FOUND'
           ? `\n\n'${requestPath}' matches no servers`
           : `\n\n'${requestPath}' matches servers ${stringify(
-              openApiSpec.getMatchingServerUrls(requestPath),
-            )} but no <server/endpointPath> combinations`;
-      msg += `\n\nServers found in API spec: ${openApiSpec
-        .getServerUrls()
-        .join(', ')}`;
+                openApiSpec.getMatchingServerUrls(requestPath),
+              )} but no <server/endpointPath> combinations`;
+        msg += `\n\nServers found in API spec: ${openApiSpec
+          .getServerUrls()
+          .join(', ')}`;
+      }
     }
     return msg;
   }
