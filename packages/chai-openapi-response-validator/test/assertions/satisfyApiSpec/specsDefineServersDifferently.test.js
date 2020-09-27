@@ -494,7 +494,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
     });
   });
 
-  describe('spec defines server using server variables', () => {
+  describe('spec defines servers using server variables', () => {
     before(() => {
       const pathToApiSpec = path.join(
         dirContainingApiSpec,
@@ -503,12 +503,12 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
       chai.use(chaiResponseValidator(pathToApiSpec));
     });
 
-    describe("res.req.path matches the server path with a single variable", () => {
+    describe('res.req.path matches a server with a server variable in the path (matches the default value)', () => {
       const res = {
         status: 200,
         req: {
           method: 'GET',
-          path: '/defaultPathVariable/test/responseBody/string',
+          path: '/defaultValueForVariableInPath/endpointPath',
         },
         body: 'valid body (string)',
       };
@@ -523,12 +523,12 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
       });
     });
 
-    describe("res.req.path matches the server path with default variables and an endpoint path", () => {
+    describe('res.req.path matches a server with a server variable in the path (matches a non-default value)', () => {
       const res = {
         status: 200,
         req: {
           method: 'GET',
-          path: '/defaultFirstPathVariable/defaultSecondPathVariable/test/responseBody/string',
+          path: '/enumValueForVariableInPath/endpointPath',
         },
         body: 'valid body (string)',
       };
@@ -543,12 +543,13 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
       });
     });
 
-    describe("res.req.path matches the server path with non-default variables and an endpoint path", () => {
+    describe('res.req.path matches a server with multiple server variables in the path', () => {
       const res = {
         status: 200,
         req: {
           method: 'GET',
-          path: '/nonDefaultFirstPathVariable/nonDefaultSecondPathVariable/test/responseBody/string',
+          path:
+            '/defaultValueForFirstVariableInPath/defaultValueForSecondVariableInPath/endpointPath',
         },
         body: 'valid body (string)',
       };
@@ -563,12 +564,52 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
       });
     });
 
-    describe("res.req.path matches the server path with default variables but no endpoint paths", () => {
+    describe('res.req.path matches a server with server variables only before the path', () => {
       const res = {
         status: 200,
         req: {
           method: 'GET',
-          path: '/defaultPathVariable/nonExistentEndpointPath',
+          path: '/endpointPath',
+        },
+        body: 'valid body (string)',
+      };
+
+      it('passes', () => {
+        expect(res).to.satisfyApiSpec;
+      });
+
+      it('fails when using .not', () => {
+        const assertion = () => expect(res).to.not.satisfyApiSpec;
+        expect(assertion).to.throw(AssertionError, '');
+      });
+    });
+
+    describe('res.req.path matches a server with server variables before and after the path', () => {
+      const res = {
+        status: 200,
+        req: {
+          method: 'GET',
+          path: '/defaultValueForVariableInDifferentPath/endpointPath',
+        },
+        body: 'valid body (string)',
+      };
+
+      it('passes', () => {
+        expect(res).to.satisfyApiSpec;
+      });
+
+      it('fails when using .not', () => {
+        const assertion = () => expect(res).to.not.satisfyApiSpec;
+        expect(assertion).to.throw(AssertionError, '');
+      });
+    });
+
+    describe('res.req.path matches a server with server variables, but matches no endpoint paths', () => {
+      const res = {
+        status: 200,
+        req: {
+          method: 'GET',
+          path: '/defaultValueForVariableInPath/nonExistentEndpointPath',
         },
         body: 'valid body (string)',
       };
@@ -594,7 +635,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
         status: 200,
         req: {
           method: 'GET',
-          path: 'nonExistentServer/test/responseBody/string',
+          path: 'nonExistentServer/endpointPath',
         },
         body: 'valid body (string)',
       };
@@ -603,7 +644,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
         const assertion = () => expect(res).to.satisfyApiSpec;
         expect(assertion).to.throw(
           AssertionError,
-          "'nonExistentServer/test/responseBody/string' matches no servers",
+          "'nonExistentServer/endpointPath' matches no servers",
         );
       });
 

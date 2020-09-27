@@ -4,50 +4,38 @@ info:
   description: Has server variables
   version: 0.1.0
 servers:
-  - url:  https://test.com:{portVariable}/{pathVariable}
-    description: relative server url
+  - url: /{variableInPath}
+    description: server url with 1 server variable in the path
     variables:
-      portVariable:
-        enum: 
-          - '1234'
-          - '5678'
-        default: '1234'
-        description: variable at end of server path, like port number
-      pathVariable:
-        enum: 
-          - 'defaultPathVariable'
-          - 'nonDefaultPathVariable'
-        default: 'defaultPathVariable'
-        description: a variable defined with the server but used in the path
-  - url:  https://{subdomainVariable}.test.com:{portVariable}/{firstPathVariable}/{secondPathVariable}
-    description: relative server url
-    variables:
-      subdomainVariable: 
+      variableInPath:
+        default: defaultValueForVariableInPath
         enum:
-          - defaultVariable 
-          - nonDefaultVariable
-        default: defaultVariable
-        description: variable at start of server path
+          - enumValueForVariableInPath
+  - url: /{firstVariableInPath}/{secondVariableInPath}
+    description: server url with multiple server variables in the path
+    variables:
+      firstVariableInPath:
+        default: defaultValueForFirstVariableInPath
+      secondVariableInPath:
+        default: defaultValueForSecondVariableInPath
+  - url: https://{hostVariable}.com:{portVariable}/
+    description: server url with server variables only before the path
+    variables:
+      hostVariable:
+        default: defaultValueForHostVariable
       portVariable:
-        enum: 
-          - '1234'
-          - '5678'
         default: '1234'
-        description: variable at end of server path, like port number
-      firstPathVariable:
-        enum: 
-          - 'defaultFirstPathVariable'
-          - 'nonDefaultFirstPathVariable'
-        default: 'defaultPathVariable'
-        description: a variable defined with the server but used in the path
-      secondPathVariable:
-        enum: 
-          - 'defaultSecondPathVariable'
-          - 'nonDefaultSecondPathVariable'
-        default: 'defaultSecondPathVariable'
-        description: a second path variable defined in the server URL
+  - url: https://{hostVariable}.com:{portVariable}/{variableInDifferentPath}
+    description: server url with server variables before and after the path
+    variables:
+      hostVariable:
+        default: defaultValueForHostVariable
+      portVariable:
+        default: '1234'
+      variableInDifferentPath:
+        default: defaultValueForVariableInDifferentPath
 paths:
-  /test/responseBody/string:
+  /endpointPath:
     get:
       responses:
         200:

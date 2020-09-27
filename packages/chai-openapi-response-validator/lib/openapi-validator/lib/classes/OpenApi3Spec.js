@@ -1,4 +1,4 @@
-const url = require('url');
+const generateCombinations = require('combos');
 const utils = require('../utils');
 const AbstractOpenApiSpec = require('./AbstractOpenApiSpec');
 const ValidationError = require('./errors/ValidationError');
@@ -7,10 +7,17 @@ const serversPropertyNotProvidedOrIsEmptyArray = (spec) =>
   !Object.prototype.hasOwnProperty.call(spec, 'servers') ||
   !spec.servers.length;
 
-const extractBasePath = (inputUrl) => url.parse(inputUrl).path;
+const defaultBasePath = '/';
+
+const extractBasePath = (inputUrl) => {
+  const indexOfStartOfBasePath = inputUrl.replace('//', '  ').indexOf('/');
+  return indexOfStartOfBasePath !== -1
+    ? inputUrl.slice(indexOfStartOfBasePath)
+    : defaultBasePath;
+};
 
 const getPathnameWithoutBasePath = (basePath, pathname) =>
-  basePath === '/' ? pathname : pathname.replace(basePath, '');
+  basePath === defaultBasePath ? pathname : pathname.replace(basePath, '');
 
 class OpenApi3Spec extends AbstractOpenApiSpec {
   constructor(spec) {
@@ -25,7 +32,7 @@ class OpenApi3Spec extends AbstractOpenApiSpec {
    */
   ensureDefaultServer() {
     if (serversPropertyNotProvidedOrIsEmptyArray(this.spec)) {
-      this.spec.servers = [{ url: '/' }];
+      this.spec.servers = [{ url: defaultBasePath }];
     }
   }
 
@@ -37,16 +44,11 @@ class OpenApi3Spec extends AbstractOpenApiSpec {
   }
 
   getServerUrls() {
-    return this.servers().reduce((allServerURLs, server) =>
-      allServerURLs.concat(replaceServerVariablesInURLs([server.url], createServerVariableMap(server))), 
-      []
-    );
+    return this.servers().map((server) => server.url);
   }
 
   getServerBasePaths() {
-    const basePaths = this.getServerUrls().map((sURL) =>
-      extractBasePath(sURL),
-    );
+    const basePaths = this.getServerUrls().map((sURL) => extractBasePath(sURL));
     return basePaths;
   }
 
@@ -108,45 +110,6 @@ class OpenApi3Spec extends AbstractOpenApiSpec {
   getSchemaObjects() {
     return this.getComponentDefinitions().schemas;
   }
-}
-
-function createServerVariableMap(server) {
-  if (!server.variables)
-    return new Map()
-
-  const serverVariableMap = new Map();
-  const serverVariables = Object.keys(server.variables);
-
-  serverVariables.forEach(serverVariable => {
-    serverVariableMap.set(serverVariable, server.variables[serverVariable].enum);
-  });
-
-  return serverVariableMap;
-}
-
-function replaceServerVariablesInURLs (serverURLs, serverVariableMap) {
-  if(serverVariableMap.size === 0) {
-    return serverURLs;
-  }
-
-  const replacedServerURLs = [];
-
-  const serverVariableName = serverVariableMap.keys().next().value;
-  const ServerVariableEnums = serverVariableMap.get(serverVariableName);
-  
-  serverVariableMap.delete(serverVariableName);
-  
-  serverURLs.forEach(serverURL => {
-    ServerVariableEnums.forEach(serverVariableEnum => {
-      replacedServerURLs.push(replaceServerVariableInURL(serverURL, serverVariableName, serverVariableEnum));
-    });
-  });
-
-  return replaceServerVariablesInURLs(replacedServerURLs, serverVariableMap);
-}
-
-function replaceServerVariableInURL (serverURL, serverVariable, serverEnum) {
-  return serverURL.replace(new RegExp(`\\{${serverVariable}\\}`, 'g'), serverEnum);
 }
 
 module.exports = OpenApi3Spec;

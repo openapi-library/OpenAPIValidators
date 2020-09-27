@@ -63,6 +63,7 @@
     "supertest": "^4.0.2"
   },
   "dependencies": {
+    "combos": "^0.2.0",
     "compress-tag": "^2.0.0",
     "openapi-validator": "^0.9.0"
   }
