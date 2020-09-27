@@ -618,10 +618,12 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
         const assertion = () => expect(res).to.satisfyApiSpec;
         expect(assertion).to.throw(
           AssertionError,
-          `'/defaultPathVariable/nonExistentEndpointPath' matches servers ${inspect([
-            'https://test.com:1234/defaultPathVariable',
-            'https://test.com:5678/defaultPathVariable',
-          ])} but no <server/endpointPath> combinations`,
+          `'/defaultValueForVariableInPath/nonExistentEndpointPath' matches servers ${inspect(
+            [
+              '/defaultValueForVariableInPath',
+              'https://{hostVariable}.com:{portVariable}/',
+            ],
+          )} but no <server/endpointPath> combinations`,
         );
       });
 

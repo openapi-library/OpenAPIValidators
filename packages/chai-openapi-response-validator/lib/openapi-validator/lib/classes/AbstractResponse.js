@@ -1,4 +1,4 @@
-const { stringify } = require('../utils');
+const { stringify } = require('../utils/index.utils');
 
 class AbstractResponse {
   constructor(res) {

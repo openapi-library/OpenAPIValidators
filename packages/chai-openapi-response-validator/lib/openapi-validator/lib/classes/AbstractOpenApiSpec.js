@@ -1,6 +1,6 @@
 const OpenAPIResponseValidator = require('openapi-response-validator').default;
 
-const { extractPathname } = require('../utils');
+const { extractPathname } = require('../utils/index.utils');
 const ValidationError = require('./errors/ValidationError');
 
 class OpenApiSpec {

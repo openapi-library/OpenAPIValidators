@@ -1,23 +1,17 @@
-const generateCombinations = require('combos');
-const utils = require('../utils');
+const flatMap = require('lodash.flatmap');
+
+const {
+  findOpenApiPathMatchingPossiblePathnames,
+} = require('../utils/index.utils');
+const {
+  defaultBasePath,
+  extractBasePath,
+  serversPropertyNotProvidedOrIsEmptyArray,
+  getPathnameWithoutBasePath,
+  getMatchingServersAndTheirBasePaths,
+} = require('../utils/OpenApi3Spec.utils');
 const AbstractOpenApiSpec = require('./AbstractOpenApiSpec');
 const ValidationError = require('./errors/ValidationError');
-
-const serversPropertyNotProvidedOrIsEmptyArray = (spec) =>
-  !Object.prototype.hasOwnProperty.call(spec, 'servers') ||
-  !spec.servers.length;
-
-const defaultBasePath = '/';
-
-const extractBasePath = (inputUrl) => {
-  const indexOfStartOfBasePath = inputUrl.replace('//', '  ').indexOf('/');
-  return indexOfStartOfBasePath !== -1
-    ? inputUrl.slice(indexOfStartOfBasePath)
-    : defaultBasePath;
-};
-
-const getPathnameWithoutBasePath = (basePath, pathname) =>
-  basePath === defaultBasePath ? pathname : pathname.replace(basePath, '');
 
 class OpenApi3Spec extends AbstractOpenApiSpec {
   constructor(spec) {
@@ -47,23 +41,20 @@ class OpenApi3Spec extends AbstractOpenApiSpec {
     return this.servers().map((server) => server.url);
   }
 
-  getServerBasePaths() {
-    const basePaths = this.getServerUrls().map((sURL) => extractBasePath(sURL));
-    return basePaths;
-  }
-
   getMatchingServerUrls(pathname) {
-    const matchingServerUrls = this.getServerUrls().filter((URL) =>
-      pathname.startsWith(extractBasePath(URL)),
+    return getMatchingServersAndTheirBasePaths(
+      this.servers(),
+      pathname,
+    ).map(({ url, matchingBasePath }) =>
+      url.replace(extractBasePath(url), matchingBasePath),
     );
-    return matchingServerUrls;
   }
 
   getMatchingServerBasePaths(pathname) {
-    const matchingServerBasePaths = this.getServerBasePaths().filter(
-      (basePath) => pathname.startsWith(basePath),
+    return flatMap(
+      getMatchingServersAndTheirBasePaths(this.servers(), pathname),
+      ({ matchingBasePath }) => matchingBasePath,
     );
-    return matchingServerBasePaths;
   }
 
   findOpenApiPathMatchingPathname(pathname) {
@@ -74,7 +65,7 @@ class OpenApi3Spec extends AbstractOpenApiSpec {
     const possiblePathnames = matchingServerBasePaths.map((basePath) =>
       getPathnameWithoutBasePath(basePath, pathname),
     );
-    const openApiPath = utils.findOpenApiPathMatchingPossiblePathnames(
+    const openApiPath = findOpenApiPathMatchingPossiblePathnames(
       possiblePathnames,
       this.paths(),
     );

@@ -1,4 +1,4 @@
-const { isEmptyObj } = require('../utils');
+const { isEmptyObj } = require('../utils/index.utils');
 const AbstractResponse = require('./AbstractResponse');
 
 class SuperAgentResponse extends AbstractResponse {
