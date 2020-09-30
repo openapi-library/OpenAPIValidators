@@ -5,9 +5,6 @@ const ValidationError = require('./errors/ValidationError');
 const basePathPropertyNotProvided = (spec) =>
   !Object.prototype.hasOwnProperty.call(spec, 'basePath');
 
-const getPathnameWithoutBasePath = (basePath, pathname) =>
-  basePath === '/' ? pathname : pathname.replace(basePath, '');
-
 class OpenApi2Spec extends AbstractOpenApiSpec {
   constructor(spec) {
     super(spec);
@@ -30,7 +27,7 @@ class OpenApi2Spec extends AbstractOpenApiSpec {
     if (!pathname.startsWith(basePath)) {
       throw new ValidationError('BASE_PATH_NOT_FOUND');
     }
-    const pathnameWithoutBasePath = getPathnameWithoutBasePath(
+    const pathnameWithoutBasePath = utils.getPathnameWithoutBasePath(
       basePath,
       pathname,
     );
