@@ -11,7 +11,7 @@
     "test:coverage:browse": "yarn test:coverage; open coverage/lcov-report/index.html",
     "test:mutation": "stryker run",
     "posttest:mutation": "rimraf commonTestResources",
-    "test:precommit": "yarn lint && yarn test:coverage",
+    "test:precommit": "yarn format && yarn lint && yarn test:coverage",
     "test:ci": "yarn test:precommit",
     "format": "prettier --write . --ignore-path ../../.prettierignore",
     "lint": "eslint .",
