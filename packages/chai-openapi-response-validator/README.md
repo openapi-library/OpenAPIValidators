@@ -6,6 +6,7 @@
 ![dependencies](https://img.shields.io/david/RuntimeTools/OpenAPIValidators)
 ![style](https://img.shields.io/badge/code%20style-airbnb-ff5a5f.svg)
 [![codecov](https://codecov.io/gh/RuntimeTools/OpenAPIValidators/branch/master/graph/badge.svg)](https://codecov.io/gh/RuntimeTools/OpenAPIValidators)
+[![](https://badgen.net/npm/types/jest-openapi)](https://github.com/RuntimeTools/OpenAPIValidators/blob/master/packages/chai-openapi-response-validator/index.d.ts)
 
 Simple Chai support for asserting that HTTP responses satisfy an OpenAPI spec.
 
@@ -363,7 +364,7 @@ describe('GET /example/endpoint', () => {
 
 #### Installation
 
-You don't need to `npm install --save-dev @types/chai-openapi-response-validator` because we bundle our TypeScript Definition file into this package (see `index.d.ts`).
+You don't need to `npm install --save-dev @types/chai-openapi-response-validator` because we [bundle our TypeScript Definition file into this package](https://github.com/RuntimeTools/OpenAPIValidators/blob/master/packages/chai-openapi-response-validator/index.d.ts).
 
 #### Importing
 
