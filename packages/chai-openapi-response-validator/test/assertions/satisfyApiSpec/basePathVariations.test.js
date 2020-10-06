@@ -20,16 +20,16 @@ const path = require('path');
 const chaiResponseValidator = require('../../..');
 
 const dirContainingApiSpec = path.resolve(
-  '../../commonTestResources/exampleOpenApiFiles/valid/basePathVariations',
+  '../../commonTestResources/exampleOpenApiFiles/valid/basePathDefinedDifferently',
 );
 const { expect, AssertionError } = chai;
 
-describe('Using OpenAPI 2 specs that vary on whether they define basePath', () => {
+describe('Using OpenAPI 2 specs that define basePath differently', () => {
   describe('spec has no basePath property', () => {
     before(() => {
       const pathToApiSpec = path.join(
         dirContainingApiSpec,
-        'basePathNotDefined.yml',
+        'noBasePathProperty.yml',
       );
       chai.use(chaiResponseValidator(pathToApiSpec));
     });
@@ -83,7 +83,7 @@ describe('Using OpenAPI 2 specs that vary on whether they define basePath', () =
     before(() => {
       const pathToApiSpec = path.join(
         dirContainingApiSpec,
-        'basePathDefined.yml',
+        'basePathProperty.yml',
       );
       chai.use(chaiResponseValidator(pathToApiSpec));
     });
