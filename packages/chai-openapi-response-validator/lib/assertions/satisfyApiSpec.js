@@ -38,12 +38,12 @@ function getExpectedResToSatisfyApiSpecMsg(
   const { status, req } = actualResponse;
   const { method, path: requestPath } = req;
 
-  const urlErrorCodes = [
+  const validationErrorCodes = [
     'BASE_PATH_NOT_FOUND',
     'PATH_NOT_FOUND',
     'SERVER_NOT_FOUND',
   ];
-  if (urlErrorCodes.includes(validationError.code)) {
+  if (validationErrorCodes.includes(validationError.code)) {
     const endpoint = `${method} ${requestPath}`;
     let msg =
       'expected res to satisfy API spec' +
