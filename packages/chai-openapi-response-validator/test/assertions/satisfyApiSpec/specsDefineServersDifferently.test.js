@@ -54,6 +54,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
         expect(assertion).to.throw(AssertionError, '');
       });
     });
+
     describe('res.req.path does not match any servers', () => {
       const res = {
         status: 200,
@@ -78,6 +79,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
         expect(res).to.not.satisfyApiSpec;
       });
     });
+
     describe("res.req.path matches the default server ('/') but no endpoint paths", () => {
       const res = {
         status: 200,
@@ -132,6 +134,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
         expect(assertion).to.throw(AssertionError, '');
       });
     });
+
     describe('res.req.path does not match any servers', () => {
       const res = {
         status: 200,
@@ -156,6 +159,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
         expect(res).to.not.satisfyApiSpec;
       });
     });
+
     describe("res.req.path matches the default server ('/') but no endpoint paths", () => {
       const res = {
         status: 200,
@@ -206,9 +210,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
         expect(assertion).to.throw(
           'expected res to satisfy API spec' +
             "\n\nexpected res to satisfy a '200' response defined for endpoint 'GET nonExistentServer/test/responseBody/string' in your API spec" +
-            "\nres had request path 'nonExistentServer/test/responseBody/string', but your API spec has no matching path" +
-            '\n\nPaths found in API spec: /test/responseBody/string' +
-            "\n\n'nonExistentServer/test/responseBody/string' matches no servers" +
+            "\nres had request path 'nonExistentServer/test/responseBody/string', but your API spec has no matching servers" +
             '\n\nServers found in API spec: /relativeServer, /differentRelativeServer', // etc.
         );
       });
@@ -284,6 +286,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
             expect(assertion).to.throw(AssertionError, '');
           });
         });
+
         describe('res.req.path matches a server but no endpoint paths', () => {
           const res = {
             status: 200,
@@ -302,8 +305,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
                 '\n\nPaths found in API spec: /test/responseBody/string' +
                 `\n\n'${serverBasePath}/nonExistentEndpointPath' matches servers ${inspect(
                   expectedMatchingServers,
-                )} but no <server/endpointPath> combinations` +
-                '\n\nServers found in API spec: /relativeServer, /differentRelativeServer', // etc.
+                )} but no <server/endpointPath> combinations`,
             );
           });
 
@@ -383,7 +385,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
         const assertion = () => expect(res).to.satisfyApiSpec;
         expect(assertion).to.throw(
           AssertionError,
-          "'nonExistentServer/test/responseBody/string' matches no servers",
+          "'nonExistentServer/test/responseBody/string', but your API spec has no matching servers",
         );
       });
 
@@ -406,7 +408,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
         const assertion = () => expect(res).to.satisfyApiSpec;
         expect(assertion).to.throw(
           AssertionError,
-          "'/test/responseBody/string' matches no servers",
+          "'/test/responseBody/string', but your API spec has no matching servers",
         );
       });
 
@@ -484,7 +486,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
         const assertion = () => expect(res).to.satisfyApiSpec;
         expect(assertion).to.throw(
           AssertionError,
-          "'nonExistentServer/test/responseBody/string' matches no servers",
+          "'nonExistentServer/test/responseBody/string', but your API spec has no matching servers",
         );
       });
 
