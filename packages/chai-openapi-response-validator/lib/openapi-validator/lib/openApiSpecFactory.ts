@@ -1,33 +1,32 @@
-const fs = require('fs-extra');
-const yaml = require('js-yaml');
-const path = require('path');
-const OpenAPISchemaValidator = require('openapi-schema-validator').default;
-const typeOf = require('typeof');
+import fs from 'fs-extra';
+import yaml from 'js-yaml';
+import path from 'path';
+import OpenAPISchemaValidator from 'openapi-schema-validator';
+import typeOf from 'typeof';
+import OpenApi2Spec from './classes/OpenApi2Spec';
+import OpenApi3Spec from './classes/OpenApi3Spec';
+import { stringify } from './utils';
 
-const utils = require('./utils');
-const OpenApi2Spec = require('./classes/OpenApi2Spec');
-const OpenApi3Spec = require('./classes/OpenApi3Spec');
+const isOpenApi2Spec = (spec) => getOpenApiVersion(spec) === '2.0';
 
-function makeApiSpec(filepathOrObject) {
+export default (filepathOrObject) => {
   const spec = loadSpec(filepathOrObject);
   validateSpec(spec);
-  if (getOpenApiVersion(spec) === '2.0') {
-    return new OpenApi2Spec(spec);
-  }
-  // if (getOpenApiVersion(spec).startsWith('3.'))
-  return new OpenApi3Spec(spec);
-}
+  return isOpenApi2Spec(spec) ? new OpenApi2Spec(spec) : new OpenApi3Spec(spec);
+};
+
+const isString = (arg) => typeOf(arg) === 'string';
+const isObject = (arg) => typeOf(arg) === 'object';
 
 function loadSpec(arg) {
-  const argType = typeOf(arg);
   try {
-    if (argType === 'string') {
+    if (isString(arg)) {
       return loadFile(arg);
     }
-    if (argType === 'object') {
+    if (isObject(arg)) {
       return arg;
     }
-    throw new Error(`Received type '${argType}'`);
+    throw new Error(`Received type '${typeOf(arg)}'`);
   } catch (error) {
     throw new Error(
       'The provided argument must be either an absolute filepath or ' +
@@ -40,7 +39,7 @@ function loadFile(filepath) {
   if (!path.isAbsolute(filepath)) {
     throw new Error(`'${filepath}' is not an absolute filepath`);
   }
-  const fileData = fs.readFileSync(filepath);
+  const fileData = fs.readFileSync(filepath, 'utf8');
   try {
     return yaml.safeLoad(fileData);
   } catch (error) {
@@ -54,8 +53,8 @@ function validateSpec(spec) {
       version: getOpenApiVersion(spec),
     });
     const { errors } = validator.validate(spec);
-    if (errors.length > 0) {
-      throw new Error(utils.stringify(errors));
+    if (errors.length) {
+      throw new Error(stringify(errors));
     }
   } catch (error) {
     throw new Error(`Invalid OpenAPI spec: ${error.message}`);
@@ -68,7 +67,3 @@ function getOpenApiVersion(openApiSpec) {
     openApiSpec.openapi // '3.X.X'
   );
 }
-
-module.exports = {
-  makeApiSpec,
-};

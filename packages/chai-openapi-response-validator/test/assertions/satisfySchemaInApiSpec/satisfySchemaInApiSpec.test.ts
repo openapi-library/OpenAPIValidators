@@ -1,9 +1,9 @@
-const chai = require('chai');
-const path = require('path');
-const util = require('util');
-const { c } = require('compress-tag');
+import chai from 'chai';
+import path from 'path';
+import util from 'util';
+import { c } from 'compress-tag';
 
-const chaiResponseValidator = require('../../..');
+import chaiResponseValidator from '../../..';
 
 const str = (obj) => util.inspect(obj, { showHidden: false, depth: null });
 const openApiSpecsDir = path.resolve(

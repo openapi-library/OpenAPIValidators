@@ -13,5 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ****************************************************************************** */
+import { makeOpenApiSpec } from './openapi-validator';
+import satisfyApiSpec from './assertions/satisfyApiSpec';
+import satisfySchemaInApiSpec from './assertions/satisfySchemaInApiSpec';
 
-module.exports = require('./lib');
+export default function (filepathOrObject) {
+  const openApiSpec = makeOpenApiSpec(filepathOrObject);
+  return function (chai) {
+    satisfyApiSpec(chai, openApiSpec);
+    satisfySchemaInApiSpec(chai, openApiSpec);
+  };
+}

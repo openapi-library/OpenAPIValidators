@@ -1,5 +1,7 @@
 {
   "private": true,
+  "name": "openapi-validator",
+  "version": "0.9.4",
   "scripts": {},
   "devDependencies": {
     "chai": "^4.2.0",
@@ -9,8 +11,8 @@
     "compress-tag": "^2.0.0",
     "fs-extra": "^9.0.0",
     "js-yaml": "^3.13.1",
-    "openapi-response-validator": "^4.0.0",
-    "openapi-schema-validator": "^3.0.3",
+    "openapi-response-validator": "^7.0.1",
+    "openapi-schema-validator": "^7.0.1",
     "path-parser": "^6.1.0",
     "typeof": "^1.0.0"
   }

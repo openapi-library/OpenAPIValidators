@@ -51,7 +51,7 @@ npm install --save-dev chai-openapi-response-validator
 ```javascript
 // Set up Chai
 const chai = require('chai');
-const expect = chai.expect;
+const { expect } = chai;
 
 // Import this plugin
 const chaiResponseValidator = require('chai-openapi-response-validator');
@@ -165,7 +165,7 @@ The '200' response defined for endpoint 'GET /example/endpoint' in API spec: {
 ```javascript
 // Set up Chai
 const chai = require('chai');
-const expect = chai.expect;
+const { expect } = chai;
 
 // Import this plugin
 const chaiResponseValidator = require('chai-openapi-response-validator');
@@ -278,7 +278,7 @@ The 'ExampleSchemaObject' schema in API spec: {
 ```javascript
 // Set up Chai
 const chai = require('chai');
-const expect = chai.expect;
+const { expect } = chai;
 
 // Import this plugin
 const chaiResponseValidator = require('chai-openapi-response-validator');
@@ -332,7 +332,7 @@ describe('GET /example/endpoint', () => {
 ```javascript
 // Set up Chai
 const chai = require('chai');
-const expect = chai.expect;
+const { expect } = chai;
 
 // Import this plugin
 const chaiResponseValidator = require('chai-openapi-response-validator');

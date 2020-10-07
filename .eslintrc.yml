@@ -1,18 +1,43 @@
 parserOptions:
-  ecmaVersion: 2018
+  ecmaVersion: 2020
   sourceType: module
 
 env:
   es6: true
   node: true
 
+parser: '@typescript-eslint/parser'
+
 extends:
+  - plugin:@typescript-eslint/recommended
   - airbnb-base
   - eslint:recommended
+  - plugin:import/errors
+  - plugin:import/warnings
+  - plugin:import/typescript
   - prettier # must go last, to turn off some previous rules
+
+plugins:
+  - '@typescript-eslint'
 
 rules:
   prefer-arrow-callback: error
   func-names: 0
   no-use-before-define: 0
   require-await: error
+  no-unused-vars: 0
+  '@typescript-eslint/no-unused-vars': error
+  import/extensions:
+    - error
+    - ignorePackages
+    - ts: never
+  # import/extensions: [
+  #     "error",
+  #     "ignorePackages",
+  #     {
+  #       "js": "never",
+  #       "jsx": "never",
+  #       "ts": "never",
+  #       "tsx": "never"
+  #     }
+  #  ]

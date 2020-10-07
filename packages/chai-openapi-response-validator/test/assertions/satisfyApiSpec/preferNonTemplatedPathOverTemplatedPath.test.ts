@@ -1,7 +1,7 @@
-const chai = require('chai');
-const path = require('path');
+import chai from 'chai';
+import path from 'path';
 
-const chaiResponseValidator = require('../../..');
+import chaiResponseValidator from '../../..';
 
 const openApiSpecsDir = path.resolve(
   '../../commonTestResources/exampleOpenApiFiles/valid/preferNonTemplatedPathOverTemplatedPath',
@@ -35,32 +35,32 @@ describe('expect(res).to.satisfyApiSpec (using an OpenAPI spec with similar temp
 
         describe(`res.req.path matches a non-templated OpenAPI path ${
           isNonTemplatedPathFirst ? 'before' : 'after'
-        } a templated OpenAPI path`, () => {
-          const res = {
-            status: 200,
-            req: {
-              method: 'GET',
-              path:
-                '/test/preferNonTemplatedPathOverTemplatedPath/nonTemplatedPath',
-            },
-            body: 'valid body (string)',
-          };
+          } a templated OpenAPI path`, () => {
+            const res = {
+              status: 200,
+              req: {
+                method: 'GET',
+                path:
+                  '/test/preferNonTemplatedPathOverTemplatedPath/nonTemplatedPath',
+              },
+              body: 'valid body (string)',
+            };
 
-          before(() => {
-            chai.use(chaiResponseValidator(pathToApiSpec));
-          });
+            before(() => {
+              chai.use(chaiResponseValidator(pathToApiSpec));
+            });
 
-          it('passes', () => {
-            expect(res).to.satisfyApiSpec;
-          });
+            it('passes', () => {
+              expect(res).to.satisfyApiSpec;
+            });
 
-          it('fails when using .not', () => {
-            const assertion = () => expect(res).to.not.satisfyApiSpec;
-            expect(assertion).to.throw(
-              "not to satisfy the '200' response defined for endpoint 'GET /test/preferNonTemplatedPathOverTemplatedPath/nonTemplatedPath'",
-            );
+            it('fails when using .not', () => {
+              const assertion = () => expect(res).to.not.satisfyApiSpec;
+              expect(assertion).to.throw(
+                "not to satisfy the '200' response defined for endpoint 'GET /test/preferNonTemplatedPathOverTemplatedPath/nonTemplatedPath'",
+              );
+            });
           });
-        });
       });
     });
   });

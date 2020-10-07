@@ -1,13 +1,14 @@
-const { c } = require('compress-tag');
+import { stringify } from '../utils';
 
-const { responseFactory } = require('../openapi-validator');
-const { stringify } = require('../utils');
+import { c } from 'compress-tag';
 
-module.exports = function (chai, openApiSpec) {
+import { makeResponse } from '../openapi-validator';
+
+export default function (chai, openApiSpec) {
   const { Assertion } = chai;
 
   Assertion.addProperty('satisfyApiSpec', function () {
-    const actualResponse = responseFactory.makeResponse(this._obj); // eslint-disable-line no-underscore-dangle
+    const actualResponse = makeResponse(this._obj); // eslint-disable-line no-underscore-dangle
     const validationError = openApiSpec.validateResponse(actualResponse);
     const predicate = !validationError;
     this.assert(
@@ -24,7 +25,7 @@ module.exports = function (chai, openApiSpec) {
       ),
     );
   });
-};
+}
 
 function getExpectedResToSatisfyApiSpecMsg(
   actualResponse,

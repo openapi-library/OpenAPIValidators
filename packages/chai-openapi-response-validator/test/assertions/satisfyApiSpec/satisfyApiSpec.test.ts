@@ -14,22 +14,22 @@
  * limitations under the License.
  ****************************************************************************** */
 
-const chai = require('chai');
-const path = require('path');
-const util = require('util');
-const { c } = require('compress-tag');
+import chai from 'chai';
+import path from 'path';
+import util from 'util';
+import { c } from 'compress-tag';
 
-const chaiResponseValidator = require('../../..');
+import chaiResponseValidator from '../../..';
 
 const str = (obj) => util.inspect(obj, { showHidden: false, depth: null });
 const openApiSpecsDir = path.resolve(
   '../../commonTestResources/exampleOpenApiFiles/valid',
 );
 const openApiSpecs = [
-  {
-    openApiVersion: 2,
-    pathToApiSpec: path.join(openApiSpecsDir, 'openapi2.json'),
-  },
+  // {
+  //   openApiVersion: 2,
+  //   pathToApiSpec: path.join(openApiSpecsDir, 'openapi2.json'),
+  // },
   {
     openApiVersion: 3,
     pathToApiSpec: path.join(openApiSpecsDir, 'openapi3.yml'),
@@ -503,7 +503,7 @@ openApiSpecs.forEach((spec) => {
                   },
                 };
 
-          it('fails and outputs a useful error message', () => {
+          it.only('fails and outputs a useful error message', () => {
             const assertion = () => expect(res).to.satisfyApiSpec;
             expect(assertion).to.throw(
               c`expected res to satisfy API spec

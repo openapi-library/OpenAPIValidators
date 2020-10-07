@@ -1,0 +1,36 @@
+import type { Response } from 'request';
+import AbstractResponse from './AbstractResponse';
+
+type IRequestPromiseResponse = Response & {
+  request: {
+    _json;
+  };
+};
+
+export const isRequestPromiseResponse = (res: Response): boolean =>
+  Object.prototype.hasOwnProperty.call(res, 'client');
+
+export default class RequestPromiseResponse extends AbstractResponse {
+  constructor(res: IRequestPromiseResponse) {
+    super(res);
+    this.status = res.statusCode;
+    this.body = res.request._json // eslint-disable-line no-underscore-dangle
+      ? res.body
+      : res.body.replace(/"/g, '');
+    this.req = res.request;
+    this.bodyHasNoContent = this.body === '';
+  }
+
+  getBodyForValidation() {
+    if (this.bodyHasNoContent) {
+      return null;
+    }
+    try {
+      return JSON.parse(this.body);
+    } catch (error) {
+      // if JSON.parse errors, then body is not stringfied JSON that
+      // needs parsing into a JSON object, so just return the body
+      return this.body;
+    }
+  }
+}

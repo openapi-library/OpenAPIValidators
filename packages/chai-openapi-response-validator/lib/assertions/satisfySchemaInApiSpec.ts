@@ -1,8 +1,8 @@
-const { c } = require('compress-tag');
+import { stringify } from '../utils';
 
-const { stringify } = require('../utils');
+import { c } from 'compress-tag';
 
-module.exports = function (chai, openApiSpec) {
+export default function (chai, openApiSpec) {
   const { Assertion, AssertionError } = chai;
 
   Assertion.addMethod('satisfySchemaInApiSpec', function (schemaName) {
@@ -33,7 +33,7 @@ module.exports = function (chai, openApiSpec) {
       ),
     );
   });
-};
+}
 
 function getExpectReceivedToSatisfySchemaInApiSpecMsg(
   actualObject,

@@ -14,12 +14,11 @@
  * limitations under the License.
  ****************************************************************************** */
 
-const chai = require('chai');
-const path = require('path');
-const fs = require('fs-extra');
-const chaiResponseValidator = require('..');
+import { expect } from 'chai';
+import path from 'path';
+import fs from 'fs-extra';
+import chaiResponseValidator from '..';
 
-const { expect } = chai;
 const genericArgTypeErrMsg =
   'The provided argument must be either an absolute filepath or' +
   ' an object representing an OpenAPI specification.\nError details: ';

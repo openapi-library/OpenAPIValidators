@@ -14,21 +14,27 @@
  * limitations under the License.
  ****************************************************************************** */
 
+// see schema at https://raw.githubusercontent.com/stryker-mutator/stryker/master/packages/api/schema/stryker-core.json
+
 module.exports = function (config) {
   config.set({
-    mutate: ['lib/**/*.js'],
-    mutator: 'javascript',
+    mutate: ['lib/**/*.ts'],
+    mutator: 'typescript',
+    tsconfigFile: 'tsconfig.json',
     reporters: ['clear-text', 'dots', 'html'], // see https://stryker-mutator.io/stryker/plugins#reporters
-    testRunner: 'mocha',
+    // testRunner: 'mocha',
+    testRunner: 'ts-mocha',
     mochaOptions: {
-      spec: ['test/**/*.test.js'],
+      spec: ['test/**/*.ts'],
     },
     files: [
       '**/*.js',
-      '../../commonTestResources/**/*',
+      '**/*.ts',
+      // '../../commonTestResources/**/*',
+      '!**/stryker.conf.js',
       '!../**/node_modules/**/*',
     ],
-    transpilers: [],
+    transpilers: ['typescript'],
     testFramework: 'mocha',
     coverageAnalysis: 'perTest',
     thresholds: { high: 100, low: 99, break: 98 },
