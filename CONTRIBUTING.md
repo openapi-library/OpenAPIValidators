@@ -31,7 +31,7 @@ Consider whether your idea fits with the scope and aims of the project. It's up 
 - New code should be consistent with existing code.
 - PRs should remain focused in scope and not contain unrelated commits or code changes.
 - Please ask before embarking on any significant pull request, to ensure we will want to merge into the project.
-- If this is your first pull request for this project, please add your name to the [AUTHORS file](https://github.com/RuntimeTools/OpenAPIValidators/blob/master/AUTHORS.md) in the pull request, which indicates that you accept the IBM Contributor License Agreement [below](#IBM-Contributor-License-Agreement).
+- If this is your first pull request for this project, please add yourself as a contributor! Just comment on your pull request: `@all-contributors please add <your-username> for <contribution>` ([see example](https://allcontributors.org/docs/en/bot/usage#all-contributors-add)) and the All Contributors bot will raise a PR adding you to the [Contributors section of our main README](https://github.com/RuntimeTools/OpenAPIValidators#contributors). Note, this indicates that you accept the IBM Contributor License Agreement [below](#IBM-Contributor-License-Agreement).
 
 Follow this process if you'd like to work on this project:
 
@@ -127,5 +127,5 @@ This agreement applies to all Contributions You Submit.
 
 - You are not expected to provide support for Your Contribution. However you may provide support for free, for a fee or not at all. You provide Your Contribution on an "AS IS" BASIS as stated in the License.
 
-You will promptly notify the Project if You become aware of any facts or circumstances that would make these commitments inaccurate in any way. To do so, please an issue on the project's GitHub [issue tracker](https://github.com/RuntimeTools/OpenAPIValidators/issues).
+You will promptly notify the Project if You become aware of any facts or circumstances that would make these commitments inaccurate in any way. To do so, please raise an issue on the project's GitHub [issue tracker](https://github.com/RuntimeTools/OpenAPIValidators/issues).
 If You think the Project could make use of content which You did not author, please talk to a committer on the Project. If they like Your idea, they will know the process to get it included.
