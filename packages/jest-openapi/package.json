@@ -53,7 +53,7 @@
     "jest": "^26.5.0",
     "request-promise": "^4.2.6",
     "rimraf": "^3.0.2",
-    "supertest": "^4.0.2"
+    "supertest": "^5.0.0"
   },
   "dependencies": {
     "compress-tag": "^2.0.0",
