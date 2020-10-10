@@ -34,6 +34,7 @@ function getExpectedResToSatisfyApiSpecMsg(
   if (!validationError) {
     return null;
   }
+  const hint = 'expected res to satisfy API spec';
 
   const { status, req } = actualResponse;
   const { method, path: requestPath } = req;
@@ -45,9 +46,7 @@ function getExpectedResToSatisfyApiSpecMsg(
   ];
   if (validationErrorCodes.includes(validationError.code)) {
     const endpoint = `${method} ${requestPath}`;
-    let msg =
-      'expected res to satisfy API spec' +
-      `\n\nexpected res to satisfy a '${status}' response defined for endpoint '${endpoint}' in your API spec`;
+    let msg = `${hint}\n\nexpected res to satisfy a '${status}' response defined for endpoint '${endpoint}' in your API spec`;
     if (openApiSpec.didUserDefineBasePath) {
       if (validationError.code === `BASE_PATH_NOT_FOUND`) {
         msg += `\nres had request path '${requestPath}', but your API spec has basePath '${openApiSpec.spec.basePath}'`;
@@ -85,14 +84,14 @@ function getExpectedResToSatisfyApiSpecMsg(
 
   if (validationError.code === 'METHOD_NOT_FOUND') {
     const expectedPathItem = openApiSpec.findExpectedPathItem(req);
-    return c`expected res to satisfy API spec
+    return c`${hint}
       \n\nexpected res to satisfy a '${status}' response defined for endpoint '${endpoint}' in your API spec
       \nres had request method '${method}', but your API spec has no '${method}' operation defined for path '${path}'
       \n\nRequest operations found for path '${path}' in API spec: ${Object.keys(
       expectedPathItem,
     )
-      .map((op) => op.toUpperCase())
-      .join(', ')}`;
+        .map((op) => op.toUpperCase())
+        .join(', ')}`;
   }
 
   if (validationError.code === 'STATUS_NOT_FOUND') {
@@ -102,7 +101,7 @@ function getExpectedResToSatisfyApiSpecMsg(
     const expectedResponseStatuses = Object.keys(
       expectedResponseOperation.responses,
     ).join(', ');
-    return c`expected res to satisfy API spec
+    return c`${hint}
         \n\nexpected res to satisfy a '${status}' response defined for endpoint '${endpoint}' in your API spec
         \nres had status '${status}', but your API spec has no '${status}' response defined for endpoint '${endpoint}'
         \n\nResponse statuses found for endpoint '${endpoint}' in API spec: ${expectedResponseStatuses}`;
@@ -110,7 +109,7 @@ function getExpectedResToSatisfyApiSpecMsg(
 
   // validationError.code === 'INVALID_BODY'
   const responseDefinition = openApiSpec.findExpectedResponse(actualResponse);
-  return c`expected res to satisfy API spec
+  return c`${hint}
     \n\nexpected res to satisfy the '${status}' response defined for endpoint '${endpoint}' in your API spec
     \nres did not satisfy it because: ${validationError}
     \n\nres contained: ${actualResponse.toString()}
