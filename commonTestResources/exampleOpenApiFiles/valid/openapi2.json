@@ -8,9 +8,7 @@
   "paths": {
     "/test/responseBody/string": {
       "get": {
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [],
         "responses": {
           "200": {
@@ -24,9 +22,7 @@
     },
     "/test/responseBody/boolean": {
       "get": {
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [],
         "responses": {
           "200": {
@@ -81,9 +77,7 @@
     },
     "/test/multipleResponsesDefined": {
       "get": {
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [],
         "responses": {
           "201": {
@@ -160,9 +154,7 @@
     },
     "/test/responseBody/emptyObject": {
       "get": {
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [],
         "responses": {
           "200": {
@@ -176,9 +168,7 @@
     },
     "/test/responseBody/referencesSchemaObject/simple": {
       "get": {
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [],
         "responses": {
           "200": {
@@ -192,30 +182,22 @@
     },
     "/test/responseBody/object/depthOver2": {
       "get": {
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [],
         "responses": {
           "200": {
             "description": "Response body should be nested object",
             "schema": {
               "type": "object",
-              "required": [
-                "a"
-              ],
+              "required": ["a"],
               "properties": {
                 "a": {
                   "type": "object",
-                  "required": [
-                    "b"
-                  ],
+                  "required": ["b"],
                   "properties": {
                     "b": {
                       "type": "object",
-                      "required": [
-                        "c"
-                      ],
+                      "required": ["c"],
                       "properties": {
                         "c": {
                           "type": "string"
@@ -232,19 +214,14 @@
     },
     "/test/responseBody/object/withMultipleProperties": {
       "get": {
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [],
         "responses": {
           "200": {
             "description": "Response body should be an object with multiple string properties",
             "schema": {
               "type": "object",
-              "required": [
-                "property1",
-                "property2"
-              ],
+              "required": ["property1", "property2"],
               "properties": {
                 "property1": {
                   "type": "string"
@@ -273,9 +250,7 @@
     },
     "/test/responseReferencesResponseDefinitionObject": {
       "get": {
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [],
         "responses": {
           "200": {

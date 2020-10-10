@@ -10,3 +10,5 @@ packages/**/commonTestResources
 
 # extra:
 yarn.lock
+launch.json
+**/invalidYamlFormat.yml

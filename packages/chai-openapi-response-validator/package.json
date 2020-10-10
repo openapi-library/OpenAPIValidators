@@ -13,7 +13,7 @@
     "posttest:mutation": "rimraf commonTestResources",
     "test:precommit": "yarn format && yarn lint && yarn test:coverage",
     "test:ci": "yarn test:precommit && yarn test:mutation",
-    "format": "prettier --write . --ignore-path ../../.prettierignore",
+    "format": "prettier --write ../../ --ignore-path ../../.prettierignore",
     "lint": "eslint .",
     "lint:fix": "yarn lint -- --fix"
   },
