@@ -4,9 +4,7 @@
 ![dependencies](https://img.shields.io/david/RuntimeTools/OpenAPIValidators)
 ![style](https://img.shields.io/badge/code%20style-airbnb-ff5a5f.svg)
 [![codecov](https://codecov.io/gh/RuntimeTools/OpenAPIValidators/branch/master/graph/badge.svg)](https://codecov.io/gh/RuntimeTools/OpenAPIValidators)
-[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/RuntimeTools/OpenAPIValidators/blob/master/CONTRIBUTING.md)<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/RuntimeTools/OpenAPIValidators/blob/master/CONTRIBUTING.md)
 
 Chai and Jest support for asserting that HTTP responses satisfy an OpenAPI spec.
 
