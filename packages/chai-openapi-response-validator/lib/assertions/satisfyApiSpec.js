@@ -39,42 +39,37 @@ function getExpectedResToSatisfyApiSpecMsg(
   const { status, req } = actualResponse;
   const { method, path: requestPath } = req;
 
-  const validationErrorCodes = [
-    'BASE_PATH_NOT_FOUND',
-    'PATH_NOT_FOUND',
-    'SERVER_NOT_FOUND',
-  ];
-  if (validationErrorCodes.includes(validationError.code)) {
-    const endpoint = `${method} ${requestPath}`;
-    let msg = `${hint}\n\nexpected res to satisfy a '${status}' response defined for endpoint '${endpoint}' in your API spec`;
+  const unmatchedEndpoint = `${method} ${requestPath}`;
+
+  if (validationError.code === `SERVER_NOT_FOUND`) {
+    return (
+      `${hint}\n\nexpected res to satisfy a '${status}' response defined for endpoint '${unmatchedEndpoint}' in your API spec` +
+      `\nres had request path '${requestPath}', but your API spec has no matching servers` +
+      `\n\nServers found in API spec: ${openApiSpec.getServerUrls().join(', ')}`
+    );
+  }
+
+  if (validationError.code === `BASE_PATH_NOT_FOUND`) {
+    return (
+      `${hint}\n\nexpected res to satisfy a '${status}' response defined for endpoint '${unmatchedEndpoint}' in your API spec` +
+      `\nres had request path '${requestPath}', but your API spec has basePath '${openApiSpec.spec.basePath}'`
+    );
+  }
+
+  if (validationError.code === `PATH_NOT_FOUND`) {
+    const msg =
+      `${hint}\n\nexpected res to satisfy a '${status}' response defined for endpoint '${unmatchedEndpoint}' in your API spec` +
+      `\nres had request path '${requestPath}', but your API spec has no matching path` +
+      `\n\nPaths found in API spec: ${openApiSpec.paths().join(', ')}`;
+
     if (openApiSpec.didUserDefineBasePath) {
-      if (validationError.code === `BASE_PATH_NOT_FOUND`) {
-        msg += `\nres had request path '${requestPath}', but your API spec has basePath '${openApiSpec.spec.basePath}'`;
-      } else {
-        msg +=
-          `\nres had request path '${requestPath}', but your API spec has no matching path` +
-          `\n\nPaths found in API spec: ${openApiSpec.paths().join(', ')}` +
-          `\n\n'${requestPath}' matches basePath \`${openApiSpec.spec.basePath}\` but no <basePath/endpointPath> combinations`;
-      }
-    } else if (openApiSpec.didUserDefineServers) {
-      if (validationError.code === `SERVER_NOT_FOUND`) {
-        msg +=
-          `\nres had request path '${requestPath}', but your API spec has no matching servers` +
-          `\n\nServers found in API spec: ${openApiSpec
-            .getServerUrls()
-            .join(', ')}`;
-      } else {
-        msg +=
-          `\nres had request path '${requestPath}', but your API spec has no matching path` +
-          `\n\nPaths found in API spec: ${openApiSpec.paths().join(', ')}` +
-          `\n\n'${requestPath}' matches servers ${stringify(
-            openApiSpec.getMatchingServerUrls(requestPath),
-          )} but no <server/endpointPath> combinations`;
-      }
-    } else {
-      msg +=
-        `\nres had request path '${requestPath}', but your API spec has no matching path` +
-        `\n\nPaths found in API spec: ${openApiSpec.paths().join(', ')}`;
+      return `${msg}\n\n'${requestPath}' matches basePath \`${openApiSpec.spec.basePath}\` but no <basePath/endpointPath> combinations`;
+    }
+
+    if (openApiSpec.didUserDefineServers) {
+      return `${msg}\n\n'${requestPath}' matches servers ${stringify(
+        openApiSpec.getMatchingServerUrls(requestPath),
+      )} but no <server/endpointPath> combinations`;
     }
     return msg;
   }

@@ -34,7 +34,7 @@ describe('Using OpenAPI 2 specs that define basePath differently', () => {
       chai.use(chaiResponseValidator(pathToApiSpec));
     });
 
-    describe("res.req.path matches the default basePath ('/') and an endpoint path", () => {
+    describe('res.req.path matches an endpoint path', () => {
       const res = {
         status: 200,
         req: {
@@ -54,7 +54,7 @@ describe('Using OpenAPI 2 specs that define basePath differently', () => {
       });
     });
 
-    describe("res.req.path matches the default basePath ('/') but no endpoint paths", () => {
+    describe('res.req.path matches no endpoint paths', () => {
       const res = {
         status: 200,
         req: {
