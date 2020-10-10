@@ -119,7 +119,7 @@ This agreement applies to all Contributions You Submit.
 
 - You will only Submit Contributions to which You have the necessary rights. This means that if You are employed You have received the necessary permissions from Your employer to make the Contributions.
 
-- Whatever content You Contribute will be provided under the Apache v2.0 license. You can read a copy of the Apache v2.0 License at `http://www.apache.org/licenses/LICENSE-2.0`. Unless You explicitly state otherwise, any Contribution intentionally submitted for inclusion in the Work by You to the Licensor shall be under the terms and conditions of this License, without any additional terms or conditions. Notwithstanding the above, nothing herein shall supersede or modify the terms of any separate license agreement you may have executed with Licensor regarding such Contributions.
+- Whatever content You Contribute will be provided under the Apache v2.0 license. You can read a copy of the Apache v2.0 License at <http://www.apache.org/licenses/LICENSE-2.0>. Unless You explicitly state otherwise, any Contribution intentionally submitted for inclusion in the Work by You to the Licensor shall be under the terms and conditions of this License, without any additional terms or conditions. Notwithstanding the above, nothing herein shall supersede or modify the terms of any separate license agreement you may have executed with Licensor regarding such Contributions.
 
 - You understand and agree that the Project and Your contributions are public, and that a record of the contribution (including all personal information You submit with it, including Your sign-off) is maintained indefinitely and may be redistributed consistent with the license(s) involved.
 

@@ -1,39 +1,39 @@
 {
-	"openapi": "3.0.0",
-	"info": {
-		"title": "Example API",
-		"description": "Example OpenApi 3 spec",
-		"version": "0.1.0"
-	},
-	"servers": [
-		{ 
-			"url": "/local", 
-			"description": "local"
-		},
-		{ 
-			"url": "/remote", 
-			"description": "remote"
-		}
-	],
-	"paths": {
-		"/test": {
-			"get": {
-				"responses": {
-					"200": {
-						"description": "Response body should be a string",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "string"
-								}
-							}
-						}
-					},
-					"204": {
-						"description": "No response body"
-					}
-				}
-			}
-		}
-	}
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Example API",
+    "description": "Example OpenApi 3 spec",
+    "version": "0.1.0"
+  },
+  "servers": [
+    {
+      "url": "/local",
+      "description": "local"
+    },
+    {
+      "url": "/remote",
+      "description": "remote"
+    }
+  ],
+  "paths": {
+    "/test": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Response body should be a string",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No response body"
+          }
+        }
+      }
+    }
+  }
 }

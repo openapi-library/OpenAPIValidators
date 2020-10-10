@@ -4,7 +4,6 @@ about: Create a report to help us improve
 title: ''
 labels: bug
 assignees: ''
-
 ---
 
 <!--- If you can, please recreate the bug in a quick test:
@@ -25,6 +24,7 @@ A clear and concise description of what the bug is.
 
 **To Reproduce**
 Steps to reproduce the behavior:
+
 1. Do ...
 2. Do ...
 3. See error
@@ -39,4 +39,5 @@ If applicable, add screenshots to help explain your problem.
 Add any other context about the problem here.
 
 **Are you going to resolve the issue?**
+
 <!--- Feel free to ask for any help and read our [PR guide](https://github.com/RuntimeTools/OpenAPIValidators/blob/master/CONTRIBUTING.md#pull-requests) -->

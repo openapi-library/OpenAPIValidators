@@ -18,32 +18,32 @@ components:
     SimpleObjectSchema:
       type: object
       required:
-      - property1
+        - property1
       properties:
         property1:
           type: string
     SimpleObjectSchemaWithDifferentPropertyName:
       type: object
       required:
-      - property2
+        - property2
       properties:
         property2:
           type: string
     SchemaReferencingAnotherSchema:
       required:
-      - property1
+        - property1
       properties:
         property1:
           $ref: '#/components/schemas/StringSchema'
     SchemaUsingAllOf:
       allOf:
-      - $ref: '#/components/schemas/SimpleObjectSchema'
-      - $ref: '#/components/schemas/SimpleObjectSchemaWithDifferentPropertyName'
+        - $ref: '#/components/schemas/SimpleObjectSchema'
+        - $ref: '#/components/schemas/SimpleObjectSchemaWithDifferentPropertyName'
     SchemaUsingAnyOf:
       anyOf:
-      - $ref: '#/components/schemas/SimpleObjectSchema'
-      - $ref: '#/components/schemas/SimpleObjectSchemaWithDifferentPropertyName'
+        - $ref: '#/components/schemas/SimpleObjectSchema'
+        - $ref: '#/components/schemas/SimpleObjectSchemaWithDifferentPropertyName'
     SchemaUsingOneOf:
       oneOf:
-      - $ref: '#/components/schemas/SimpleObjectSchema'
-      - $ref: '#/components/schemas/SimpleObjectSchemaWithDifferentPropertyName'
+        - $ref: '#/components/schemas/SimpleObjectSchema'
+        - $ref: '#/components/schemas/SimpleObjectSchemaWithDifferentPropertyName'
