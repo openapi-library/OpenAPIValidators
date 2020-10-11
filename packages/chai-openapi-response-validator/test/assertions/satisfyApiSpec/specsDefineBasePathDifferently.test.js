@@ -17,6 +17,9 @@
 const chai = require('chai');
 const path = require('path');
 
+const {
+  joinWithNewLines,
+} = require('../../../../../commonTestResources/utils');
 const chaiResponseValidator = require('../../..');
 
 const dirContainingApiSpec = path.resolve(
@@ -34,7 +37,7 @@ describe('Using OpenAPI 2 specs that define basePath differently', () => {
       chai.use(chaiResponseValidator(pathToApiSpec));
     });
 
-    describe("res.req.path matches the default basePath ('/') and an endpoint path", () => {
+    describe('res.req.path matches an endpoint path', () => {
       const res = {
         status: 200,
         req: {
@@ -54,7 +57,7 @@ describe('Using OpenAPI 2 specs that define basePath differently', () => {
       });
     });
 
-    describe("res.req.path matches the default basePath ('/') but no endpoint paths", () => {
+    describe('res.req.path matches no endpoint paths', () => {
       const res = {
         status: 200,
         req: {
@@ -67,9 +70,13 @@ describe('Using OpenAPI 2 specs that define basePath differently', () => {
       it('fails', () => {
         const assertion = () => expect(res).to.satisfyApiSpec;
         expect(assertion).to.throw(
-          "expected res to satisfy a '200' response defined for endpoint 'GET /test/nonExistentEndpointPath' in your API spec" +
-            "\nres had request path '/test/nonExistentEndpointPath', but your API spec has no matching path" +
-            '\n\nPaths found in API spec: /test/responseBody/string',
+          new RegExp(
+            `${joinWithNewLines(
+              "expected res to satisfy a '200' response defined for endpoint 'GET /test/nonExistentEndpointPath' in your API spec",
+              "res had request path '/test/nonExistentEndpointPath', but your API spec has no matching path",
+              'Paths found in API spec: /test/responseBody/string',
+            )}$`,
+          ),
         );
       });
 
@@ -121,8 +128,10 @@ describe('Using OpenAPI 2 specs that define basePath differently', () => {
       it('fails', () => {
         const assertion = () => expect(res).to.satisfyApiSpec;
         expect(assertion).to.throw(
-          "expected res to satisfy a '200' response defined for endpoint 'GET /responseBody/string' in your API spec" +
-            "\nres had request path '/responseBody/string', but your API spec has basePath '/test'",
+          joinWithNewLines(
+            "expected res to satisfy a '200' response defined for endpoint 'GET /responseBody/string' in your API spec",
+            "res had request path '/responseBody/string', but your API spec has basePath '/test'",
+          ),
         );
       });
 
@@ -144,10 +153,12 @@ describe('Using OpenAPI 2 specs that define basePath differently', () => {
       it('fails', () => {
         const assertion = () => expect(res).to.satisfyApiSpec;
         expect(assertion).to.throw(
-          "expected res to satisfy a '200' response defined for endpoint 'GET /test/nonExistentEndpointPath' in your API spec" +
-            "\nres had request path '/test/nonExistentEndpointPath', but your API spec has no matching path" +
-            '\n\nPaths found in API spec: /responseBody/string' +
-            "\n\n'/test/nonExistentEndpointPath' matches basePath `/test` but no <basePath/endpointPath> combinations",
+          joinWithNewLines(
+            "expected res to satisfy a '200' response defined for endpoint 'GET /test/nonExistentEndpointPath' in your API spec",
+            "res had request path '/test/nonExistentEndpointPath', but your API spec has no matching path",
+            'Paths found in API spec: /responseBody/string',
+            "'/test/nonExistentEndpointPath' matches basePath `/test` but no <basePath/endpointPath> combinations",
+          ),
         );
       });
 

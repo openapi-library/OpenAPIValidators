@@ -9,22 +9,15 @@ class OpenApi2Spec extends AbstractOpenApiSpec {
   constructor(spec) {
     super(spec);
     this.didUserDefineBasePath = !basePathPropertyNotProvided(spec);
-    this.ensureDefaultBasePath();
   }
 
   /**
-   * "If the basePath property is not provided, the default value would be '/'"
+   * "If the basePath property is not provided, is not included, the API is served directly under the host
    * @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#fixed-fields
    */
-  ensureDefaultBasePath() {
-    if (basePathPropertyNotProvided(this.spec)) {
-      this.spec.basePath = '/';
-    }
-  }
-
   findOpenApiPathMatchingPathname(pathname) {
     const { basePath } = this.spec;
-    if (!pathname.startsWith(basePath)) {
+    if (basePath && !pathname.startsWith(basePath)) {
       throw new ValidationError('BASE_PATH_NOT_FOUND');
     }
     const pathnameWithoutBasePath = utils.getPathnameWithoutBasePath(

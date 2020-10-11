@@ -1,11 +1,12 @@
 const chai = require('chai');
 const path = require('path');
-const util = require('util');
-const { c } = require('compress-tag');
 
+const {
+  joinWithNewLines,
+  str,
+} = require('../../../../../commonTestResources/utils');
 const chaiResponseValidator = require('../../..');
 
-const str = (obj) => util.inspect(obj, { showHidden: false, depth: null });
 const openApiSpecsDir = path.resolve(
   '../../commonTestResources/exampleOpenApiFiles/valid/satisfySchemaInApiSpec',
 );
@@ -46,9 +47,13 @@ openApiSpecs.forEach((spec) => {
             const assertion = () =>
               expect(validObj).to.not.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
-              c`expected object not to satisfy the '${schemaName}' schema defined in your API spec
-              \nobject was: 'string'
-            \n\nThe '${schemaName}' schema in API spec: ${str(expectedSchema)}`,
+              joinWithNewLines(
+                `expected object not to satisfy the '${schemaName}' schema defined in your API spec`,
+                "object was: 'string'",
+                `The '${schemaName}' schema in API spec: ${str(
+                  expectedSchema,
+                )}`,
+              ),
             );
           });
         });
@@ -60,10 +65,14 @@ openApiSpecs.forEach((spec) => {
             const assertion = () =>
               expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
-              c`expected object to satisfy the '${schemaName}' schema defined in your API spec
-              \nobject did not satisfy it because: object should be string
-            \n\nobject was: 123
-            \n\nThe '${schemaName}' schema in API spec: ${str(expectedSchema)}`,
+              joinWithNewLines(
+                `expected object to satisfy the '${schemaName}' schema defined in your API spec`,
+                'object did not satisfy it because: object should be string',
+                'object was: 123',
+                `The '${schemaName}' schema in API spec: ${str(
+                  expectedSchema,
+                )}`,
+              ),
             );
           });
 
@@ -88,9 +97,13 @@ openApiSpecs.forEach((spec) => {
             const assertion = () =>
               expect(validObj).to.not.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
-              c`expected object not to satisfy the '${schemaName}' schema defined in your API spec
-              \nobject was: 123
-            \n\nThe '${schemaName}' schema in API spec: ${str(expectedSchema)}`,
+              joinWithNewLines(
+                `expected object not to satisfy the '${schemaName}' schema defined in your API spec`,
+                'object was: 123',
+                `The '${schemaName}' schema in API spec: ${str(
+                  expectedSchema,
+                )}`,
+              ),
             );
           });
         });
@@ -102,10 +115,14 @@ openApiSpecs.forEach((spec) => {
             const assertion = () =>
               expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
-              c`expected object to satisfy the '${schemaName}' schema defined in your API spec
-              \nobject did not satisfy it because: object should be integer
-            \n\nobject was: 'should be integer'
-            \n\nThe '${schemaName}' schema in API spec: ${str(expectedSchema)}`,
+              joinWithNewLines(
+                `expected object to satisfy the '${schemaName}' schema defined in your API spec`,
+                'object did not satisfy it because: object should be integer',
+                "object was: 'should be integer'",
+                `The '${schemaName}' schema in API spec: ${str(
+                  expectedSchema,
+                )}`,
+              ),
             );
           });
 
@@ -134,8 +151,12 @@ openApiSpecs.forEach((spec) => {
             const assertion = () =>
               expect(validObj).to.not.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
-              c`object was: ${str(validObj)}
-            \n\nThe '${schemaName}' schema in API spec: ${str(expectedSchema)}`,
+              joinWithNewLines(
+                `object was: ${str(validObj)}`,
+                `The '${schemaName}' schema in API spec: ${str(
+                  expectedSchema,
+                )}`,
+              ),
             );
           });
         });
@@ -148,9 +169,13 @@ openApiSpecs.forEach((spec) => {
               expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
               AssertionError,
-              c`object did not satisfy it because: property1 should be string
-            \n\nobject was: ${str(invalidObj)}
-            \n\nThe '${schemaName}' schema in API spec: ${str(expectedSchema)}`,
+              joinWithNewLines(
+                `object did not satisfy it because: property1 should be string`,
+                `object was: ${str(invalidObj)}`,
+                `The '${schemaName}' schema in API spec: ${str(
+                  expectedSchema,
+                )}`,
+              ),
             );
           });
 
@@ -183,8 +208,12 @@ openApiSpecs.forEach((spec) => {
               expect(validObj).to.not.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
               AssertionError,
-              c`object was: ${str(validObj)}
-            \n\nThe '${schemaName}' schema in API spec: ${str(expectedSchema)}`,
+              joinWithNewLines(
+                `object was: ${str(validObj)}`,
+                `The '${schemaName}' schema in API spec: ${str(
+                  expectedSchema,
+                )}`,
+              ),
             );
           });
         });
@@ -196,9 +225,13 @@ openApiSpecs.forEach((spec) => {
             const assertion = () =>
               expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
-              c`object did not satisfy it because: property1 should be string
-            \n\nobject was: ${str(invalidObj)}
-            \n\nThe '${schemaName}' schema in API spec: ${str(expectedSchema)}`,
+              joinWithNewLines(
+                `object did not satisfy it because: property1 should be string`,
+                `object was: ${str(invalidObj)}`,
+                `The '${schemaName}' schema in API spec: ${str(
+                  expectedSchema,
+                )}`,
+              ),
             );
           });
 

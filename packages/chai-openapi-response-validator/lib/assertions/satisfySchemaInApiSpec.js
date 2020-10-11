@@ -1,6 +1,4 @@
-const { c } = require('compress-tag');
-
-const { stringify } = require('../utils');
+const { stringify, joinWithNewLines } = require('../utils');
 
 module.exports = function (chai, openApiSpec) {
   const { Assertion, AssertionError } = chai;
@@ -41,10 +39,12 @@ function getExpectReceivedToSatisfySchemaInApiSpecMsg(
   schema,
   validationError,
 ) {
-  return c`expected object to satisfy the '${schemaName}' schema defined in your API spec
-    \nobject did not satisfy it because: ${validationError}
-    \n\nobject was: ${stringify(actualObject)}
-    \n\nThe '${schemaName}' schema in API spec: ${stringify(schema)}`;
+  return joinWithNewLines(
+    `expected object to satisfy the '${schemaName}' schema defined in your API spec`,
+    `object did not satisfy it because: ${validationError}`,
+    `object was: ${stringify(actualObject)}`,
+    `The '${schemaName}' schema in API spec: ${stringify(schema)}`,
+  );
 }
 
 function getExpectReceivedNotToSatisfySchemaInApiSpecMsg(
@@ -52,7 +52,9 @@ function getExpectReceivedNotToSatisfySchemaInApiSpecMsg(
   schemaName,
   schema,
 ) {
-  return c`expected object not to satisfy the '${schemaName}' schema defined in your API spec
-    \nobject was: ${stringify(actualObject)}
-    \n\nThe '${schemaName}' schema in API spec: ${stringify(schema)}`;
+  return joinWithNewLines(
+    `expected object not to satisfy the '${schemaName}' schema defined in your API spec`,
+    `object was: ${stringify(actualObject)}`,
+    `The '${schemaName}' schema in API spec: ${stringify(schema)}`,
+  );
 }

@@ -1,7 +1,5 @@
-const { c } = require('compress-tag');
-
 const { responseFactory } = require('../openapi-validator');
-const { stringify } = require('../utils');
+const { stringify, joinWithNewLines } = require('../utils');
 
 module.exports = function (chai, openApiSpec) {
   const { Assertion } = chai;
@@ -39,44 +37,49 @@ function getExpectedResToSatisfyApiSpecMsg(
   const { status, req } = actualResponse;
   const { method, path: requestPath } = req;
 
-  const validationErrorCodes = [
-    'BASE_PATH_NOT_FOUND',
-    'PATH_NOT_FOUND',
-    'SERVER_NOT_FOUND',
-  ];
-  if (validationErrorCodes.includes(validationError.code)) {
-    const endpoint = `${method} ${requestPath}`;
-    let msg = `${hint}\n\nexpected res to satisfy a '${status}' response defined for endpoint '${endpoint}' in your API spec`;
+  const unmatchedEndpoint = `${method} ${requestPath}`;
+
+  if (validationError.code === `SERVER_NOT_FOUND`) {
+    return joinWithNewLines(
+      hint,
+      `expected res to satisfy a '${status}' response defined for endpoint '${unmatchedEndpoint}' in your API spec`,
+      `res had request path '${requestPath}', but your API spec has no matching servers`,
+      `Servers found in API spec: ${openApiSpec.getServerUrls().join(', ')}`,
+    );
+  }
+
+  if (validationError.code === `BASE_PATH_NOT_FOUND`) {
+    return joinWithNewLines(
+      hint,
+      `expected res to satisfy a '${status}' response defined for endpoint '${unmatchedEndpoint}' in your API spec`,
+      `res had request path '${requestPath}', but your API spec has basePath '${openApiSpec.spec.basePath}'`,
+    );
+  }
+
+  if (validationError.code === `PATH_NOT_FOUND`) {
+    const pathNotFoundErrorMessage = joinWithNewLines(
+      hint,
+      `expected res to satisfy a '${status}' response defined for endpoint '${unmatchedEndpoint}' in your API spec`,
+      `res had request path '${requestPath}', but your API spec has no matching path`,
+      `Paths found in API spec: ${openApiSpec.paths().join(', ')}`,
+    );
+
     if (openApiSpec.didUserDefineBasePath) {
-      if (validationError.code === `BASE_PATH_NOT_FOUND`) {
-        msg += `\nres had request path '${requestPath}', but your API spec has basePath '${openApiSpec.spec.basePath}'`;
-      } else {
-        msg +=
-          `\nres had request path '${requestPath}', but your API spec has no matching path` +
-          `\n\nPaths found in API spec: ${openApiSpec.paths().join(', ')}` +
-          `\n\n'${requestPath}' matches basePath \`${openApiSpec.spec.basePath}\` but no <basePath/endpointPath> combinations`;
-      }
-    } else if (openApiSpec.didUserDefineServers) {
-      if (validationError.code === `SERVER_NOT_FOUND`) {
-        msg +=
-          `\nres had request path '${requestPath}', but your API spec has no matching servers` +
-          `\n\nServers found in API spec: ${openApiSpec
-            .getServerUrls()
-            .join(', ')}`;
-      } else {
-        msg +=
-          `\nres had request path '${requestPath}', but your API spec has no matching path` +
-          `\n\nPaths found in API spec: ${openApiSpec.paths().join(', ')}` +
-          `\n\n'${requestPath}' matches servers ${stringify(
-            openApiSpec.getMatchingServerUrls(requestPath),
-          )} but no <server/endpointPath> combinations`;
-      }
-    } else {
-      msg +=
-        `\nres had request path '${requestPath}', but your API spec has no matching path` +
-        `\n\nPaths found in API spec: ${openApiSpec.paths().join(', ')}`;
+      return joinWithNewLines(
+        pathNotFoundErrorMessage,
+        `'${requestPath}' matches basePath \`${openApiSpec.spec.basePath}\` but no <basePath/endpointPath> combinations`,
+      );
     }
-    return msg;
+
+    if (openApiSpec.didUserDefineServers) {
+      return joinWithNewLines(
+        pathNotFoundErrorMessage,
+        `'${requestPath}' matches servers ${stringify(
+          openApiSpec.getMatchingServerUrls(requestPath),
+        )} but no <server/endpointPath> combinations`,
+      );
+    }
+    return pathNotFoundErrorMessage;
   }
 
   const path = openApiSpec.findOpenApiPathMatchingRequest(req);
@@ -84,14 +87,15 @@ function getExpectedResToSatisfyApiSpecMsg(
 
   if (validationError.code === 'METHOD_NOT_FOUND') {
     const expectedPathItem = openApiSpec.findExpectedPathItem(req);
-    return c`${hint}
-      \n\nexpected res to satisfy a '${status}' response defined for endpoint '${endpoint}' in your API spec
-      \nres had request method '${method}', but your API spec has no '${method}' operation defined for path '${path}'
-      \n\nRequest operations found for path '${path}' in API spec: ${Object.keys(
-      expectedPathItem,
-    )
-        .map((op) => op.toUpperCase())
-        .join(', ')}`;
+    const expectedRequestOperations = Object.keys(expectedPathItem)
+      .map((operation) => operation.toUpperCase())
+      .join(', ');
+    return joinWithNewLines(
+      hint,
+      `expected res to satisfy a '${status}' response defined for endpoint '${endpoint}' in your API spec`,
+      `res had request method '${method}', but your API spec has no '${method}' operation defined for path '${path}'`,
+      `Request operations found for path '${path}' in API spec: ${expectedRequestOperations}`,
+    );
   }
 
   if (validationError.code === 'STATUS_NOT_FOUND') {
@@ -101,21 +105,25 @@ function getExpectedResToSatisfyApiSpecMsg(
     const expectedResponseStatuses = Object.keys(
       expectedResponseOperation.responses,
     ).join(', ');
-    return c`${hint}
-        \n\nexpected res to satisfy a '${status}' response defined for endpoint '${endpoint}' in your API spec
-        \nres had status '${status}', but your API spec has no '${status}' response defined for endpoint '${endpoint}'
-        \n\nResponse statuses found for endpoint '${endpoint}' in API spec: ${expectedResponseStatuses}`;
+    return joinWithNewLines(
+      hint,
+      `expected res to satisfy a '${status}' response defined for endpoint '${endpoint}' in your API spec`,
+      `res had status '${status}', but your API spec has no '${status}' response defined for endpoint '${endpoint}'`,
+      `Response statuses found for endpoint '${endpoint}' in API spec: ${expectedResponseStatuses}`,
+    );
   }
 
   // validationError.code === 'INVALID_BODY'
   const responseDefinition = openApiSpec.findExpectedResponse(actualResponse);
-  return c`${hint}
-    \n\nexpected res to satisfy the '${status}' response defined for endpoint '${endpoint}' in your API spec
-    \nres did not satisfy it because: ${validationError}
-    \n\nres contained: ${actualResponse.toString()}
-    \n\nThe '${status}' response defined for endpoint '${endpoint}' in API spec: ${stringify(
-    responseDefinition,
-  )}`;
+  return joinWithNewLines(
+    hint,
+    `expected res to satisfy the '${status}' response defined for endpoint '${endpoint}' in your API spec`,
+    `res did not satisfy it because: ${validationError}`,
+    `res contained: ${actualResponse.toString()}`,
+    `The '${status}' response defined for endpoint '${endpoint}' in API spec: ${stringify(
+      responseDefinition,
+    )}`,
+  );
 }
 
 function getExpectedResNotToSatisfyApiSpecMsg(
@@ -133,10 +141,12 @@ function getExpectedResNotToSatisfyApiSpecMsg(
     req,
   )}`;
 
-  return c`expected res not to satisfy API spec
-    \n\nexpected res not to satisfy the '${status}' response defined for endpoint '${endpoint}' in your API spec
-    \n\nres contained: ${actualResponse.toString()}
-    \n\nThe '${status}' response defined for endpoint '${endpoint}' in API spec: ${stringify(
-    responseDefinition,
-  )}`;
+  return joinWithNewLines(
+    `expected res not to satisfy API spec`,
+    `expected res not to satisfy the '${status}' response defined for endpoint '${endpoint}' in your API spec`,
+    `res contained: ${actualResponse.toString()}`,
+    `The '${status}' response defined for endpoint '${endpoint}' in API spec: ${stringify(
+      responseDefinition,
+    )}`,
+  );
 }
