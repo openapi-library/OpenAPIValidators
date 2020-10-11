@@ -21,8 +21,7 @@ const chaiResponseValidator = require('..');
 
 const { expect } = chai;
 const genericArgTypeErrMsg =
-  'The provided argument must be either an absolute filepath or' +
-  ' an object representing an OpenAPI specification.\nError details: ';
+  'The provided argument must be either an absolute filepath or an object representing an OpenAPI specification.\nError details: ';
 
 describe('chaiResponseValidator(pathToApiSpec)', () => {
   describe('neither string nor object', () => {

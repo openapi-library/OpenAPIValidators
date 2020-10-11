@@ -27,9 +27,11 @@ module.exports = function (filepathOrObject) {
   } else {
     // eslint-disable-next-line no-console
     console.error(
-      "Unable to find Jest's global expect." +
-        '\nPlease check you have configured jest-openapi correctly.' +
-        '\nSee https://github.com/RuntimeTools/OpenAPIValidators/jest-openapi#usage for help.',
+      [
+        "Unable to find Jest's global expect.",
+        'Please check you have configured jest-openapi correctly.',
+        'See https://github.com/RuntimeTools/OpenAPIValidators/jest-openapi#usage for help.',
+      ].join('\n'),
     );
   }
   /* istanbul ignore next */

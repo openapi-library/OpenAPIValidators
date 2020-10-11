@@ -20,8 +20,7 @@ const fs = require('fs-extra');
 const jestOpenAPI = require('..');
 
 const genericArgTypeErrMsg =
-  'The provided argument must be either an absolute filepath or' +
-  ' an object representing an OpenAPI specification.\nError details: ';
+  'The provided argument must be either an absolute filepath or an object representing an OpenAPI specification.\nError details: ';
 
 describe('jestOpenAPI(pathToApiSpec)', () => {
   describe('neither string nor object', () => {
