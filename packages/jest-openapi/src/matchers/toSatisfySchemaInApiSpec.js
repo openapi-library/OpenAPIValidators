@@ -1,4 +1,3 @@
-const { c } = require('compress-tag');
 const {
   RECEIVED_COLOR,
   EXPECTED_COLOR,
@@ -8,7 +7,7 @@ const {
   printWithType,
 } = require('jest-matcher-utils');
 
-const { stringify } = require('../utils');
+const { stringify, joinWithNewLines } = require('../utils');
 
 module.exports = function (received, schemaName, openApiSpec) {
   const matcherHintOptions = {
@@ -70,11 +69,13 @@ function getExpectReceivedToSatisfySchemaInApiSpecMsg(
   hint,
 ) {
   // prettier-ignore
-  return c`${hint}
-    \n\nexpected ${RECEIVED_COLOR('received')} to satisfy the '${schemaName}' schema defined in your API spec
-    \n${RECEIVED_COLOR('received')} did not satisfy it because: ${validationError}
-    \n\n${RECEIVED_COLOR('received')} was: ${RECEIVED_COLOR(stringify(received))}
-    \n\nThe '${schemaName}' schema in API spec: ${EXPECTED_COLOR(stringify(schema))}`;
+  return joinWithNewLines(
+    hint,
+    `expected ${RECEIVED_COLOR('received')} to satisfy the '${schemaName}' schema defined in your API spec`,
+    `${RECEIVED_COLOR('received')} did not satisfy it because: ${validationError}`,
+    `${RECEIVED_COLOR('received')} was: ${RECEIVED_COLOR(stringify(received))}`,
+    `The '${schemaName}' schema in API spec: ${EXPECTED_COLOR(stringify(schema))}`,
+  );
 }
 
 function getExpectReceivedNotToSatisfySchemaInApiSpecMsg(
@@ -84,8 +85,10 @@ function getExpectReceivedNotToSatisfySchemaInApiSpecMsg(
   hint,
 ) {
   // prettier-ignore
-  return c`${hint}
-    \n\nexpected ${RECEIVED_COLOR('received')} not to satisfy the '${schemaName}' schema defined in your API spec
-    \n${RECEIVED_COLOR('received')} was: ${RECEIVED_COLOR(stringify(received))}
-    \n\nThe '${schemaName}' schema in API spec: ${EXPECTED_COLOR(stringify(schema))}`;
+  return joinWithNewLines(
+    hint,
+    `expected ${RECEIVED_COLOR('received')} not to satisfy the '${schemaName}' schema defined in your API spec`,
+    `${RECEIVED_COLOR('received')} was: ${RECEIVED_COLOR(stringify(received))}`,
+    `The '${schemaName}' schema in API spec: ${EXPECTED_COLOR(stringify(schema))}`,
+  );
 }

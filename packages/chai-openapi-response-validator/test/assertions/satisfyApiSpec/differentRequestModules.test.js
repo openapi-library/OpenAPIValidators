@@ -17,18 +17,18 @@
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const path = require('path');
-const { inspect } = require('util');
 
 const chaiHttp = require('chai-http');
 const axios = require('axios');
 const supertest = require('supertest');
 const requestPromise = require('request-promise');
 
-const chaiResponseValidator = require('../../..');
+const { str } = require('../../../../../commonTestResources/utils');
 const app = require('../../../../../commonTestResources/exampleApp');
 const { port } = require('../../../../../commonTestResources/config');
 
-const str = (obj) => inspect(obj, { showHidden: false, depth: null });
+const chaiResponseValidator = require('../../..');
+
 const appOrigin = `http://localhost:${port}`;
 const pathToApiSpec = path.resolve(
   '../../commonTestResources/exampleOpenApiFiles/valid/openapi3.yml',
