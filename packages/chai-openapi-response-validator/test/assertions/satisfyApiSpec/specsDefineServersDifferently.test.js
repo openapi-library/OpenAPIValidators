@@ -16,8 +16,11 @@
 
 const chai = require('chai');
 const path = require('path');
-const { inspect } = require('util');
 
+const {
+  joinWithNewLines,
+  str,
+} = require('../../../../../commonTestResources/utils');
 const chaiResponseValidator = require('../../..');
 
 const dirContainingApiSpec = path.resolve(
@@ -68,10 +71,11 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
       it('fails', () => {
         const assertion = () => expect(res).to.satisfyApiSpec;
         expect(assertion).to.throw(
-          "expected res to satisfy a '200' response defined for endpoint 'GET /nonExistentEndpointPath' in your API spec" +
-            "\nres had request path '/nonExistentEndpointPath', but your API spec has no matching path" +
-            '\n\nPaths found in API spec:',
-          // we don't list servers defined in your API spec because there aren't any
+          joinWithNewLines(
+            "expected res to satisfy a '200' response defined for endpoint 'GET /nonExistentEndpointPath' in your API spec",
+            "res had request path '/nonExistentEndpointPath', but your API spec has no matching path",
+            'Paths found in API spec:',
+          ),
         );
       });
 
@@ -123,10 +127,12 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
       it('fails', () => {
         const assertion = () => expect(res).to.satisfyApiSpec;
         expect(assertion).to.throw(
-          "expected res to satisfy a '200' response defined for endpoint 'GET /nonExistentEndpointPath' in your API spec" +
-            "\nres had request path '/nonExistentEndpointPath', but your API spec has no matching path" +
-            '\n\nPaths found in API spec:',
-          // we don't list servers defined in your API spec because there aren't any
+          joinWithNewLines(
+            "expected res to satisfy a '200' response defined for endpoint 'GET /nonExistentEndpointPath' in your API spec",
+            "res had request path '/nonExistentEndpointPath', but your API spec has no matching path",
+            'Paths found in API spec:',
+            // we don't list servers defined in your API spec because there aren't any
+          ),
         );
       });
 
@@ -158,10 +164,12 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
       it('fails', () => {
         const assertion = () => expect(res).to.satisfyApiSpec;
         expect(assertion).to.throw(
-          'expected res to satisfy API spec' +
-            "\n\nexpected res to satisfy a '200' response defined for endpoint 'GET /nonExistentServer' in your API spec" +
-            "\nres had request path '/nonExistentServer', but your API spec has no matching servers" +
-            '\n\nServers found in API spec: /relativeServer, /differentRelativeServer', // etc.
+          joinWithNewLines(
+            'expected res to satisfy API spec',
+            "expected res to satisfy a '200' response defined for endpoint 'GET /nonExistentServer' in your API spec",
+            "res had request path '/nonExistentServer', but your API spec has no matching servers",
+            'Servers found in API spec: /relativeServer, /differentRelativeServer', // etc.
+          ),
         );
       });
 
@@ -250,12 +258,14 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
           it('fails', () => {
             const assertion = () => expect(res).to.satisfyApiSpec;
             expect(assertion).to.throw(
-              `expected res to satisfy a '200' response defined for endpoint 'GET ${serverBasePath}/nonExistentEndpointPath' in your API spec` +
-                `\nres had request path '${serverBasePath}/nonExistentEndpointPath', but your API spec has no matching path` +
-                '\n\nPaths found in API spec: /test/responseBody/string' +
-                `\n\n'${serverBasePath}/nonExistentEndpointPath' matches servers ${inspect(
+              joinWithNewLines(
+                `expected res to satisfy a '200' response defined for endpoint 'GET ${serverBasePath}/nonExistentEndpointPath' in your API spec`,
+                `res had request path '${serverBasePath}/nonExistentEndpointPath', but your API spec has no matching path`,
+                'Paths found in API spec: /test/responseBody/string',
+                `'${serverBasePath}/nonExistentEndpointPath' matches servers ${str(
                   expectedMatchingServers,
                 )} but no <server/endpointPath> combinations`,
+              ),
             );
           });
 
@@ -310,7 +320,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
         const assertion = () => expect(res).to.satisfyApiSpec;
         expect(assertion).to.throw(
           AssertionError,
-          `'/basePath1/nonExistentEndpointPath' matches servers ${inspect([
+          `'/basePath1/nonExistentEndpointPath' matches servers ${str([
             'http://api.example.com/basePath1',
           ])} but no <server/endpointPath> combinations`,
         );
@@ -411,7 +421,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
         const assertion = () => expect(res).to.satisfyApiSpec;
         expect(assertion).to.throw(
           AssertionError,
-          `'/nonExistentEndpointPath' matches servers ${inspect([
+          `'/nonExistentEndpointPath' matches servers ${str([
             'http://api.example.com',
           ])} but no <server/endpointPath> combinations`,
         );

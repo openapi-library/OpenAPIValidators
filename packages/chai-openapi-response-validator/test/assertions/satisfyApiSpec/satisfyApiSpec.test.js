@@ -16,12 +16,13 @@
 
 const chai = require('chai');
 const path = require('path');
-const util = require('util');
-const { c } = require('compress-tag');
 
+const {
+  joinWithNewLines,
+  str,
+} = require('../../../../../commonTestResources/utils');
 const chaiResponseValidator = require('../../..');
 
-const str = (obj) => util.inspect(obj, { showHidden: false, depth: null });
 const openApiSpecsDir = path.resolve(
   '../../commonTestResources/exampleOpenApiFiles/valid',
 );
@@ -100,13 +101,14 @@ openApiSpecs.forEach((spec) => {
             it('fails when using .not and outputs a useful error message', () => {
               const assertion = () => expect(res).to.not.satisfyApiSpec;
               expect(assertion).to.throw(
-                c`expected res not to satisfy API spec
-              \n\nexpected res not to satisfy the '200' response defined
-                  for endpoint 'GET /test/responseBody/string' in your API spec
-              \n\nres contained: ${str({ body: 'valid body (string)' })}
-              \n\nThe '200' response defined for endpoint 'GET /test/responseBody/string' in API spec: ${str(
-                responseDefinition,
-              )}`,
+                joinWithNewLines(
+                  `expected res not to satisfy API spec`,
+                  `expected res not to satisfy the '200' response defined for endpoint 'GET /test/responseBody/string' in your API spec`,
+                  `res contained: ${str({ body: 'valid body (string)' })}`,
+                  `The '200' response defined for endpoint 'GET /test/responseBody/string' in API spec: ${str(
+                    responseDefinition,
+                  )}`,
+                ),
               );
             });
           });
@@ -150,13 +152,13 @@ openApiSpecs.forEach((spec) => {
             it('fails when using .not and outputs a useful error message', () => {
               const assertion = () => expect(res).to.not.satisfyApiSpec;
               expect(assertion).to.throw(
-                c`expected res not to satisfy API spec
-              \n\nexpected res not to satisfy the '200' response defined
-                  for endpoint 'GET /test/responseBody/referencesSchemaObject/simple' in your API spec
-              \n\nres contained: ${str({ body: 'valid body (string)' })}
-              \n\nThe '200' response defined for endpoint 'GET /test/responseBody/referencesSchemaObject/simple' in API spec: ${str(
-                responseDefinition,
-              )}`,
+                joinWithNewLines(
+                  `expected res not to satisfy the '200' response defined for endpoint 'GET /test/responseBody/referencesSchemaObject/simple' in your API spec`,
+                  `res contained: ${str({ body: 'valid body (string)' })}`,
+                  `The '200' response defined for endpoint 'GET /test/responseBody/referencesSchemaObject/simple' in API spec: ${str(
+                    responseDefinition,
+                  )}`,
+                ),
               );
             });
           });
@@ -445,10 +447,12 @@ openApiSpecs.forEach((spec) => {
           it('fails', () => {
             const assertion = () => expect(res).to.satisfyApiSpec;
             expect(assertion).to.throw(
-              c`expected res to satisfy API spec
-            \n\nexpected res to satisfy a '418' response defined for endpoint 'GET /test/responseStatus' in your API spec
-              \nres had status '418', but your API spec has no '418' response defined for endpoint 'GET /test/responseStatus'
-            \n\nResponse statuses found for endpoint 'GET /test/responseStatus' in API spec: 200, 204`,
+              joinWithNewLines(
+                'expected res to satisfy API spec',
+                "expected res to satisfy a '418' response defined for endpoint 'GET /test/responseStatus' in your API spec",
+                "res had status '418', but your API spec has no '418' response defined for endpoint 'GET /test/responseStatus'",
+                "Response statuses found for endpoint 'GET /test/responseStatus' in API spec: 200, 204",
+              ),
             );
           });
 
@@ -506,16 +510,16 @@ openApiSpecs.forEach((spec) => {
           it('fails and outputs a useful error message', () => {
             const assertion = () => expect(res).to.satisfyApiSpec;
             expect(assertion).to.throw(
-              c`expected res to satisfy API spec
-            \n\nexpected res to satisfy the '200' response defined
-                for endpoint 'GET /test/responseBody/object/withMultipleProperties' in your API spec
-              \nres did not satisfy it because: property1 should be string, property2 should be string
-            \n\nres contained: ${str({
-              body: { property1: 123, property2: 123 },
-            })}
-            \n\nThe '200' response defined for endpoint 'GET /test/responseBody/object/withMultipleProperties' in API spec: ${str(
-              responseDefinition,
-            )}`,
+              joinWithNewLines(
+                "expected res to satisfy the '200' response defined for endpoint 'GET /test/responseBody/object/withMultipleProperties' in your API spec",
+                'res did not satisfy it because: property1 should be string, property2 should be string',
+                `res contained: ${str({
+                  body: { property1: 123, property2: 123 },
+                })}`,
+                `The '200' response defined for endpoint 'GET /test/responseBody/object/withMultipleProperties' in API spec: ${str(
+                  responseDefinition,
+                )}`,
+              ),
             );
           });
 
@@ -539,9 +543,11 @@ openApiSpecs.forEach((spec) => {
         it('fails', () => {
           const assertion = () => expect(res).to.satisfyApiSpec;
           expect(assertion).to.throw(
-            "expected res to satisfy a '204' response defined for endpoint 'GET /does/not/exist' in your API spec" +
-              "\nres had request path '/does/not/exist', but your API spec has no matching path" +
-              '\n\nPaths found in API spec: /test/responseBody/string, /test/responseBody/boolean', // etc.
+            joinWithNewLines(
+              "expected res to satisfy a '204' response defined for endpoint 'GET /does/not/exist' in your API spec",
+              "res had request path '/does/not/exist', but your API spec has no matching path",
+              'Paths found in API spec: /test/responseBody/string, /test/responseBody/boolean', // etc.
+            ),
           );
         });
 
@@ -562,10 +568,12 @@ openApiSpecs.forEach((spec) => {
         it('fails', () => {
           const assertion = () => expect(res).to.satisfyApiSpec;
           expect(assertion).to.throw(
-            c`expected res to satisfy API spec
-          \n\nexpected res to satisfy a '204' response defined for endpoint 'HEAD /test/HTTPMethod' in your API spec
-            \nres had request method 'HEAD', but your API spec has no 'HEAD' operation defined for path '/test/HTTPMethod'
-          \n\nRequest operations found for path '/test/HTTPMethod' in API spec: GET, POST`,
+            joinWithNewLines(
+              'expected res to satisfy API spec',
+              "expected res to satisfy a '204' response defined for endpoint 'HEAD /test/HTTPMethod' in your API spec",
+              "res had request method 'HEAD', but your API spec has no 'HEAD' operation defined for path '/test/HTTPMethod'",
+              "Request operations found for path '/test/HTTPMethod' in API spec: GET, POST",
+            ),
           );
         });
 
@@ -586,10 +594,11 @@ openApiSpecs.forEach((spec) => {
         it('fails', () => {
           const assertion = () => expect(res).to.satisfyApiSpec;
           expect(assertion).to.throw(
-            c`expected res to satisfy API spec
-          \n\nexpected res to satisfy a '204' response defined for endpoint 'HEAD /test/pathParams/{exampleParam}' in your API spec
-            \nres had request method 'HEAD', but your API spec has no 'HEAD' operation defined for path '/test/pathParams/{exampleParam}'
-          \n\nRequest operations found for path '/test/pathParams/{exampleParam}' in API spec: GET`,
+            joinWithNewLines(
+              "expected res to satisfy a '204' response defined for endpoint 'HEAD /test/pathParams/{exampleParam}' in your API spec",
+              "res had request method 'HEAD', but your API spec has no 'HEAD' operation defined for path '/test/pathParams/{exampleParam}'",
+              "Request operations found for path '/test/pathParams/{exampleParam}' in API spec: GET",
+            ),
           );
         });
 
