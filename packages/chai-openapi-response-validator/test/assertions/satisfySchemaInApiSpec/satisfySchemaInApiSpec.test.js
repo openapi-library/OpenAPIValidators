@@ -98,7 +98,6 @@ openApiSpecs.forEach((spec) => {
               expect(validObj).to.not.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
               joinWithNewLines(
-                `expected object not to satisfy the '${schemaName}' schema defined in your API spec`,
                 'object was: 123',
                 `The '${schemaName}' schema in API spec: ${str(
                   expectedSchema,
@@ -116,7 +115,6 @@ openApiSpecs.forEach((spec) => {
               expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
               joinWithNewLines(
-                `expected object to satisfy the '${schemaName}' schema defined in your API spec`,
                 'object did not satisfy it because: object should be integer',
                 "object was: 'should be integer'",
                 `The '${schemaName}' schema in API spec: ${str(

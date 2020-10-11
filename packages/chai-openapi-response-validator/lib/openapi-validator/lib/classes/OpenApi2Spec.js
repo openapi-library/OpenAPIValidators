@@ -12,7 +12,7 @@ class OpenApi2Spec extends AbstractOpenApiSpec {
   }
 
   /**
-   * "If the basePath property is not provided, is not included, the API is served directly under the host
+   * "If the basePath property is not provided, the API is served directly under the host
    * @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#fixed-fields
    */
   findOpenApiPathMatchingPathname(pathname) {

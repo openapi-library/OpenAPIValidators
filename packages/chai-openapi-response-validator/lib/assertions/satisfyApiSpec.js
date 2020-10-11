@@ -36,7 +36,6 @@ function getExpectedResToSatisfyApiSpecMsg(
 
   const { status, req } = actualResponse;
   const { method, path: requestPath } = req;
-
   const unmatchedEndpoint = `${method} ${requestPath}`;
 
   if (validationError.code === `SERVER_NOT_FOUND`) {

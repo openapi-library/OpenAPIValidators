@@ -23,6 +23,8 @@ const {
 } = require('../../../../../commonTestResources/utils');
 const chaiResponseValidator = require('../../..');
 
+const expectedResToSatisfyApiSpec = 'expected res to satisfy API spec';
+
 const dirContainingApiSpec = path.resolve(
   '../../commonTestResources/exampleOpenApiFiles/valid/serversDefinedDifferently',
 );
@@ -131,7 +133,6 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
             "expected res to satisfy a '200' response defined for endpoint 'GET /nonExistentEndpointPath' in your API spec",
             "res had request path '/nonExistentEndpointPath', but your API spec has no matching path",
             'Paths found in API spec:',
-            // we don't list servers defined in your API spec because there aren't any
           ),
         );
       });
@@ -151,7 +152,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
       chai.use(chaiResponseValidator(pathToApiSpec));
     });
 
-    describe('res.req.path does not match any servers', () => {
+    describe('res.req.path matches no servers', () => {
       const res = {
         status: 200,
         req: {
@@ -165,10 +166,10 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
         const assertion = () => expect(res).to.satisfyApiSpec;
         expect(assertion).to.throw(
           joinWithNewLines(
-            'expected res to satisfy API spec',
+            expectedResToSatisfyApiSpec,
             "expected res to satisfy a '200' response defined for endpoint 'GET /nonExistentServer' in your API spec",
             "res had request path '/nonExistentServer', but your API spec has no matching servers",
-            'Servers found in API spec: /relativeServer, /differentRelativeServer', // etc.
+            'Servers found in API spec: /relativeServer, /differentRelativeServer, /relativeServer2, http://api.example.com/basePath1, https://api.example.com/basePath2, ws://api.example.com/basePath3, wss://api.example.com/basePath4, http://api.example.com:8443/basePath5, http://localhost:3025/basePath6, http://10.0.81.36/basePath7',
           ),
         );
       });
@@ -331,30 +332,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
       });
     });
 
-    describe("res.req.path does not match any defined servers, nor the default server ('/')", () => {
-      const res = {
-        status: 200,
-        req: {
-          method: 'GET',
-          path: 'nonExistentServer/test/responseBody/string',
-        },
-        body: 'valid body (string)',
-      };
-
-      it('fails', () => {
-        const assertion = () => expect(res).to.satisfyApiSpec;
-        expect(assertion).to.throw(
-          AssertionError,
-          "'nonExistentServer/test/responseBody/string', but your API spec has no matching servers",
-        );
-      });
-
-      it('passes when using .not', () => {
-        expect(res).to.not.satisfyApiSpec;
-      });
-    });
-
-    describe("res.req.path does not match any defined servers, but does match the default server ('/')", () => {
+    describe('res.req.path matches no servers', () => {
       const res = {
         status: 200,
         req: {
