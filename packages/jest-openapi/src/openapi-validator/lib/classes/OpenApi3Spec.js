@@ -10,9 +10,6 @@ const serversPropertyNotProvidedOrIsEmptyArray = (spec) =>
 
 const extractBasePath = (inputUrl) => url.parse(inputUrl).path;
 
-const getPathnameWithoutBasePath = (basePath, pathname) =>
-  basePath === '/' ? pathname : pathname.replace(basePath, '');
-
 class OpenApi3Spec extends AbstractOpenApiSpec {
   constructor(spec) {
     super(spec);
@@ -68,7 +65,7 @@ class OpenApi3Spec extends AbstractOpenApiSpec {
       throw new ValidationError('SERVER_NOT_FOUND');
     }
     const possiblePathnames = matchingServerBasePaths.map((basePath) =>
-      getPathnameWithoutBasePath(basePath, pathname),
+      utils.getPathnameWithoutBasePath(basePath, pathname),
     );
     const openApiPath = utils.findOpenApiPathMatchingPossiblePathnames(
       possiblePathnames,

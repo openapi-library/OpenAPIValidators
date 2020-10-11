@@ -1,15 +1,15 @@
 const path = require('path');
-const { inspect } = require('util');
 
 const axios = require('axios');
 const supertest = require('supertest');
 const requestPromise = require('request-promise');
 
-const jestOpenAPI = require('../../..');
+const { str } = require('../../../../../commonTestResources/utils');
 const app = require('../../../../../commonTestResources/exampleApp');
 const { port } = require('../../../../../commonTestResources/config');
 
-const str = (obj) => inspect(obj, { showHidden: false, depth: null });
+const jestOpenAPI = require('../../..');
+
 const appOrigin = `http://localhost:${port}`;
 const pathToApiSpec = path.resolve(
   '../../commonTestResources/exampleOpenApiFiles/valid/openapi3.yml',
