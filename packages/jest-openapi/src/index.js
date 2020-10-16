@@ -1,4 +1,4 @@
-const { openApiSpecFactory } = require('./openapi-validator');
+const { openApiSpecFactory } = require('openapi-validator');
 const toSatisfyApiSpec = require('./matchers/toSatisfyApiSpec');
 const toSatisfySchemaInApiSpec = require('./matchers/toSatisfySchemaInApiSpec');
 

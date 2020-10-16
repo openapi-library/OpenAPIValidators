@@ -1,4 +1,4 @@
-const RequestPromiseResponse = require('../../src/openapi-validator/lib/classes/RequestPromiseResponse');
+const RequestPromiseResponse = require('../../../openapi-validator/lib/classes/RequestPromiseResponse');
 
 describe('RequestPromiseResponse', () => {
   const json = { request: { _json: true } };

@@ -1,4 +1,4 @@
-const { responseFactory } = require('../openapi-validator');
+const { responseFactory } = require('openapi-validator');
 const { stringify, joinWithNewLines } = require('../utils');
 
 module.exports = function (chai, openApiSpec) {

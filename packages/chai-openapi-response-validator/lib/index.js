@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ****************************************************************************** */
-const { openApiSpecFactory } = require('./openapi-validator');
+const { openApiSpecFactory } = require('openapi-validator');
 const satisfyApiSpec = require('./assertions/satisfyApiSpec');
 const satisfySchemaInApiSpec = require('./assertions/satisfySchemaInApiSpec');
 

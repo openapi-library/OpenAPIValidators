@@ -64,6 +64,6 @@
     "supertest": "^5.0.0"
   },
   "dependencies": {
-    "openapi-validator": "^0.9.0"
+    "openapi-validator": "^0.10.0"
   }
 }

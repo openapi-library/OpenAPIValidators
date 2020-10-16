@@ -1,5 +1,6 @@
 {
-  "private": true,
+  "name": "openapi-validator",
+  "version": "0.10.0",
   "scripts": {},
   "devDependencies": {
     "chai": "^4.2.0",
