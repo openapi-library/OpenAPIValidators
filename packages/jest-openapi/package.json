@@ -56,7 +56,7 @@
     "supertest": "^5.0.0"
   },
   "dependencies": {
-    "jest-matcher-utils": "^26.5.2",
+    "jest-matcher-utils": "^26.6.1",
     "openapi-validator": "^0.9.0"
   }
 }
