@@ -61,7 +61,7 @@
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
     "rimraf": "^3.0.2",
-    "supertest": "^5.0.0"
+    "supertest": "^6.0.0"
   },
   "dependencies": {
     "openapi-validator": "^0.9.0"

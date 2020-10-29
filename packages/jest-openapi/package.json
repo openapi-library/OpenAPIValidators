@@ -53,7 +53,7 @@
     "jest": "^26.5.2",
     "request-promise": "^4.2.6",
     "rimraf": "^3.0.2",
-    "supertest": "^5.0.0"
+    "supertest": "^6.0.0"
   },
   "dependencies": {
     "jest-matcher-utils": "^26.5.2",
