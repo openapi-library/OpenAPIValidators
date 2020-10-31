@@ -18,7 +18,7 @@ SPDX-License-Identifier: Apache-2.0
 
 The project maintains the following source code repositories:
 
-- https://github.com/RuntimeTools/OpenAPIValidators
+- https://github.com/openapi-library/OpenAPIValidators
 
 ## Third-party Content
 
