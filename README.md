@@ -6,7 +6,7 @@
 [![codecov](https://codecov.io/gh/openapi-library/OpenAPIValidators/branch/master/graph/badge.svg)](https://codecov.io/gh/openapi-library/OpenAPIValidators)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/openapi-library/OpenAPIValidators/blob/master/CONTRIBUTING.md)
 
-Chai and Jest support for asserting that HTTP responses satisfy an OpenAPI spec.
+Use Jest or Chai to assert that HTTP responses satisfy an OpenAPI spec.
 
 ## Problem 😕
 
@@ -14,17 +14,17 @@ If your server's behaviour doesn't match your API documentation, then you need t
 
 ## Solution 😄
 
-These test plugins let you automatically test whether your server's behaviour and documentation match. They extend Chai and Jest to support the [OpenAPI standard](https://swagger.io/docs/specification/about/) for documenting REST APIs. In your JavaScript tests, you can simply assert `expect(responseObject).toSatisfyApiSpec()`
-
-### [Chai OpenAPI Response Validator](https://github.com/openapi-library/OpenAPIValidators/tree/master/packages/chai-openapi-response-validator#readme)
-
-[![downloads](https://img.shields.io/npm/dm/chai-openapi-response-validator)](https://www.npmjs.com/package/chai-openapi-response-validator)
-[![npm](https://img.shields.io/npm/v/chai-openapi-response-validator.svg)](https://www.npmjs.com/package/chai-openapi-response-validator)
+These test plugins let you automatically test whether your server's behaviour and documentation match. They extend Jest and Chai to support the [OpenAPI standard](https://swagger.io/docs/specification/about/) for documenting REST APIs. In your JavaScript tests, you can simply assert `expect(responseObject).toSatisfyApiSpec()`
 
 ### [jest-openapi](https://github.com/openapi-library/OpenAPIValidators/tree/master/packages/jest-openapi#readme)
 
 [![downloads](https://img.shields.io/npm/dm/jest-openapi)](https://www.npmjs.com/package/jest-openapi)
 [![npm](https://img.shields.io/npm/v/jest-openapi.svg)](https://www.npmjs.com/package/jest-openapi)
+
+### [Chai OpenAPI Response Validator](https://github.com/openapi-library/OpenAPIValidators/tree/master/packages/chai-openapi-response-validator#readme)
+
+[![downloads](https://img.shields.io/npm/dm/chai-openapi-response-validator)](https://www.npmjs.com/package/chai-openapi-response-validator)
+[![npm](https://img.shields.io/npm/v/chai-openapi-response-validator.svg)](https://www.npmjs.com/package/chai-openapi-response-validator)
 
 ## Contributors ✨
 

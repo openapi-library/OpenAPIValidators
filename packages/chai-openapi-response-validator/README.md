@@ -9,7 +9,7 @@
 [![included](https://badgen.net/npm/types/jest-openapi)](https://github.com/openapi-library/OpenAPIValidators/blob/master/packages/chai-openapi-response-validator/index.d.ts)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/openapi-library/OpenAPIValidators/blob/master/CONTRIBUTING.md)
 
-Simple Chai support for asserting that HTTP responses satisfy an OpenAPI spec.
+Use Chai to assert that HTTP responses satisfy an OpenAPI spec.
 
 ## Problem 😕
 
