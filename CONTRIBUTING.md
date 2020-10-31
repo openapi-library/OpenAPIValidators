@@ -7,7 +7,6 @@ We appreciate [bug reports](https://github.com/openapi-library/OpenAPIValidators
 - [Bug Reports](#bug-reports)
 - [Feature Requests](#feature-requests)
 - [Pull Requests](#pull-requests)
-- [IBM Contributor License Agreement](#ibm-contributor-license-agreement)
 
 ## Bug Reports
 
@@ -31,7 +30,7 @@ Consider whether your idea fits with the scope and aims of the project. It's up 
 - New code should be consistent with existing code.
 - PRs should remain focused in scope and not contain unrelated commits or code changes.
 - Please ask before embarking on any significant pull request, to ensure we will want to merge into the project.
-- If this is your first pull request for this project, please add yourself as a contributor! Just comment on your pull request: `@all-contributors please add <your-username> for <contribution>` ([see example](https://allcontributors.org/docs/en/bot/usage#all-contributors-add)) and the All Contributors bot will raise a PR adding you to the [Contributors section of our main README](https://github.com/openapi-library/OpenAPIValidators#contributors). Note, this indicates that you accept the IBM Contributor License Agreement [below](#IBM-Contributor-License-Agreement).
+- If this is your first pull request for this project, please add yourself as a contributor! Just comment on your pull request: `@all-contributors please add <your-username> for <contribution>` ([see example](https://allcontributors.org/docs/en/bot/usage#all-contributors-add)) and the All Contributors bot will raise a PR adding you to the [Contributors section of our main README](https://github.com/openapi-library/OpenAPIValidators#contributors).
 
 Follow this process if you'd like to work on this project:
 
@@ -105,27 +104,3 @@ git push origin <topic-branch-name>
 ```
 
 ### 8. [Open a Pull Request](https://help.github.com/articles/using-pull-requests/) with a clear title and description. Link it to the relevant issue
-
-## IBM Contributor License Agreement
-
-Version 1.0.1 - January 25th, 2017
-
-In order for You (as defined below) to make intellectual property Contributions (as defined below) now or in the future to IBM GitHub repositories, You must agree to this Contributor License Agreement ("CLA"). Please read this CLA carefully before accepting its terms. By accepting the CLA, You are agreeing to be bound by its terms. If You submit a Pull Request against an IBM repository on GitHub You must include in the Pull Request a statement of Your acceptance of this CLA.
-As used in this CLA: (i) "You" (or "Your") shall mean the entity that is making this Agreement with IBM; (ii)"Contribution" shall mean any original work of authorship, including any modifications or additions to an existing work, that is submitted by You to IBM for inclusion in, or documentation of, any of the IBM GitHub repositories; (iii) "Submit" (or "Submitted") means any form of communication sent to IBM (e.g. the content You post in a GitHub Issue or submit as part of a GitHub Pull Request).
-
-This agreement applies to all Contributions You Submit.
-
-- You will only Submit Contributions where You have authored 100% of the content.
-
-- You will only Submit Contributions to which You have the necessary rights. This means that if You are employed You have received the necessary permissions from Your employer to make the Contributions.
-
-- Whatever content You Contribute will be provided under the Apache v2.0 license. You can read a copy of the Apache v2.0 License at <http://www.apache.org/licenses/LICENSE-2.0>. Unless You explicitly state otherwise, any Contribution intentionally submitted for inclusion in the Work by You to the Licensor shall be under the terms and conditions of this License, without any additional terms or conditions. Notwithstanding the above, nothing herein shall supersede or modify the terms of any separate license agreement you may have executed with Licensor regarding such Contributions.
-
-- You understand and agree that the Project and Your contributions are public, and that a record of the contribution (including all personal information You submit with it, including Your sign-off) is maintained indefinitely and may be redistributed consistent with the license(s) involved.
-
-- You understand that the decision to include Your Contribution is entirely that of the Project and this agreement does not guarantee that the Contribution will be included in the Project.
-
-- You are not expected to provide support for Your Contribution. However you may provide support for free, for a fee or not at all. You provide Your Contribution on an "AS IS" BASIS as stated in the License.
-
-You will promptly notify the Project if You become aware of any facts or circumstances that would make these commitments inaccurate in any way. To do so, please raise an issue on the project's GitHub [issue tracker](https://github.com/openapi-library/OpenAPIValidators/issues).
-If You think the Project could make use of content which You did not author, please talk to a committer on the Project. If they like Your idea, they will know the process to get it included.
