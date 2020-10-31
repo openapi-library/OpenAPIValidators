@@ -1,5 +1,5 @@
 // Type definitions for chai-openapi-response-validator
-// Project: https://github.com/RuntimeTools/OpenAPIValidators/packages/chai-openapi-response-validator
+// Project: https://github.com/openapi-library/OpenAPIValidators/packages/chai-openapi-response-validator
 // Definitions by: Richard Waller <https://github.com/rwalle61>
 // TypeScript Version: 3.1
 
@@ -10,12 +10,12 @@ declare global {
     interface Assertion {
       /**
        * Check the HTTP response object satisfies a response defined in your OpenAPI spec.
-       * [See usage example](https://github.com/RuntimeTools/OpenAPIValidators/tree/master/packages/chai-openapi-response-validator#in-api-tests-validate-the-status-and-body-of-http-responses-against-your-openapi-spec)
+       * [See usage example](https://github.com/openapi-library/OpenAPIValidators/tree/master/packages/chai-openapi-response-validator#in-api-tests-validate-the-status-and-body-of-http-responses-against-your-openapi-spec)
        */
       satisfyApiSpec: Assertion;
       /**
        * Check the object satisfies a schema defined in your OpenAPI spec.
-       * [See usage example](https://github.com/RuntimeTools/OpenAPIValidators/tree/master/packages/chai-openapi-response-validator#in-unit-tests-validate-objects-against-schemas-defined-in-your-openapi-spec)
+       * [See usage example](https://github.com/openapi-library/OpenAPIValidators/tree/master/packages/chai-openapi-response-validator#in-unit-tests-validate-objects-against-schemas-defined-in-your-openapi-spec)
        */
       satisfySchemaInApiSpec(schemaName: string): Assertion;
     }

@@ -2,7 +2,7 @@
 
 Thanks for being willing to contribute!
 
-We appreciate [bug reports](https://github.com/RuntimeTools/OpenAPIValidators/issues/new?assignees=&labels=bug&template=bug_report.md&title=), [feature requests](https://github.com/RuntimeTools/OpenAPIValidators/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=), doc updates, fixing [open issues](https://github.com/RuntimeTools/OpenAPIValidators/issues), and other contributions. Please follow our [Code Of Conduct](https://github.com/RuntimeTools/OpenAPIValidators/blob/master/CODE_OF_CONDUCT.md) and the guide below.
+We appreciate [bug reports](https://github.com/openapi-library/OpenAPIValidators/issues/new?assignees=&labels=bug&template=bug_report.md&title=), [feature requests](https://github.com/openapi-library/OpenAPIValidators/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=), doc updates, fixing [open issues](https://github.com/openapi-library/OpenAPIValidators/issues), and other contributions. Please follow our [Code Of Conduct](https://github.com/openapi-library/OpenAPIValidators/blob/master/CODE_OF_CONDUCT.md) and the guide below.
 
 - [Bug Reports](#bug-reports)
 - [Feature Requests](#feature-requests)
@@ -15,8 +15,8 @@ A bug is a **recreatable** problem that is caused by the code in the repository.
 
 Before submitting bug reports:
 
-1. **Check if the [issue has already been reported](https://github.com/RuntimeTools/OpenAPIValidators/issues)**
-2. **Recreate the bug** &mdash; clone `master` and use our bug recreation template for [`chai-openapi-response-validator`](https://github.com/RuntimeTools/OpenAPIValidators/blob/master/packages/chai-openapi-response-validator/test/bugRecreationTemplate.test.js) or [`jest-openapi`](https://github.com/RuntimeTools/OpenAPIValidators/blob/master/packages/jest-openapi/__test__/bugRecreationTemplate.test.js).
+1. **Check if the [issue has already been reported](https://github.com/openapi-library/OpenAPIValidators/issues)**
+2. **Recreate the bug** &mdash; clone `master` and use our bug recreation template for [`chai-openapi-response-validator`](https://github.com/openapi-library/OpenAPIValidators/blob/master/packages/chai-openapi-response-validator/test/bugRecreationTemplate.test.js) or [`jest-openapi`](https://github.com/openapi-library/OpenAPIValidators/blob/master/packages/jest-openapi/__test__/bugRecreationTemplate.test.js).
 
 ## Feature Requests
 
@@ -31,7 +31,7 @@ Consider whether your idea fits with the scope and aims of the project. It's up 
 - New code should be consistent with existing code.
 - PRs should remain focused in scope and not contain unrelated commits or code changes.
 - Please ask before embarking on any significant pull request, to ensure we will want to merge into the project.
-- If this is your first pull request for this project, please add yourself as a contributor! Just comment on your pull request: `@all-contributors please add <your-username> for <contribution>` ([see example](https://allcontributors.org/docs/en/bot/usage#all-contributors-add)) and the All Contributors bot will raise a PR adding you to the [Contributors section of our main README](https://github.com/RuntimeTools/OpenAPIValidators#contributors). Note, this indicates that you accept the IBM Contributor License Agreement [below](#IBM-Contributor-License-Agreement).
+- If this is your first pull request for this project, please add yourself as a contributor! Just comment on your pull request: `@all-contributors please add <your-username> for <contribution>` ([see example](https://allcontributors.org/docs/en/bot/usage#all-contributors-add)) and the All Contributors bot will raise a PR adding you to the [Contributors section of our main README](https://github.com/openapi-library/OpenAPIValidators#contributors). Note, this indicates that you accept the IBM Contributor License Agreement [below](#IBM-Contributor-License-Agreement).
 
 Follow this process if you'd like to work on this project:
 
@@ -127,5 +127,5 @@ This agreement applies to all Contributions You Submit.
 
 - You are not expected to provide support for Your Contribution. However you may provide support for free, for a fee or not at all. You provide Your Contribution on an "AS IS" BASIS as stated in the License.
 
-You will promptly notify the Project if You become aware of any facts or circumstances that would make these commitments inaccurate in any way. To do so, please raise an issue on the project's GitHub [issue tracker](https://github.com/RuntimeTools/OpenAPIValidators/issues).
+You will promptly notify the Project if You become aware of any facts or circumstances that would make these commitments inaccurate in any way. To do so, please raise an issue on the project's GitHub [issue tracker](https://github.com/openapi-library/OpenAPIValidators/issues).
 If You think the Project could make use of content which You did not author, please talk to a committer on the Project. If they like Your idea, they will know the process to get it included.
