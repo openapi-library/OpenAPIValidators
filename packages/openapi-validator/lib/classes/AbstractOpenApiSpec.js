@@ -129,8 +129,7 @@ class OpenApiSpec {
       responses: mockExpectedResponse,
       ...this.getComponentDefinitionsProperty(),
       errorTransformer: ({ path, message }) => ({
-        path: path.replace('response', 'object'),
-        message,
+        message: `${path.replace('response', 'object')} ${message}`,
       }),
     });
     const validationError = resValidator.validateResponse(
@@ -140,7 +139,7 @@ class OpenApiSpec {
     if (validationError) {
       return new ValidationError(
         'INVALID_OBJECT',
-        validationError.errors.map(({ path, message }) => `${path} ${message}`).join(', '),
+        validationError.errors.map((error) => error.message).join(', '),
       );
     }
     return null;
