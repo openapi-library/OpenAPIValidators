@@ -367,6 +367,8 @@ describe('GET /example/endpoint', () => {
 
 You don't need to `npm install --save-dev @types/chai-openapi-response-validator` because we [bundle our TypeScript Definition file into this package](https://github.com/openapi-library/OpenAPIValidators/blob/master/packages/chai-openapi-response-validator/index.d.ts).
 
+But make sure you have installed chai typings with `npm install --save-dev @types/chai` since chai does not provide typescript definition files.
+
 #### Importing
 
 1. Make sure your `tsconfig.json` includes:
