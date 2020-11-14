@@ -81,7 +81,17 @@
         "code",
         "bug"
       ]
+    },
+    {
+      "login": "Xotabu4",
+      "name": "Oleksandr Khotemskyi",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/3033972?v=4",
+      "profile": "https://xotabu4.github.io/",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
-  "contributorsPerLine": 7
+  "contributorsPerLine": 7,
+  "skipCi": true
 }
