@@ -26,7 +26,7 @@ describe('Using OpenAPI 2 specs that define basePath differently', () => {
         status: 200,
         req: {
           method: 'GET',
-          path: '/test/responseBody/string',
+          path: '/endpointPath',
         },
         body: 'valid body (string)',
       };
@@ -46,7 +46,7 @@ describe('Using OpenAPI 2 specs that define basePath differently', () => {
         status: 200,
         req: {
           method: 'GET',
-          path: '/test/nonExistentEndpointPath',
+          path: '/nonExistentEndpointPath',
         },
         body: 'valid body (string)',
       };
@@ -56,9 +56,9 @@ describe('Using OpenAPI 2 specs that define basePath differently', () => {
         expect(assertion).to.throw(
           new RegExp(
             `${joinWithNewLines(
-              "expected res to satisfy a '200' response defined for endpoint 'GET /test/nonExistentEndpointPath' in your API spec",
-              "res had request path '/test/nonExistentEndpointPath', but your API spec has no matching path",
-              'Paths found in API spec: /test/responseBody/string',
+              "expected res to satisfy a '200' response defined for endpoint 'GET /nonExistentEndpointPath' in your API spec",
+              "res had request path '/nonExistentEndpointPath', but your API spec has no matching path",
+              'Paths found in API spec: /endpointPath',
             )}$`,
           ),
         );
@@ -84,7 +84,7 @@ describe('Using OpenAPI 2 specs that define basePath differently', () => {
         status: 200,
         req: {
           method: 'GET',
-          path: '/test/responseBody/string',
+          path: '/basePath/endpointPath',
         },
         body: 'valid body (string)',
       };
@@ -104,7 +104,7 @@ describe('Using OpenAPI 2 specs that define basePath differently', () => {
         status: 200,
         req: {
           method: 'GET',
-          path: '/responseBody/string',
+          path: '/wrongBasePath',
         },
         body: 'valid body (string)',
       };
@@ -113,8 +113,8 @@ describe('Using OpenAPI 2 specs that define basePath differently', () => {
         const assertion = () => expect(res).to.satisfyApiSpec;
         expect(assertion).to.throw(
           joinWithNewLines(
-            "expected res to satisfy a '200' response defined for endpoint 'GET /responseBody/string' in your API spec",
-            "res had request path '/responseBody/string', but your API spec has basePath '/test'",
+            "expected res to satisfy a '200' response defined for endpoint 'GET /wrongBasePath' in your API spec",
+            "res had request path '/wrongBasePath', but your API spec has basePath '/basePath'",
           ),
         );
       });
@@ -129,7 +129,7 @@ describe('Using OpenAPI 2 specs that define basePath differently', () => {
         status: 200,
         req: {
           method: 'GET',
-          path: '/test/nonExistentEndpointPath',
+          path: '/basePath/nonExistentEndpointPath',
         },
         body: 'valid body (string)',
       };
@@ -138,10 +138,10 @@ describe('Using OpenAPI 2 specs that define basePath differently', () => {
         const assertion = () => expect(res).to.satisfyApiSpec;
         expect(assertion).to.throw(
           joinWithNewLines(
-            "expected res to satisfy a '200' response defined for endpoint 'GET /test/nonExistentEndpointPath' in your API spec",
-            "res had request path '/test/nonExistentEndpointPath', but your API spec has no matching path",
-            'Paths found in API spec: /responseBody/string',
-            "'/test/nonExistentEndpointPath' matches basePath `/test` but no <basePath/endpointPath> combinations",
+            "expected res to satisfy a '200' response defined for endpoint 'GET /basePath/nonExistentEndpointPath' in your API spec",
+            "res had request path '/basePath/nonExistentEndpointPath', but your API spec has no matching path",
+            'Paths found in API spec: /endpointPath',
+            "'/basePath/nonExistentEndpointPath' matches basePath `/basePath` but no <basePath/endpointPath> combinations",
           ),
         );
       });

@@ -25,7 +25,7 @@ servers:
   - url: http://10.0.81.36/basePath7
     description: different host (IPv4)
 paths:
-  /test/responseBody/string:
+  /endpointPath:
     get:
       responses:
         200:
