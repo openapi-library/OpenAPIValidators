@@ -3,7 +3,6 @@
 [![downloads](https://img.shields.io/npm/dm/chai-openapi-response-validator)](https://www.npmjs.com/package/chai-openapi-response-validator)
 [![npm](https://img.shields.io/npm/v/chai-openapi-response-validator.svg)](https://www.npmjs.com/package/chai-openapi-response-validator)
 [![Build Status](https://travis-ci.com/openapi-library/OpenAPIValidators.svg?branch=master)](https://travis-ci.com/openapi-library/OpenAPIValidators)
-![dependencies](https://img.shields.io/david/openapi-library/OpenAPIValidators)
 ![style](https://img.shields.io/badge/code%20style-airbnb-ff5a5f.svg)
 [![codecov](https://codecov.io/gh/openapi-library/OpenAPIValidators/branch/master/graph/badge.svg)](https://codecov.io/gh/openapi-library/OpenAPIValidators)
 [![included](https://badgen.net/npm/types/jest-openapi)](https://github.com/openapi-library/OpenAPIValidators/blob/master/packages/chai-openapi-response-validator/index.d.ts)
