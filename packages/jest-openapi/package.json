@@ -22,7 +22,7 @@
   "contributors": [
     "Jonny Spruce <jspruce94@gmail.com>"
   ],
-  "license": "Apache-2.0",
+  "license": "MIT",
   "keywords": [
     "jest",
     "openapi",
