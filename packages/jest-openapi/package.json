@@ -1,6 +1,6 @@
 {
   "name": "jest-openapi",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "description": "Jest matchers for asserting that HTTP responses satisfy an OpenAPI spec",
   "main": "index.js",
   "types": "index.d.ts",
@@ -17,12 +17,12 @@
     "lint": "eslint .",
     "lint:fix": "yarn lint -- --fix"
   },
-  "repository": "https://github.com/RuntimeTools/OpenAPIValidators/tree/master/packages/jest-openapi",
+  "repository": "https://github.com/openapi-library/OpenAPIValidators/tree/master/packages/jest-openapi",
   "author": "rwalle61 <richard.lh.waller@gmail.com>",
   "contributors": [
     "Jonny Spruce <jspruce94@gmail.com>"
   ],
-  "license": "Apache-2.0",
+  "license": "MIT",
   "keywords": [
     "jest",
     "openapi",
@@ -32,9 +32,9 @@
     "assertions"
   ],
   "bugs": {
-    "url": "https://github.com/RuntimeTools/OpenAPIValidators/issues"
+    "url": "https://github.com/openapi-library/OpenAPIValidators/issues"
   },
-  "homepage": "https://github.com/RuntimeTools/OpenAPIValidators/tree/master/packages/jest-openapi#readme",
+  "homepage": "https://github.com/openapi-library/OpenAPIValidators/tree/master/packages/jest-openapi#readme",
   "files": [
     "index.*",
     "src/**/*"

@@ -27,7 +27,7 @@ describe('Using OpenAPI 2 specs that define basePath differently', () => {
         status: 200,
         req: {
           method: 'GET',
-          path: '/test/responseBody/string',
+          path: '/endpointPath',
         },
         body: 'valid body (string)',
       };
@@ -47,7 +47,7 @@ describe('Using OpenAPI 2 specs that define basePath differently', () => {
         status: 200,
         req: {
           method: 'GET',
-          path: '/test/nonExistentEndpointPath',
+          path: '/nonExistentEndpointPath',
         },
         body: 'valid body (string)',
       };
@@ -57,9 +57,9 @@ describe('Using OpenAPI 2 specs that define basePath differently', () => {
         expect(assertion).toThrow(
           // prettier-ignore
           `${joinWithNewLines(
-            `expected ${red('received')} to satisfy a '200' response defined for endpoint 'GET /test/nonExistentEndpointPath' in your API spec`,
-            `${red('received')} had request path ${red('/test/nonExistentEndpointPath')}, but your API spec has no matching path`,
-            `Paths found in API spec: ${green('/test/responseBody/string')}`,
+            `expected ${red('received')} to satisfy a '200' response defined for endpoint 'GET /nonExistentEndpointPath' in your API spec`,
+            `${red('received')} had request path ${red('/nonExistentEndpointPath')}, but your API spec has no matching path`,
+            `Paths found in API spec: ${green('/endpointPath')}`,
           )}`,
         );
       });
@@ -84,7 +84,7 @@ describe('Using OpenAPI 2 specs that define basePath differently', () => {
         status: 200,
         req: {
           method: 'GET',
-          path: '/test/responseBody/string',
+          path: '/basePath/endpointPath',
         },
         body: 'valid body (string)',
       };
@@ -104,7 +104,7 @@ describe('Using OpenAPI 2 specs that define basePath differently', () => {
         status: 200,
         req: {
           method: 'GET',
-          path: '/responseBody/string',
+          path: '/wrongBasePath',
         },
         body: 'valid body (string)',
       };
@@ -114,8 +114,8 @@ describe('Using OpenAPI 2 specs that define basePath differently', () => {
         expect(assertion).toThrow(
           // prettier-ignore
           joinWithNewLines(
-            `expected ${red('received')} to satisfy a '200' response defined for endpoint 'GET /responseBody/string' in your API spec`,
-            `${red('received')} had request path ${red('/responseBody/string')}, but your API spec has basePath ${green('/test')}`,
+            `expected ${red('received')} to satisfy a '200' response defined for endpoint 'GET /wrongBasePath' in your API spec`,
+            `${red('received')} had request path ${red('/wrongBasePath')}, but your API spec has basePath ${green('/basePath')}`,
           ),
         );
       });
@@ -130,7 +130,7 @@ describe('Using OpenAPI 2 specs that define basePath differently', () => {
         status: 200,
         req: {
           method: 'GET',
-          path: '/test/nonExistentEndpointPath',
+          path: '/basePath/nonExistentEndpointPath',
         },
         body: 'valid body (string)',
       };
@@ -140,10 +140,10 @@ describe('Using OpenAPI 2 specs that define basePath differently', () => {
         expect(assertion).toThrow(
           // prettier-ignore
           joinWithNewLines(
-            `expected ${red('received')} to satisfy a '200' response defined for endpoint 'GET /test/nonExistentEndpointPath' in your API spec`,
-            `${red('received')} had request path ${red('/test/nonExistentEndpointPath')}, but your API spec has no matching path`,
-            `Paths found in API spec: ${green('/responseBody/string')}`,
-            "'/test/nonExistentEndpointPath' matches basePath `/test` but no <basePath/endpointPath> combinations",
+            `expected ${red('received')} to satisfy a '200' response defined for endpoint 'GET /basePath/nonExistentEndpointPath' in your API spec`,
+            `${red('received')} had request path ${red('/basePath/nonExistentEndpointPath')}, but your API spec has no matching path`,
+            `Paths found in API spec: ${green('/endpointPath')}`,
+            "'/basePath/nonExistentEndpointPath' matches basePath `/basePath` but no <basePath/endpointPath> combinations",
           ),
         );
       });

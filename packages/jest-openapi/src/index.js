@@ -30,7 +30,7 @@ module.exports = function (filepathOrObject) {
       [
         "Unable to find Jest's global expect.",
         'Please check you have configured jest-openapi correctly.',
-        'See https://github.com/RuntimeTools/OpenAPIValidators/jest-openapi#usage for help.',
+        'See https://github.com/openapi-library/OpenAPIValidators/tree/master/packages/jest-openapi#usage for help.',
       ].join('\n'),
     );
   }

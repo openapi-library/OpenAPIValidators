@@ -8,9 +8,9 @@ assignees: ''
 
 <!--- If you can, please recreate the bug in a quick test:
 
-Simply clone master and use our bug recreation template for chai-openapi-response-validator (https://github.com/RuntimeTools/OpenAPIValidators/blob/master/packages/chai-openapi-response-validator/test/bugRecreationTemplate.test.js)
+Simply clone master and use our bug recreation template for chai-openapi-response-validator (https://github.com/openapi-library/OpenAPIValidators/blob/master/packages/chai-openapi-response-validator/test/bugRecreationTemplate.test.js)
 
-or jest-openapi (https://github.com/RuntimeTools/OpenAPIValidators/blob/master/packages/jest-openapi/__test__/bugRecreationTemplate.test.js)
+or jest-openapi (https://github.com/openapi-library/OpenAPIValidators/blob/master/packages/jest-openapi/__test__/bugRecreationTemplate.test.js)
  -->
 
 **Which package are you using**?
@@ -40,4 +40,4 @@ Add any other context about the problem here.
 
 **Are you going to resolve the issue?**
 
-<!--- Feel free to ask for any help and read our [PR guide](https://github.com/RuntimeTools/OpenAPIValidators/blob/master/CONTRIBUTING.md#pull-requests) -->
+<!--- Feel free to ask for any help and read our [PR guide](https://github.com/openapi-library/OpenAPIValidators/blob/master/CONTRIBUTING.md#pull-requests) -->

@@ -40,8 +40,7 @@ describe('expect(res).to.satisfyApiSpec (using an OpenAPI spec with similar temp
             status: 200,
             req: {
               method: 'GET',
-              path:
-                '/test/preferNonTemplatedPathOverTemplatedPath/nonTemplatedPath',
+              path: '/preferNonTemplatedPathOverTemplatedPath/nonTemplatedPath',
             },
             body: 'valid body (string)',
           };
@@ -57,7 +56,7 @@ describe('expect(res).to.satisfyApiSpec (using an OpenAPI spec with similar temp
           it('fails when using .not', () => {
             const assertion = () => expect(res).to.not.satisfyApiSpec;
             expect(assertion).to.throw(
-              "not to satisfy the '200' response defined for endpoint 'GET /test/preferNonTemplatedPathOverTemplatedPath/nonTemplatedPath'",
+              "not to satisfy the '200' response defined for endpoint 'GET /preferNonTemplatedPathOverTemplatedPath/nonTemplatedPath'",
             );
           });
         });

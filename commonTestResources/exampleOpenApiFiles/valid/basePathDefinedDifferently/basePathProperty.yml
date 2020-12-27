@@ -1,11 +1,11 @@
 swagger: '2.0'
 info:
-  description: Has one path.
+  description: Has one path
   title: Example OpenApi 2 spec with basePath
   version: 0.1.0
-basePath: /test
+basePath: /basePath
 paths:
-  /responseBody/string:
+  /endpointPath:
     get:
       responses:
         200:
