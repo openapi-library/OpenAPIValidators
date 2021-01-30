@@ -7,7 +7,7 @@ servers:
   - url: http://api.example.com/basePath1
     description: absolute server with a base path
 paths:
-  /test/responseBody/string:
+  /endpointPath:
     get:
       responses:
         200:

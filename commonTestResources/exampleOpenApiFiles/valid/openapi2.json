@@ -6,7 +6,7 @@
     "version": "0.1.0"
   },
   "paths": {
-    "/test/responseBody/string": {
+    "/responseBody/string": {
       "get": {
         "produces": ["application/json"],
         "parameters": [],
@@ -20,7 +20,7 @@
         }
       }
     },
-    "/test/responseBody/boolean": {
+    "/responseBody/boolean": {
       "get": {
         "produces": ["application/json"],
         "parameters": [],
@@ -34,7 +34,7 @@
         }
       }
     },
-    "/test/HTTPMethod": {
+    "/HTTPMethod": {
       "get": {
         "parameters": [],
         "responses": {
@@ -52,7 +52,7 @@
         }
       }
     },
-    "/test/multiplePathParams/{param1}/{param2}": {
+    "/multiplePathParams/{param1}/{param2}": {
       "get": {
         "parameters": [
           {
@@ -75,7 +75,7 @@
         }
       }
     },
-    "/test/multipleResponsesDefined": {
+    "/multipleResponsesDefined": {
       "get": {
         "produces": ["application/json"],
         "parameters": [],
@@ -98,7 +98,7 @@
         }
       }
     },
-    "/test/pathAndQueryParams/{examplePathParam}": {
+    "/pathAndQueryParams/{examplePathParam}": {
       "get": {
         "parameters": [
           {
@@ -115,7 +115,7 @@
         }
       }
     },
-    "/test/pathParams/{exampleParam}": {
+    "/pathParams/{exampleParam}": {
       "get": {
         "parameters": [
           {
@@ -132,7 +132,7 @@
         }
       }
     },
-    "/test/queryParams": {
+    "/queryParams": {
       "get": {
         "parameters": [],
         "responses": {
@@ -142,7 +142,7 @@
         }
       }
     },
-    "/test/responseBody/empty": {
+    "/responseBody/empty": {
       "get": {
         "parameters": [],
         "responses": {
@@ -152,7 +152,7 @@
         }
       }
     },
-    "/test/responseBody/emptyObject": {
+    "/responseBody/emptyObject": {
       "get": {
         "produces": ["application/json"],
         "parameters": [],
@@ -166,7 +166,7 @@
         }
       }
     },
-    "/test/responseBody/referencesSchemaObject/simple": {
+    "/responseBody/referencesSchemaObject/simple": {
       "get": {
         "produces": ["application/json"],
         "parameters": [],
@@ -180,7 +180,7 @@
         }
       }
     },
-    "/test/responseBody/object/depthOver2": {
+    "/responseBody/object/depthOver2": {
       "get": {
         "produces": ["application/json"],
         "parameters": [],
@@ -212,7 +212,7 @@
         }
       }
     },
-    "/test/responseBody/object/withMultipleProperties": {
+    "/responseBody/object/withMultipleProperties": {
       "get": {
         "produces": ["application/json"],
         "parameters": [],
@@ -235,7 +235,7 @@
         }
       }
     },
-    "/test/responseStatus": {
+    "/responseStatus": {
       "get": {
         "parameters": [],
         "responses": {
@@ -248,7 +248,7 @@
         }
       }
     },
-    "/test/responseReferencesResponseDefinitionObject": {
+    "/responseReferencesResponseDefinitionObject": {
       "get": {
         "produces": ["application/json"],
         "parameters": [],

@@ -1,19 +1,3 @@
-/** *****************************************************************************
- * Copyright 2019 IBM Corp.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- ****************************************************************************** */
-
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const path = require('path');
@@ -49,7 +33,7 @@ describe('Parsing responses from different request modules', () => {
       before(async () => {
         res = await chai
           .request(app)
-          .get('/test/header/application/json/and/responseBody/string');
+          .get('/header/application/json/and/responseBody/string');
       });
       it('passes', () => {
         expect(res).to.satisfyApiSpec;
@@ -70,7 +54,7 @@ describe('Parsing responses from different request modules', () => {
       before(async () => {
         res = await chai
           .request(app)
-          .get('/test/header/application/json/and/responseBody/emptyObject');
+          .get('/header/application/json/and/responseBody/emptyObject');
       });
       it('passes', () => {
         expect(res).to.satisfyApiSpec;
@@ -91,7 +75,7 @@ describe('Parsing responses from different request modules', () => {
       before(async () => {
         res = await chai
           .request(app)
-          .get('/test/header/application/json/and/responseBody/boolean');
+          .get('/header/application/json/and/responseBody/boolean');
       });
       it('passes', () => {
         expect(res).to.satisfyApiSpec;
@@ -112,7 +96,7 @@ describe('Parsing responses from different request modules', () => {
       before(async () => {
         res = await chai
           .request(app)
-          .get('/test/header/application/json/and/responseBody/nullable');
+          .get('/header/application/json/and/responseBody/nullable');
       });
       it('passes', () => {
         expect(res).to.satisfyApiSpec;
@@ -131,7 +115,7 @@ describe('Parsing responses from different request modules', () => {
     describe('res header is text/html, res.body is {}, and res.text is a string', () => {
       let res;
       before(async () => {
-        res = await chai.request(app).get('/test/header/text/html');
+        res = await chai.request(app).get('/header/text/html');
       });
       it('passes', () => {
         expect(res).to.satisfyApiSpec;
@@ -153,7 +137,7 @@ describe('Parsing responses from different request modules', () => {
       before(async () => {
         res = await chai
           .request(app)
-          .get('/test/no/content-type/header/and/no/response/body');
+          .get('/no/content-type/header/and/no/response/body');
       });
       it('passes', () => {
         expect(res).to.satisfyApiSpec;
@@ -176,7 +160,7 @@ describe('Parsing responses from different request modules', () => {
       let res;
       before(async () => {
         res = await supertest(app).get(
-          '/test/header/application/json/and/responseBody/string',
+          '/header/application/json/and/responseBody/string',
         );
       });
       it('passes', () => {
@@ -197,7 +181,7 @@ describe('Parsing responses from different request modules', () => {
       let res;
       before(async () => {
         res = await supertest(app).get(
-          '/test/header/application/json/and/responseBody/emptyObject',
+          '/header/application/json/and/responseBody/emptyObject',
         );
       });
       it('passes', () => {
@@ -217,7 +201,7 @@ describe('Parsing responses from different request modules', () => {
     describe('res header is text/html, res.body is {}, and res.text is a string', () => {
       let res;
       before(async () => {
-        res = await supertest(app).get('/test/header/text/html');
+        res = await supertest(app).get('/header/text/html');
       });
       it('passes', () => {
         expect(res).to.satisfyApiSpec;
@@ -238,7 +222,7 @@ describe('Parsing responses from different request modules', () => {
       let res;
       before(async () => {
         res = await supertest(app).get(
-          '/test/header/application/json/and/responseBody/nullable',
+          '/header/application/json/and/responseBody/nullable',
         );
       });
       it('passes', () => {
@@ -259,7 +243,7 @@ describe('Parsing responses from different request modules', () => {
       let res;
       before(async () => {
         res = await supertest(app).get(
-          '/test/no/content-type/header/and/no/response/body',
+          '/no/content-type/header/and/no/response/body',
         );
       });
       it('passes', () => {
@@ -289,7 +273,7 @@ describe('Parsing responses from different request modules', () => {
       let res;
       before(async () => {
         res = await axios.get(
-          `${appOrigin}/test/header/application/json/and/responseBody/string`,
+          `${appOrigin}/header/application/json/and/responseBody/string`,
         );
       });
       it('passes', () => {
@@ -310,7 +294,7 @@ describe('Parsing responses from different request modules', () => {
       let res;
       before(async () => {
         res = await axios.get(
-          `${appOrigin}/test/header/application/json/and/responseBody/emptyObject`,
+          `${appOrigin}/header/application/json/and/responseBody/emptyObject`,
         );
       });
       it('passes', () => {
@@ -330,7 +314,7 @@ describe('Parsing responses from different request modules', () => {
     describe('res header is text/html, res.body is a string', () => {
       let res;
       before(async () => {
-        res = await axios.get(`${appOrigin}/test/header/text/html`);
+        res = await axios.get(`${appOrigin}/header/text/html`);
       });
       it('passes', () => {
         expect(res).to.satisfyApiSpec;
@@ -350,7 +334,7 @@ describe('Parsing responses from different request modules', () => {
       let res;
       before(async () => {
         res = await axios.get(
-          `${appOrigin}/test/header/application/json/and/responseBody/nullable`,
+          `${appOrigin}/header/application/json/and/responseBody/nullable`,
         );
       });
       it('passes', () => {
@@ -371,7 +355,7 @@ describe('Parsing responses from different request modules', () => {
       let res;
       before(async () => {
         res = await axios.get(
-          `${appOrigin}/test/no/content-type/header/and/no/response/body`,
+          `${appOrigin}/no/content-type/header/and/no/response/body`,
         );
       });
       it('passes', () => {
@@ -402,7 +386,7 @@ describe('Parsing responses from different request modules', () => {
       before(async () => {
         res = await requestPromise({
           method: 'GET',
-          uri: `${appOrigin}/test/header/application/json/and/responseBody/string`,
+          uri: `${appOrigin}/header/application/json/and/responseBody/string`,
           resolveWithFullResponse: true,
           json: true,
         });
@@ -426,7 +410,7 @@ describe('Parsing responses from different request modules', () => {
       before(async () => {
         res = await requestPromise({
           method: 'GET',
-          uri: `${appOrigin}/test/header/application/json/and/responseBody/string`,
+          uri: `${appOrigin}/header/application/json/and/responseBody/string`,
           resolveWithFullResponse: true,
         });
       });
@@ -449,7 +433,7 @@ describe('Parsing responses from different request modules', () => {
       before(async () => {
         res = await requestPromise({
           method: 'GET',
-          uri: `${appOrigin}/test/header/application/json/and/responseBody/emptyObject`,
+          uri: `${appOrigin}/header/application/json/and/responseBody/emptyObject`,
           resolveWithFullResponse: true,
           json: true,
         });
@@ -473,7 +457,7 @@ describe('Parsing responses from different request modules', () => {
       before(async () => {
         res = await requestPromise({
           method: 'GET',
-          uri: `${appOrigin}/test/header/application/json/and/responseBody/emptyObject`,
+          uri: `${appOrigin}/header/application/json/and/responseBody/emptyObject`,
           resolveWithFullResponse: true,
         });
       });
@@ -496,7 +480,7 @@ describe('Parsing responses from different request modules', () => {
       before(async () => {
         res = await requestPromise({
           method: 'GET',
-          uri: `${appOrigin}/test/header/text/html`,
+          uri: `${appOrigin}/header/text/html`,
           resolveWithFullResponse: true,
         });
       });
@@ -519,7 +503,7 @@ describe('Parsing responses from different request modules', () => {
       before(async () => {
         res = await requestPromise({
           method: 'GET',
-          uri: `${appOrigin}/test/header/application/json/and/responseBody/nullable`,
+          uri: `${appOrigin}/header/application/json/and/responseBody/nullable`,
           resolveWithFullResponse: true,
         });
       });
@@ -542,7 +526,7 @@ describe('Parsing responses from different request modules', () => {
       before(async () => {
         res = await requestPromise({
           method: 'GET',
-          uri: `${appOrigin}/test/no/content-type/header/and/no/response/body`,
+          uri: `${appOrigin}/no/content-type/header/and/no/response/body`,
           resolveWithFullResponse: true,
         });
       });

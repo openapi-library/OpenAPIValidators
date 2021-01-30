@@ -2,12 +2,11 @@
 
 [![downloads](https://img.shields.io/npm/dm/jest-openapi)](https://www.npmjs.com/package/jest-openapi)
 [![npm](https://img.shields.io/npm/v/jest-openapi.svg)](https://www.npmjs.com/package/jest-openapi)
-[![Build Status](https://travis-ci.com/RuntimeTools/OpenAPIValidators.svg?branch=master)](https://travis-ci.com/RuntimeTools/OpenAPIValidators)
-![dependencies](https://img.shields.io/david/RuntimeTools/OpenAPIValidators)
+[![Build Status](https://travis-ci.com/openapi-library/OpenAPIValidators.svg?branch=master)](https://travis-ci.com/openapi-library/OpenAPIValidators)
 ![style](https://img.shields.io/badge/code%20style-airbnb-ff5a5f.svg)
-[![codecov](https://codecov.io/gh/RuntimeTools/OpenAPIValidators/branch/master/graph/badge.svg)](https://codecov.io/gh/RuntimeTools/OpenAPIValidators)
-[![included](https://badgen.net/npm/types/jest-openapi)](https://github.com/RuntimeTools/OpenAPIValidators/blob/master/packages/jest-openapi/index.d.ts)
-[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/RuntimeTools/OpenAPIValidators/blob/master/CONTRIBUTING.md)
+[![codecov](https://codecov.io/gh/openapi-library/OpenAPIValidators/branch/master/graph/badge.svg)](https://codecov.io/gh/openapi-library/OpenAPIValidators)
+[![included](https://badgen.net/npm/types/jest-openapi)](https://github.com/openapi-library/OpenAPIValidators/blob/master/packages/jest-openapi/index.d.ts)
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/openapi-library/OpenAPIValidators/blob/master/CONTRIBUTING.md)
 
 Additional Jest matchers for asserting that HTTP responses satisfy an OpenAPI spec.
 
@@ -30,11 +29,11 @@ Features:
 - Informs you if your OpenAPI spec is invalid
 - Supports responses from `axios`, `request-promise`, `supertest`, `superagent`, and `chai-http`
 - Bundled with a TypeScript Declaration File for [use in TypeScript projects](#using-this-plugin-in-a-typescript-project)
-- Use in [Jest](#usage), or use our [sister package](https://github.com/RuntimeTools/OpenAPIValidators/tree/master/packages/chai-openapi-response-validator#readme) for Mocha and other test runners that support Chai
+- Use in [Jest](#usage), or use our [sister package](https://github.com/openapi-library/OpenAPIValidators/tree/master/packages/chai-openapi-response-validator#readme) for Mocha and other test runners that support Chai
 
 ## Contributing ✨
 
-If you've come here to help contribute - thanks! Take a look at the [contributing](https://github.com/RuntimeTools/OpenAPIValidators/blob/master/CONTRIBUTING.md) docs to get started.
+If you've come here to help contribute - thanks! Take a look at the [contributing](https://github.com/openapi-library/OpenAPIValidators/blob/master/CONTRIBUTING.md) docs to get started.
 
 ## Installation
 
@@ -351,7 +350,7 @@ describe('GET /example/endpoint', () => {
 
 #### Installation
 
-You don't need to `npm install --save-dev @types/jest-openapi` because we [bundle our TypeScript Definition file into this package](https://github.com/RuntimeTools/OpenAPIValidators/blob/master/packages/jest-openapi/index.d.ts).
+You don't need to `npm install --save-dev @types/jest-openapi` because we [bundle our TypeScript Definition file into this package](https://github.com/openapi-library/OpenAPIValidators/blob/master/packages/jest-openapi/index.d.ts).
 
 #### Importing
 
