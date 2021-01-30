@@ -4,7 +4,7 @@ info:
   description: Has no 'servers' property
   version: 0.1.0
 paths:
-  /test/responseBody/string:
+  /endpointPath:
     get:
       responses:
         200:

@@ -4,7 +4,7 @@ info:
   description: Has various paths with responses to use in testing
   version: 0.1.0
 paths:
-  /test/responseBody/string:
+  /responseBody/string:
     get:
       responses:
         200:
@@ -13,7 +13,7 @@ paths:
             application/json:
               schema:
                 type: string
-  /test/responseBody/boolean:
+  /responseBody/boolean:
     get:
       responses:
         200:
@@ -22,7 +22,7 @@ paths:
             application/json:
               schema:
                 type: boolean
-  /test/responseBody/object/depthOver2:
+  /responseBody/object/depthOver2:
     get:
       responses:
         200:
@@ -46,7 +46,7 @@ paths:
                         properties:
                           c:
                             type: string
-  /test/responseBody/object/withMultipleProperties:
+  /responseBody/object/withMultipleProperties:
     get:
       responses:
         200:
@@ -63,7 +63,7 @@ paths:
                     type: string
                   property2:
                     type: string
-  /test/responseBody/referencesSchemaObject/simple:
+  /responseBody/referencesSchemaObject/simple:
     get:
       responses:
         200:
@@ -72,17 +72,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StringSchema'
-  /test/responseBody/empty:
+  /responseBody/empty:
     get:
       responses:
         204:
           description: No response body
-  /test/responseReferencesResponseDefinitionObject:
+  /responseReferencesResponseDefinitionObject:
     get:
       responses:
         200:
           $ref: '#/components/responses/SimpleResponseDefinitionObject'
-  /test/multipleResponsesDefined:
+  /multipleResponsesDefined:
     get:
       responses:
         201:
@@ -99,12 +99,12 @@ paths:
                 type: integer
         203:
           description: No response body
-  /test/queryParams:
+  /queryParams:
     get:
       responses:
         204:
           description: No response body
-  /test/pathParams/{exampleParam}:
+  /pathParams/{exampleParam}:
     get:
       parameters:
         - in: path
@@ -115,7 +115,7 @@ paths:
       responses:
         204:
           description: No response body
-  /test/multiplePathParams/{param1}/{param2}:
+  /multiplePathParams/{param1}/{param2}:
     get:
       parameters:
         - in: path
@@ -131,7 +131,7 @@ paths:
       responses:
         204:
           description: No response body
-  /test/pathAndQueryParams/{examplePathParam}:
+  /pathAndQueryParams/{examplePathParam}:
     get:
       parameters:
         - in: path
@@ -142,14 +142,14 @@ paths:
       responses:
         204:
           description: No response body
-  /test/responseStatus:
+  /responseStatus:
     get:
       responses:
         200:
           description: No response body
         204:
           description: No response body
-  /test/HTTPMethod:
+  /HTTPMethod:
     get:
       responses:
         204:
@@ -158,7 +158,7 @@ paths:
       responses:
         204:
           description: No response body
-  /test/header/application/json/and/responseBody/string:
+  /header/application/json/and/responseBody/string:
     get:
       responses:
         200:
@@ -167,7 +167,7 @@ paths:
             application/json:
               schema:
                 type: string
-  /test/header/application/json/and/responseBody/emptyObject:
+  /header/application/json/and/responseBody/emptyObject:
     get:
       responses:
         200:
@@ -176,7 +176,7 @@ paths:
             application/json:
               schema:
                 type: object
-  /test/header/application/json/and/responseBody/boolean:
+  /header/application/json/and/responseBody/boolean:
     get:
       responses:
         200:
@@ -185,7 +185,7 @@ paths:
             application/json:
               schema:
                 type: boolean
-  /test/header/application/json/and/responseBody/nullable:
+  /header/application/json/and/responseBody/nullable:
     get:
       responses:
         200:
@@ -195,7 +195,7 @@ paths:
               schema:
                 type: object
                 nullable: true
-  /test/header/text/html:
+  /header/text/html:
     get:
       responses:
         200:
@@ -204,7 +204,7 @@ paths:
             text/html:
               schema:
                 type: string
-  /test/no/content-type/header/and/no/response/body:
+  /no/content-type/header/and/no/response/body:
     get:
       responses:
         204:

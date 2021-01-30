@@ -23,4 +23,4 @@ Add any other context or screenshots about the feature request here.
 
 **Are you going to resolve the issue?**
 
-<!--- Feel free to ask for any help and read our [PR guide](https://github.com/RuntimeTools/OpenAPIValidators/blob/master/CONTRIBUTING.md#pull-requests) -->
+<!--- Feel free to ask for any help and read our [PR guide](https://github.com/openapi-library/OpenAPIValidators/blob/master/CONTRIBUTING.md#pull-requests) -->

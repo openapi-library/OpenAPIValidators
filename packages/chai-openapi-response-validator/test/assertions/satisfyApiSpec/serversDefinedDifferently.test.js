@@ -1,38 +1,27 @@
+const chai = require('chai');
 const path = require('path');
-const jestMatcherUtils = require('jest-matcher-utils');
 
 const {
   joinWithNewLines,
   str,
 } = require('../../../../../commonTestResources/utils');
-const jestOpenAPI = require('../../..');
+const chaiResponseValidator = require('../../..');
 
-const expectReceivedToSatisfyApiSpec = jestMatcherUtils.matcherHint(
-  'toSatisfyApiSpec',
-  undefined,
-  '',
-  {
-    comment:
-      "Matches 'received' to a response defined in your API spec, then validates 'received' against it",
-    isNot: false,
-  },
-);
-
-const red = jestMatcherUtils.RECEIVED_COLOR;
-const green = jestMatcherUtils.EXPECTED_COLOR;
+const expectedResToSatisfyApiSpec = 'expected res to satisfy API spec';
 
 const dirContainingApiSpec = path.resolve(
   '../../commonTestResources/exampleOpenApiFiles/valid/serversDefinedDifferently',
 );
+const { expect, AssertionError } = chai;
 
 describe('Using OpenAPI 3 specs that define servers differently', () => {
   describe('spec has no server property', () => {
-    beforeAll(() => {
+    before(() => {
       const pathToApiSpec = path.join(
         dirContainingApiSpec,
         'noServersProperty.yml',
       );
-      jestOpenAPI(pathToApiSpec);
+      chai.use(chaiResponseValidator(pathToApiSpec));
     });
 
     describe('res.req.path matches an endpoint path', () => {
@@ -40,18 +29,18 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
         status: 200,
         req: {
           method: 'GET',
-          path: '/test/responseBody/string',
+          path: '/endpointPath',
         },
         body: 'valid body (string)',
       };
 
       it('passes', () => {
-        expect(res).toSatisfyApiSpec();
+        expect(res).to.satisfyApiSpec;
       });
 
       it('fails when using .not', () => {
-        const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(Error, '');
+        const assertion = () => expect(res).to.not.satisfyApiSpec;
+        expect(assertion).to.throw(AssertionError, '');
       });
     });
 
@@ -66,30 +55,29 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
       };
 
       it('fails', () => {
-        const assertion = () => expect(res).toSatisfyApiSpec();
-        expect(assertion).toThrow(
-          // prettier-ignore
+        const assertion = () => expect(res).to.satisfyApiSpec;
+        expect(assertion).to.throw(
           joinWithNewLines(
-            `expected ${red('received')} to satisfy a '200' response defined for endpoint 'GET /nonExistentEndpointPath' in your API spec`,
-            `${red('received')} had request path ${red('/nonExistentEndpointPath')}, but your API spec has no matching path`,
+            "expected res to satisfy a '200' response defined for endpoint 'GET /nonExistentEndpointPath' in your API spec",
+            "res had request path '/nonExistentEndpointPath', but your API spec has no matching path",
             'Paths found in API spec:',
           ),
         );
       });
 
       it('passes when using .not', () => {
-        expect(res).not.toSatisfyApiSpec();
+        expect(res).to.not.satisfyApiSpec;
       });
     });
   });
 
   describe("spec's server property is an empty array", () => {
-    beforeAll(() => {
+    before(() => {
       const pathToApiSpec = path.join(
         dirContainingApiSpec,
         'serversIsEmptyArray.yml',
       );
-      jestOpenAPI(pathToApiSpec);
+      chai.use(chaiResponseValidator(pathToApiSpec));
     });
 
     describe('res.req.path matches an endpoint path', () => {
@@ -97,18 +85,18 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
         status: 200,
         req: {
           method: 'GET',
-          path: '/test/responseBody/string',
+          path: '/endpointPath',
         },
         body: 'valid body (string)',
       };
 
       it('passes', () => {
-        expect(res).toSatisfyApiSpec();
+        expect(res).to.satisfyApiSpec;
       });
 
       it('fails when using .not', () => {
-        const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(Error, '');
+        const assertion = () => expect(res).to.not.satisfyApiSpec;
+        expect(assertion).to.throw(AssertionError, '');
       });
     });
 
@@ -123,30 +111,29 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
       };
 
       it('fails', () => {
-        const assertion = () => expect(res).toSatisfyApiSpec();
-        expect(assertion).toThrow(
-          // prettier-ignore
+        const assertion = () => expect(res).to.satisfyApiSpec;
+        expect(assertion).to.throw(
           joinWithNewLines(
-            `expected ${red('received')} to satisfy a '200' response defined for endpoint 'GET /nonExistentEndpointPath' in your API spec`,
-            `${red('received')} had request path ${red('/nonExistentEndpointPath')}, but your API spec has no matching path`,
+            "expected res to satisfy a '200' response defined for endpoint 'GET /nonExistentEndpointPath' in your API spec",
+            "res had request path '/nonExistentEndpointPath', but your API spec has no matching path",
             'Paths found in API spec:',
           ),
         );
       });
 
       it('passes when using .not', () => {
-        expect(res).not.toSatisfyApiSpec();
+        expect(res).to.not.satisfyApiSpec;
       });
     });
   });
 
   describe('spec defines various (relative and absolute) servers', () => {
-    beforeAll(() => {
+    before(() => {
       const pathToApiSpec = path.join(
         dirContainingApiSpec,
         'variousServers.yml',
       );
-      jestOpenAPI(pathToApiSpec);
+      chai.use(chaiResponseValidator(pathToApiSpec));
     });
 
     describe('res.req.path matches no servers', () => {
@@ -160,20 +147,19 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
       };
 
       it('fails', () => {
-        const assertion = () => expect(res).toSatisfyApiSpec();
-        expect(assertion).toThrow(
-          // prettier-ignore
+        const assertion = () => expect(res).to.satisfyApiSpec;
+        expect(assertion).to.throw(
           joinWithNewLines(
-            `${expectReceivedToSatisfyApiSpec}`,
-            `expected ${red('received')} to satisfy a '200' response defined for endpoint 'GET /nonExistentServer' in your API spec`,
-            `${red('received')} had request path ${red('/nonExistentServer')}, but your API spec has no matching servers`,
-            `Servers found in API spec: ${green('/relativeServer, /differentRelativeServer, /relativeServer2, http://api.example.com/basePath1, https://api.example.com/basePath2, ws://api.example.com/basePath3, wss://api.example.com/basePath4, http://api.example.com:8443/basePath5, http://localhost:3025/basePath6, http://10.0.81.36/basePath7')}`,
+            expectedResToSatisfyApiSpec,
+            "expected res to satisfy a '200' response defined for endpoint 'GET /nonExistentServer' in your API spec",
+            "res had request path '/nonExistentServer', but your API spec has no matching servers",
+            'Servers found in API spec: /relativeServer, /differentRelativeServer, /relativeServer2, http://api.example.com/basePath1, https://api.example.com/basePath2, ws://api.example.com/basePath3, wss://api.example.com/basePath4, http://api.example.com:8443/basePath5, http://localhost:3025/basePath6, http://10.0.81.36/basePath7',
           ),
         );
       });
 
       it('passes when using .not', () => {
-        expect(res).not.toSatisfyApiSpec();
+        expect(res).to.not.satisfyApiSpec;
       });
     });
 
@@ -229,18 +215,18 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
             status: 200,
             req: {
               method: 'GET',
-              path: `${serverBasePath}/test/responseBody/string`,
+              path: `${serverBasePath}/endpointPath`,
             },
             body: 'valid body (string)',
           };
 
           it('passes', () => {
-            expect(res).toSatisfyApiSpec();
+            expect(res).to.satisfyApiSpec;
           });
 
           it('fails when using .not', () => {
-            const assertion = () => expect(res).not.toSatisfyApiSpec();
-            expect(assertion).toThrow(Error, '');
+            const assertion = () => expect(res).to.not.satisfyApiSpec;
+            expect(assertion).to.throw(AssertionError, '');
           });
         });
 
@@ -255,13 +241,12 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
           };
 
           it('fails', () => {
-            const assertion = () => expect(res).toSatisfyApiSpec();
-            expect(assertion).toThrow(
-              // prettier-ignore
+            const assertion = () => expect(res).to.satisfyApiSpec;
+            expect(assertion).to.throw(
               joinWithNewLines(
-                `expected ${red('received')} to satisfy a '200' response defined for endpoint 'GET ${serverBasePath}/nonExistentEndpointPath' in your API spec`,
-                `${red('received')} had request path ${red(`${serverBasePath}/nonExistentEndpointPath`)}, but your API spec has no matching path`,
-                `Paths found in API spec: ${green('/test/responseBody/string')}`,
+                `expected res to satisfy a '200' response defined for endpoint 'GET ${serverBasePath}/nonExistentEndpointPath' in your API spec`,
+                `res had request path '${serverBasePath}/nonExistentEndpointPath', but your API spec has no matching path`,
+                'Paths found in API spec: /endpointPath',
                 `'${serverBasePath}/nonExistentEndpointPath' matches servers ${str(
                   expectedMatchingServers,
                 )} but no <server/endpointPath> combinations`,
@@ -270,7 +255,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
           });
 
           it('passes when using .not', () => {
-            expect(res).not.toSatisfyApiSpec();
+            expect(res).to.not.satisfyApiSpec;
           });
         });
       });
@@ -278,12 +263,12 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
   });
 
   describe('spec defines only absolute servers with base paths', () => {
-    beforeAll(() => {
+    before(() => {
       const pathToApiSpec = path.join(
         dirContainingApiSpec,
         'onlyAbsoluteServersWithBasePaths.yml',
       );
-      jestOpenAPI(pathToApiSpec);
+      chai.use(chaiResponseValidator(pathToApiSpec));
     });
 
     describe('res.req.matches a server and an endpoint path', () => {
@@ -291,18 +276,18 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
         status: 200,
         req: {
           method: 'GET',
-          path: '/basePath1/test/responseBody/string',
+          path: '/basePath1/endpointPath',
         },
         body: 'valid body (string)',
       };
 
       it('passes', () => {
-        expect(res).toSatisfyApiSpec();
+        expect(res).to.satisfyApiSpec;
       });
 
       it('fails when using .not', () => {
-        const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(Error, '');
+        const assertion = () => expect(res).to.not.satisfyApiSpec;
+        expect(assertion).to.throw(AssertionError, '');
       });
     });
 
@@ -317,8 +302,9 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
       };
 
       it('fails', () => {
-        const assertion = () => expect(res).toSatisfyApiSpec();
-        expect(assertion).toThrow(
+        const assertion = () => expect(res).to.satisfyApiSpec;
+        expect(assertion).to.throw(
+          AssertionError,
           `'/basePath1/nonExistentEndpointPath' matches servers ${str([
             'http://api.example.com/basePath1',
           ])} but no <server/endpointPath> combinations`,
@@ -326,7 +312,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
       });
 
       it('passes when using .not', () => {
-        expect(res).not.toSatisfyApiSpec();
+        expect(res).to.not.satisfyApiSpec;
       });
     });
 
@@ -335,32 +321,32 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
         status: 200,
         req: {
           method: 'GET',
-          path: '/test/responseBody/string',
+          path: '/nonExistentServer',
         },
         body: 'valid body (string)',
       };
 
       it('fails', () => {
-        const assertion = () => expect(res).toSatisfyApiSpec();
-        expect(assertion).toThrow(
-          // prettier-ignore
-          `${red('/test/responseBody/string')}, but your API spec has no matching servers`,
+        const assertion = () => expect(res).to.satisfyApiSpec;
+        expect(assertion).to.throw(
+          AssertionError,
+          "'/nonExistentServer', but your API spec has no matching servers",
         );
       });
 
       it('passes when using .not', () => {
-        expect(res).not.toSatisfyApiSpec();
+        expect(res).to.not.satisfyApiSpec;
       });
     });
   });
 
   describe('spec defines only absolute servers without base paths', () => {
-    beforeAll(() => {
+    before(() => {
       const pathToApiSpec = path.join(
         dirContainingApiSpec,
         'noServersWithBasePaths.yml',
       );
-      jestOpenAPI(pathToApiSpec);
+      chai.use(chaiResponseValidator(pathToApiSpec));
     });
 
     describe('res.req.path matches an endpoint path', () => {
@@ -368,18 +354,18 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
         status: 200,
         req: {
           method: 'GET',
-          path: '/test/responseBody/string',
+          path: '/endpointPath',
         },
         body: 'valid body (string)',
       };
 
       it('passes', () => {
-        expect(res).toSatisfyApiSpec();
+        expect(res).to.satisfyApiSpec;
       });
 
       it('fails when using .not', () => {
-        const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(Error, '');
+        const assertion = () => expect(res).to.not.satisfyApiSpec;
+        expect(assertion).to.throw(AssertionError, '');
       });
     });
 
@@ -394,8 +380,9 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
       };
 
       it('fails', () => {
-        const assertion = () => expect(res).toSatisfyApiSpec();
-        expect(assertion).toThrow(
+        const assertion = () => expect(res).to.satisfyApiSpec;
+        expect(assertion).to.throw(
+          AssertionError,
           `'/nonExistentEndpointPath' matches servers ${str([
             'http://api.example.com',
           ])} but no <server/endpointPath> combinations`,
@@ -403,7 +390,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
       });
 
       it('passes when using .not', () => {
-        expect(res).not.toSatisfyApiSpec();
+        expect(res).to.not.satisfyApiSpec;
       });
     });
   });

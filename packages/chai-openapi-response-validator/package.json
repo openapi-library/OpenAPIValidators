@@ -1,7 +1,7 @@
 {
   "name": "chai-openapi-response-validator",
-  "version": "0.10.0",
-  "description": "Simple Chai support for asserting that HTTP responses satisfy an OpenAPI spec",
+  "version": "0.11.0",
+  "description": "Use Chai to assert that HTTP responses satisfy an OpenAPI spec",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
@@ -17,13 +17,13 @@
     "lint": "eslint .",
     "lint:fix": "yarn lint -- --fix"
   },
-  "repository": "https://github.com/RuntimeTools/OpenAPIValidators/tree/master/packages/chai-openapi-response-validator",
+  "repository": "https://github.com/openapi-library/OpenAPIValidators/tree/master/packages/chai-openapi-response-validator",
   "author": "OpenApiChai <openapichai@gmail.com>",
   "contributors": [
     "Jonny Spruce <jspruce94@gmail.com>",
     "rwalle61 <richard.lh.waller@gmail.com>"
   ],
-  "license": "Apache-2.0",
+  "license": "MIT",
   "keywords": [
     "chai",
     "chai-plugin",
@@ -33,9 +33,9 @@
     "validate"
   ],
   "bugs": {
-    "url": "https://github.com/RuntimeTools/OpenAPIValidators/issues"
+    "url": "https://github.com/openapi-library/OpenAPIValidators/issues"
   },
-  "homepage": "https://github.com/RuntimeTools/OpenAPIValidators/tree/master/packages/chai-openapi-response-validator#readme",
+  "homepage": "https://github.com/openapi-library/OpenAPIValidators/tree/master/packages/chai-openapi-response-validator#readme",
   "files": [
     "index.*",
     "lib/**/*"
@@ -45,7 +45,7 @@
     "@stryker-mutator/javascript-mutator": "^3.1.0",
     "@stryker-mutator/mocha-framework": "^3.1.0",
     "@stryker-mutator/mocha-runner": "^3.1.0",
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "chai-http": "^4.3.0",
@@ -61,7 +61,7 @@
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
     "rimraf": "^3.0.2",
-    "supertest": "^5.0.0"
+    "supertest": "^6.0.0"
   },
   "dependencies": {
     "openapi-validator": "^0.9.0"
