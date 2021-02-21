@@ -1,16 +1,18 @@
 const generateCombinations = require('combos');
 const flatMap = require('lodash.flatmap');
 
+const unique = (array) => [...new Set(array)];
+
 const serversPropertyNotProvidedOrIsEmptyArray = (spec) =>
   !Object.prototype.hasOwnProperty.call(spec, 'servers') ||
   !spec.servers.length;
 
 const defaultBasePath = '/';
 
-const extractBasePath = (inputUrl) => {
-  const indexOfStartOfBasePath = inputUrl.replace('//', '  ').indexOf('/');
-  return indexOfStartOfBasePath !== -1
-    ? inputUrl.slice(indexOfStartOfBasePath)
+const getBasePath = (url) => {
+  const basePathStartIndex = url.replace('//', '  ').indexOf('/');
+  return basePathStartIndex !== -1
+    ? url.slice(basePathStartIndex)
     : defaultBasePath;
 };
 
@@ -24,12 +26,9 @@ const mapServerVariableToPossibleValues = (serverVariables) =>
       { default: defaultValue, enum: enumMembers },
     ] = serverVariable;
     const possibleValues = enumMembers
-      ? [...new Set([defaultValue].concat(enumMembers))]
+      ? unique([defaultValue].concat(enumMembers))
       : [defaultValue];
-    return {
-      ...currentMap,
-      [variableName]: possibleValues,
-    };
+    return { ...currentMap, [variableName]: possibleValues };
   }, {});
 
 const getPossibleBasePath = (basePath, combinationOfBasePathVariableValues) => {
@@ -54,33 +53,29 @@ const getPossibleValuesOfBasePathTemplate = (basePath, serverVariables) => {
 };
 
 const getServersAndTheirPossibleBasePaths = (servers) =>
-  flatMap(servers, (server) => {
-    const basePath = extractBasePath(server.url);
+  flatMap(servers, ({ url, variables }) => {
+    const basePath = getBasePath(url);
     return {
-      url: server.url,
-      possibleBasePaths: server.variables
-        ? getPossibleValuesOfBasePathTemplate(basePath, server.variables)
+      url,
+      possibleBasePaths: variables
+        ? getPossibleValuesOfBasePathTemplate(basePath, variables)
         : [basePath],
     };
   });
 
-const getMatchingServersAndTheirBasePaths = (servers, pathnameToMatch) =>
-  getServersAndTheirPossibleBasePaths(servers)
-    .filter(({ possibleBasePaths }) =>
-      possibleBasePaths.some((basePath) =>
-        pathnameToMatch.startsWith(basePath),
-      ),
-    )
+const getMatchingServersAndTheirBasePaths = (servers, pathname) => {
+  const matchesPathname = (basePath) => pathname.startsWith(basePath);
+  return getServersAndTheirPossibleBasePaths(servers)
+    .filter(({ possibleBasePaths }) => possibleBasePaths.some(matchesPathname))
     .map(({ url, possibleBasePaths }) => ({
       url,
-      matchingBasePath: possibleBasePaths.find((basePath) =>
-        pathnameToMatch.startsWith(basePath),
-      ),
+      matchingBasePath: possibleBasePaths.find(matchesPathname),
     }));
+};
 
 module.exports = {
   defaultBasePath,
-  extractBasePath,
+  getBasePath,
   serversPropertyNotProvidedOrIsEmptyArray,
   getPathnameWithoutBasePath,
   getMatchingServersAndTheirBasePaths,

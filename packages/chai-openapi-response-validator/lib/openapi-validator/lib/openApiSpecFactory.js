@@ -4,7 +4,7 @@ const path = require('path');
 const OpenAPISchemaValidator = require('openapi-schema-validator').default;
 const typeOf = require('typeof');
 
-const utils = require('./utils/index.utils');
+const utils = require('./utils/common.utils');
 const OpenApi2Spec = require('./classes/OpenApi2Spec');
 const OpenApi3Spec = require('./classes/OpenApi3Spec');
 

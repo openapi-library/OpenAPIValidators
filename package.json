@@ -28,7 +28,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn test:precommit"
+      "pre-commit": "yarn lint && yarn format && yarn test:precommit"
     }
   }
 }
