@@ -42,8 +42,15 @@ const findOpenApiPathMatchingPossiblePathnames = (
   return openApiPath;
 };
 
+const defaultBasePath = '/';
+
+const getPathnameWithoutBasePath = (basePath, pathname) =>
+  basePath === defaultBasePath ? pathname : pathname.replace(basePath, '');
+
 module.exports = {
+  defaultBasePath,
   stringify,
   getPathname,
   findOpenApiPathMatchingPossiblePathnames,
+  getPathnameWithoutBasePath,
 };

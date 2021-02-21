@@ -2,18 +2,19 @@
 
 [![downloads](https://img.shields.io/npm/dm/chai-openapi-response-validator)](https://www.npmjs.com/package/chai-openapi-response-validator)
 [![npm](https://img.shields.io/npm/v/chai-openapi-response-validator.svg)](https://www.npmjs.com/package/chai-openapi-response-validator)
-[![Build Status](https://travis-ci.com/RuntimeTools/OpenAPIValidators.svg?branch=master)](https://travis-ci.com/RuntimeTools/OpenAPIValidators)
-![dependencies](https://img.shields.io/david/RuntimeTools/OpenAPIValidators)
+[![Build Status](https://travis-ci.com/openapi-library/OpenAPIValidators.svg?branch=master)](https://travis-ci.com/openapi-library/OpenAPIValidators)
 ![style](https://img.shields.io/badge/code%20style-airbnb-ff5a5f.svg)
-[![codecov](https://codecov.io/gh/RuntimeTools/OpenAPIValidators/branch/master/graph/badge.svg)](https://codecov.io/gh/RuntimeTools/OpenAPIValidators)
+[![codecov](https://codecov.io/gh/openapi-library/OpenAPIValidators/branch/master/graph/badge.svg)](https://codecov.io/gh/openapi-library/OpenAPIValidators)
+[![included](https://badgen.net/npm/types/jest-openapi)](https://github.com/openapi-library/OpenAPIValidators/blob/master/packages/chai-openapi-response-validator/index.d.ts)
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/openapi-library/OpenAPIValidators/blob/master/CONTRIBUTING.md)
 
-Simple Chai support for asserting that HTTP responses satisfy an OpenAPI spec.
+Use Chai to assert that HTTP responses satisfy an OpenAPI spec.
 
-## Problem
+## Problem 😕
 
 If your server's behaviour doesn't match your API documentation, then you need to correct your server, your documentation, or both. The sooner you know the better.
 
-## Solution
+## Solution 😄
 
 This plugin lets you automatically test whether your server's behaviour and documentation match. It extends the [Chai Assertion Library](https://www.chaijs.com/) to support the [OpenAPI standard](https://swagger.io/docs/specification/about/) for documenting REST APIs. In your JavaScript tests, you can simply assert [`expect(responseObject).to.satisfyApiSpec`](#in-api-tests-validate-the-status-and-body-of-http-responses-against-your-openapi-spec)
 
@@ -28,11 +29,11 @@ Features:
 - Informs you if your OpenAPI spec is invalid
 - Supports responses from `axios`, `request-promise`, `supertest`, `superagent`, and `chai-http`
 - Bundled with a TypeScript Declaration File for [use in TypeScript projects](#using-this-plugin-in-a-typescript-project)
-- Use in [Mocha](#usage), [Jest](https://github.com/RuntimeTools/OpenAPIValidators/tree/master/packages/jest-openapi#readme) and other test runners
+- Use in [Mocha](#usage), [Jest](https://github.com/openapi-library/OpenAPIValidators/tree/master/packages/jest-openapi#readme) and other test runners
 
-## Contributing
+## Contributing ✨
 
-If you've come here to help contribute - thanks! Take a look at the [contributing](https://github.com/RuntimeTools/OpenAPIValidators/blob/master/CONTRIBUTING.md) docs to get started.
+If you've come here to help contribute - thanks! Take a look at the [contributing](https://github.com/openapi-library/OpenAPIValidators/blob/master/CONTRIBUTING.md) docs to get started.
 
 ## Installation
 
@@ -363,7 +364,9 @@ describe('GET /example/endpoint', () => {
 
 #### Installation
 
-You don't need to `npm install --save-dev @types/chai-openapi-response-validator` because we bundle our TypeScript Definition file into this package (see `index.d.ts`).
+You don't need to `npm install --save-dev @types/chai-openapi-response-validator` because we [bundle our TypeScript Definition file into this package](https://github.com/openapi-library/OpenAPIValidators/blob/master/packages/chai-openapi-response-validator/index.d.ts).
+
+But make sure you `npm install --save-dev @types/chai` because Chai does not bundle their TypeScript definition files like this.
 
 #### Importing
 

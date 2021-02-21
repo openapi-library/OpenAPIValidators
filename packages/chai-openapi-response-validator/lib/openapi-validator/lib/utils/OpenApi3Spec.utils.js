@@ -1,5 +1,6 @@
 const generateCombinations = require('combos');
 const flatMap = require('lodash.flatmap');
+const { defaultBasePath } = require('./common.utils');
 
 const unique = (array) => [...new Set(array)];
 
@@ -7,17 +8,12 @@ const serversPropertyNotProvidedOrIsEmptyArray = (spec) =>
   !Object.prototype.hasOwnProperty.call(spec, 'servers') ||
   !spec.servers.length;
 
-const defaultBasePath = '/';
-
 const getBasePath = (url) => {
   const basePathStartIndex = url.replace('//', '  ').indexOf('/');
   return basePathStartIndex !== -1
     ? url.slice(basePathStartIndex)
     : defaultBasePath;
 };
-
-const getPathnameWithoutBasePath = (basePath, pathname) =>
-  basePath === defaultBasePath ? pathname : pathname.replace(basePath, '');
 
 const mapServerVariableToPossibleValues = (serverVariables) =>
   Object.entries(serverVariables).reduce((currentMap, serverVariable) => {
@@ -74,9 +70,7 @@ const getMatchingServersAndTheirBasePaths = (servers, pathname) => {
 };
 
 module.exports = {
-  defaultBasePath,
   getBasePath,
   serversPropertyNotProvidedOrIsEmptyArray,
-  getPathnameWithoutBasePath,
   getMatchingServersAndTheirBasePaths,
 };

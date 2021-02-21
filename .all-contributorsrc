@@ -1,0 +1,97 @@
+{
+  "projectName": "OpenAPIValidators",
+  "projectOwner": "openapi-library",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "rwalle61",
+      "name": "Richard Waller",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/18170169?v=4",
+      "profile": "https://github.com/rwalle61",
+      "contributions": [
+        "maintenance",
+        "code",
+        "doc",
+        "review"
+      ]
+    },
+    {
+      "login": "JonnySpruce",
+      "name": "Jonny Spruce",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/30812276?v=4",
+      "profile": "https://github.com/JonnySpruce",
+      "contributions": [
+        "code",
+        "doc",
+        "review"
+      ]
+    },
+    {
+      "login": "AlexDobeck",
+      "name": "Alex Dobeck",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/10519388?v=4",
+      "profile": "https://github.com/AlexDobeck",
+      "contributions": [
+        "code",
+        "bug"
+      ]
+    },
+    {
+      "login": "BenGu3",
+      "name": "Ben Guthrie",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/7105857?v=4",
+      "profile": "https://github.com/BenGu3",
+      "contributions": [
+        "code",
+        "bug"
+      ]
+    },
+    {
+      "login": "mvegter",
+      "name": "Martijn Vegter",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/25134477?v=4",
+      "profile": "https://martijnvegter.com/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "ludeknovy",
+      "name": "Ludek",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/13610612?v=4",
+      "profile": "https://github.com/ludeknovy",
+      "contributions": [
+        "code",
+        "bug"
+      ]
+    },
+    {
+      "login": "tgiardina",
+      "name": "Tommy Giardina",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/37459104?v=4",
+      "profile": "https://github.com/tgiardina",
+      "contributions": [
+        "code",
+        "bug"
+      ]
+    },
+    {
+      "login": "Xotabu4",
+      "name": "Oleksandr Khotemskyi",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/3033972?v=4",
+      "profile": "https://xotabu4.github.io/",
+      "contributions": [
+        "doc"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "skipCi": true
+}

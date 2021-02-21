@@ -1,15 +1,15 @@
 const path = require('path');
-const { inspect } = require('util');
 
 const axios = require('axios');
 const supertest = require('supertest');
 const requestPromise = require('request-promise');
 
-const jestOpenAPI = require('../../..');
+const { str } = require('../../../../../commonTestResources/utils');
 const app = require('../../../../../commonTestResources/exampleApp');
 const { port } = require('../../../../../commonTestResources/config');
 
-const str = (obj) => inspect(obj, { showHidden: false, depth: null });
+const jestOpenAPI = require('../../..');
+
 const appOrigin = `http://localhost:${port}`;
 const pathToApiSpec = path.resolve(
   '../../commonTestResources/exampleOpenApiFiles/valid/openapi3.yml',
@@ -26,7 +26,7 @@ describe('Parsing responses from different request modules', () => {
       let res;
       beforeAll(async () => {
         res = await supertest(app).get(
-          '/test/header/application/json/and/responseBody/string',
+          '/header/application/json/and/responseBody/string',
         );
       });
       it('passes', () => {
@@ -46,7 +46,7 @@ describe('Parsing responses from different request modules', () => {
       let res;
       beforeAll(async () => {
         res = await supertest(app).get(
-          '/test/header/application/json/and/responseBody/emptyObject',
+          '/header/application/json/and/responseBody/emptyObject',
         );
       });
       it('passes', () => {
@@ -65,7 +65,7 @@ describe('Parsing responses from different request modules', () => {
     describe('res header is text/html, res.body is {}, and res.text is a string', () => {
       let res;
       beforeAll(async () => {
-        res = await supertest(app).get('/test/header/text/html');
+        res = await supertest(app).get('/header/text/html');
       });
       it('passes', () => {
         expect(res).toSatisfyApiSpec();
@@ -85,7 +85,7 @@ describe('Parsing responses from different request modules', () => {
       let res;
       beforeAll(async () => {
         res = await supertest(app).get(
-          '/test/header/application/json/and/responseBody/nullable',
+          '/header/application/json/and/responseBody/nullable',
         );
       });
       it('passes', () => {
@@ -105,7 +105,7 @@ describe('Parsing responses from different request modules', () => {
       let res;
       beforeAll(async () => {
         res = await supertest(app).get(
-          '/test/no/content-type/header/and/no/response/body',
+          '/no/content-type/header/and/no/response/body',
         );
       });
       it('passes', () => {
@@ -134,7 +134,7 @@ describe('Parsing responses from different request modules', () => {
       let res;
       beforeAll(async () => {
         res = await axios.get(
-          `${appOrigin}/test/header/application/json/and/responseBody/string`,
+          `${appOrigin}/header/application/json/and/responseBody/string`,
         );
       });
       it('passes', () => {
@@ -154,7 +154,7 @@ describe('Parsing responses from different request modules', () => {
       let res;
       beforeAll(async () => {
         res = await axios.get(
-          `${appOrigin}/test/header/application/json/and/responseBody/emptyObject`,
+          `${appOrigin}/header/application/json/and/responseBody/emptyObject`,
         );
       });
       it('passes', () => {
@@ -173,7 +173,7 @@ describe('Parsing responses from different request modules', () => {
     describe('res header is text/html, res.body is a string', () => {
       let res;
       beforeAll(async () => {
-        res = await axios.get(`${appOrigin}/test/header/text/html`);
+        res = await axios.get(`${appOrigin}/header/text/html`);
       });
       it('passes', () => {
         expect(res).toSatisfyApiSpec();
@@ -192,7 +192,7 @@ describe('Parsing responses from different request modules', () => {
       let res;
       beforeAll(async () => {
         res = await axios.get(
-          `${appOrigin}/test/header/application/json/and/responseBody/nullable`,
+          `${appOrigin}/header/application/json/and/responseBody/nullable`,
         );
       });
       it('passes', () => {
@@ -212,7 +212,7 @@ describe('Parsing responses from different request modules', () => {
       let res;
       beforeAll(async () => {
         res = await axios.get(
-          `${appOrigin}/test/no/content-type/header/and/no/response/body`,
+          `${appOrigin}/no/content-type/header/and/no/response/body`,
         );
       });
       it('passes', () => {
@@ -242,7 +242,7 @@ describe('Parsing responses from different request modules', () => {
       beforeAll(async () => {
         res = await requestPromise({
           method: 'GET',
-          uri: `${appOrigin}/test/header/application/json/and/responseBody/string`,
+          uri: `${appOrigin}/header/application/json/and/responseBody/string`,
           resolveWithFullResponse: true,
           json: true,
         });
@@ -265,7 +265,7 @@ describe('Parsing responses from different request modules', () => {
       beforeAll(async () => {
         res = await requestPromise({
           method: 'GET',
-          uri: `${appOrigin}/test/header/application/json/and/responseBody/string`,
+          uri: `${appOrigin}/header/application/json/and/responseBody/string`,
           resolveWithFullResponse: true,
         });
       });
@@ -287,7 +287,7 @@ describe('Parsing responses from different request modules', () => {
       beforeAll(async () => {
         res = await requestPromise({
           method: 'GET',
-          uri: `${appOrigin}/test/header/application/json/and/responseBody/emptyObject`,
+          uri: `${appOrigin}/header/application/json/and/responseBody/emptyObject`,
           resolveWithFullResponse: true,
           json: true,
         });
@@ -310,7 +310,7 @@ describe('Parsing responses from different request modules', () => {
       beforeAll(async () => {
         res = await requestPromise({
           method: 'GET',
-          uri: `${appOrigin}/test/header/application/json/and/responseBody/emptyObject`,
+          uri: `${appOrigin}/header/application/json/and/responseBody/emptyObject`,
           resolveWithFullResponse: true,
         });
       });
@@ -332,7 +332,7 @@ describe('Parsing responses from different request modules', () => {
       beforeAll(async () => {
         res = await requestPromise({
           method: 'GET',
-          uri: `${appOrigin}/test/header/text/html`,
+          uri: `${appOrigin}/header/text/html`,
           resolveWithFullResponse: true,
         });
       });
@@ -354,7 +354,7 @@ describe('Parsing responses from different request modules', () => {
       beforeAll(async () => {
         res = await requestPromise({
           method: 'GET',
-          uri: `${appOrigin}/test/header/application/json/and/responseBody/nullable`,
+          uri: `${appOrigin}/header/application/json/and/responseBody/nullable`,
           resolveWithFullResponse: true,
         });
       });
@@ -376,7 +376,7 @@ describe('Parsing responses from different request modules', () => {
       beforeAll(async () => {
         res = await requestPromise({
           method: 'GET',
-          uri: `${appOrigin}/test/no/content-type/header/and/no/response/body`,
+          uri: `${appOrigin}/no/content-type/header/and/no/response/body`,
           resolveWithFullResponse: true,
         });
       });

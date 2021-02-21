@@ -1,8 +1,10 @@
 const path = require('path');
-const util = require('util');
-const { c } = require('compress-tag');
 const jestMatcherUtils = require('jest-matcher-utils');
 
+const {
+  joinWithNewLines,
+  str,
+} = require('../../../../../commonTestResources/utils');
 const jestOpenAPI = require('../../..');
 
 const expectReceivedToSatisfyApiSpec = jestMatcherUtils.matcherHint(
@@ -30,7 +32,6 @@ const expectReceivedNotToSatisfyApiSpec = jestMatcherUtils.matcherHint(
 const red = jestMatcherUtils.RECEIVED_COLOR;
 const green = jestMatcherUtils.EXPECTED_COLOR;
 
-const str = (obj) => util.inspect(obj, { showHidden: false, depth: null });
 const openApiSpecsDir = path.resolve(
   '../../commonTestResources/exampleOpenApiFiles/valid',
 );
@@ -78,7 +79,7 @@ openApiSpecs.forEach((spec) => {
               status: 200,
               req: {
                 method: 'GET',
-                path: '/test/responseBody/string',
+                path: '/responseBody/string',
               },
               body: 'valid body (string)',
             };
@@ -110,11 +111,12 @@ openApiSpecs.forEach((spec) => {
               expect(assertion).toThrow(
                 new Error(
                   // prettier-ignore
-                  c`${expectReceivedNotToSatisfyApiSpec}
-                \n\nexpected ${red('received')} not to satisfy the '200' response defined
-                    for endpoint 'GET /test/responseBody/string' in your API spec
-                \n\n${red('received')} contained: ${red(str({ body: 'valid body (string)' }))}
-                \n\nThe '200' response defined for endpoint 'GET /test/responseBody/string' in API spec: ${green(str(responseDefinition))}`,
+                  joinWithNewLines(
+                    expectReceivedNotToSatisfyApiSpec,
+                    `expected ${red('received')} not to satisfy the '200' response defined for endpoint 'GET /responseBody/string' in your API spec`,
+                    `${red('received')} contained: ${red(str({ body: 'valid body (string)' }))}`,
+                    `The '200' response defined for endpoint 'GET /responseBody/string' in API spec: ${green(str(responseDefinition))}`,
+                  ),
                 ),
               );
             });
@@ -125,7 +127,7 @@ openApiSpecs.forEach((spec) => {
               status: 200,
               req: {
                 method: 'GET',
-                path: '/test/responseBody/referencesSchemaObject/simple',
+                path: '/responseBody/referencesSchemaObject/simple',
               },
               body: 'valid body (string)',
             };
@@ -161,11 +163,12 @@ openApiSpecs.forEach((spec) => {
               expect(assertion).toThrow(
                 new Error(
                   // prettier-ignore
-                  c`${expectReceivedNotToSatisfyApiSpec}
-                \n\nexpected ${red('received')} not to satisfy the '200' response defined
-                    for endpoint 'GET /test/responseBody/referencesSchemaObject/simple' in your API spec
-                \n\n${red('received')} contained: ${red(str({ body: 'valid body (string)' }))}
-                \n\nThe '200' response defined for endpoint 'GET /test/responseBody/referencesSchemaObject/simple' in API spec: ${green(str(responseDefinition))}`,
+                  joinWithNewLines(
+                    expectReceivedNotToSatisfyApiSpec,
+                    `expected ${red('received')} not to satisfy the '200' response defined for endpoint 'GET /responseBody/referencesSchemaObject/simple' in your API spec`,
+                    `${red('received')} contained: ${red(str({ body: 'valid body (string)' }))}`,
+                    `The '200' response defined for endpoint 'GET /responseBody/referencesSchemaObject/simple' in API spec: ${green(str(responseDefinition))}`,
+                  ),
                 ),
               );
             });
@@ -176,7 +179,7 @@ openApiSpecs.forEach((spec) => {
               status: 204,
               req: {
                 method: 'GET',
-                path: '/test/responseBody/empty',
+                path: '/responseBody/empty',
               },
             };
 
@@ -188,7 +191,7 @@ openApiSpecs.forEach((spec) => {
               const assertion = () => expect(res).not.toSatisfyApiSpec();
               expect(assertion).toThrow(
                 // prettier-ignore
-                `expected ${red('received')} not to satisfy the '204' response defined for endpoint 'GET /test/responseBody/empty'`,
+                `expected ${red('received')} not to satisfy the '204' response defined for endpoint 'GET /responseBody/empty'`,
               );
             });
           });
@@ -198,7 +201,7 @@ openApiSpecs.forEach((spec) => {
               status: 200,
               req: {
                 method: 'GET',
-                path: '/test/responseBody/boolean',
+                path: '/responseBody/boolean',
               },
               body: false,
             };
@@ -211,7 +214,7 @@ openApiSpecs.forEach((spec) => {
               const assertion = () => expect(res).not.toSatisfyApiSpec();
               expect(assertion).toThrow(
                 // prettier-ignore
-                `expected ${red('received')} not to satisfy the '200' response defined for endpoint 'GET /test/responseBody/boolean'`,
+                `expected ${red('received')} not to satisfy the '200' response defined for endpoint 'GET /responseBody/boolean'`,
               );
             });
           });
@@ -228,7 +231,7 @@ openApiSpecs.forEach((spec) => {
               status: 200,
               req: {
                 method: 'GET',
-                path: '/test/responseBody/object/depthOver2',
+                path: '/responseBody/object/depthOver2',
               },
               body: nestedObject,
             };
@@ -252,7 +255,7 @@ openApiSpecs.forEach((spec) => {
             status: 200,
             req: {
               method: 'GET',
-              path: '/test/responseReferencesResponseDefinitionObject',
+              path: '/responseReferencesResponseDefinitionObject',
             },
             body: 'valid body (string)',
           };
@@ -265,7 +268,7 @@ openApiSpecs.forEach((spec) => {
             const assertion = () => expect(res).not.toSatisfyApiSpec();
             expect(assertion).toThrow(
               // prettier-ignore
-              `expected ${red('received')} not to satisfy the '200' response defined for endpoint 'GET /test/responseReferencesResponseDefinitionObject`,
+              `expected ${red('received')} not to satisfy the '200' response defined for endpoint 'GET /responseReferencesResponseDefinitionObject`,
             );
           });
         });
@@ -276,7 +279,7 @@ openApiSpecs.forEach((spec) => {
               status: 201,
               req: {
                 method: 'GET',
-                path: '/test/multipleResponsesDefined',
+                path: '/multipleResponsesDefined',
               },
               body: 'valid body (string)',
             };
@@ -289,7 +292,7 @@ openApiSpecs.forEach((spec) => {
               const assertion = () => expect(res).not.toSatisfyApiSpec();
               expect(assertion).toThrow(
                 // prettier-ignore
-                `expected ${red('received')} not to satisfy the '201' response defined for endpoint 'GET /test/multipleResponsesDefined'`,
+                `expected ${red('received')} not to satisfy the '201' response defined for endpoint 'GET /multipleResponsesDefined'`,
               );
             });
           });
@@ -299,7 +302,7 @@ openApiSpecs.forEach((spec) => {
               status: 202,
               req: {
                 method: 'GET',
-                path: '/test/multipleResponsesDefined',
+                path: '/multipleResponsesDefined',
               },
               body: 123456, // valid body (integer)
             };
@@ -312,7 +315,7 @@ openApiSpecs.forEach((spec) => {
               const assertion = () => expect(res).not.toSatisfyApiSpec();
               expect(assertion).toThrow(
                 // prettier-ignore
-                `expected ${red('received')} not to satisfy the '202' response defined for endpoint 'GET /test/multipleResponsesDefined'`,
+                `expected ${red('received')} not to satisfy the '202' response defined for endpoint 'GET /multipleResponsesDefined'`,
               );
             });
           });
@@ -322,7 +325,7 @@ openApiSpecs.forEach((spec) => {
               status: 203,
               req: {
                 method: 'GET',
-                path: '/test/multipleResponsesDefined',
+                path: '/multipleResponsesDefined',
               },
               // no body
             };
@@ -335,7 +338,7 @@ openApiSpecs.forEach((spec) => {
               const assertion = () => expect(res).not.toSatisfyApiSpec();
               expect(assertion).toThrow(
                 // prettier-ignore
-                `expected ${red('received')} not to satisfy the '203' response defined for endpoint 'GET /test/multipleResponsesDefined'`,
+                `expected ${red('received')} not to satisfy the '203' response defined for endpoint 'GET /multipleResponsesDefined'`,
               );
             });
           });
@@ -347,7 +350,7 @@ openApiSpecs.forEach((spec) => {
               status: 204,
               req: {
                 method: 'GET',
-                path: '/test/queryParams?exampleQueryParam=foo',
+                path: '/queryParams?exampleQueryParam=foo',
               },
             };
 
@@ -359,7 +362,7 @@ openApiSpecs.forEach((spec) => {
               const assertion = () => expect(res).not.toSatisfyApiSpec();
               expect(assertion).toThrow(
                 // prettier-ignore
-                `expected ${red('received')} not to satisfy the '204' response defined for endpoint 'GET /test/queryParams`,
+                `expected ${red('received')} not to satisfy the '204' response defined for endpoint 'GET /queryParams`,
               );
             });
           });
@@ -369,7 +372,7 @@ openApiSpecs.forEach((spec) => {
               status: 204,
               req: {
                 method: 'GET',
-                path: `/test/queryParams?${'exampleQueryParam=foo'}&${'exampleQueryParam2=bar'}`,
+                path: `/queryParams?${'exampleQueryParam=foo'}&${'exampleQueryParam2=bar'}`,
               },
             };
 
@@ -381,7 +384,7 @@ openApiSpecs.forEach((spec) => {
               const assertion = () => expect(res).not.toSatisfyApiSpec();
               expect(assertion).toThrow(
                 // prettier-ignore
-                `expected ${red('received')} not to satisfy the '204' response defined for endpoint 'GET /test/queryParams`,
+                `expected ${red('received')} not to satisfy the '204' response defined for endpoint 'GET /queryParams`,
               );
             });
           });
@@ -391,7 +394,7 @@ openApiSpecs.forEach((spec) => {
               status: 204,
               req: {
                 method: 'GET',
-                path: '/test/pathParams/foo',
+                path: '/pathParams/foo',
               },
             };
 
@@ -403,7 +406,7 @@ openApiSpecs.forEach((spec) => {
               const assertion = () => expect(res).not.toSatisfyApiSpec();
               expect(assertion).toThrow(
                 // prettier-ignore
-                `expected ${red('received')} not to satisfy the '204' response defined for endpoint 'GET /test/pathParams/{exampleParam}`,
+                `expected ${red('received')} not to satisfy the '204' response defined for endpoint 'GET /pathParams/{exampleParam}`,
               );
             });
           });
@@ -413,7 +416,7 @@ openApiSpecs.forEach((spec) => {
               status: 204,
               req: {
                 method: 'GET',
-                path: '/test/multiplePathParams/foo/bar',
+                path: '/multiplePathParams/foo/bar',
               },
             };
 
@@ -425,7 +428,7 @@ openApiSpecs.forEach((spec) => {
               const assertion = () => expect(res).not.toSatisfyApiSpec();
               expect(assertion).toThrow(
                 // prettier-ignore
-                `expected ${red('received')} not to satisfy the '204' response defined for endpoint 'GET /test/multiplePathParams/{param1}/{param2}`,
+                `expected ${red('received')} not to satisfy the '204' response defined for endpoint 'GET /multiplePathParams/{param1}/{param2}`,
               );
             });
           });
@@ -435,7 +438,7 @@ openApiSpecs.forEach((spec) => {
               status: 204,
               req: {
                 method: 'GET',
-                path: `/test/pathAndQueryParams/${'foo'}?${'exampleQueryParam=bar'}`,
+                path: `/pathAndQueryParams/${'foo'}?${'exampleQueryParam=bar'}`,
               },
             };
 
@@ -447,7 +450,7 @@ openApiSpecs.forEach((spec) => {
               const assertion = () => expect(res).not.toSatisfyApiSpec();
               expect(assertion).toThrow(
                 // prettier-ignore
-                `expected ${red('received')} not to satisfy the '204' response defined for endpoint 'GET /test/pathAndQueryParams/{examplePathParam}`,
+                `expected ${red('received')} not to satisfy the '204' response defined for endpoint 'GET /pathAndQueryParams/{examplePathParam}`,
               );
             });
           });
@@ -460,7 +463,7 @@ openApiSpecs.forEach((spec) => {
             status: 418,
             req: {
               method: 'GET',
-              path: '/test/responseStatus',
+              path: '/responseStatus',
             },
           };
 
@@ -468,10 +471,12 @@ openApiSpecs.forEach((spec) => {
             const assertion = () => expect(res).toSatisfyApiSpec();
             expect(assertion).toThrow(
               // prettier-ignore
-              c`${expectReceivedToSatisfyApiSpec}
-              \n\nexpected ${red('received')} to satisfy a '418' response defined for endpoint 'GET /test/responseStatus' in your API spec
-              \n${red('received')} had status ${red('418')}, but your API spec has no ${red('418')} response defined for endpoint 'GET /test/responseStatus'
-              \n\nResponse statuses found for endpoint 'GET /test/responseStatus' in API spec: ${green('200, 204')}`,
+              joinWithNewLines(
+                expectReceivedToSatisfyApiSpec,
+                `expected ${red('received')} to satisfy a '418' response defined for endpoint 'GET /responseStatus' in your API spec`,
+                `${red('received')} had status ${red('418')}, but your API spec has no ${red('418')} response defined for endpoint 'GET /responseStatus'`,
+                `Response statuses found for endpoint 'GET /responseStatus' in API spec: ${green('200, 204')}`,
+              ),
             );
           });
 
@@ -485,7 +490,7 @@ openApiSpecs.forEach((spec) => {
             status: 200,
             req: {
               method: 'GET',
-              path: '/test/responseBody/object/withMultipleProperties',
+              path: '/responseBody/object/withMultipleProperties',
             },
             body: { property1: 123, property2: 123 },
           };
@@ -531,12 +536,13 @@ openApiSpecs.forEach((spec) => {
             expect(assertion).toThrow(
               new Error(
                 // prettier-ignore
-                c`${expectReceivedToSatisfyApiSpec}
-              \n\nexpected ${red('received')} to satisfy the '200' response defined
-                  for endpoint 'GET /test/responseBody/object/withMultipleProperties' in your API spec
-              \n${red('received')} did not satisfy it because: property1 should be string, property2 should be string
-              \n\n${red('received')} contained: ${red(str({ body: { property1: 123, property2: 123 } }))}
-              \n\nThe '200' response defined for endpoint 'GET /test/responseBody/object/withMultipleProperties' in API spec: ${green(str(responseDefinition))}`,
+                joinWithNewLines(
+                  expectReceivedToSatisfyApiSpec,
+                  `expected ${red('received')} to satisfy the '200' response defined for endpoint 'GET /responseBody/object/withMultipleProperties' in your API spec`,
+                  `${red('received')} did not satisfy it because: property1 should be string, property2 should be string`,
+                  `${red('received')} contained: ${red(str({ body: { property1: 123, property2: 123 } }))}`,
+                  `The '200' response defined for endpoint 'GET /responseBody/object/withMultipleProperties' in API spec: ${green(str(responseDefinition))}`,
+                ),
               ),
             );
           });
@@ -562,9 +568,12 @@ openApiSpecs.forEach((spec) => {
           const assertion = () => expect(res).toSatisfyApiSpec();
           expect(assertion).toThrow(
             // prettier-ignore
-            `expected ${red('received')} to satisfy a '204' response defined for endpoint 'GET /does/not/exist' in your API spec`
-            + `\n${red('received')} had request path ${red('/does/not/exist')}, but your API spec has no matching path`
-            + '\n\nPaths found in API spec:', // etc.
+            joinWithNewLines(
+              expectReceivedToSatisfyApiSpec,
+              `expected ${red('received')} to satisfy a '204' response defined for endpoint 'GET /does/not/exist' in your API spec`,
+              `${red('received')} had request path ${red('/does/not/exist')}, but your API spec has no matching path`,
+              'Paths found in API spec:', // etc.
+            ),
           );
         });
 
@@ -578,7 +587,7 @@ openApiSpecs.forEach((spec) => {
           status: 204,
           req: {
             method: 'HEAD',
-            path: '/test/HTTPMethod',
+            path: '/HTTPMethod',
           },
         };
 
@@ -587,10 +596,12 @@ openApiSpecs.forEach((spec) => {
           expect(assertion).toThrow(
             new Error(
               // prettier-ignore
-              c`${expectReceivedToSatisfyApiSpec}
-            \n\nexpected ${red('received')} to satisfy a '204' response defined for endpoint 'HEAD /test/HTTPMethod' in your API spec
-            \n${red('received')} had request method ${red('HEAD')}, but your API spec has no ${red('HEAD')} operation defined for path '/test/HTTPMethod'
-            \n\nRequest operations found for path '/test/HTTPMethod' in API spec: ${green('GET, POST')}`,
+              joinWithNewLines(
+                expectReceivedToSatisfyApiSpec,
+                `expected ${red('received')} to satisfy a '204' response defined for endpoint 'HEAD /HTTPMethod' in your API spec`,
+                `${red('received')} had request method ${red('HEAD')}, but your API spec has no ${red('HEAD')} operation defined for path '/HTTPMethod'`,
+                `Request operations found for path '/HTTPMethod' in API spec: ${green('GET, POST')}`,
+              ),
             ),
           );
         });
@@ -605,7 +616,7 @@ openApiSpecs.forEach((spec) => {
           status: 204,
           req: {
             method: 'HEAD',
-            path: '/test/pathParams/someParam',
+            path: '/pathParams/someParam',
           },
         };
 
@@ -614,10 +625,12 @@ openApiSpecs.forEach((spec) => {
           expect(assertion).toThrow(
             new Error(
               // prettier-ignore
-              c`${expectReceivedToSatisfyApiSpec}
-            \n\nexpected ${red('received')} to satisfy a '204' response defined for endpoint 'HEAD /test/pathParams/{exampleParam}' in your API spec
-            \n${red('received')} had request method ${red('HEAD')}, but your API spec has no ${red('HEAD')} operation defined for path '/test/pathParams/{exampleParam}'
-            \n\nRequest operations found for path '/test/pathParams/{exampleParam}' in API spec: ${green('GET')}`,
+              joinWithNewLines(
+                expectReceivedToSatisfyApiSpec,
+                `expected ${red('received')} to satisfy a '204' response defined for endpoint 'HEAD /pathParams/{exampleParam}' in your API spec`,
+                `${red('received')} had request method ${red('HEAD')}, but your API spec has no ${red('HEAD')} operation defined for path '/pathParams/{exampleParam}'`,
+                `Request operations found for path '/pathParams/{exampleParam}' in API spec: ${green('GET')}`,
+              ),
             ),
           );
         });

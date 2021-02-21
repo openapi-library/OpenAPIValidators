@@ -2,10 +2,30 @@ const utils = require('../utils/common.utils');
 const AbstractOpenApiSpec = require('./AbstractOpenApiSpec');
 const ValidationError = require('./errors/ValidationError');
 
+const basePathPropertyNotProvided = (spec) =>
+  !Object.prototype.hasOwnProperty.call(spec, 'basePath');
+
 class OpenApi2Spec extends AbstractOpenApiSpec {
+  constructor(spec) {
+    super(spec);
+    this.didUserDefineBasePath = !basePathPropertyNotProvided(spec);
+  }
+
+  /**
+   * "If the basePath property is not provided, the API is served directly under the host
+   * @see https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#fixed-fields
+   */
   findOpenApiPathMatchingPathname(pathname) {
+    const { basePath } = this.spec;
+    if (basePath && !pathname.startsWith(basePath)) {
+      throw new ValidationError('BASE_PATH_NOT_FOUND');
+    }
+    const pathnameWithoutBasePath = utils.getPathnameWithoutBasePath(
+      basePath,
+      pathname,
+    );
     const openApiPath = utils.findOpenApiPathMatchingPossiblePathnames(
-      [pathname],
+      [pathnameWithoutBasePath],
       this.paths(),
     );
     if (!openApiPath) {

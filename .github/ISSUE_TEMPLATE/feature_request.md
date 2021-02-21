@@ -4,7 +4,6 @@ about: Suggest an idea for this project
 title: ''
 labels: enhancement
 assignees: ''
-
 ---
 
 **OpenAPI version**
@@ -23,4 +22,5 @@ A clear and concise description of any alternative solutions or features you've 
 Add any other context or screenshots about the feature request here.
 
 **Are you going to resolve the issue?**
-<!--- Feel free to ask for any help and read our [PR guide](https://github.com/RuntimeTools/OpenAPIValidators/blob/master/CONTRIBUTING.md#pull-requests) -->
+
+<!--- Feel free to ask for any help and read our [PR guide](https://github.com/openapi-library/OpenAPIValidators/blob/master/CONTRIBUTING.md#pull-requests) -->

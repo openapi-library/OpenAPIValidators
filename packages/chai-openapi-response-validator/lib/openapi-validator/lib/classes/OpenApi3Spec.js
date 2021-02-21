@@ -1,13 +1,13 @@
 const flatMap = require('lodash.flatmap');
 
 const {
+  defaultBasePath,
   findOpenApiPathMatchingPossiblePathnames,
+  getPathnameWithoutBasePath,
 } = require('../utils/common.utils');
 const {
-  defaultBasePath,
   getBasePath,
   serversPropertyNotProvidedOrIsEmptyArray,
-  getPathnameWithoutBasePath,
   getMatchingServersAndTheirBasePaths,
 } = require('../utils/OpenApi3Spec.utils');
 const AbstractOpenApiSpec = require('./AbstractOpenApiSpec');
