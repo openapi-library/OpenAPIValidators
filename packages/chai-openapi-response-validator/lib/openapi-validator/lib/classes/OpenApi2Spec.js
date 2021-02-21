@@ -1,4 +1,4 @@
-const utils = require('../utils');
+const utils = require('../utils/common.utils');
 const AbstractOpenApiSpec = require('./AbstractOpenApiSpec');
 const ValidationError = require('./errors/ValidationError');
 

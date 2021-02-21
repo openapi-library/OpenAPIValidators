@@ -2,18 +2,14 @@ const { inspect } = require('util');
 const { Path: PathParser } = require('path-parser');
 const url = require('url');
 
-const isEmptyObj = (obj) =>
-  !!obj && Object.entries(obj).length === 0 && obj.constructor === Object;
-
 const stringify = (obj) => inspect(obj, { depth: null });
 
-const extractPathname = (actualRequest) => {
-  const { pathname } = url.parse(actualRequest.path); // excludes the query (because: path = pathname + query)
-  return pathname;
-};
+// excludes the query because path = pathname + query
+const getPathname = (request) => url.parse(request.path).pathname;
 
+// converts all {foo} to :foo
 const convertOpenApiPathToColonForm = (openApiPath) =>
-  openApiPath.replace(/{/g, ':').replace(/}/g, ''); // converts all {foo} to :foo
+  openApiPath.replace(/{/g, ':').replace(/}/g, '');
 
 const doesColonPathMatchPathname = (pathInColonForm, pathname) => {
   const pathParser = new PathParser(pathInColonForm);
@@ -46,13 +42,15 @@ const findOpenApiPathMatchingPossiblePathnames = (
   return openApiPath;
 };
 
+const defaultBasePath = '/';
+
 const getPathnameWithoutBasePath = (basePath, pathname) =>
-  basePath === '/' ? pathname : pathname.replace(basePath, '');
+  basePath === defaultBasePath ? pathname : pathname.replace(basePath, '');
 
 module.exports = {
-  isEmptyObj,
+  defaultBasePath,
   stringify,
-  extractPathname,
+  getPathname,
   findOpenApiPathMatchingPossiblePathnames,
   getPathnameWithoutBasePath,
 };
