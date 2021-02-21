@@ -8,32 +8,32 @@ servers:
     description: server url with 1 server variable in the path
     variables:
       variableInPath:
-        default: defaultValueForVariableInPath
+        default: defaultValueOfVariableInPath
         enum:
-          - enumValueForVariableInPath
+          - enumValueOfVariableInPath
   - url: /{firstVariableInPath}/{secondVariableInPath}
     description: server url with multiple server variables in the path
     variables:
       firstVariableInPath:
-        default: defaultValueForFirstVariableInPath
+        default: defaultValueOfFirstVariableInPath
       secondVariableInPath:
-        default: defaultValueForSecondVariableInPath
+        default: defaultValueOfSecondVariableInPath
   - url: https://{hostVariable}.com:{portVariable}/
     description: server url with server variables only before the path
     variables:
       hostVariable:
-        default: defaultValueForHostVariable
+        default: defaultValueOfHostVariable
       portVariable:
         default: '1234'
   - url: https://{hostVariable}.com:{portVariable}/{variableInDifferentPath}
     description: server url with server variables before and after the path
     variables:
       hostVariable:
-        default: defaultValueForHostVariable
+        default: defaultValueOfHostVariable
       portVariable:
         default: '1234'
       variableInDifferentPath:
-        default: defaultValueForVariableInDifferentPath
+        default: defaultValueOfVariableInDifferentPath
 paths:
   /endpointPath:
     get:

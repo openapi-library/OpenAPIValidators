@@ -409,7 +409,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
         status: 200,
         req: {
           method: 'GET',
-          path: '/defaultValueForVariableInPath/endpointPath',
+          path: '/defaultValueOfVariableInPath/endpointPath',
         },
         body: 'valid body (string)',
       };
@@ -429,7 +429,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
         status: 200,
         req: {
           method: 'GET',
-          path: '/enumValueForVariableInPath/endpointPath',
+          path: '/enumValueOfVariableInPath/endpointPath',
         },
         body: 'valid body (string)',
       };
@@ -450,7 +450,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
         req: {
           method: 'GET',
           path:
-            '/defaultValueForFirstVariableInPath/defaultValueForSecondVariableInPath/endpointPath',
+            '/defaultValueOfFirstVariableInPath/defaultValueOfSecondVariableInPath/endpointPath',
         },
         body: 'valid body (string)',
       };
@@ -490,7 +490,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
         status: 200,
         req: {
           method: 'GET',
-          path: '/defaultValueForVariableInDifferentPath/endpointPath',
+          path: '/defaultValueOfVariableInDifferentPath/endpointPath',
         },
         body: 'valid body (string)',
       };
@@ -510,7 +510,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
         status: 200,
         req: {
           method: 'GET',
-          path: '/defaultValueForVariableInPath/nonExistentEndpointPath',
+          path: '/defaultValueOfVariableInPath/nonExistentEndpointPath',
         },
         body: 'valid body (string)',
       };
@@ -519,9 +519,9 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
         const assertion = () => expect(res).to.satisfyApiSpec;
         expect(assertion).to.throw(
           AssertionError,
-          `'/defaultValueForVariableInPath/nonExistentEndpointPath' matches servers ${str(
+          `'/defaultValueOfVariableInPath/nonExistentEndpointPath' matches servers ${str(
             [
-              '/defaultValueForVariableInPath',
+              '/defaultValueOfVariableInPath',
               'https://{hostVariable}.com:{portVariable}/',
             ],
           )} but no <server/endpointPath> combinations`,
