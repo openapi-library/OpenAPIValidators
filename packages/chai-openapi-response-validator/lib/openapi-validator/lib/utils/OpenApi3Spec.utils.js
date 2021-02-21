@@ -1,5 +1,4 @@
 const generateCombinations = require('combos');
-const flatMap = require('lodash.flatmap');
 const { defaultBasePath } = require('./common.utils');
 
 const unique = (array) => [...new Set(array)];
@@ -15,62 +14,78 @@ const getBasePath = (url) => {
     : defaultBasePath;
 };
 
-const mapServerVariableToPossibleValues = (serverVariables) =>
-  Object.entries(serverVariables).reduce((currentMap, serverVariable) => {
-    const [
-      variableName,
-      { default: defaultValue, enum: enumMembers },
-    ] = serverVariable;
-    const possibleValues = enumMembers
-      ? unique([defaultValue].concat(enumMembers))
-      : [defaultValue];
-    return { ...currentMap, [variableName]: possibleValues };
-  }, {});
+const getPossibleValuesOfServerVariable = ({
+  default: defaultValue,
+  enum: enumMembers,
+}) =>
+  enumMembers ? unique([defaultValue].concat(enumMembers)) : [defaultValue];
 
-const getPossibleBasePath = (basePath, combinationOfBasePathVariableValues) => {
-  return Object.entries(combinationOfBasePathVariableValues).reduce(
-    (currentBasePath, [variableName, variableValue]) =>
-      currentBasePath.replace(`{${variableName}}`, variableValue),
-    basePath,
+const mapServerVariablesToPossibleValues = (serverVariables) =>
+  Object.entries(serverVariables).reduce(
+    (currentMap, [variableName, detailsOfPossibleValues]) => ({
+      ...currentMap,
+      [variableName]: getPossibleValuesOfServerVariable(
+        detailsOfPossibleValues,
+      ),
+    }),
+    {},
   );
-};
 
-const getPossibleValuesOfBasePathTemplate = (basePath, serverVariables) => {
-  const mapOfServerVariablesToPossibleValues = mapServerVariableToPossibleValues(
+const convertTemplateExpressionToConcreteExpression = (
+  templateExpression,
+  mapOfVariablesToValues,
+) =>
+  Object.entries(mapOfVariablesToValues).reduce(
+    (currentExpression, [variable, value]) =>
+      currentExpression.replace(`{${variable}}`, value),
+    templateExpression,
+  );
+
+const getPossibleConcreteBasePaths = (basePath, serverVariables) => {
+  const mapOfServerVariablesToPossibleValues = mapServerVariablesToPossibleValues(
     serverVariables,
   );
   const combinationsOfBasePathVariableValues = generateCombinations(
     mapOfServerVariablesToPossibleValues,
   );
   const possibleBasePaths = combinationsOfBasePathVariableValues.map(
-    (combination) => getPossibleBasePath(basePath, combination),
+    (mapOfVariablesToValues) =>
+      convertTemplateExpressionToConcreteExpression(
+        basePath,
+        mapOfVariablesToValues,
+      ),
   );
   return possibleBasePaths;
 };
 
-const getServersAndTheirPossibleBasePaths = (servers) =>
-  flatMap(servers, ({ url, variables }) => {
-    const basePath = getBasePath(url);
-    return {
-      url,
-      possibleBasePaths: variables
-        ? getPossibleValuesOfBasePathTemplate(basePath, variables)
-        : [basePath],
-    };
-  });
+const getPossibleBasePaths = (url, serverVariables) => {
+  const basePath = getBasePath(url);
+  return serverVariables
+    ? getPossibleConcreteBasePaths(basePath, serverVariables)
+    : [basePath];
+};
 
-const getMatchingServersAndTheirBasePaths = (servers, pathname) => {
+const getMatchingServerUrlsAndServerBasePaths = (servers, pathname) => {
   const matchesPathname = (basePath) => pathname.startsWith(basePath);
-  return getServersAndTheirPossibleBasePaths(servers)
+  return servers
+    .map(({ url: templatedUrl, variables }) => ({
+      templatedUrl,
+      possibleBasePaths: getPossibleBasePaths(templatedUrl, variables),
+    }))
     .filter(({ possibleBasePaths }) => possibleBasePaths.some(matchesPathname))
-    .map(({ url, possibleBasePaths }) => ({
-      url,
-      matchingBasePath: possibleBasePaths.find(matchesPathname),
-    }));
+    .map(({ templatedUrl, possibleBasePaths }) => {
+      const matchingBasePath = possibleBasePaths.find(matchesPathname);
+      return {
+        concreteUrl: templatedUrl.replace(
+          getBasePath(templatedUrl),
+          matchingBasePath,
+        ),
+        matchingBasePath,
+      };
+    });
 };
 
 module.exports = {
-  getBasePath,
   serversPropertyNotProvidedOrIsEmptyArray,
-  getMatchingServersAndTheirBasePaths,
+  getMatchingServerUrlsAndServerBasePaths,
 };

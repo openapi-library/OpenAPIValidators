@@ -1,14 +1,11 @@
-const flatMap = require('lodash.flatmap');
-
 const {
   defaultBasePath,
   findOpenApiPathMatchingPossiblePathnames,
   getPathnameWithoutBasePath,
 } = require('../utils/common.utils');
 const {
-  getBasePath,
   serversPropertyNotProvidedOrIsEmptyArray,
-  getMatchingServersAndTheirBasePaths,
+  getMatchingServerUrlsAndServerBasePaths,
 } = require('../utils/OpenApi3Spec.utils');
 const AbstractOpenApiSpec = require('./AbstractOpenApiSpec');
 const ValidationError = require('./errors/ValidationError');
@@ -42,19 +39,17 @@ class OpenApi3Spec extends AbstractOpenApiSpec {
   }
 
   getMatchingServerUrls(pathname) {
-    return getMatchingServersAndTheirBasePaths(
+    return getMatchingServerUrlsAndServerBasePaths(
       this.servers(),
       pathname,
-    ).map(({ url, matchingBasePath }) =>
-      url.replace(getBasePath(url), matchingBasePath),
-    );
+    ).map(({ concreteUrl }) => concreteUrl);
   }
 
   getMatchingServerBasePaths(pathname) {
-    return flatMap(
-      getMatchingServersAndTheirBasePaths(this.servers(), pathname),
-      ({ matchingBasePath }) => matchingBasePath,
-    );
+    return getMatchingServerUrlsAndServerBasePaths(
+      this.servers(),
+      pathname,
+    ).map(({ matchingBasePath }) => matchingBasePath);
   }
 
   findOpenApiPathMatchingPathname(pathname) {
