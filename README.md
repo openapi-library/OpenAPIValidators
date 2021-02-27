@@ -47,5 +47,4 @@ These test plugins let you automatically test whether your server's behaviour an
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
-
 <!-- ALL-CONTRIBUTORS-LIST:END -->

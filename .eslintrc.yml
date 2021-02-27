@@ -16,4 +16,3 @@ rules:
   func-names: 0
   no-use-before-define: 0
   require-await: error
-  import/no-extraneous-dependencies: off
