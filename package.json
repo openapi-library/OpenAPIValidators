@@ -9,10 +9,10 @@
   },
   "scripts": {
     "format": "prettier --write . --ignore-path .prettierignore",
-    "lint": "(cd packages/chai-openapi-response-validator && yarn lint) && (cd packages/jest-openapi && yarn lint)",
-    "test": "(cd packages/chai-openapi-response-validator && yarn test) && (cd packages/jest-openapi && yarn test)",
-    "test:precommit": "(cd packages/chai-openapi-response-validator && yarn test:precommit) && (cd packages/jest-openapi && yarn test:precommit)",
-    "test:ci": "(cd packages/chai-openapi-response-validator && yarn test:ci) && (cd packages/jest-openapi && yarn test:ci)",
+    "lint": "yarn workspaces run lint",
+    "test": "yarn workspaces run test",
+    "test:precommit": "yarn workspaces run test:precommit",
+    "test:ci": "yarn workspaces run test:ci",
     "prepublishOnly": "yarn test:precommit"
   },
   "devDependencies": {

@@ -5,17 +5,17 @@
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
+    "format": "prettier --write ../../ --ignore-path ../../.prettierignore",
+    "lint": "eslint .",
+    "lint:fix": "yarn lint --fix",
     "test": "mocha --recursive --exit",
     "test:watch": "yarn test --watch",
-    "test:coverage": "nyc yarn test && nyc report --reporter=lcov && nyc check-coverage --statements 100 --branches 100 --functions 100 --lines 100",
-    "test:coverage:browse": "yarn test:coverage; open coverage/lcov-report/index.html",
+    "test:coverage": "nyc yarn test && nyc report --reporter=lcov && nyc check-coverage",
+    "test:coverage:browse": "yarn test:coverage; open ../coverage/lcov-report/index.html",
     "test:mutation": "stryker run",
     "posttest:mutation": "rimraf commonTestResources",
     "test:precommit": "yarn format && yarn lint && yarn test:coverage",
-    "test:ci": "yarn test:precommit && yarn test:mutation",
-    "format": "prettier --write ../../ --ignore-path ../../.prettierignore",
-    "lint": "eslint .",
-    "lint:fix": "yarn lint -- --fix"
+    "test:ci": "yarn test:precommit && yarn test:mutation"
   },
   "repository": "https://github.com/openapi-library/OpenAPIValidators/tree/master/packages/chai-openapi-response-validator",
   "author": "OpenApiChai <openapichai@gmail.com>",
@@ -64,7 +64,6 @@
     "supertest": "^6.0.0"
   },
   "dependencies": {
-    "combos": "^0.2.0",
-    "openapi-validator": "^0.9.0"
+    "openapi-validator": "^0.11.0"
   }
 }

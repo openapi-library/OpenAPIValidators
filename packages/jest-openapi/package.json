@@ -5,17 +5,15 @@
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
+    "format": "prettier --write ../../ --ignore-path ../../.prettierignore",
+    "lint": "eslint .",
+    "lint:fix": "yarn lint --fix",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "test:coverage:browse": "yarn test:coverage; open coverage/lcov-report/index.html",
-    "test:mutation": "stryker run",
-    "posttest:mutation": "rimraf commonTestResources",
+    "test:coverage:browse": "yarn test:coverage; open ../coverage/lcov-report/index.html",
     "test:precommit": "yarn format && yarn lint && yarn test:coverage",
-    "test:ci": "yarn test:precommit",
-    "format": "prettier --write ../../ --ignore-path ../../.prettierignore",
-    "lint": "eslint .",
-    "lint:fix": "yarn lint -- --fix"
+    "test:ci": "yarn test:precommit"
   },
   "repository": "https://github.com/openapi-library/OpenAPIValidators/tree/master/packages/jest-openapi",
   "author": "rwalle61 <richard.lh.waller@gmail.com>",
@@ -40,9 +38,6 @@
     "src/**/*"
   ],
   "devDependencies": {
-    "@stryker-mutator/core": "^3.1.0",
-    "@stryker-mutator/javascript-mutator": "^3.1.0",
-    "@stryker-mutator/jest-runner": "^3.1.0",
     "axios": "^0.21.1",
     "eslint": "^7.11.0",
     "eslint-config-airbnb-base": "^14.2.0",
@@ -52,11 +47,10 @@
     "fs-extra": "^9.0.1",
     "jest": "^26.5.2",
     "request-promise": "^4.2.6",
-    "rimraf": "^3.0.2",
     "supertest": "^6.0.0"
   },
   "dependencies": {
     "jest-matcher-utils": "^26.5.2",
-    "openapi-validator": "^0.9.0"
+    "openapi-validator": "^0.11.0"
   }
 }

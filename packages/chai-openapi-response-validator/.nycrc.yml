@@ -1,0 +1,8 @@
+cwd: '..'
+include:
+  - chai-openapi-response-validator
+  - openapi-validator
+statements: 100
+branches: 100
+functions: 100
+lines: 100
