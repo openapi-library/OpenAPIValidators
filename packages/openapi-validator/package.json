@@ -1,6 +1,6 @@
 {
   "name": "openapi-validator",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "description": "Common code for jest-openapi and Chai OpenAPI Response Validator",
   "scripts": {
     "format": "prettier --write . --ignore-path ../../.prettierignore",
