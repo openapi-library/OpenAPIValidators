@@ -1,0 +1,41 @@
+{
+  "name": "openapi-validator",
+  "version": "0.11.0",
+  "description": "Common code for jest-openapi and Chai OpenAPI Response Validator",
+  "scripts": {
+    "format": "prettier --write . --ignore-path ../../.prettierignore",
+    "lint": "eslint .",
+    "lint:fix": "yarn lint --fix",
+    "test": "echo",
+    "test:precommit": "echo",
+    "test:ci": "echo"
+  },
+  "repository": "https://github.com/openapi-library/OpenAPIValidators/tree/master/packages/openapi-validator",
+  "author": "OpenApiChai <openapichai@gmail.com>",
+  "contributors": [
+    "rwalle61 <richard.lh.waller@gmail.com>",
+    "Jonny Spruce <jspruce94@gmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "jest",
+    "chai",
+    "openapi",
+    "testing",
+    "response",
+    "validate"
+  ],
+  "bugs": {
+    "url": "https://github.com/openapi-library/OpenAPIValidators/issues"
+  },
+  "homepage": "https://github.com/openapi-library/OpenAPIValidators#openapi-validators",
+  "devDependencies": {},
+  "dependencies": {
+    "fs-extra": "^9.0.0",
+    "js-yaml": "^3.13.1",
+    "openapi-response-validator": "^3.8.1",
+    "openapi-schema-validator": "^3.0.3",
+    "path-parser": "^6.1.0",
+    "typeof": "^1.0.0"
+  }
+}

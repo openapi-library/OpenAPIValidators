@@ -1,5 +1,11 @@
 module.exports = {
   testEnvironment: 'node',
+  rootDir: '..',
+  roots: ['<rootDir>/jest-openapi'],
+  collectCoverageFrom: [
+    '<rootDir>/jest-openapi/src/**/*',
+    '<rootDir>/openapi-validator/lib/**/*',
+  ],
   coverageThreshold: {
     global: {
       branches: 100,
