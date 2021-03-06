@@ -6,7 +6,7 @@ on:
   - workflow_dispatch
 
 jobs:
-  test:
+  Test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -15,11 +15,12 @@ jobs:
         with:
           node-version: 12
           
+      - name: Use yarn cache
+        uses: c-hive/gha-yarn-cache@v1
+
       - run: yarn install
       
       - run: yarn test:ci
-      
-      - run: exit 1
       
       - name: Post code coverage to CodeCov
         run: bash <(curl -s https://codecov.io/bash)
