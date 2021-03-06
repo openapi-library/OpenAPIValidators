@@ -31,6 +31,7 @@
   "homepage": "https://github.com/openapi-library/OpenAPIValidators#openapi-validators",
   "devDependencies": {},
   "dependencies": {
+    "combos": "^0.2.0",
     "fs-extra": "^9.0.0",
     "js-yaml": "^3.13.1",
     "openapi-response-validator": "^3.8.1",

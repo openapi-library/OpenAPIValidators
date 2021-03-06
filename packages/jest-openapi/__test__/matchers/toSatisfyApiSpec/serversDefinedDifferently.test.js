@@ -407,4 +407,143 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
       });
     });
   });
+
+  describe('spec defines servers using server variables', () => {
+    beforeAll(() => {
+      const pathToApiSpec = path.join(
+        dirContainingApiSpec,
+        'withServerVariables.yml',
+      );
+      jestOpenAPI(pathToApiSpec);
+    });
+
+    describe('res.req.path matches a server with a server variable in the path (matches the default value)', () => {
+      const res = {
+        status: 200,
+        req: {
+          method: 'GET',
+          path: '/defaultValueOfVariableInPath/endpointPath',
+        },
+        body: 'valid body (string)',
+      };
+
+      it('passes', () => {
+        expect(res).toSatisfyApiSpec();
+      });
+
+      it('fails when using .not', () => {
+        const assertion = () => expect(res).not.toSatisfyApiSpec();
+        expect(assertion).toThrow(Error, '');
+      });
+    });
+
+    describe('res.req.path matches a server with a server variable in the path (matches a non-default value)', () => {
+      const res = {
+        status: 200,
+        req: {
+          method: 'GET',
+          path: '/enumValueOfVariableInPath/endpointPath',
+        },
+        body: 'valid body (string)',
+      };
+
+      it('passes', () => {
+        expect(res).toSatisfyApiSpec();
+      });
+
+      it('fails when using .not', () => {
+        const assertion = () => expect(res).not.toSatisfyApiSpec();
+        expect(assertion).toThrow(Error, '');
+      });
+    });
+
+    describe('res.req.path matches a server with multiple server variables in the path', () => {
+      const res = {
+        status: 200,
+        req: {
+          method: 'GET',
+          path:
+            '/defaultValueOfFirstVariableInPath/defaultValueOfSecondVariableInPath/endpointPath',
+        },
+        body: 'valid body (string)',
+      };
+
+      it('passes', () => {
+        expect(res).toSatisfyApiSpec();
+      });
+
+      it('fails when using .not', () => {
+        const assertion = () => expect(res).not.toSatisfyApiSpec();
+        expect(assertion).toThrow(Error, '');
+      });
+    });
+
+    describe('res.req.path matches a server with server variables only before the path', () => {
+      const res = {
+        status: 200,
+        req: {
+          method: 'GET',
+          path: '/endpointPath',
+        },
+        body: 'valid body (string)',
+      };
+
+      it('passes', () => {
+        expect(res).toSatisfyApiSpec();
+      });
+
+      it('fails when using .not', () => {
+        const assertion = () => expect(res).not.toSatisfyApiSpec();
+        expect(assertion).toThrow(Error, '');
+      });
+    });
+
+    describe('res.req.path matches a server with server variables before and after the path', () => {
+      const res = {
+        status: 200,
+        req: {
+          method: 'GET',
+          path: '/defaultValueOfVariableInDifferentPath/endpointPath',
+        },
+        body: 'valid body (string)',
+      };
+
+      it('passes', () => {
+        expect(res).toSatisfyApiSpec();
+      });
+
+      it('fails when using .not', () => {
+        const assertion = () => expect(res).not.toSatisfyApiSpec();
+        expect(assertion).toThrow(Error, '');
+      });
+    });
+
+    describe('res.req.path matches a server with server variables, but matches no endpoint paths', () => {
+      const res = {
+        status: 200,
+        req: {
+          method: 'GET',
+          path: '/defaultValueOfVariableInPath/nonExistentEndpointPath',
+        },
+        body: 'valid body (string)',
+      };
+
+      it('fails', () => {
+        const assertion = () => expect(res).toSatisfyApiSpec();
+        expect(assertion).toThrow(
+          Error,
+          `'/defaultValueOfVariableInPath/nonExistentEndpointPath' matches servers ${str(
+            [
+              '/defaultValueOfVariableInPath',
+              'https://{hostVariable}.com:{portVariable}/',
+            ],
+          )} but no <server/endpointPath> combinations`,
+        );
+      });
+
+      it('passes when using .not', () => {
+        expect(res).not.toSatisfyApiSpec();
+      });
+    });
+  });
 });

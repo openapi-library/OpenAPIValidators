@@ -1,6 +1,6 @@
 const OpenAPIResponseValidator = require('openapi-response-validator').default;
 
-const { extractPathname } = require('../utils');
+const { getPathname } = require('../utils/common.utils');
 const ValidationError = require('./errors/ValidationError');
 
 class OpenApiSpec {
@@ -57,7 +57,7 @@ class OpenApiSpec {
   }
 
   findOpenApiPathMatchingRequest(actualRequest) {
-    const actualPathname = extractPathname(actualRequest);
+    const actualPathname = getPathname(actualRequest);
     const openApiPath = this.findOpenApiPathMatchingPathname(actualPathname);
     return openApiPath;
   }
@@ -68,7 +68,7 @@ class OpenApiSpec {
    * @see OpenAPI3 {@link https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#pathItemObject}
    */
   findExpectedPathItem(actualRequest) {
-    const actualPathname = extractPathname(actualRequest);
+    const actualPathname = getPathname(actualRequest);
     const openApiPath = this.findOpenApiPathMatchingPathname(actualPathname);
     const pathItemObject = this.getPathItem(openApiPath);
     return pathItemObject;
