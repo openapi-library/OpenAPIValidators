@@ -1,14 +1,9 @@
 name: CI
 
 on:
-  push:
-    branches: 
-      - master
-  pull_request:
-    branches:
-      - master
-
-  workflow_dispatch:
+  - push
+  - pull_request
+  - workflow_dispatch
 
 jobs:
   test:
@@ -22,4 +17,10 @@ jobs:
           
       - run: yarn install
       
-      - run: yarn test:ci && bash <(curl -s https://codecov.io/bash)
+      - run: yarn test:ci
+      
+      - run: exit 1
+      
+      - name: Post code coverage to CodeCov
+        run: bash <(curl -s https://codecov.io/bash)
+        if: success() 
