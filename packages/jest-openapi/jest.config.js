@@ -1,7 +1,7 @@
 module.exports = {
   testEnvironment: 'node',
   rootDir: '..',
-  roots: ['<rootDir>/jest-openapi'],
+  roots: ['<rootDir>/jest-openapi', '<rootDir>/openapi-validator'],
   collectCoverageFrom: [
     '<rootDir>/jest-openapi/src/**/*',
     '<rootDir>/openapi-validator/lib/**/*',
