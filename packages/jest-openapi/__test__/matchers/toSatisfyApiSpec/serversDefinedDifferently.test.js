@@ -478,7 +478,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
       });
     });
 
-    describe('res.req.path matches a server with server variables only beforeAll the path', () => {
+    describe('res.req.path matches a server with server variables only before the path', () => {
       const res = {
         status: 200,
         req: {
@@ -498,7 +498,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
       });
     });
 
-    describe('res.req.path matches a server with server variables beforeAll and after the path', () => {
+    describe('res.req.path matches a server with server variables before and after the path', () => {
       const res = {
         status: 200,
         req: {
