@@ -3,6 +3,7 @@
 ![build status](https://github.com/openapi-library/OpenAPIValidators/actions/workflows/ci.yml/badge.svg)
 ![style](https://img.shields.io/badge/code%20style-airbnb-ff5a5f.svg)
 [![codecov](https://codecov.io/gh/openapi-library/OpenAPIValidators/branch/master/graph/badge.svg)](https://codecov.io/gh/openapi-library/OpenAPIValidators)
+[![MIT License](https://img.shields.io/npm/l/openapi-validator.svg?style=flat-square)](https://github.com/openapi-library/OpenAPIValidators/blob/master/LICENSE)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/openapi-library/OpenAPIValidators/blob/master/CONTRIBUTING.md)
 
 Use Jest or Chai to assert that HTTP responses satisfy an OpenAPI spec.
