@@ -18,7 +18,7 @@ jobs:
       - name: Use yarn cache
         uses: c-hive/gha-yarn-cache@v1
 
-      - run: yarn install
+      - run: yarn install --frozen-lockfile
       
       - run: yarn test:ci
       
