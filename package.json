@@ -13,7 +13,10 @@
     "test": "yarn workspaces run test",
     "test:precommit": "yarn workspaces run test:precommit",
     "test:ci": "yarn workspaces run test:ci",
-    "prepublishOnly": "yarn test:precommit"
+    "lerna:version:preview": "yarn lerna:version --no-git-tag-version",
+    "lerna:version": "lerna version -m \"chore(release): %s\" --conventional-commits --no-changelog",
+    "prepublishOnly": "yarn test:precommit",
+    "lerna:publish": "lerna publish"
   },
   "devDependencies": {
     "eslint": "^7.11.0",
@@ -24,6 +27,7 @@
     "eslint-plugin-mocha": "^8.0.0",
     "express": "^4.17.1",
     "husky": "^4.3.0",
+    "lerna": "^4.0.0",
     "prettier": "^2.1.2"
   },
   "husky": {
