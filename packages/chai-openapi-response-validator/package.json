@@ -1,6 +1,6 @@
 {
   "name": "chai-openapi-response-validator",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "description": "Use Chai to assert that HTTP responses satisfy an OpenAPI spec",
   "main": "index.js",
   "types": "index.d.ts",
@@ -64,6 +64,6 @@
     "supertest": "^6.0.0"
   },
   "dependencies": {
-    "openapi-validator": "^0.12.0"
+    "openapi-validator": "^0.13.0"
   }
 }

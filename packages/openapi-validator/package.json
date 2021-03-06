@@ -1,6 +1,6 @@
 {
   "name": "openapi-validator",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "description": "Common code for jest-openapi and Chai OpenAPI Response Validator",
   "scripts": {
     "format": "prettier --write . --ignore-path ../../.prettierignore",
@@ -29,7 +29,6 @@
     "url": "https://github.com/openapi-library/OpenAPIValidators/issues"
   },
   "homepage": "https://github.com/openapi-library/OpenAPIValidators#openapi-validators",
-  "devDependencies": {},
   "dependencies": {
     "combos": "^0.2.0",
     "fs-extra": "^9.0.0",
