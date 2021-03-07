@@ -41,7 +41,7 @@ function loadFile(filepath) {
   }
   const fileData = fs.readFileSync(filepath);
   try {
-    return yaml.safeLoad(fileData);
+    return yaml.load(fileData);
   } catch (error) {
     throw new Error(`Invalid YAML or JSON:\n${error.message}`);
   }
