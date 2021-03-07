@@ -1,27 +1,31 @@
 name: CI
 
 on:
-  - push
-  - pull_request
-  - workflow_dispatch
+  push:
+    paths-ignore:
+      - '*.md'
+  pull_request:
+    paths-ignore:
+      - '*.md'
+  workflow_dispatch:
 
 jobs:
   Test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-  
+
       - uses: actions/setup-node@v2.1.5
         with:
           node-version: 12
-          
+
       - name: Use yarn cache
         uses: c-hive/gha-yarn-cache@v1
 
       - run: yarn install --frozen-lockfile
-      
+
       - run: yarn test:ci
-      
+
       - name: Post code coverage to CodeCov
         run: bash <(curl -s https://codecov.io/bash)
-        if: success() 
+        if: success()
