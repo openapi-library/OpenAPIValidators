@@ -108,7 +108,9 @@ class OpenApiSpec {
     if (validationError) {
       return new ValidationError(
         'INVALID_BODY',
-        validationError.errors.map((error) => error.message).join(', '),
+        validationError.errors
+          .map(({ path, message }) => `${path} ${message}`)
+          .join(', '),
       );
     }
     return null;
@@ -128,8 +130,8 @@ class OpenApiSpec {
     const resValidator = new OpenAPIResponseValidator({
       responses: mockExpectedResponse,
       ...this.getComponentDefinitionsProperty(),
-      errorTransformer: (error) => ({
-        message: error.message.replace('response', 'object'),
+      errorTransformer: ({ path, message }) => ({
+        message: `${path.replace('response', 'object')} ${message}`,
       }),
     });
     const validationError = resValidator.validateResponse(
