@@ -2,12 +2,14 @@
   "name": "jest-openapi",
   "version": "0.13.0",
   "description": "Jest matchers for asserting that HTTP responses satisfy an OpenAPI spec",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
+    "clean": "rimraf dist",
     "format": "prettier --write ../../ --ignore-path ../../.prettierignore",
-    "lint": "eslint .",
+    "lint": "tsc --noEmit && eslint .",
     "lint:fix": "yarn lint --fix",
+    "build": "tsc",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
@@ -34,8 +36,7 @@
   },
   "homepage": "https://github.com/openapi-library/OpenAPIValidators/tree/master/packages/jest-openapi#readme",
   "files": [
-    "index.*",
-    "src/**/*"
+    "dist/**/*"
   ],
   "devDependencies": {
     "axios": "^0.21.1",

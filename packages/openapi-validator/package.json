@@ -2,10 +2,14 @@
   "name": "openapi-validator",
   "version": "0.13.0",
   "description": "Common code for jest-openapi and Chai OpenAPI Response Validator",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
+    "clean": "rimraf dist",
     "format": "prettier --write . --ignore-path ../../.prettierignore",
-    "lint": "eslint .",
+    "lint": "tsc --noEmit && eslint .",
     "lint:fix": "yarn lint --fix",
+    "build": "tsc",
     "test": "echo",
     "test:precommit": "echo",
     "test:ci": "echo"
@@ -29,6 +33,9 @@
     "url": "https://github.com/openapi-library/OpenAPIValidators/issues"
   },
   "homepage": "https://github.com/openapi-library/OpenAPIValidators#openapi-validators",
+  "files": [
+    "dist/**/*"
+  ],
   "dependencies": {
     "combos": "^0.2.0",
     "fs-extra": "^9.0.0",

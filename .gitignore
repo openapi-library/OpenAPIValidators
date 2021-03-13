@@ -6,3 +6,4 @@ stryker.log
 reports
 packages/**/commonTestResources
 .DS_STORE
+dist

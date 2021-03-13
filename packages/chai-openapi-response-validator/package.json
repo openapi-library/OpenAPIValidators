@@ -2,12 +2,14 @@
   "name": "chai-openapi-response-validator",
   "version": "0.13.0",
   "description": "Use Chai to assert that HTTP responses satisfy an OpenAPI spec",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
+    "clean": "rimraf dist && rimraf reports",
     "format": "prettier --write ../../ --ignore-path ../../.prettierignore",
-    "lint": "eslint .",
+    "lint": "tsc --noEmit && eslint .",
     "lint:fix": "yarn lint --fix",
+    "build": "tsc",
     "test": "mocha --recursive --exit",
     "test:watch": "yarn test --watch",
     "test:coverage": "nyc yarn test && nyc report --reporter=lcov && nyc check-coverage",
@@ -37,8 +39,8 @@
   },
   "homepage": "https://github.com/openapi-library/OpenAPIValidators/tree/master/packages/chai-openapi-response-validator#readme",
   "files": [
-    "index.*",
-    "lib/**/*"
+    "index.d.ts",
+    "dist/**/*"
   ],
   "devDependencies": {
     "@stryker-mutator/core": "^3.1.0",

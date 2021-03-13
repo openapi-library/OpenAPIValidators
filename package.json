@@ -8,8 +8,10 @@
     "node": ">=10.0.0"
   },
   "scripts": {
+    "clean": "yarn workspaces run clean",
     "format": "prettier --write . --ignore-path .prettierignore",
     "lint": "yarn workspaces run lint",
+    "build": "yarn workspaces run build",
     "test": "yarn workspaces run test",
     "test:precommit": "yarn workspaces run test:precommit",
     "test:ci": "yarn workspaces run test:ci",
@@ -19,6 +21,7 @@
     "lerna:publish": "lerna publish"
   },
   "devDependencies": {
+    "@typescript-eslint/parser": "^4.16.1",
     "eslint": "^7.11.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-prettier": "^6.12.0",
@@ -28,7 +31,9 @@
     "express": "^4.17.1",
     "husky": "^4.3.0",
     "lerna": "^4.0.0",
-    "prettier": "^2.1.2"
+    "prettier": "^2.1.2",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.2.3"
   },
   "husky": {
     "hooks": {

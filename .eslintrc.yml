@@ -1,3 +1,4 @@
+parser: '@typescript-eslint/parser'
 parserOptions:
   ecmaVersion: 2018
   sourceType: module
@@ -7,8 +8,14 @@ env:
   node: true
 
 extends:
-  - airbnb-base
+  - airbnb-base # switch to airbnb-typescript/base
   - eslint:recommended
+  # - plugin:@typescript-eslint/recommended
+  # - plugin:@typescript-eslint/recommended-requiring-type-checking
+  # plugin:import/typescript
+  # plugin:jest/recommended
+  # prettier
+  # prettier/@typescript-eslint
   - prettier # must go last, to turn off some previous rules
 
 rules:
