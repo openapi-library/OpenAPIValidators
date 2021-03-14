@@ -4,11 +4,11 @@ const {
   EXPECTED_COLOR,
 } = require('jest-matcher-utils');
 
-const { responseFactory } = require('openapi-validator');
+const { makeResponse } = require('openapi-validator');
 const { stringify, joinWithNewLines } = require('../utils');
 
 module.exports = function (received, openApiSpec) {
-  const actualResponse = responseFactory.makeResponse(received);
+  const actualResponse = makeResponse(received);
 
   const validationError = openApiSpec.validateResponse(actualResponse);
   const pass = !validationError;

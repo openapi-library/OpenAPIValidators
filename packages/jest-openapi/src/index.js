@@ -1,11 +1,11 @@
-const { openApiSpecFactory } = require('openapi-validator');
+const { makeApiSpec } = require('openapi-validator');
 const toSatisfyApiSpec = require('./matchers/toSatisfyApiSpec');
 const toSatisfySchemaInApiSpec = require('./matchers/toSatisfySchemaInApiSpec');
 
 module.exports = function (filepathOrObject) {
   const jestExpect = global.expect;
 
-  const openApiSpec = openApiSpecFactory.makeApiSpec(filepathOrObject);
+  const openApiSpec = makeApiSpec(filepathOrObject);
 
   const jestMatchers = {
     toSatisfyApiSpec(received) {

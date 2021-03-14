@@ -24,5 +24,4 @@ rules:
   require-await: error
   '@typescript-eslint/no-use-before-define': 0
 # TODO
-# Not sure if need to migrate chai plugin too
-# Get tests working
+# Migrate chai, jest

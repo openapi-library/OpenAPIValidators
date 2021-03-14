@@ -1,4 +1,5 @@
 module.exports = {
+  preset: 'ts-jest',
   testEnvironment: 'node',
   rootDir: '..',
   roots: ['<rootDir>/jest-openapi', '<rootDir>/openapi-validator'],
