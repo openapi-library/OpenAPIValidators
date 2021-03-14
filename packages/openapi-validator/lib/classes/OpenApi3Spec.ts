@@ -1,16 +1,18 @@
-const {
+import {
   defaultBasePath,
   findOpenApiPathMatchingPossiblePathnames,
   getPathnameWithoutBasePath,
-} = require('../utils/common.utils');
-const {
+} from '../utils/common.utils';
+import {
   serversPropertyNotProvidedOrIsEmptyArray,
   getMatchingServerUrlsAndServerBasePaths,
-} = require('../utils/OpenApi3Spec.utils');
-const AbstractOpenApiSpec = require('./AbstractOpenApiSpec');
-const ValidationError = require('./errors/ValidationError');
+} from '../utils/OpenApi3Spec.utils';
+import AbstractOpenApiSpec from './AbstractOpenApiSpec';
+import ValidationError from './errors/ValidationError';
 
-class OpenApi3Spec extends AbstractOpenApiSpec {
+export default class OpenApi3Spec extends AbstractOpenApiSpec {
+  public didUserDefineServers: boolean;
+
   constructor(spec) {
     super(spec);
     this.didUserDefineServers = !serversPropertyNotProvidedOrIsEmptyArray(spec);
@@ -97,5 +99,3 @@ class OpenApi3Spec extends AbstractOpenApiSpec {
     return this.getComponentDefinitions().schemas;
   }
 }
-
-module.exports = OpenApi3Spec;

@@ -10,7 +10,7 @@
     "lint": "tsc --noEmit && eslint .",
     "lint:fix": "yarn lint --fix",
     "build": "tsc",
-    "test": "mocha --recursive --exit",
+    "test": "ts-mocha --recursive --exit",
     "test:watch": "yarn test --watch",
     "test:coverage": "nyc yarn test && nyc report --reporter=lcov && nyc check-coverage",
     "test:coverage:browse": "yarn test:coverage; open ../coverage/lcov-report/index.html",
@@ -63,7 +63,8 @@
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
     "rimraf": "^3.0.2",
-    "supertest": "^6.0.0"
+    "supertest": "^6.0.0",
+    "ts-mocha": "^8.0.0"
   },
   "dependencies": {
     "openapi-validator": "^0.13.0"

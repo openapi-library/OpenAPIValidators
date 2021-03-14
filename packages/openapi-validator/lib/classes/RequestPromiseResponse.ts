@@ -1,6 +1,6 @@
-const AbstractResponse = require('./AbstractResponse');
+import AbstractResponse from './AbstractResponse';
 
-class RequestPromiseResponse extends AbstractResponse {
+export default class RequestPromiseResponse extends AbstractResponse {
   constructor(res) {
     super(res);
     this.status = res.statusCode;
@@ -25,5 +25,3 @@ class RequestPromiseResponse extends AbstractResponse {
     return this.body;
   }
 }
-
-module.exports = RequestPromiseResponse;

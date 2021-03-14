@@ -1,19 +1,18 @@
-const { inspect } = require('util');
-const { Path: PathParser } = require('path-parser');
-const url = require('url');
+import { inspect } from 'util';
+import { Path } from 'path-parser';
+import url from 'url';
 
-const stringify = (obj) => inspect(obj, { depth: null });
+export const stringify = (obj) => inspect(obj, { depth: null });
 
 // excludes the query because path = pathname + query
-const getPathname = (request) => url.parse(request.path).pathname;
+export const getPathname = (request) => url.parse(request.path).pathname;
 
 // converts all {foo} to :foo
 const convertOpenApiPathToColonForm = (openApiPath) =>
   openApiPath.replace(/{/g, ':').replace(/}/g, '');
 
 const doesColonPathMatchPathname = (pathInColonForm, pathname) => {
-  const pathParser = new PathParser(pathInColonForm);
-  const pathParamsInPathname = pathParser.test(pathname); // => one of: null, {}, {exampleParam: 'foo'}
+  const pathParamsInPathname = new Path(pathInColonForm).test(pathname); // => one of: null, {}, {exampleParam: 'foo'}
   return Boolean(pathParamsInPathname);
 };
 
@@ -22,7 +21,7 @@ const doesOpenApiPathMatchPathname = (openApiPath, pathname) => {
   return doesColonPathMatchPathname(pathInColonForm, pathname);
 };
 
-const findOpenApiPathMatchingPossiblePathnames = (
+export const findOpenApiPathMatchingPossiblePathnames = (
   possiblePathnames,
   OAPaths,
 ) => {
@@ -42,15 +41,7 @@ const findOpenApiPathMatchingPossiblePathnames = (
   return openApiPath;
 };
 
-const defaultBasePath = '/';
+export const defaultBasePath = '/';
 
-const getPathnameWithoutBasePath = (basePath, pathname) =>
+export const getPathnameWithoutBasePath = (basePath, pathname) =>
   basePath === defaultBasePath ? pathname : pathname.replace(basePath, '');
-
-module.exports = {
-  defaultBasePath,
-  stringify,
-  getPathname,
-  findOpenApiPathMatchingPossiblePathnames,
-  getPathnameWithoutBasePath,
-};

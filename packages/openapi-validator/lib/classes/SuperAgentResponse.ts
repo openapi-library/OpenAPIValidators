@@ -1,9 +1,11 @@
-const AbstractResponse = require('./AbstractResponse');
+import AbstractResponse from './AbstractResponse';
 
 const isEmptyObj = (obj) =>
   !!obj && Object.entries(obj).length === 0 && obj.constructor === Object;
 
-class SuperAgentResponse extends AbstractResponse {
+export default class SuperAgentResponse extends AbstractResponse {
+  private isResTextPopulatedInsteadOfResBody: boolean;
+
   constructor(res) {
     super(res);
     this.status = res.status;
@@ -32,5 +34,3 @@ class SuperAgentResponse extends AbstractResponse {
     return summary;
   }
 }
-
-module.exports = SuperAgentResponse;

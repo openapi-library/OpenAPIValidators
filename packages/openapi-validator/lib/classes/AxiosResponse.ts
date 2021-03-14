@@ -1,6 +1,6 @@
-const AbstractResponse = require('./AbstractResponse');
+import AbstractResponse from './AbstractResponse';
 
-class AxiosResponse extends AbstractResponse {
+export default class AxiosResponse extends AbstractResponse {
   constructor(res) {
     super(res);
     this.status = res.status;
@@ -16,5 +16,3 @@ class AxiosResponse extends AbstractResponse {
     return this.body;
   }
 }
-
-module.exports = AxiosResponse;

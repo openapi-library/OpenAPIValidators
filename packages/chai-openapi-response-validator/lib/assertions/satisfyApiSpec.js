@@ -1,11 +1,11 @@
-const { responseFactory } = require('openapi-validator');
+const { makeResponse } = require('openapi-validator');
 const { stringify, joinWithNewLines } = require('../utils');
 
 module.exports = function (chai, openApiSpec) {
   const { Assertion } = chai;
 
   Assertion.addProperty('satisfyApiSpec', function () {
-    const actualResponse = responseFactory.makeResponse(this._obj); // eslint-disable-line no-underscore-dangle
+    const actualResponse = makeResponse(this._obj); // eslint-disable-line no-underscore-dangle
     const validationError = openApiSpec.validateResponse(actualResponse);
     const predicate = !validationError;
     this.assert(

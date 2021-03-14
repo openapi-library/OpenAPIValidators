@@ -2,20 +2,19 @@ parser: '@typescript-eslint/parser'
 parserOptions:
   ecmaVersion: 2018
   sourceType: module
+  project: tsconfig.json
 
 env:
   es6: true
   node: true
 
 extends:
-  - airbnb-base # switch to airbnb-typescript/base
+  - airbnb-typescript/base
   - eslint:recommended
   # - plugin:@typescript-eslint/recommended
   # - plugin:@typescript-eslint/recommended-requiring-type-checking
-  # plugin:import/typescript
-  # plugin:jest/recommended
-  # prettier
-  # prettier/@typescript-eslint
+  # - plugin:jest/recommended
+  # - prettier/@typescript-eslint
   - prettier # must go last, to turn off some previous rules
 
 rules:
@@ -23,3 +22,7 @@ rules:
   func-names: 0
   no-use-before-define: 0
   require-await: error
+  '@typescript-eslint/no-use-before-define': 0
+# TODO
+# Not sure if need to migrate chai plugin too
+# Get tests working

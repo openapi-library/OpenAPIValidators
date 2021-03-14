@@ -1,11 +1,16 @@
-const utils = require('../utils/common.utils');
-const AbstractOpenApiSpec = require('./AbstractOpenApiSpec');
-const ValidationError = require('./errors/ValidationError');
+import {
+  getPathnameWithoutBasePath,
+  findOpenApiPathMatchingPossiblePathnames,
+} from '../utils/common.utils';
+import AbstractOpenApiSpec from './AbstractOpenApiSpec';
+import ValidationError from './errors/ValidationError';
 
 const basePathPropertyNotProvided = (spec) =>
   !Object.prototype.hasOwnProperty.call(spec, 'basePath');
 
-class OpenApi2Spec extends AbstractOpenApiSpec {
+export default class OpenApi2Spec extends AbstractOpenApiSpec {
+  public didUserDefineBasePath: boolean;
+
   constructor(spec) {
     super(spec);
     this.didUserDefineBasePath = !basePathPropertyNotProvided(spec);
@@ -20,11 +25,11 @@ class OpenApi2Spec extends AbstractOpenApiSpec {
     if (basePath && !pathname.startsWith(basePath)) {
       throw new ValidationError('BASE_PATH_NOT_FOUND');
     }
-    const pathnameWithoutBasePath = utils.getPathnameWithoutBasePath(
+    const pathnameWithoutBasePath = getPathnameWithoutBasePath(
       basePath,
       pathname,
     );
-    const openApiPath = utils.findOpenApiPathMatchingPossiblePathnames(
+    const openApiPath = findOpenApiPathMatchingPossiblePathnames(
       [pathnameWithoutBasePath],
       this.paths(),
     );
@@ -59,5 +64,3 @@ class OpenApi2Spec extends AbstractOpenApiSpec {
     return this.getComponentDefinitions();
   }
 }
-
-module.exports = OpenApi2Spec;

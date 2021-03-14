@@ -1,9 +1,9 @@
-const generateCombinations = require('combos');
-const { defaultBasePath } = require('./common.utils');
+import generateCombinations from 'combos';
+import { defaultBasePath } from './common.utils';
 
 const unique = (array) => [...new Set(array)];
 
-const serversPropertyNotProvidedOrIsEmptyArray = (spec) =>
+export const serversPropertyNotProvidedOrIsEmptyArray = (spec) =>
   !Object.prototype.hasOwnProperty.call(spec, 'servers') ||
   !spec.servers.length;
 
@@ -25,7 +25,7 @@ const mapServerVariablesToPossibleValues = (serverVariables) =>
     (currentMap, [variableName, detailsOfPossibleValues]) => ({
       ...currentMap,
       [variableName]: getPossibleValuesOfServerVariable(
-        detailsOfPossibleValues,
+        detailsOfPossibleValues as any,
       ),
     }),
     {},
@@ -65,7 +65,7 @@ const getPossibleBasePaths = (url, serverVariables) => {
     : [basePath];
 };
 
-const getMatchingServerUrlsAndServerBasePaths = (servers, pathname) => {
+export const getMatchingServerUrlsAndServerBasePaths = (servers, pathname) => {
   const matchesPathname = (basePath) => pathname.startsWith(basePath);
   return servers
     .map(({ url: templatedUrl, variables }) => ({
@@ -83,9 +83,4 @@ const getMatchingServerUrlsAndServerBasePaths = (servers, pathname) => {
         matchingBasePath,
       };
     });
-};
-
-module.exports = {
-  serversPropertyNotProvidedOrIsEmptyArray,
-  getMatchingServerUrlsAndServerBasePaths,
 };

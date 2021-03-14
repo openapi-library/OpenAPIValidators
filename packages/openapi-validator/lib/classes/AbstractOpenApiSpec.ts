@@ -1,9 +1,19 @@
-const OpenAPIResponseValidator = require('openapi-response-validator').default;
+import OpenAPIResponseValidator from 'openapi-response-validator';
 
-const { getPathname } = require('../utils/common.utils');
-const ValidationError = require('./errors/ValidationError');
+import { getPathname } from '../utils/common.utils';
+import ValidationError from './errors/ValidationError';
 
-class OpenApiSpec {
+export default abstract class OpenApiSpec {
+  protected spec: any;
+
+  protected abstract getSchemaObjects(): any;
+
+  protected abstract findResponseDefinition(referenceString: string): any;
+
+  protected abstract findOpenApiPathMatchingPathname(pathname: string): any;
+
+  protected abstract getComponentDefinitionsProperty(): any;
+
   constructor(spec) {
     this.spec = spec;
   }
@@ -147,5 +157,3 @@ class OpenApiSpec {
     return null;
   }
 }
-
-module.exports = OpenApiSpec;

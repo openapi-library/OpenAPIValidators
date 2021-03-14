@@ -1,14 +1,14 @@
-const fs = require('fs-extra');
-const yaml = require('js-yaml');
-const path = require('path');
-const OpenAPISchemaValidator = require('openapi-schema-validator').default;
-const typeOf = require('typeof');
+import fs from 'fs-extra';
+import yaml from 'js-yaml';
+import path from 'path';
+import OpenAPISchemaValidator from 'openapi-schema-validator';
+import typeOf from 'typeof';
 
-const utils = require('./utils/common.utils');
-const OpenApi2Spec = require('./classes/OpenApi2Spec');
-const OpenApi3Spec = require('./classes/OpenApi3Spec');
+import { stringify } from './utils/common.utils';
+import OpenApi2Spec from './classes/OpenApi2Spec';
+import OpenApi3Spec from './classes/OpenApi3Spec';
 
-function makeApiSpec(filepathOrObject) {
+export default function makeApiSpec(filepathOrObject) {
   const spec = loadSpec(filepathOrObject);
   validateSpec(spec);
   if (getOpenApiVersion(spec) === '2.0') {
@@ -54,7 +54,7 @@ function validateSpec(spec) {
     });
     const { errors } = validator.validate(spec);
     if (errors.length > 0) {
-      throw new Error(utils.stringify(errors));
+      throw new Error(stringify(errors));
     }
   } catch (error) {
     throw new Error(`Invalid OpenAPI spec: ${error.message}`);
@@ -67,7 +67,3 @@ function getOpenApiVersion(openApiSpec) {
     openApiSpec.openapi // '3.X.X'
   );
 }
-
-module.exports = {
-  makeApiSpec,
-};
