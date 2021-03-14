@@ -10,7 +10,7 @@
     "lint": "tsc --noEmit && eslint .",
     "lint:fix": "yarn lint --fix",
     "build": "tsc",
-    "test": "ts-mocha --recursive --exit",
+    "test": "ts-mocha --recursive",
     "test:watch": "yarn test --watch",
     "test:coverage": "nyc yarn test && nyc report --reporter=lcov && nyc check-coverage",
     "test:coverage:browse": "yarn test:coverage; open ../coverage/lcov-report/index.html",
