@@ -1,15 +1,15 @@
-const {
+import {
   RECEIVED_COLOR,
   EXPECTED_COLOR,
   matcherHint,
   matcherErrorMessage,
   printExpected,
   printWithType,
-} = require('jest-matcher-utils');
+} from 'jest-matcher-utils';
 
-const { stringify, joinWithNewLines } = require('../utils');
+import { stringify, joinWithNewLines } from '../utils';
 
-module.exports = function (received, schemaName, openApiSpec) {
+export default function (received, schemaName, openApiSpec) {
   const matcherHintOptions = {
     comment:
       "Matches 'received' to a schema defined in your API spec, then validates 'received' against it",
@@ -59,7 +59,7 @@ module.exports = function (received, schemaName, openApiSpec) {
     pass,
     message,
   };
-};
+}
 
 function getExpectReceivedToSatisfySchemaInApiSpecMsg(
   received,

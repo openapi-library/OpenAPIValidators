@@ -1,13 +1,13 @@
-const {
+import {
   matcherHint,
   RECEIVED_COLOR,
   EXPECTED_COLOR,
-} = require('jest-matcher-utils');
+} from 'jest-matcher-utils';
+import { makeResponse } from 'openapi-validator';
 
-const { makeResponse } = require('openapi-validator');
-const { stringify, joinWithNewLines } = require('../utils');
+import { stringify, joinWithNewLines } from '../utils';
 
-module.exports = function (received, openApiSpec) {
+export default function (received, openApiSpec) {
   const actualResponse = makeResponse(received);
 
   const validationError = openApiSpec.validateResponse(actualResponse);
@@ -44,7 +44,7 @@ module.exports = function (received, openApiSpec) {
     pass,
     message,
   };
-};
+}
 
 function getExpectReceivedToSatisfyApiSpecMsg(
   actualResponse,

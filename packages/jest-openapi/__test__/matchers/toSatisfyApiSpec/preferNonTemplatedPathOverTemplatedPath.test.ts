@@ -1,6 +1,6 @@
-const path = require('path');
+import path from 'path';
 
-const jestOpenAPI = require('../../..');
+import jestOpenAPI from '../../..';
 
 const openApiSpecsDir = path.resolve(
   '../../commonTestResources/exampleOpenApiFiles/valid/preferNonTemplatedPathOverTemplatedPath',

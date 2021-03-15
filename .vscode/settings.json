@@ -1,0 +1,7 @@
+{
+  "eslint.workingDirectories": [
+    "packages/chai-openapi-response-validator",
+    "packages/jest-openapi",
+    "packages/openapi-validator"
+  ]
+}

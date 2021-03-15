@@ -1,13 +1,17 @@
-const path = require('path');
-const jestMatcherUtils = require('jest-matcher-utils');
+import path from 'path';
+import {
+  matcherHint,
+  RECEIVED_COLOR as red,
+  EXPECTED_COLOR as green,
+} from 'jest-matcher-utils';
 
-const {
+import {
   joinWithNewLines,
   str,
-} = require('../../../../../commonTestResources/utils');
-const jestOpenAPI = require('../../..');
+} from '../../../../../commonTestResources/utils';
+import jestOpenAPI from '../../..';
 
-const expectReceivedToSatisfyApiSpec = jestMatcherUtils.matcherHint(
+const expectReceivedToSatisfyApiSpec = matcherHint(
   'toSatisfyApiSpec',
   undefined,
   '',
@@ -18,8 +22,7 @@ const expectReceivedToSatisfyApiSpec = jestMatcherUtils.matcherHint(
   },
 );
 
-const red = jestMatcherUtils.RECEIVED_COLOR;
-const green = jestMatcherUtils.EXPECTED_COLOR;
+const startOfAssertionErrorMessage = 'expect';
 
 const dirContainingApiSpec = path.resolve(
   '../../commonTestResources/exampleOpenApiFiles/valid/serversDefinedDifferently',
@@ -51,7 +54,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
 
       it('fails when using .not', () => {
         const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(Error, '');
+        expect(assertion).toThrow(startOfAssertionErrorMessage);
       });
     });
 
@@ -108,7 +111,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
 
       it('fails when using .not', () => {
         const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(Error, '');
+        expect(assertion).toThrow(startOfAssertionErrorMessage);
       });
     });
 
@@ -240,7 +243,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
 
           it('fails when using .not', () => {
             const assertion = () => expect(res).not.toSatisfyApiSpec();
-            expect(assertion).toThrow(Error, '');
+            expect(assertion).toThrow(startOfAssertionErrorMessage);
           });
         });
 
@@ -302,7 +305,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
 
       it('fails when using .not', () => {
         const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(Error, '');
+        expect(assertion).toThrow(startOfAssertionErrorMessage);
       });
     });
 
@@ -379,7 +382,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
 
       it('fails when using .not', () => {
         const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(Error, '');
+        expect(assertion).toThrow(startOfAssertionErrorMessage);
       });
     });
 
@@ -433,7 +436,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
 
       it('fails when using .not', () => {
         const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(Error, '');
+        expect(assertion).toThrow(startOfAssertionErrorMessage);
       });
     });
 
@@ -453,7 +456,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
 
       it('fails when using .not', () => {
         const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(Error, '');
+        expect(assertion).toThrow(startOfAssertionErrorMessage);
       });
     });
 
@@ -474,7 +477,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
 
       it('fails when using .not', () => {
         const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(Error, '');
+        expect(assertion).toThrow(startOfAssertionErrorMessage);
       });
     });
 
@@ -494,7 +497,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
 
       it('fails when using .not', () => {
         const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(Error, '');
+        expect(assertion).toThrow(startOfAssertionErrorMessage);
       });
     });
 
@@ -514,7 +517,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
 
       it('fails when using .not', () => {
         const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(Error, '');
+        expect(assertion).toThrow(startOfAssertionErrorMessage);
       });
     });
 
@@ -531,7 +534,6 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
       it('fails', () => {
         const assertion = () => expect(res).toSatisfyApiSpec();
         expect(assertion).toThrow(
-          Error,
           `'/defaultValueOfVariableInPath/nonExistentEndpointPath' matches servers ${str(
             [
               '/defaultValueOfVariableInPath',

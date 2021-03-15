@@ -1,13 +1,13 @@
-const path = require('path');
-const jestMatcherUtils = require('jest-matcher-utils');
+import path from 'path';
+import {
+  RECEIVED_COLOR as red,
+  EXPECTED_COLOR as green,
+} from 'jest-matcher-utils';
 
-const {
-  joinWithNewLines,
-} = require('../../../../../commonTestResources/utils');
-const jestOpenAPI = require('../../..');
+import { joinWithNewLines } from '../../../../../commonTestResources/utils';
+import jestOpenAPI from '../../..';
 
-const red = jestMatcherUtils.RECEIVED_COLOR;
-const green = jestMatcherUtils.EXPECTED_COLOR;
+const startOfAssertionErrorMessage = 'expect';
 
 const dirContainingApiSpec = path.resolve(
   '../../commonTestResources/exampleOpenApiFiles/valid/basePathDefinedDifferently',
@@ -38,7 +38,7 @@ describe('Using OpenAPI 2 specs that define basePath differently', () => {
 
       it('fails when using .not', () => {
         const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(Error, '');
+        expect(assertion).toThrow(startOfAssertionErrorMessage);
       });
     });
 
@@ -95,7 +95,7 @@ describe('Using OpenAPI 2 specs that define basePath differently', () => {
 
       it('fails when using .not', () => {
         const assertion = () => expect(res).not.toSatisfyApiSpec();
-        expect(assertion).toThrow(Error, '');
+        expect(assertion).toThrow(startOfAssertionErrorMessage);
       });
     });
 

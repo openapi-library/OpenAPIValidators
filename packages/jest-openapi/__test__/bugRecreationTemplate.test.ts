@@ -1,7 +1,7 @@
-const path = require('path');
-const { inspect } = require('util');
+import path from 'path';
+import { inspect } from 'util';
 
-const jestOpenAPI = require('..');
+import jestOpenAPI from '..';
 
 const dirContainingApiSpec = path.resolve(
   '../../commonTestResources/exampleOpenApiFiles/valid/bugRecreationTemplate',

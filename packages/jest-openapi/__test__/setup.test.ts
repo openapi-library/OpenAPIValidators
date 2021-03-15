@@ -1,7 +1,7 @@
-const path = require('path');
-const fs = require('fs-extra');
+import path from 'path';
+import fs from 'fs-extra';
 
-const jestOpenAPI = require('..');
+import jestOpenAPI from '..';
 
 const genericArgTypeErrMsg =
   'The provided argument must be either an absolute filepath or an object representing an OpenAPI specification.\nError details: ';
@@ -10,7 +10,7 @@ describe('jestOpenAPI(pathToApiSpec)', () => {
   describe('neither string nor object', () => {
     describe('number', () => {
       it('throws a relevant error', () => {
-        const func = () => jestOpenAPI(123);
+        const func = () => jestOpenAPI((123 as unknown) as string);
         expect(func).toThrow(`${genericArgTypeErrMsg}Received type 'number'`);
       });
     });

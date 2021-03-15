@@ -1,13 +1,17 @@
-const path = require('path');
-const jestMatcherUtils = require('jest-matcher-utils');
+import path from 'path';
+import {
+  matcherHint,
+  RECEIVED_COLOR as red,
+  EXPECTED_COLOR as green,
+} from 'jest-matcher-utils';
 
-const {
+import {
   joinWithNewLines,
   str,
-} = require('../../../../../commonTestResources/utils');
-const jestOpenAPI = require('../../..');
+} from '../../../../../commonTestResources/utils';
+import jestOpenAPI from '../../..';
 
-const expectReceivedToSatisfyApiSpec = jestMatcherUtils.matcherHint(
+const expectReceivedToSatisfyApiSpec = matcherHint(
   'toSatisfyApiSpec',
   undefined,
   '',
@@ -18,7 +22,7 @@ const expectReceivedToSatisfyApiSpec = jestMatcherUtils.matcherHint(
   },
 );
 
-const expectReceivedNotToSatisfyApiSpec = jestMatcherUtils.matcherHint(
+const expectReceivedNotToSatisfyApiSpec = matcherHint(
   'toSatisfyApiSpec',
   undefined,
   '',
@@ -28,9 +32,6 @@ const expectReceivedNotToSatisfyApiSpec = jestMatcherUtils.matcherHint(
     isNot: true,
   },
 );
-
-const red = jestMatcherUtils.RECEIVED_COLOR;
-const green = jestMatcherUtils.EXPECTED_COLOR;
 
 const openApiSpecsDir = path.resolve(
   '../../commonTestResources/exampleOpenApiFiles/valid',

@@ -1,13 +1,20 @@
-const path = require('path');
-const jestMatcherUtils = require('jest-matcher-utils');
+import path from 'path';
+import {
+  matcherHint,
+  RECEIVED_COLOR as red,
+  EXPECTED_COLOR as green,
+  matcherErrorMessage,
+  printWithType,
+  printExpected,
+} from 'jest-matcher-utils';
 
-const {
+import {
   joinWithNewLines,
   str,
-} = require('../../../../../commonTestResources/utils');
-const jestOpenAPI = require('../../..');
+} from '../../../../../commonTestResources/utils';
+import jestOpenAPI from '../../..';
 
-const expectReceivedToSatisfySchemaInApiSpec = jestMatcherUtils.matcherHint(
+const expectReceivedToSatisfySchemaInApiSpec = matcherHint(
   'toSatisfySchemaInApiSpec',
   undefined,
   'schemaName',
@@ -18,7 +25,7 @@ const expectReceivedToSatisfySchemaInApiSpec = jestMatcherUtils.matcherHint(
   },
 );
 
-const expectReceivedNotToSatisfySchemaInApiSpec = jestMatcherUtils.matcherHint(
+const expectReceivedNotToSatisfySchemaInApiSpec = matcherHint(
   'toSatisfySchemaInApiSpec',
   undefined,
   'schemaName',
@@ -28,9 +35,6 @@ const expectReceivedNotToSatisfySchemaInApiSpec = jestMatcherUtils.matcherHint(
     isNot: true,
   },
 );
-
-const red = jestMatcherUtils.RECEIVED_COLOR;
-const green = jestMatcherUtils.EXPECTED_COLOR;
 
 const openApiSpecsDir = path.resolve(
   '../../commonTestResources/exampleOpenApiFiles/valid/satisfySchemaInApiSpec',
@@ -374,12 +378,6 @@ openApiSpecs.forEach((spec) => {
 
     describe("when 'obj' matches NO schemas defined in the API spec", () => {
       const obj = 'foo';
-
-      const {
-        matcherErrorMessage,
-        printWithType,
-        printExpected,
-      } = jestMatcherUtils;
 
       it('fails', () => {
         const assertion = () =>

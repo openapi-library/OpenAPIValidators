@@ -1,14 +1,12 @@
-const path = require('path');
+import path from 'path';
+import axios from 'axios';
+import supertest from 'supertest';
+import requestPromise from 'request-promise';
 
-const axios = require('axios');
-const supertest = require('supertest');
-const requestPromise = require('request-promise');
-
-const { str } = require('../../../../../commonTestResources/utils');
-const app = require('../../../../../commonTestResources/exampleApp');
-const { port } = require('../../../../../commonTestResources/config');
-
-const jestOpenAPI = require('../../..');
+import { str } from '../../../../../commonTestResources/utils';
+import app from '../../../../../commonTestResources/exampleApp';
+import { port } from '../../../../../commonTestResources/config';
+import jestOpenAPI from '../../..';
 
 const appOrigin = `http://localhost:${port}`;
 const pathToApiSpec = path.resolve(
