@@ -1,9 +1,7 @@
-// Type definitions for chai-openapi-response-validator
-// Project: https://github.com/openapi-library/OpenAPIValidators/packages/chai-openapi-response-validator
-// Definitions by: Richard Waller <https://github.com/rwalle61>
-// TypeScript Version: 3.1
+import { makeApiSpec } from 'openapi-validator';
 
-/// <reference types="chai" />
+import satisfyApiSpec from './assertions/satisfyApiSpec';
+import satisfySchemaInApiSpec from './assertions/satisfySchemaInApiSpec';
 
 declare global {
   namespace Chai {
@@ -22,7 +20,10 @@ declare global {
   }
 }
 
-declare function chaiResponseValidator(
-  filepathOrObject: string | object,
-): Chai.ChaiPlugin;
-export = chaiResponseValidator;
+export default function (filepathOrObject: string | object): Chai.ChaiPlugin {
+  const openApiSpec = makeApiSpec(filepathOrObject);
+  return function (chai) {
+    satisfyApiSpec(chai, openApiSpec);
+    satisfySchemaInApiSpec(chai, openApiSpec);
+  };
+}

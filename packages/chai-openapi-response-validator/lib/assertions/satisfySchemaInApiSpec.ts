@@ -1,6 +1,6 @@
-const { stringify, joinWithNewLines } = require('../utils');
+import { stringify, joinWithNewLines } from '../utils';
 
-module.exports = function (chai, openApiSpec) {
+export default function (chai, openApiSpec) {
   const { Assertion, AssertionError } = chai;
 
   Assertion.addMethod('satisfySchemaInApiSpec', function (schemaName) {
@@ -31,7 +31,7 @@ module.exports = function (chai, openApiSpec) {
       ),
     );
   });
-};
+}
 
 function getExpectReceivedToSatisfySchemaInApiSpecMsg(
   actualObject,

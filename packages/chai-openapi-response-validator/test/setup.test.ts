@@ -1,7 +1,8 @@
-const chai = require('chai');
-const path = require('path');
-const fs = require('fs-extra');
-const chaiResponseValidator = require('..');
+import chai from 'chai';
+import path from 'path';
+import fs from 'fs-extra';
+
+import chaiResponseValidator from '..';
 
 const { expect } = chai;
 const genericArgTypeErrMsg =
@@ -11,7 +12,7 @@ describe('chaiResponseValidator(pathToApiSpec)', () => {
   describe('neither string nor object', () => {
     describe('number', () => {
       it('throws a relevant error', () => {
-        const func = () => chaiResponseValidator(123);
+        const func = () => chaiResponseValidator(123 as any);
         expect(func).to.throw(`${genericArgTypeErrMsg}Received type 'number'`);
       });
     });

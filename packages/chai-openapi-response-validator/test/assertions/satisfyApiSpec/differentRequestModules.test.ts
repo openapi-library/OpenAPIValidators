@@ -1,17 +1,15 @@
-const chai = require('chai');
-const chaiAsPromised = require('chai-as-promised');
-const path = require('path');
+import chai from 'chai';
+import chaiAsPromised from 'chai-as-promised';
+import path from 'path';
+import chaiHttp from 'chai-http';
+import axios from 'axios';
+import supertest from 'supertest';
+import requestPromise from 'request-promise';
 
-const chaiHttp = require('chai-http');
-const axios = require('axios');
-const supertest = require('supertest');
-const requestPromise = require('request-promise');
-
-const { str } = require('../../../../../commonTestResources/utils');
-const app = require('../../../../../commonTestResources/exampleApp');
-const { port } = require('../../../../../commonTestResources/config');
-
-const chaiResponseValidator = require('../../..');
+import { str } from '../../../../../commonTestResources/utils';
+import app from '../../../../../commonTestResources/exampleApp';
+import { port } from '../../../../../commonTestResources/config';
+import chaiResponseValidator from '../../..';
 
 const appOrigin = `http://localhost:${port}`;
 const pathToApiSpec = path.resolve(

@@ -9,8 +9,8 @@ env:
   node: true
 
 extends:
-  - airbnb-typescript/base
   - eslint:recommended
+  - airbnb-typescript/base
   # - plugin:@typescript-eslint/recommended
   # - plugin:@typescript-eslint/recommended-requiring-type-checking
   - prettier/@typescript-eslint
@@ -18,10 +18,10 @@ extends:
 
 rules:
   prefer-arrow-callback: error
-  func-names: 0
-  no-use-before-define: 0
+  func-names: off
+  no-use-before-define: off
   require-await: error
-  '@typescript-eslint/no-use-before-define': 0
+  '@typescript-eslint/no-use-before-define': off
 
 ignorePatterns:
   - dist

@@ -4,8 +4,10 @@ node_modules
 coverage/
 packages/**/commonTestResources
 .DS_STORE
+dist
 
 # extra:
 yarn.lock
 launch.json
 **/invalidYamlFormat.yml
+lerna.json

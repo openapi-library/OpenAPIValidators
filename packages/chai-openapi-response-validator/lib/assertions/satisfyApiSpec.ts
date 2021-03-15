@@ -1,7 +1,8 @@
-const { makeResponse } = require('openapi-validator');
-const { stringify, joinWithNewLines } = require('../utils');
+import { makeResponse } from 'openapi-validator';
 
-module.exports = function (chai, openApiSpec) {
+import { stringify, joinWithNewLines } from '../utils';
+
+export default function (chai, openApiSpec) {
   const { Assertion } = chai;
 
   Assertion.addProperty('satisfyApiSpec', function () {
@@ -22,7 +23,7 @@ module.exports = function (chai, openApiSpec) {
       ),
     );
   });
-};
+}
 
 function getExpectedResToSatisfyApiSpecMsg(
   actualResponse,

@@ -9,7 +9,7 @@ extends:
   - plugin:mocha/recommended
 
 rules:
-  no-unused-expressions: 0
+  '@typescript-eslint/no-unused-expressions': off
   chai-friendly/no-unused-expressions: error
   mocha/no-setup-in-describe: off
   mocha/no-mocha-arrows: off

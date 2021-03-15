@@ -1,7 +1,7 @@
-const chai = require('chai');
-const path = require('path');
+import chai from 'chai';
+import path from 'path';
 
-const chaiResponseValidator = require('../../..');
+import chaiResponseValidator from '../../..';
 
 const openApiSpecsDir = path.resolve(
   '../../commonTestResources/exampleOpenApiFiles/valid/preferNonTemplatedPathOverTemplatedPath',

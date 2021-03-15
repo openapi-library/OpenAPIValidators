@@ -1,11 +1,11 @@
-const chai = require('chai');
-const path = require('path');
+import chai from 'chai';
+import path from 'path';
 
-const {
+import {
   joinWithNewLines,
   str,
-} = require('../../../../../commonTestResources/utils');
-const chaiResponseValidator = require('../../..');
+} from '../../../../../commonTestResources/utils';
+import chaiResponseValidator from '../../..';
 
 const openApiSpecsDir = path.resolve(
   '../../commonTestResources/exampleOpenApiFiles/valid/satisfySchemaInApiSpec',
