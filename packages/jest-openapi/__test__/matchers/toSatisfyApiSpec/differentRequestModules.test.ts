@@ -4,8 +4,7 @@ import supertest from 'supertest';
 import requestPromise from 'request-promise';
 
 import { str } from '../../../../../commonTestResources/utils';
-import app from '../../../../../commonTestResources/exampleApp';
-import { port } from '../../../../../commonTestResources/config';
+import app, { port } from '../../../../../commonTestResources/exampleApp';
 import jestOpenAPI from '../../..';
 
 const appOrigin = `http://localhost:${port}`;
