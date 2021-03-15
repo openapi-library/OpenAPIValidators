@@ -12,7 +12,8 @@
     "build": "tsc",
     "test": "echo",
     "test:precommit": "echo",
-    "test:ci": "echo"
+    "test:ci": "echo",
+    "prepack": "yarn build"
   },
   "repository": "https://github.com/openapi-library/OpenAPIValidators/tree/master/packages/openapi-validator",
   "author": "OpenApiChai <openapichai@gmail.com>",
