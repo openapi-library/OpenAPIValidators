@@ -10,7 +10,7 @@ describe('jestOpenAPI(pathToApiSpec)', () => {
   describe('neither string nor object', () => {
     describe('number', () => {
       it('throws a relevant error', () => {
-        const func = () => jestOpenAPI((123 as unknown) as string);
+        const func = () => jestOpenAPI(123 as any);
         expect(func).toThrow(`${genericArgTypeErrMsg}Received type 'number'`);
       });
     });
