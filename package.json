@@ -13,11 +13,9 @@
     "lint": "yarn workspaces run lint",
     "build": "yarn workspaces run build",
     "test": "yarn workspaces run test",
-    "test:precommit": "yarn workspaces run test:precommit",
     "test:ci": "yarn workspaces run test:ci",
     "lerna:version:preview": "yarn lerna:version --no-git-tag-version",
     "lerna:version": "lerna version -m \"chore(release): %s\" --conventional-commits --no-changelog",
-    "prepublishOnly": "yarn test:precommit",
     "lerna:publish": "lerna publish"
   },
   "devDependencies": {
@@ -38,7 +36,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn test:precommit"
+      "pre-commit": "yarn test:ci"
     }
   }
 }

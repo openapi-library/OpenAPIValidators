@@ -74,9 +74,6 @@ yarn test:coverage
 # run all tests, with coverage check, and opens the coverage report in your browser
 yarn test:coverage:browse
 
-# run all tests, with Stryker mutation testing (https://stryker-mutator.io)
-yarn test:mutation
-
 # run eslint check
 yarn lint
 

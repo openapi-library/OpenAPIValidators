@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "clean": "rimraf dist && rimraf reports",
+    "clean": "rimraf dist",
     "format": "prettier --write ../../ --ignore-path ../../.prettierignore",
     "lint": "tsc --noEmit && eslint .",
     "lint:fix": "yarn lint --fix",
@@ -14,10 +14,7 @@
     "test:watch": "yarn test --watch",
     "test:coverage": "nyc yarn test && nyc report --reporter=lcov && nyc check-coverage",
     "test:coverage:browse": "yarn test:coverage; open ../coverage/lcov-report/index.html",
-    "test:mutation": "stryker run",
-    "posttest:mutation": "rimraf commonTestResources",
-    "test:precommit": "yarn format && yarn lint && yarn test:coverage",
-    "test:ci": "yarn test:precommit && yarn test:mutation"
+    "test:ci": "yarn format && yarn lint && yarn test:coverage"
   },
   "repository": "https://github.com/openapi-library/OpenAPIValidators/tree/master/packages/chai-openapi-response-validator",
   "author": "OpenApiChai <openapichai@gmail.com>",
@@ -43,10 +40,6 @@
     "dist/**/*"
   ],
   "devDependencies": {
-    "@stryker-mutator/core": "^3.1.0",
-    "@stryker-mutator/javascript-mutator": "^3.1.0",
-    "@stryker-mutator/mocha-framework": "^3.1.0",
-    "@stryker-mutator/mocha-runner": "^3.1.0",
     "axios": "^0.21.1",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",

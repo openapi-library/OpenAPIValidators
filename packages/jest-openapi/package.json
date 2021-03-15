@@ -15,8 +15,7 @@
     "test:watch": "jest --watch",
     "test:coverage": "yarn clean && yarn clean:openapi-validator && jest --coverage",
     "test:coverage:browse": "yarn test:coverage; open ../coverage/lcov-report/index.html",
-    "test:precommit": "yarn format && yarn lint && yarn test:coverage",
-    "test:ci": "yarn test:precommit",
+    "test:ci": "yarn format && yarn lint && yarn test:coverage",
     "prepack": "yarn build"
   },
   "repository": "https://github.com/openapi-library/OpenAPIValidators/tree/master/packages/jest-openapi",
