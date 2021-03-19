@@ -34,7 +34,7 @@
   },
   "homepage": "https://github.com/openapi-library/OpenAPIValidators#openapi-validators",
   "files": [
-    "dist/**/*"
+    "dist"
   ],
   "dependencies": {
     "combos": "^0.2.0",
