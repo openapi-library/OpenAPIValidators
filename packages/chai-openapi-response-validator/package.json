@@ -2,20 +2,21 @@
   "name": "chai-openapi-response-validator",
   "version": "0.13.0",
   "description": "Use Chai to assert that HTTP responses satisfy an OpenAPI spec",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
+    "clean": "rimraf dist",
+    "clean:openapi-validator": "cd ../openapi-validator && yarn clean",
     "format": "prettier --write ../../ --ignore-path ../../.prettierignore",
-    "lint": "eslint .",
+    "lint": "tsc --noEmit --project tsconfig.eslint.json && eslint .",
     "lint:fix": "yarn lint --fix",
-    "test": "mocha --recursive --exit",
+    "build": "tsc",
+    "test": "ts-mocha --extension ts --recursive",
     "test:watch": "yarn test --watch",
-    "test:coverage": "nyc yarn test && nyc report --reporter=lcov && nyc check-coverage",
+    "test:coverage": "yarn clean && yarn clean:openapi-validator && nyc yarn test && nyc report --reporter=lcov && nyc check-coverage",
     "test:coverage:browse": "yarn test:coverage; open ../coverage/lcov-report/index.html",
-    "test:mutation": "stryker run",
-    "posttest:mutation": "rimraf commonTestResources",
-    "test:precommit": "yarn format && yarn lint && yarn test:coverage",
-    "test:ci": "yarn test:precommit && yarn test:mutation"
+    "test:ci": "yarn format && yarn lint && yarn test:coverage",
+    "prepack": "yarn build"
   },
   "repository": "https://github.com/openapi-library/OpenAPIValidators/tree/master/packages/chai-openapi-response-validator",
   "author": "OpenApiChai <openapichai@gmail.com>",
@@ -37,20 +38,16 @@
   },
   "homepage": "https://github.com/openapi-library/OpenAPIValidators/tree/master/packages/chai-openapi-response-validator#readme",
   "files": [
-    "index.*",
-    "lib/**/*"
+    "dist"
   ],
   "devDependencies": {
-    "@stryker-mutator/core": "^3.1.0",
-    "@stryker-mutator/javascript-mutator": "^3.1.0",
-    "@stryker-mutator/mocha-framework": "^3.1.0",
-    "@stryker-mutator/mocha-runner": "^3.1.0",
+    "@types/chai": "^4.2.15",
+    "@types/mocha": "^8.2.1",
     "axios": "^0.21.1",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "chai-http": "^4.3.0",
     "eslint": "^7.11.0",
-    "eslint-config-airbnb": "^18.2.0",
     "eslint-plugin-chai-friendly": "^0.6.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-mocha": "^8.0.0",
@@ -61,7 +58,8 @@
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
     "rimraf": "^3.0.2",
-    "supertest": "^6.0.0"
+    "supertest": "^6.0.0",
+    "ts-mocha": "^8.0.0"
   },
   "dependencies": {
     "openapi-validator": "^0.13.0"

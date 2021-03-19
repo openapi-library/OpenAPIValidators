@@ -5,7 +5,7 @@
 ![build status](https://github.com/openapi-library/OpenAPIValidators/actions/workflows/ci.yml/badge.svg)
 ![style](https://img.shields.io/badge/code%20style-airbnb-ff5a5f.svg)
 [![codecov](https://codecov.io/gh/openapi-library/OpenAPIValidators/branch/master/graph/badge.svg)](https://codecov.io/gh/openapi-library/OpenAPIValidators)
-[![included](https://badgen.net/npm/types/jest-openapi)](https://github.com/openapi-library/OpenAPIValidators/blob/master/packages/jest-openapi/index.d.ts)
+[![included](https://badgen.net/npm/types/jest-openapi)](https://github.com/openapi-library/OpenAPIValidators/blob/master/packages/jest-openapi/src/index.ts)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/openapi-library/OpenAPIValidators/blob/master/CONTRIBUTING.md)
 
 Additional Jest matchers for asserting that HTTP responses satisfy an OpenAPI spec.
@@ -28,7 +28,6 @@ Features:
 - Supports `$ref` in response definitions (i.e. `$ref: '#/definitions/ComponentType/ComponentName'`)
 - Informs you if your OpenAPI spec is invalid
 - Supports responses from `axios`, `request-promise`, `supertest`, `superagent`, and `chai-http`
-- Bundled with a TypeScript Declaration File for [use in TypeScript projects](#using-this-plugin-in-a-typescript-project)
 - Use in [Jest](#usage), or use our [sister package](https://github.com/openapi-library/OpenAPIValidators/tree/master/packages/chai-openapi-response-validator#readme) for Mocha and other test runners that support Chai
 
 ## Contributing ✨
@@ -37,10 +36,30 @@ If you've come here to help contribute - thanks! Take a look at the [contributin
 
 ## Installation
 
-With [npm](http://npmjs.org):
+[npm](http://npmjs.org)
 
 ```bash
 npm install --save-dev jest-openapi
+```
+
+[yarn](https://yarnpkg.com/)
+
+```bash
+yarn add --dev jest-openapi
+```
+
+## Importing
+
+ES6 / TypeScript
+
+```typescript
+import jestOpenAPI from 'jest-openapi';
+```
+
+CommonJS / JavaScript
+
+```javascript
+const jestOpenAPI = require('jest-openapi').default;
 ```
 
 ## Usage
@@ -51,7 +70,7 @@ npm install --save-dev jest-openapi
 
 ```javascript
 // Import this plugin
-const jestOpenAPI = require('jest-openapi');
+import jestOpenAPI from 'jest-openapi';
 
 // Load an OpenAPI file (YAML or JSON) into this plugin
 jestOpenAPI('path/to/openapi.yml');
@@ -160,21 +179,18 @@ The '200' response defined for endpoint 'GET /example/endpoint' in API spec: {
 #### 1. Write a test:
 
 ```javascript
-// Import this plugin
-const jestOpenAPI = require('jest-openapi');
+// Import this plugin and the function you want to test
+import jestOpenAPI from 'jest-openapi';
+import { functionToTest } from 'path/to/your/code';
 
 // Load an OpenAPI file (YAML or JSON) into this plugin
 jestOpenAPI('path/to/openapi.yml');
 
 // Write your test
-describe('myModule.getObject()', () => {
+describe('functionToTest()', () => {
   it('should satisfy OpenAPI spec', async () => {
-    // Run the function you want to test
-    const myModule = require('path/to/your/module.js');
-    const output = myModule.getObject();
-
-    // Assert that the output satisfies a schema defined in your OpenAPI spec
-    expect(output).toSatisfySchemaInApiSpec('ExampleSchemaObject');
+    // Assert that the function returns a value satisfying a schema defined in your OpenAPI spec
+    expect(functionToTest()).toSatisfySchemaInApiSpec('ExampleSchemaObject');
   });
 });
 ```
@@ -272,7 +288,7 @@ The 'ExampleSchemaObject' schema in API spec: {
 
 ```javascript
 // Import this plugin
-const jestOpenAPI = require('jest-openapi');
+import jestOpenAPI from 'jest-openapi';
 
 // Get an object representing your OpenAPI spec
 const openApiSpec = {
@@ -321,21 +337,21 @@ describe('GET /example/endpoint', () => {
 #### 3. From a web endpoint:
 
 ```javascript
-// Import this plugin
-const jestOpenAPI = require('jest-openapi');
+// Import this plugin and an HTTP client (e.g. axios)
+import jestOpenAPI from 'jest-openapi';
+import axios from 'axios';
 
 // Write your test
 describe('GET /example/endpoint', () => {
   // Load your OpenAPI spec from a web endpoint
-  before(async () => {
-    const axios = require('axios');
+  beforeAll(async () => {
     const response = await axios.get('url/to/openapi/spec');
-    const openApiSpec = response.data; // e.g. { openapi: '3.0.0', <etc> };
+    const openApiSpec = response.data; // e.g. { openapi: '3.0.0', ... };
     jestOpenAPI(openApiSpec);
   });
 
   it('should satisfy OpenAPI spec', async () => {
-    // Get an HTTP response from your server (e.g. using axios)
+    // Get an HTTP response from your server
     const res = await axios.get('http://localhost:3000/example/endpoint');
 
     expect(res.status).toEqual(200);
@@ -344,28 +360,4 @@ describe('GET /example/endpoint', () => {
     expect(res).toSatisfyApiSpec();
   });
 });
-```
-
-### Using this plugin in a TypeScript project
-
-#### Installation
-
-You don't need to `npm install --save-dev @types/jest-openapi` because we [bundle our TypeScript Definition file into this package](https://github.com/openapi-library/OpenAPIValidators/blob/master/packages/jest-openapi/index.d.ts).
-
-#### Importing
-
-1. Make sure your `tsconfig.json` includes:
-
-```javascript
-{
-  "compilerOptions": {
-    esModuleInterop: true,
-  }
-}
-```
-
-2. Import like this:
-
-```javascript
-import jestOpenAPI from 'jest-openapi';
 ```

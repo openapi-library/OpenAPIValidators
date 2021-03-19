@@ -8,19 +8,21 @@
     "node": ">=10.0.0"
   },
   "scripts": {
+    "clean": "yarn workspaces run clean && rimraf packages/.nyc_output && rimraf packages/coverage",
     "format": "prettier --write . --ignore-path .prettierignore",
     "lint": "yarn workspaces run lint",
+    "build": "yarn workspaces run build",
     "test": "yarn workspaces run test",
-    "test:precommit": "yarn workspaces run test:precommit",
     "test:ci": "yarn workspaces run test:ci",
     "lerna:version:preview": "yarn lerna:version --no-git-tag-version",
     "lerna:version": "lerna version -m \"chore(release): %s\" --conventional-commits --no-changelog",
-    "prepublishOnly": "yarn test:precommit",
     "lerna:publish": "lerna publish"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.17.0",
+    "@typescript-eslint/parser": "^4.16.1",
     "eslint": "^7.11.0",
-    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-airbnb-typescript": "^12.3.1",
     "eslint-config-prettier": "^6.12.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jest": "^24.1.0",
@@ -28,11 +30,13 @@
     "express": "^4.17.1",
     "husky": "^4.3.0",
     "lerna": "^4.0.0",
-    "prettier": "^2.1.2"
+    "prettier": "^2.1.2",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.2.3"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn test:precommit"
+      "pre-commit": "yarn test:ci"
     }
   }
 }

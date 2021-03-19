@@ -1,0 +1,8 @@
+{
+  "eslint.workingDirectories": [
+    "commonTestResources",
+    "packages/chai-openapi-response-validator",
+    "packages/jest-openapi",
+    "packages/openapi-validator"
+  ]
+}

@@ -2,13 +2,12 @@
 node_modules
 .nyc_output/
 coverage/
-.stryker-tmp/
-stryker.log
-reports
 packages/**/commonTestResources
 .DS_STORE
+dist
 
 # extra:
 yarn.lock
 launch.json
 **/invalidYamlFormat.yml
+lerna.json

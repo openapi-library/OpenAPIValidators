@@ -5,7 +5,7 @@
 ![build status](https://github.com/openapi-library/OpenAPIValidators/actions/workflows/ci.yml/badge.svg)
 ![style](https://img.shields.io/badge/code%20style-airbnb-ff5a5f.svg)
 [![codecov](https://codecov.io/gh/openapi-library/OpenAPIValidators/branch/master/graph/badge.svg)](https://codecov.io/gh/openapi-library/OpenAPIValidators)
-[![included](https://badgen.net/npm/types/jest-openapi)](https://github.com/openapi-library/OpenAPIValidators/blob/master/packages/chai-openapi-response-validator/index.d.ts)
+[![included](https://badgen.net/npm/types/chai-openapi-response-validator)](https://github.com/openapi-library/OpenAPIValidators/blob/master/packages/chai-openapi-response-validator/lib/index.ts)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/openapi-library/OpenAPIValidators/blob/master/CONTRIBUTING.md)
 
 Use Chai to assert that HTTP responses satisfy an OpenAPI spec.
@@ -28,8 +28,7 @@ Features:
 - Supports `$ref` in response definitions (i.e. `$ref: '#/definitions/ComponentType/ComponentName'`)
 - Informs you if your OpenAPI spec is invalid
 - Supports responses from `axios`, `request-promise`, `supertest`, `superagent`, and `chai-http`
-- Bundled with a TypeScript Declaration File for [use in TypeScript projects](#using-this-plugin-in-a-typescript-project)
-- Use in [Mocha](#usage), [Jest](https://github.com/openapi-library/OpenAPIValidators/tree/master/packages/jest-openapi#readme) and other test runners
+- Use in [Mocha](#usage) and other test runners
 
 ## Contributing ✨
 
@@ -37,10 +36,31 @@ If you've come here to help contribute - thanks! Take a look at the [contributin
 
 ## Installation
 
-This is an addon plugin for the [Chai Assertion Library](http://chaijs.com). Install via [npm](http://npmjs.org).
+[npm](http://npmjs.org)
 
 ```bash
 npm install --save-dev chai-openapi-response-validator
+```
+
+[yarn](https://yarnpkg.com/)
+
+```bash
+yarn add --dev chai-openapi-response-validator
+```
+
+## Importing
+
+ES6 / TypeScript
+
+```typescript
+import chaiResponseValidator from 'chai-openapi-response-validator';
+```
+
+CommonJS / JavaScript
+
+<!-- prettier-ignore -->
+```javascript
+const chaiResponseValidator = require('chai-openapi-response-validator').default;
 ```
 
 ## Usage
@@ -51,11 +71,11 @@ npm install --save-dev chai-openapi-response-validator
 
 ```javascript
 // Set up Chai
-const chai = require('chai');
+import chai from 'chai';
 const expect = chai.expect;
 
 // Import this plugin
-const chaiResponseValidator = require('chai-openapi-response-validator');
+import chaiResponseValidator from 'chai-openapi-response-validator';
 
 // Load an OpenAPI file (YAML or JSON) into this plugin
 chai.use(chaiResponseValidator('path/to/openapi.yml'));
@@ -165,24 +185,21 @@ The '200' response defined for endpoint 'GET /example/endpoint' in API spec: {
 
 ```javascript
 // Set up Chai
-const chai = require('chai');
+import chai from 'chai';
 const expect = chai.expect;
 
-// Import this plugin
-const chaiResponseValidator = require('chai-openapi-response-validator');
+// Import this plugin and the function you want to test
+import chaiResponseValidator from 'chai-openapi-response-validator';
+import { functionToTest } from 'path/to/your/code';
 
 // Load an OpenAPI file (YAML or JSON) into this plugin
 chai.use(chaiResponseValidator('path/to/openapi.yml'));
 
 // Write your test (e.g. using Mocha)
-describe('myModule.getObject()', () => {
+describe('functionToTest()', () => {
   it('should satisfy OpenAPI spec', async () => {
-    // Run the function you want to test
-    const myModule = require('path/to/your/module.js');
-    const output = myModule.getObject();
-
-    // Assert that the output satisfies a schema defined in your OpenAPI spec
-    expect(output).to.satisfySchemaInApiSpec('ExampleSchemaObject');
+    // Assert that the function returns a value satisfying a schema defined in your OpenAPI spec
+    expect(functionToTest()).to.satisfySchemaInApiSpec('ExampleSchemaObject');
   });
 });
 ```
@@ -278,11 +295,11 @@ The 'ExampleSchemaObject' schema in API spec: {
 
 ```javascript
 // Set up Chai
-const chai = require('chai');
+import chai from 'chai';
 const expect = chai.expect;
 
 // Import this plugin
-const chaiResponseValidator = require('chai-openapi-response-validator');
+import chaiResponseValidator from 'chai-openapi-response-validator';
 
 // Get an object representing your OpenAPI spec
 const openApiSpec = {
@@ -332,17 +349,17 @@ describe('GET /example/endpoint', () => {
 
 ```javascript
 // Set up Chai
-const chai = require('chai');
+import chai from 'chai';
 const expect = chai.expect;
 
-// Import this plugin
-const chaiResponseValidator = require('chai-openapi-response-validator');
+// Import this plugin and an HTTP client (e.g. axios)
+import chaiResponseValidator from 'chai-openapi-response-validator';
+import axios from 'axios';
 
 // Write your test (e.g. using Mocha)
 describe('GET /example/endpoint', () => {
   // Load your OpenAPI spec from a web endpoint
   before(async () => {
-    const axios = require('axios');
     const response = await axios.get('url/to/openapi/spec');
     const openApiSpec = response.data; // e.g. { openapi: '3.0.0', <etc> };
     chai.use(chaiResponseValidator(openApiSpec));
@@ -358,31 +375,4 @@ describe('GET /example/endpoint', () => {
     expect(res).to.satisfyApiSpec;
   });
 });
-```
-
-### Using this plugin in a TypeScript project
-
-#### Installation
-
-You don't need to `npm install --save-dev @types/chai-openapi-response-validator` because we [bundle our TypeScript Definition file into this package](https://github.com/openapi-library/OpenAPIValidators/blob/master/packages/chai-openapi-response-validator/index.d.ts).
-
-But make sure you `npm install --save-dev @types/chai` because Chai does not bundle their TypeScript definition files like this.
-
-#### Importing
-
-1. Make sure your `tsconfig.json` includes:
-
-```javascript
-{
-  "compilerOptions": {
-    esModuleInterop: true,
-  }
-}
-```
-
-2. Import like this:
-
-```javascript
-import chai from 'chai';
-import chaiResponseValidator from 'chai-openapi-response-validator';
 ```

@@ -8,9 +8,9 @@ assignees: ''
 
 <!--- If you can, please recreate the bug in a quick test:
 
-Simply clone master and use our bug recreation template for chai-openapi-response-validator (https://github.com/openapi-library/OpenAPIValidators/blob/master/packages/chai-openapi-response-validator/test/bugRecreationTemplate.test.js)
+Simply clone master and use our bug recreation template for chai-openapi-response-validator (https://github.com/openapi-library/OpenAPIValidators/blob/master/packages/chai-openapi-response-validator/test/bugRecreationTemplate.test.ts)
 
-or jest-openapi (https://github.com/openapi-library/OpenAPIValidators/blob/master/packages/jest-openapi/__test__/bugRecreationTemplate.test.js)
+or jest-openapi (https://github.com/openapi-library/OpenAPIValidators/blob/master/packages/jest-openapi/__test__/bugRecreationTemplate.test.ts)
  -->
 
 **Which package are you using**?

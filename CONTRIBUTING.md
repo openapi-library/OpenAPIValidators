@@ -15,7 +15,7 @@ A bug is a **recreatable** problem that is caused by the code in the repository.
 Before submitting bug reports:
 
 1. **Check if the [issue has already been reported](https://github.com/openapi-library/OpenAPIValidators/issues)**
-2. **Recreate the bug** &mdash; clone `master` and use our bug recreation template for [`chai-openapi-response-validator`](https://github.com/openapi-library/OpenAPIValidators/blob/master/packages/chai-openapi-response-validator/test/bugRecreationTemplate.test.js) or [`jest-openapi`](https://github.com/openapi-library/OpenAPIValidators/blob/master/packages/jest-openapi/__test__/bugRecreationTemplate.test.js).
+2. **Recreate the bug** &mdash; clone `master` and use our bug recreation template for [`chai-openapi-response-validator`](https://github.com/openapi-library/OpenAPIValidators/blob/master/packages/chai-openapi-response-validator/test/bugRecreationTemplate.test.ts) or [`jest-openapi`](https://github.com/openapi-library/OpenAPIValidators/blob/master/packages/jest-openapi/__test__/bugRecreationTemplate.test.ts).
 
 ## Feature Requests
 
@@ -73,9 +73,6 @@ yarn test:coverage
 
 # run all tests, with coverage check, and opens the coverage report in your browser
 yarn test:coverage:browse
-
-# run all tests, with Stryker mutation testing (https://stryker-mutator.io)
-yarn test:mutation
 
 # run eslint check
 yarn lint
