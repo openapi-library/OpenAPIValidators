@@ -1,10 +1,18 @@
 import {
+  ActualResponse,
   ErrorCode,
   makeResponse,
+  OpenApi2Spec,
+  OpenApi3Spec,
+  OpenApiSpec,
+  ValidationError,
 } from 'openapi-validator';
-import { stringify, joinWithNewLines } from '../utils';
+import { joinWithNewLines, stringify } from '../utils';
 
-export default function (chai, openApiSpec) {
+export default function (
+  chai: Chai.ChaiStatic,
+  openApiSpec: OpenApiSpec,
+): void {
   const { Assertion } = chai;
 
   Assertion.addProperty('satisfyApiSpec', function () {
@@ -23,15 +31,16 @@ export default function (chai, openApiSpec) {
         openApiSpec,
         validationError,
       ),
+      null,
     );
   });
 }
 
 function getExpectedResToSatisfyApiSpecMsg(
-  actualResponse,
-  openApiSpec,
-  validationError,
-) {
+  actualResponse: ActualResponse,
+  openApiSpec: OpenApiSpec,
+  validationError: ValidationError,
+): string | null {
   if (!validationError) {
     return null;
   }
@@ -139,10 +148,10 @@ function getExpectedResToSatisfyApiSpecMsg(
 }
 
 function getExpectedResNotToSatisfyApiSpecMsg(
-  actualResponse,
-  openApiSpec,
+  actualResponse: ActualResponse,
+  openApiSpec: OpenApiSpec,
   validationError,
-) {
+): string | null {
   if (validationError) {
     return null;
   }
