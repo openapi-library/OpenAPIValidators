@@ -1,8 +1,9 @@
-import { makeApiSpec } from 'openapi-validator';
+import { makeApiSpec, OpenAPISpecObject } from 'openapi-validator';
 import toSatisfyApiSpec from './matchers/toSatisfyApiSpec';
 import toSatisfySchemaInApiSpec from './matchers/toSatisfySchemaInApiSpec';
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace jest {
     interface Matchers<R> {
       /**
@@ -19,14 +20,14 @@ declare global {
   }
 }
 
-export default function (filepathOrObject: string | object): void {
+export default function (filepathOrObject: string | OpenAPISpecObject): void {
   const openApiSpec = makeApiSpec(filepathOrObject);
 
   const jestMatchers = {
     toSatisfyApiSpec(received) {
       return toSatisfyApiSpec.call(this, received, openApiSpec);
     },
-    toSatisfySchemaInApiSpec(received, schemaName) {
+    toSatisfySchemaInApiSpec(received, schemaName: string) {
       return toSatisfySchemaInApiSpec.call(
         this,
         received,
@@ -36,7 +37,7 @@ export default function (filepathOrObject: string | object): void {
     },
   };
 
-  const jestExpect = (global as any).expect;
+  const jestExpect = (global as { expect?: jest.Expect }).expect;
 
   /* istanbul ignore next */
   if (jestExpect !== undefined) {

@@ -1,21 +1,31 @@
 import {
-  matcherHint,
-  RECEIVED_COLOR,
   EXPECTED_COLOR,
+  matcherHint,
+  MatcherHintOptions,
+  RECEIVED_COLOR,
 } from 'jest-matcher-utils';
 import {
+  ActualResponse,
   ErrorCode,
   makeResponse,
+  OpenApi2Spec,
+  OpenApi3Spec,
+  OpenApiSpec,
+  RawResponse,
+  ValidationError,
 } from 'openapi-validator';
-import { stringify, joinWithNewLines } from '../utils';
+import { joinWithNewLines, stringify } from '../utils';
 
-export default function (received, openApiSpec) {
-  const actualResponse = makeResponse(received);
+export default function (
+  received: unknown,
+  openApiSpec: OpenApiSpec,
+): jest.CustomMatcherResult {
+  const actualResponse = makeResponse(received as RawResponse);
 
   const validationError = openApiSpec.validateResponse(actualResponse);
   const pass = !validationError;
 
-  const matcherHintOptions = {
+  const matcherHintOptions: MatcherHintOptions = {
     comment:
       "Matches 'received' to a response defined in your API spec, then validates 'received' against it",
     isNot: this.isNot,
@@ -49,11 +59,11 @@ export default function (received, openApiSpec) {
 }
 
 function getExpectReceivedToSatisfyApiSpecMsg(
-  actualResponse,
-  openApiSpec,
-  validationError,
-  hint,
-) {
+  actualResponse: ActualResponse,
+  openApiSpec: OpenApiSpec,
+  validationError: ValidationError,
+  hint: string,
+): string {
   const { status, req } = actualResponse;
   const { method, path: requestPath } = req;
   const unmatchedEndpoint = `${method} ${requestPath}`;
@@ -157,10 +167,10 @@ function getExpectReceivedToSatisfyApiSpecMsg(
 }
 
 function getExpectReceivedNotToSatisfyApiSpecMsg(
-  actualResponse,
-  openApiSpec,
-  hint,
-) {
+  actualResponse: ActualResponse,
+  openApiSpec: OpenApiSpec,
+  hint: string,
+): string {
   const { status, req } = actualResponse;
   const responseDefinition = openApiSpec.findExpectedResponse(actualResponse);
   const endpoint = `${req.method} ${openApiSpec.findOpenApiPathMatchingRequest(
