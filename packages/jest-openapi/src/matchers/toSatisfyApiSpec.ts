@@ -3,8 +3,10 @@ import {
   RECEIVED_COLOR,
   EXPECTED_COLOR,
 } from 'jest-matcher-utils';
-import { makeResponse } from 'openapi-validator';
-
+import {
+  ErrorCode,
+  makeResponse,
+} from 'openapi-validator';
 import { stringify, joinWithNewLines } from '../utils';
 
 export default function (received, openApiSpec) {
@@ -56,26 +58,26 @@ function getExpectReceivedToSatisfyApiSpecMsg(
   const { method, path: requestPath } = req;
   const unmatchedEndpoint = `${method} ${requestPath}`;
 
-  if (validationError.code === `SERVER_NOT_FOUND`) {
+  if (validationError.code === ErrorCode.ServerNotFound) {
     // prettier-ignore
     return joinWithNewLines(
       hint,
       `expected ${RECEIVED_COLOR('received')} to satisfy a '${status}' response defined for endpoint '${unmatchedEndpoint}' in your API spec`,
       `${RECEIVED_COLOR('received')} had request path ${RECEIVED_COLOR(requestPath)}, but your API spec has no matching servers`,
-      `Servers found in API spec: ${EXPECTED_COLOR(openApiSpec.getServerUrls().join(', '))}`,
+      `Servers found in API spec: ${EXPECTED_COLOR((openApiSpec as OpenApi3Spec).getServerUrls().join(', '))}`,
     );
   }
 
-  if (validationError.code === `BASE_PATH_NOT_FOUND`) {
+  if (validationError.code === ErrorCode.BasePathNotFound) {
     // prettier-ignore
     return joinWithNewLines(
       hint,
       `expected ${RECEIVED_COLOR('received')} to satisfy a '${status}' response defined for endpoint '${unmatchedEndpoint}' in your API spec`,
-      `${RECEIVED_COLOR('received')} had request path ${RECEIVED_COLOR(requestPath)}, but your API spec has basePath ${EXPECTED_COLOR(openApiSpec.spec.basePath)}`,
+      `${RECEIVED_COLOR('received')} had request path ${RECEIVED_COLOR(requestPath)}, but your API spec has basePath ${EXPECTED_COLOR((openApiSpec as OpenApi2Spec).spec.basePath)}`,
     );
   }
 
-  if (validationError.code === `PATH_NOT_FOUND`) {
+  if (validationError.code === ErrorCode.PathNotFound) {
     // prettier-ignore
     const pathNotFoundErrorMessage = joinWithNewLines(
       hint,
@@ -84,7 +86,10 @@ function getExpectReceivedToSatisfyApiSpecMsg(
       `Paths found in API spec: ${EXPECTED_COLOR(openApiSpec.paths().join(', '))}`,
     );
 
-    if (openApiSpec.didUserDefineBasePath) {
+    if (
+      'didUserDefineBasePath' in openApiSpec &&
+      openApiSpec.didUserDefineBasePath
+    ) {
       // prettier-ignore
       return joinWithNewLines(
         pathNotFoundErrorMessage,
@@ -92,7 +97,10 @@ function getExpectReceivedToSatisfyApiSpecMsg(
       );
     }
 
-    if (openApiSpec.didUserDefineServers) {
+    if (
+      'didUserDefineServers' in openApiSpec &&
+      openApiSpec.didUserDefineServers
+    ) {
       return joinWithNewLines(
         pathNotFoundErrorMessage,
         `'${requestPath}' matches servers ${stringify(
@@ -106,7 +114,7 @@ function getExpectReceivedToSatisfyApiSpecMsg(
   const path = openApiSpec.findOpenApiPathMatchingRequest(req);
   const endpoint = `${method} ${path}`;
 
-  if (validationError.code === 'METHOD_NOT_FOUND') {
+  if (validationError.code === ErrorCode.MethodNotFound) {
     const expectedPathItem = openApiSpec.findExpectedPathItem(req);
     const expectedRequestOperations = Object.keys(expectedPathItem)
       .map((operation) => operation.toUpperCase())
@@ -120,7 +128,7 @@ function getExpectReceivedToSatisfyApiSpecMsg(
     );
   }
 
-  if (validationError.code === 'STATUS_NOT_FOUND') {
+  if (validationError.code === ErrorCode.StatusNotFound) {
     const expectedResponseOperation = openApiSpec.findExpectedResponseOperation(
       req,
     );
@@ -136,7 +144,7 @@ function getExpectReceivedToSatisfyApiSpecMsg(
     );
   }
 
-  // validationError.code === 'INVALID_BODY'
+  // validationError.code === ErrorCode.InvalidBody
   const responseDefinition = openApiSpec.findExpectedResponse(actualResponse);
   // prettier-ignore
   return joinWithNewLines(

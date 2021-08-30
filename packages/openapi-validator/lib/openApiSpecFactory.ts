@@ -1,69 +1,72 @@
 import fs from 'fs-extra';
 import yaml from 'js-yaml';
-import path from 'path';
 import OpenAPISchemaValidator from 'openapi-schema-validator';
-import typeOf from 'typeof';
-
-import { stringify } from './utils/common.utils';
+import type { OpenAPI, OpenAPIV2, OpenAPIV3 } from 'openapi-types';
+import path from 'path';
 import OpenApi2Spec from './classes/OpenApi2Spec';
 import OpenApi3Spec from './classes/OpenApi3Spec';
+import { stringify } from './utils/common.utils';
 
-export default function makeApiSpec(filepathOrObject) {
+type AnyObject = Record<string, unknown>;
+
+const isObject = (arg: unknown): arg is AnyObject =>
+  typeof arg === 'object' && arg !== null && !Array.isArray(arg);
+
+export default function makeApiSpec(
+  filepathOrObject: string | OpenAPI.Document,
+): OpenApi2Spec | OpenApi3Spec {
   const spec = loadSpec(filepathOrObject);
   validateSpec(spec);
-  if (getOpenApiVersion(spec) === '2.0') {
-    return new OpenApi2Spec(spec);
+  const validSpec = spec as OpenAPI.Document;
+  if ('swagger' in validSpec) {
+    return new OpenApi2Spec(validSpec);
   }
-  // if (getOpenApiVersion(spec).startsWith('3.'))
-  return new OpenApi3Spec(spec);
+  return new OpenApi3Spec(validSpec as OpenAPIV3.Document);
 }
 
-function loadSpec(arg) {
-  const argType = typeOf(arg);
+function loadSpec(arg: unknown): AnyObject {
   try {
-    if (argType === 'string') {
+    if (typeof arg === 'string') {
       return loadFile(arg);
     }
-    if (argType === 'object') {
+    if (isObject(arg)) {
       return arg;
     }
-    throw new Error(`Received type '${argType}'`);
+    throw new Error();
   } catch (error) {
     throw new Error(
-      `The provided argument must be either an absolute filepath or an object representing an OpenAPI specification.\nError details: ${error.message}`,
+      `The provided argument must be either an absolute filepath or an object representing an OpenAPI specification.${
+        error.message ? `\nError: ${error.message}` : ''
+      }`,
     );
   }
 }
 
-function loadFile(filepath) {
+function loadFile(filepath: string): AnyObject {
   if (!path.isAbsolute(filepath)) {
     throw new Error(`'${filepath}' is not an absolute filepath`);
   }
-  const fileData = fs.readFileSync(filepath);
+  const fileData = fs.readFileSync(filepath, { encoding: 'utf8' });
   try {
-    return yaml.load(fileData);
+    return yaml.load(fileData) as AnyObject;
   } catch (error) {
     throw new Error(`Invalid YAML or JSON:\n${error.message}`);
   }
 }
 
-function validateSpec(spec) {
+function validateSpec(obj: AnyObject): OpenAPI.Document {
   try {
     const validator = new OpenAPISchemaValidator({
-      version: getOpenApiVersion(spec),
+      version:
+        ((obj as unknown) as OpenAPIV2.Document).swagger || // '2.0'
+        ((obj as unknown) as OpenAPIV3.Document).openapi, // '3.X.X'
     });
-    const { errors } = validator.validate(spec);
+    const { errors } = validator.validate(obj as OpenAPI.Document);
     if (errors.length > 0) {
       throw new Error(stringify(errors));
     }
+    return obj as OpenAPI.Document;
   } catch (error) {
     throw new Error(`Invalid OpenAPI spec: ${error.message}`);
   }
-}
-
-function getOpenApiVersion(openApiSpec) {
-  return (
-    openApiSpec.swagger || // '2.0'
-    openApiSpec.openapi // '3.X.X'
-  );
 }

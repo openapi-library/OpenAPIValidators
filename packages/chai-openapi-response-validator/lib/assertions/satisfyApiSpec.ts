@@ -1,5 +1,7 @@
-import { makeResponse } from 'openapi-validator';
-
+import {
+  ErrorCode,
+  makeResponse,
+} from 'openapi-validator';
 import { stringify, joinWithNewLines } from '../utils';
 
 export default function (chai, openApiSpec) {
@@ -39,24 +41,28 @@ function getExpectedResToSatisfyApiSpecMsg(
   const { method, path: requestPath } = req;
   const unmatchedEndpoint = `${method} ${requestPath}`;
 
-  if (validationError.code === `SERVER_NOT_FOUND`) {
+  if (validationError.code === ErrorCode.ServerNotFound) {
     return joinWithNewLines(
       hint,
       `expected res to satisfy a '${status}' response defined for endpoint '${unmatchedEndpoint}' in your API spec`,
       `res had request path '${requestPath}', but your API spec has no matching servers`,
-      `Servers found in API spec: ${openApiSpec.getServerUrls().join(', ')}`,
+      `Servers found in API spec: ${(openApiSpec as OpenApi3Spec)
+        .getServerUrls()
+        .join(', ')}`,
     );
   }
 
-  if (validationError.code === `BASE_PATH_NOT_FOUND`) {
+  if (validationError.code === ErrorCode.BasePathNotFound) {
     return joinWithNewLines(
       hint,
       `expected res to satisfy a '${status}' response defined for endpoint '${unmatchedEndpoint}' in your API spec`,
-      `res had request path '${requestPath}', but your API spec has basePath '${openApiSpec.spec.basePath}'`,
+      `res had request path '${requestPath}', but your API spec has basePath '${
+        (openApiSpec as OpenApi2Spec).spec.basePath
+      }'`,
     );
   }
 
-  if (validationError.code === `PATH_NOT_FOUND`) {
+  if (validationError.code === ErrorCode.PathNotFound) {
     const pathNotFoundErrorMessage = joinWithNewLines(
       hint,
       `expected res to satisfy a '${status}' response defined for endpoint '${unmatchedEndpoint}' in your API spec`,
@@ -64,14 +70,20 @@ function getExpectedResToSatisfyApiSpecMsg(
       `Paths found in API spec: ${openApiSpec.paths().join(', ')}`,
     );
 
-    if (openApiSpec.didUserDefineBasePath) {
+    if (
+      'didUserDefineBasePath' in openApiSpec &&
+      openApiSpec.didUserDefineBasePath
+    ) {
       return joinWithNewLines(
         pathNotFoundErrorMessage,
         `'${requestPath}' matches basePath \`${openApiSpec.spec.basePath}\` but no <basePath/endpointPath> combinations`,
       );
     }
 
-    if (openApiSpec.didUserDefineServers) {
+    if (
+      'didUserDefineServers' in openApiSpec &&
+      openApiSpec.didUserDefineServers
+    ) {
       return joinWithNewLines(
         pathNotFoundErrorMessage,
         `'${requestPath}' matches servers ${stringify(
@@ -85,7 +97,7 @@ function getExpectedResToSatisfyApiSpecMsg(
   const path = openApiSpec.findOpenApiPathMatchingRequest(req);
   const endpoint = `${method} ${path}`;
 
-  if (validationError.code === 'METHOD_NOT_FOUND') {
+  if (validationError.code === ErrorCode.MethodNotFound) {
     const expectedPathItem = openApiSpec.findExpectedPathItem(req);
     const expectedRequestOperations = Object.keys(expectedPathItem)
       .map((operation) => operation.toUpperCase())
@@ -98,7 +110,7 @@ function getExpectedResToSatisfyApiSpecMsg(
     );
   }
 
-  if (validationError.code === 'STATUS_NOT_FOUND') {
+  if (validationError.code === ErrorCode.StatusNotFound) {
     const expectedResponseOperation = openApiSpec.findExpectedResponseOperation(
       req,
     );
@@ -113,7 +125,7 @@ function getExpectedResToSatisfyApiSpecMsg(
     );
   }
 
-  // validationError.code === 'INVALID_BODY'
+  // validationError.code === ErrorCode.InvalidBody
   const responseDefinition = openApiSpec.findExpectedResponse(actualResponse);
   return joinWithNewLines(
     hint,
