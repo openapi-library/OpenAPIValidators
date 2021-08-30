@@ -40,8 +40,8 @@
     "combos": "^0.2.0",
     "fs-extra": "^9.0.0",
     "js-yaml": "^4.0.0",
-    "openapi-response-validator": "^7.4.0",
-    "openapi-schema-validator": "^7.2.3",
+    "openapi-response-validator": "^9.2.0",
+    "openapi-schema-validator": "^9.2.0",
     "path-parser": "^6.1.0",
     "typeof": "^1.0.0"
   }

@@ -67,7 +67,7 @@ openApiSpecs.forEach((spec) => {
             expect(assertion).to.throw(
               joinWithNewLines(
                 `expected object to satisfy the '${schemaName}' schema defined in your API spec`,
-                'object did not satisfy it because: object should be string',
+                'object did not satisfy it because: object must be string',
                 'object was: 123',
                 `The '${schemaName}' schema in API spec: ${str(
                   expectedSchema,
@@ -108,15 +108,15 @@ openApiSpecs.forEach((spec) => {
         });
 
         describe("'obj' does not satisfy the spec", () => {
-          const invalidObj = 'should be integer';
+          const invalidObj = 'must be integer';
 
           it('fails and outputs a useful error message', () => {
             const assertion = () =>
               expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
               joinWithNewLines(
-                'object did not satisfy it because: object should be integer',
-                "object was: 'should be integer'",
+                'object did not satisfy it because: object must be integer',
+                "object was: 'must be integer'",
                 `The '${schemaName}' schema in API spec: ${str(
                   expectedSchema,
                 )}`,
@@ -168,7 +168,7 @@ openApiSpecs.forEach((spec) => {
             expect(assertion).to.throw(
               AssertionError,
               joinWithNewLines(
-                `object did not satisfy it because: property1 should be string`,
+                `object did not satisfy it because: property1 must be string`,
                 `object was: ${str(invalidObj)}`,
                 `The '${schemaName}' schema in API spec: ${str(
                   expectedSchema,
@@ -224,7 +224,7 @@ openApiSpecs.forEach((spec) => {
               expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
               joinWithNewLines(
-                `object did not satisfy it because: property1 should be string`,
+                `object did not satisfy it because: property1 must be string`,
                 `object was: ${str(invalidObj)}`,
                 `The '${schemaName}' schema in API spec: ${str(
                   expectedSchema,
@@ -267,7 +267,7 @@ openApiSpecs.forEach((spec) => {
               expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
             expect(assertion).to.throw(
               AssertionError,
-              'object did not satisfy it because: property2 should be string',
+              'object did not satisfy it because: property2 must be string',
             );
           });
 
@@ -306,7 +306,7 @@ openApiSpecs.forEach((spec) => {
                 expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
               expect(assertion).to.throw(
                 AssertionError,
-                'object did not satisfy it because: property1 should be string, property2 should be string, object should match some schema in anyOf',
+                'object did not satisfy it because: property1 must be string, property2 must be string, object must match a schema in anyOf',
               );
             });
 
@@ -344,7 +344,7 @@ openApiSpecs.forEach((spec) => {
                 expect(invalidObj).to.satisfySchemaInApiSpec(schemaName);
               expect(assertion).to.throw(
                 AssertionError,
-                'object did not satisfy it because: object should match exactly one schema in oneOf',
+                'object did not satisfy it because: object must match exactly one schema in oneOf',
               );
             });
 
