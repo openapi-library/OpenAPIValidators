@@ -8,10 +8,8 @@ export type {
   ActualResponse,
   RawResponse,
 } from './classes/AbstractResponse';
-export {
-  default as ValidationError,
-  ErrorCode,
-} from './classes/errors/ValidationError';
+export type { default as ValidationError } from './classes/errors/ValidationError';
+export { ErrorCode } from './classes/errors/ValidationError';
 export type { default as OpenApi2Spec } from './classes/OpenApi2Spec';
 export type { default as OpenApi3Spec } from './classes/OpenApi3Spec';
 export { default as makeApiSpec } from './openApiSpecFactory';
