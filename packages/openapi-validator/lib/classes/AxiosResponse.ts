@@ -1,7 +1,10 @@
+import type { AxiosResponse as AxiosResponseType } from 'axios';
 import AbstractResponse from './AbstractResponse';
 
+export type RawAxiosResponse = AxiosResponseType;
+
 export default class AxiosResponse extends AbstractResponse {
-  constructor(res) {
+  constructor(protected res: RawAxiosResponse) {
     super(res);
     this.status = res.status;
     this.body = res.data;
@@ -9,7 +12,7 @@ export default class AxiosResponse extends AbstractResponse {
     this.bodyHasNoContent = this.body === '';
   }
 
-  getBodyForValidation() {
+  getBodyForValidation(): AxiosResponse['body'] {
     if (this.bodyHasNoContent) {
       return null;
     }

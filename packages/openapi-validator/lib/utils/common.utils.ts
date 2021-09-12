@@ -1,30 +1,43 @@
-import { inspect } from 'util';
 import { Path } from 'path-parser';
 import url from 'url';
+import { inspect } from 'util';
+import type { ActualRequest } from '../classes/AbstractResponse';
 
-export const stringify = (obj) => inspect(obj, { depth: null });
+export const stringify = (obj: unknown): string =>
+  inspect(obj, { depth: null });
 
-// excludes the query because path = pathname + query
-export const getPathname = (request) => url.parse(request.path).pathname;
+/**
+ * Excludes the query because path = pathname + query
+ */
+export const getPathname = (request: ActualRequest): string =>
+  url.parse(request.path).pathname;
 
-// converts all {foo} to :foo
-const convertOpenApiPathToColonForm = (openApiPath) =>
+/**
+ * Converts all {foo} to :foo
+ */
+const convertOpenApiPathToColonForm = (openApiPath: string): string =>
   openApiPath.replace(/{/g, ':').replace(/}/g, '');
 
-const doesColonPathMatchPathname = (pathInColonForm, pathname) => {
+const doesColonPathMatchPathname = (
+  pathInColonForm: string,
+  pathname: string,
+): boolean => {
   const pathParamsInPathname = new Path(pathInColonForm).test(pathname); // => one of: null, {}, {exampleParam: 'foo'}
   return Boolean(pathParamsInPathname);
 };
 
-const doesOpenApiPathMatchPathname = (openApiPath, pathname) => {
+const doesOpenApiPathMatchPathname = (
+  openApiPath: string,
+  pathname: string,
+): boolean => {
   const pathInColonForm = convertOpenApiPathToColonForm(openApiPath);
   return doesColonPathMatchPathname(pathInColonForm, pathname);
 };
 
 export const findOpenApiPathMatchingPossiblePathnames = (
-  possiblePathnames,
-  OAPaths,
-) => {
+  possiblePathnames: string[],
+  OAPaths: string[],
+): string => {
   let openApiPath;
   // eslint-disable-next-line no-restricted-syntax
   for (const pathname of possiblePathnames) {
@@ -43,5 +56,8 @@ export const findOpenApiPathMatchingPossiblePathnames = (
 
 export const defaultBasePath = '/';
 
-export const getPathnameWithoutBasePath = (basePath, pathname) =>
+export const getPathnameWithoutBasePath = (
+  basePath: string,
+  pathname: string,
+): string =>
   basePath === defaultBasePath ? pathname : pathname.replace(basePath, '');

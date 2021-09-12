@@ -1,12 +1,19 @@
-export default class ValidationError extends Error {
-  public code: string;
+export enum ErrorCode {
+  ServerNotFound,
+  BasePathNotFound,
+  PathNotFound,
+  MethodNotFound,
+  StatusNotFound,
+  InvalidBody,
+  InvalidObject,
+}
 
-  constructor(code, message?) {
+export default class ValidationError extends Error {
+  constructor(public code: ErrorCode, message?: string) {
     super(message);
-    this.code = code;
   }
 
-  toString() {
+  toString(): string {
     return this.message;
   }
 }

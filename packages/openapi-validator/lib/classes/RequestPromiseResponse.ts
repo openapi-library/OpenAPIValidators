@@ -1,7 +1,15 @@
+import type { Request, Response } from 'request';
 import AbstractResponse from './AbstractResponse';
 
+export type RawRequestPromiseResponse = Response & {
+  req: Request;
+  request: Response['request'] & {
+    _json?: unknown;
+  };
+};
+
 export default class RequestPromiseResponse extends AbstractResponse {
-  constructor(res) {
+  constructor(protected res: RawRequestPromiseResponse) {
     super(res);
     this.status = res.statusCode;
     this.body = res.request._json // eslint-disable-line no-underscore-dangle
@@ -11,12 +19,12 @@ export default class RequestPromiseResponse extends AbstractResponse {
     this.bodyHasNoContent = this.body === '';
   }
 
-  getBodyForValidation() {
+  getBodyForValidation(): RequestPromiseResponse['body'] {
     if (this.bodyHasNoContent) {
       return null;
     }
     try {
-      return JSON.parse(this.body);
+      return JSON.parse(this.body as string);
     } catch (error) {
       // if JSON.parse errors, then body is not stringfied JSON that
       // needs parsing into a JSON object, so just move to the next

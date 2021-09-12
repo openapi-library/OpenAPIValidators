@@ -2,10 +2,22 @@ import path from 'path';
 import {
   RECEIVED_COLOR as red,
   EXPECTED_COLOR as green,
+  matcherHint,
 } from 'jest-matcher-utils';
 
 import { joinWithNewLines } from '../../../../../commonTestResources/utils';
 import jestOpenAPI from '../../..';
+
+const expectReceivedToSatisfyApiSpec = matcherHint(
+  'toSatisfyApiSpec',
+  undefined,
+  '',
+  {
+    comment:
+      "Matches 'received' to a response defined in your API spec, then validates 'received' against it",
+    isNot: false,
+  },
+);
 
 const startOfAssertionErrorMessage = 'expect';
 
@@ -56,11 +68,14 @@ describe('Using OpenAPI 2 specs that define basePath differently', () => {
         const assertion = () => expect(res).toSatisfyApiSpec();
         expect(assertion).toThrow(
           // prettier-ignore
-          `${joinWithNewLines(
-            `expected ${red('received')} to satisfy a '200' response defined for endpoint 'GET /nonExistentEndpointPath' in your API spec`,
-            `${red('received')} had request path ${red('/nonExistentEndpointPath')}, but your API spec has no matching path`,
-            `Paths found in API spec: ${green('/endpointPath')}`,
-          )}`,
+          new Error(
+            joinWithNewLines(
+              expectReceivedToSatisfyApiSpec,
+              `expected ${red('received')} to satisfy a '200' response defined for endpoint 'GET /nonExistentEndpointPath' in your API spec`,
+              `${red('received')} had request path ${red('/nonExistentEndpointPath')}, but your API spec has no matching path`,
+              `Paths found in API spec: ${green('/endpointPath')}`,
+            ),
+          ),
         );
       });
 

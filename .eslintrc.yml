@@ -11,7 +11,7 @@ env:
 extends:
   - eslint:recommended
   - airbnb-typescript/base
-  # - plugin:@typescript-eslint/recommended
+  - plugin:@typescript-eslint/recommended
   # - plugin:@typescript-eslint/recommended-requiring-type-checking
   - prettier/@typescript-eslint
   - prettier # must go last, to turn off some previous rules

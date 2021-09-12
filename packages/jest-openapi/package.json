@@ -40,7 +40,7 @@
     "dist"
   ],
   "devDependencies": {
-    "@types/jest": "^26.0.20",
+    "@types/jest": "^27.0.1",
     "axios": "^0.21.1",
     "eslint": "^7.11.0",
     "eslint-config-airbnb-base": "^14.2.0",

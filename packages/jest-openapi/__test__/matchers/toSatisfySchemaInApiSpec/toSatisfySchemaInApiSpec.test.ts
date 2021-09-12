@@ -99,7 +99,7 @@ openApiSpecs.forEach((spec) => {
                 joinWithNewLines(
                   expectReceivedToSatisfySchemaInApiSpec,
                   `expected ${red('received')} to satisfy the '${schemaName}' schema defined in your API spec`,
-                  `${red('received')} did not satisfy it because: object should be string`,
+                  `${red('received')} did not satisfy it because: object must be string`,
                   `${red('received')} was: ${red(123)}`,
                   `The '${schemaName}' schema in API spec: ${green(str(expectedSchema))}`,
                 ),
@@ -138,7 +138,7 @@ openApiSpecs.forEach((spec) => {
         });
 
         describe("'obj' does not satisfy the spec", () => {
-          const invalidObj = 'should be integer';
+          const invalidObj = 'must be integer';
 
           it('fails and outputs a useful error message', () => {
             const assertion = () =>
@@ -146,8 +146,8 @@ openApiSpecs.forEach((spec) => {
             expect(assertion).toThrow(
               // prettier-ignore
               joinWithNewLines(
-                `${red('received')} did not satisfy it because: object should be integer`,
-                `${red('received')} was: ${red('\'should be integer\'')}`,
+                `${red('received')} did not satisfy it because: object must be integer`,
+                `${red('received')} was: ${red('\'must be integer\'')}`,
                 `The '${schemaName}' schema in API spec: ${green(str(expectedSchema))}`,
               ),
             );
@@ -196,7 +196,7 @@ openApiSpecs.forEach((spec) => {
             expect(assertion).toThrow(
               // prettier-ignore
               joinWithNewLines(
-                `${red('received')} did not satisfy it because: property1 should be string`,
+                `${red('received')} did not satisfy it because: property1 must be string`,
                 `${red('received')} was: ${red(str(invalidObj))}`,
                 `The '${schemaName}' schema in API spec: ${green(str(expectedSchema))}`,
               ),
@@ -249,7 +249,7 @@ openApiSpecs.forEach((spec) => {
             expect(assertion).toThrow(
               // prettier-ignore
               joinWithNewLines(
-                `${red('received')} did not satisfy it because: property1 should be string`,
+                `${red('received')} did not satisfy it because: property1 must be string`,
                 `${red('received')} was: ${red(str(invalidObj))}`,
                 `The '${schemaName}' schema in API spec: ${green(str(expectedSchema))}`,
               ),
@@ -289,7 +289,7 @@ openApiSpecs.forEach((spec) => {
               expect(invalidObj).toSatisfySchemaInApiSpec(schemaName);
             expect(assertion).toThrow(
               // prettier-ignore
-              `${red('received')} did not satisfy it because: property2 should be string`,
+              `${red('received')} did not satisfy it because: property2 must be string`,
             );
           });
 
@@ -327,7 +327,7 @@ openApiSpecs.forEach((spec) => {
                 expect(invalidObj).toSatisfySchemaInApiSpec(schemaName);
               expect(assertion).toThrow(
                 // prettier-ignore
-                `${red('received')} did not satisfy it because: property1 should be string, property2 should be string, object should match some schema in anyOf`,
+                `${red('received')} did not satisfy it because: property1 must be string, property2 must be string, object must match a schema in anyOf`,
               );
             });
 
@@ -364,7 +364,7 @@ openApiSpecs.forEach((spec) => {
                 expect(invalidObj).toSatisfySchemaInApiSpec(schemaName);
               expect(assertion).toThrow(
                 // prettier-ignore
-                `${red('received')} did not satisfy it because: object should match exactly one schema in oneOf`,
+                `${red('received')} did not satisfy it because: object must match exactly one schema in oneOf`,
               );
             });
 
