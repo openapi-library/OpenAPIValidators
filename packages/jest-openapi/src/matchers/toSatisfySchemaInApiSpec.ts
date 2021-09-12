@@ -1,15 +1,19 @@
 import {
-  RECEIVED_COLOR,
   EXPECTED_COLOR,
-  matcherHint,
   matcherErrorMessage,
+  matcherHint,
   printExpected,
   printWithType,
+  RECEIVED_COLOR,
 } from 'jest-matcher-utils';
+import type { OpenApiSpec, Schema, ValidationError } from 'openapi-validator';
+import { joinWithNewLines, stringify } from '../utils';
 
-import { stringify, joinWithNewLines } from '../utils';
-
-export default function (received, schemaName, openApiSpec) {
+export default function (
+  received: unknown,
+  schemaName: string,
+  openApiSpec: OpenApiSpec,
+): jest.CustomMatcherResult {
   const matcherHintOptions = {
     comment:
       "Matches 'received' to a schema defined in your API spec, then validates 'received' against it",
@@ -62,12 +66,12 @@ export default function (received, schemaName, openApiSpec) {
 }
 
 function getExpectReceivedToSatisfySchemaInApiSpecMsg(
-  received,
-  schemaName,
-  schema,
-  validationError,
-  hint,
-) {
+  received: unknown,
+  schemaName: string,
+  schema: Schema,
+  validationError: ValidationError,
+  hint: string,
+): string {
   // prettier-ignore
   return joinWithNewLines(
     hint,
@@ -79,11 +83,11 @@ function getExpectReceivedToSatisfySchemaInApiSpecMsg(
 }
 
 function getExpectReceivedNotToSatisfySchemaInApiSpecMsg(
-  received,
-  schemaName,
-  schema,
-  hint,
-) {
+  received: unknown,
+  schemaName: string,
+  schema: Schema,
+  hint: string,
+): string {
   // prettier-ignore
   return joinWithNewLines(
     hint,

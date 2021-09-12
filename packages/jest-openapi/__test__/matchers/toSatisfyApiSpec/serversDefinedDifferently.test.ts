@@ -72,10 +72,13 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
         const assertion = () => expect(res).toSatisfyApiSpec();
         expect(assertion).toThrow(
           // prettier-ignore
-          joinWithNewLines(
-            `expected ${red('received')} to satisfy a '200' response defined for endpoint 'GET /nonExistentEndpointPath' in your API spec`,
-            `${red('received')} had request path ${red('/nonExistentEndpointPath')}, but your API spec has no matching path`,
-            'Paths found in API spec:',
+          new Error(
+            joinWithNewLines(
+              expectReceivedToSatisfyApiSpec,
+              `expected ${red('received')} to satisfy a '200' response defined for endpoint 'GET /nonExistentEndpointPath' in your API spec`,
+              `${red('received')} had request path ${red('/nonExistentEndpointPath')}, but your API spec has no matching path`,
+              `Paths found in API spec: ${green('/endpointPath')}`,
+            ),
           ),
         );
       });
@@ -167,7 +170,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
         expect(assertion).toThrow(
           // prettier-ignore
           joinWithNewLines(
-            `${expectReceivedToSatisfyApiSpec}`,
+            expectReceivedToSatisfyApiSpec,
             `expected ${red('received')} to satisfy a '200' response defined for endpoint 'GET /nonExistentServer' in your API spec`,
             `${red('received')} had request path ${red('/nonExistentServer')}, but your API spec has no matching servers`,
             `Servers found in API spec: ${green('/relativeServer, /differentRelativeServer, /relativeServer2, http://api.example.com/basePath1, https://api.example.com/basePath2, ws://api.example.com/basePath3, wss://api.example.com/basePath4, http://api.example.com:8443/basePath5, http://localhost:3025/basePath6, http://10.0.81.36/basePath7')}`,

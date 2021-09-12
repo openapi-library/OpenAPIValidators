@@ -540,7 +540,7 @@ openApiSpecs.forEach((spec) => {
                 joinWithNewLines(
                   expectReceivedToSatisfyApiSpec,
                   `expected ${red('received')} to satisfy the '200' response defined for endpoint 'GET /responseBody/object/withMultipleProperties' in your API spec`,
-                  `${red('received')} did not satisfy it because: property1 should be string, property2 should be string`,
+                  `${red('received')} did not satisfy it because: property1 must be string, property2 must be string`,
                   `${red('received')} contained: ${red(str({ body: { property1: 123, property2: 123 } }))}`,
                   `The '200' response defined for endpoint 'GET /responseBody/object/withMultipleProperties' in API spec: ${green(str(responseDefinition))}`,
                 ),
