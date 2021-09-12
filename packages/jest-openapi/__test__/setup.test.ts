@@ -4,20 +4,20 @@ import fs from 'fs-extra';
 import jestOpenAPI from '..';
 
 const invalidArgErrorMessage =
-  'The provided argument must be either an absolute filepath or an object representing an OpenAPI specification.';
+  'The provided argument must be either an absolute filepath or an object representing an OpenAPI specification.\nError details: ';
 
-describe('jestOpenAPI(stringOrObject)', () => {
+describe('jestOpenAPI(filepathOrObject)', () => {
   describe('number', () => {
     it('throws an error', () => {
       const func = () => jestOpenAPI(123 as never);
-      expect(func).toThrow(new Error(invalidArgErrorMessage));
+      expect(func).toThrow(`${invalidArgErrorMessage}Received type 'number'`);
     });
   });
 
   describe('array', () => {
     it('throws an error', () => {
       const func = () => jestOpenAPI([] as never);
-      expect(func).toThrow(new Error(invalidArgErrorMessage));
+      expect(func).toThrow(`${invalidArgErrorMessage}Received type 'array'`);
     });
   });
 
@@ -49,7 +49,7 @@ describe('jestOpenAPI(stringOrObject)', () => {
     it('throws an error', () => {
       const func = () => jestOpenAPI('./');
       expect(func).toThrow(
-        `${invalidArgErrorMessage}\nError: './' is not an absolute filepath`,
+        `${invalidArgErrorMessage}'./' is not an absolute filepath`,
       );
     });
   });
@@ -58,7 +58,7 @@ describe('jestOpenAPI(stringOrObject)', () => {
     it('throws an error', () => {
       const func = () => jestOpenAPI('/non-existent-file.yml');
       expect(func).toThrow(
-        `${invalidArgErrorMessage}\nError: ENOENT: no such file or directory, open '/non-existent-file.yml'`,
+        `${invalidArgErrorMessage}ENOENT: no such file or directory, open '/non-existent-file.yml'`,
       );
     });
   });
@@ -69,9 +69,7 @@ describe('jestOpenAPI(stringOrObject)', () => {
         '../../commonTestResources/exampleOpenApiFiles/invalid/fileFormat/neitherYamlNorJson.js',
       );
       const func = () => jestOpenAPI(pathToApiSpec);
-      expect(func).toThrow(
-        `${invalidArgErrorMessage}\nError: Invalid YAML or JSON:\n`,
-      );
+      expect(func).toThrow(`${invalidArgErrorMessage}Invalid YAML or JSON:\n`);
     });
   });
 
@@ -94,7 +92,7 @@ describe('jestOpenAPI(stringOrObject)', () => {
         );
         const func = () => jestOpenAPI(pathToApiSpec);
         expect(func).toThrow(
-          `${invalidArgErrorMessage}\nError: Invalid YAML or JSON:\nduplicated mapping key`,
+          `${invalidArgErrorMessage}Invalid YAML or JSON:\nduplicated mapping key`,
         );
       });
     });
@@ -105,7 +103,7 @@ describe('jestOpenAPI(stringOrObject)', () => {
         );
         const func = () => jestOpenAPI(pathToApiSpec);
         expect(func).toThrow(
-          `${invalidArgErrorMessage}\nError: Invalid YAML or JSON:\nduplicated mapping key`,
+          `${invalidArgErrorMessage}Invalid YAML or JSON:\nduplicated mapping key`,
         );
       });
     });

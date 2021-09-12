@@ -6,20 +6,20 @@ import chaiResponseValidator from '..';
 
 const { expect } = chai;
 const invalidArgErrorMessage =
-  'The provided argument must be either an absolute filepath or an object representing an OpenAPI specification.';
+  'The provided argument must be either an absolute filepath or an object representing an OpenAPI specification.\nError details: ';
 
-describe('chaiResponseValidator(stringOrObject)', () => {
+describe('chaiResponseValidator(filepathOrObject)', () => {
   describe('number', () => {
     it('throws an error', () => {
       const func = () => chaiResponseValidator(123 as never);
-      expect(func).to.throw(invalidArgErrorMessage);
+      expect(func).to.throw(`${invalidArgErrorMessage}Received type 'number'`);
     });
   });
 
   describe('array', () => {
     it('throws an error', () => {
       const func = () => chaiResponseValidator([] as never);
-      expect(func).to.throw(invalidArgErrorMessage);
+      expect(func).to.throw(`${invalidArgErrorMessage}Received type 'array'`);
     });
   });
 
@@ -51,7 +51,7 @@ describe('chaiResponseValidator(stringOrObject)', () => {
     it('throws an error', () => {
       const func = () => chaiResponseValidator('./');
       expect(func).to.throw(
-        `${invalidArgErrorMessage}\nError: './' is not an absolute filepath`,
+        `${invalidArgErrorMessage}'./' is not an absolute filepath`,
       );
     });
   });
@@ -60,7 +60,7 @@ describe('chaiResponseValidator(stringOrObject)', () => {
     it('throws an error', () => {
       const func = () => chaiResponseValidator('/non-existent-file.yml');
       expect(func).to.throw(
-        `${invalidArgErrorMessage}\nError: ENOENT: no such file or directory, open '/non-existent-file.yml'`,
+        `${invalidArgErrorMessage}ENOENT: no such file or directory, open '/non-existent-file.yml'`,
       );
     });
   });
@@ -71,9 +71,7 @@ describe('chaiResponseValidator(stringOrObject)', () => {
         '../../commonTestResources/exampleOpenApiFiles/invalid/fileFormat/neitherYamlNorJson.js',
       );
       const func = () => chaiResponseValidator(pathToApiSpec);
-      expect(func).to.throw(
-        `${invalidArgErrorMessage}\nError: Invalid YAML or JSON:\n`,
-      );
+      expect(func).to.throw(`${invalidArgErrorMessage}Invalid YAML or JSON:\n`);
     });
   });
 
@@ -96,7 +94,7 @@ describe('chaiResponseValidator(stringOrObject)', () => {
         );
         const func = () => chaiResponseValidator(pathToApiSpec);
         expect(func).to.throw(
-          `${invalidArgErrorMessage}\nError: Invalid YAML or JSON:\nduplicated mapping key`,
+          `${invalidArgErrorMessage}Invalid YAML or JSON:\nduplicated mapping key`,
         );
       });
     });
@@ -107,7 +105,7 @@ describe('chaiResponseValidator(stringOrObject)', () => {
         );
         const func = () => chaiResponseValidator(pathToApiSpec);
         expect(func).to.throw(
-          `${invalidArgErrorMessage}\nError: Invalid YAML or JSON:\nduplicated mapping key`,
+          `${invalidArgErrorMessage}Invalid YAML or JSON:\nduplicated mapping key`,
         );
       });
     });

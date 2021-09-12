@@ -1611,6 +1611,11 @@
   resolved "https://registry.yarnpkg.com/@types/tough-cookie/-/tough-cookie-4.0.1.tgz#8f80dd965ad81f3e1bc26d6f5c727e132721ff40"
   integrity sha512-Y0K95ThC3esLEYD6ZuqNek29lNX2EM1qxV8y2FTLUB0ff5wWrk7az+mLrnNFUnaXcgKye22+sFBRXOgpPILZNg==
 
+"@types/typeof@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@types/typeof/-/typeof-1.0.0.tgz#cb22645285af4ff33c00e85ebe4eebdeff5480c0"
+  integrity sha512-Qv/U8q1Gnw8czN6Q09ZCm4UdU+/QF7wMy83svkRmRDnW9WX1utFK4QkaXqsKx2vAJTSUrbYErZPSRkP3812Hyw==
+
 "@types/yargs-parser@*":
   version "15.0.0"
   resolved "https://registry.yarnpkg.com/@types/yargs-parser/-/yargs-parser-15.0.0.tgz#cb3f9f741869e20cce330ffbeb9271590483882d"
@@ -8741,6 +8746,11 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
+
+typeof@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/typeof/-/typeof-1.0.0.tgz#9c84403f2323ae5399167275497638ea1d2f2440"
+  integrity sha1-nIRAPyMjrlOZFnJ1SXY46h0vJEA=
 
 typescript@^4.2.3:
   version "4.2.3"
