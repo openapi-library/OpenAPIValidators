@@ -1,6 +1,6 @@
 {
   "name": "jest-openapi",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "Jest matchers for asserting that HTTP responses satisfy an OpenAPI spec",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -57,6 +57,6 @@
   },
   "dependencies": {
     "jest-matcher-utils": "^26.6.2",
-    "openapi-validator": "^0.13.0"
+    "openapi-validator": "^0.14.0"
   }
 }
