@@ -1,12 +1,17 @@
+import type { Response, SuperAgentRequest } from 'superagent';
 import AbstractResponse from './AbstractResponse';
 
-const isEmptyObj = (obj) =>
+const isEmptyObj = (obj: unknown): obj is Record<string, never> =>
   !!obj && Object.entries(obj).length === 0 && obj.constructor === Object;
+
+export type RawSuperAgentResponse = Response & {
+  req: SuperAgentRequest & { path: string };
+};
 
 export default class SuperAgentResponse extends AbstractResponse {
   private isResTextPopulatedInsteadOfResBody: boolean;
 
-  constructor(res) {
+  constructor(protected res: RawSuperAgentResponse) {
     super(res);
     this.status = res.status;
     this.body = res.body;
@@ -16,7 +21,7 @@ export default class SuperAgentResponse extends AbstractResponse {
     this.bodyHasNoContent = res.text === '';
   }
 
-  getBodyForValidation() {
+  getBodyForValidation(): SuperAgentResponse['body'] {
     if (this.bodyHasNoContent) {
       return null;
     }
@@ -26,11 +31,12 @@ export default class SuperAgentResponse extends AbstractResponse {
     return this.body;
   }
 
-  summary() {
-    const summary = super.summary();
-    if (this.isResTextPopulatedInsteadOfResBody) {
-      summary.text = this.res.text;
-    }
-    return summary;
+  summary(): ReturnType<AbstractResponse['summary']> & {
+    text?: string;
+  } {
+    return {
+      ...super.summary(),
+      ...(this.isResTextPopulatedInsteadOfResBody && { text: this.res.text }),
+    };
   }
 }

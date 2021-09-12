@@ -1,13 +1,18 @@
 import generateCombinations from 'combos';
+import type { OpenAPIV3 } from 'openapi-types';
 import { defaultBasePath } from './common.utils';
 
-const unique = (array) => [...new Set(array)];
+type ServerVariables = OpenAPIV3.ServerObject['variables'];
 
-export const serversPropertyNotProvidedOrIsEmptyArray = (spec) =>
+const unique = <T>(array: T[]): T[] => [...new Set(array)];
+
+export const serversPropertyNotProvidedOrIsEmptyArray = (
+  spec: OpenAPIV3.Document,
+): boolean =>
   !Object.prototype.hasOwnProperty.call(spec, 'servers') ||
   !spec.servers.length;
 
-const getBasePath = (url) => {
+const getBasePath = (url: string): string => {
   const basePathStartIndex = url.replace('//', '  ').indexOf('/');
   return basePathStartIndex !== -1
     ? url.slice(basePathStartIndex)
@@ -17,23 +22,25 @@ const getBasePath = (url) => {
 const getPossibleValuesOfServerVariable = ({
   default: defaultValue,
   enum: enumMembers,
-}) =>
+}: OpenAPIV3.ServerVariableObject): string[] =>
   enumMembers ? unique([defaultValue].concat(enumMembers)) : [defaultValue];
 
-const mapServerVariablesToPossibleValues = (serverVariables) =>
+const mapServerVariablesToPossibleValues = (
+  serverVariables: ServerVariables,
+): Record<string, string[]> =>
   Object.entries(serverVariables).reduce(
     (currentMap, [variableName, detailsOfPossibleValues]) => ({
       ...currentMap,
       [variableName]: getPossibleValuesOfServerVariable(
-        detailsOfPossibleValues as any,
+        detailsOfPossibleValues,
       ),
     }),
     {},
   );
 
 const convertTemplateExpressionToConcreteExpression = (
-  templateExpression,
-  mapOfVariablesToValues,
+  templateExpression: string,
+  mapOfVariablesToValues: Record<string, string>,
 ) =>
   Object.entries(mapOfVariablesToValues).reduce(
     (currentExpression, [variable, value]) =>
@@ -41,7 +48,10 @@ const convertTemplateExpressionToConcreteExpression = (
     templateExpression,
   );
 
-const getPossibleConcreteBasePaths = (basePath, serverVariables) => {
+const getPossibleConcreteBasePaths = (
+  basePath: string,
+  serverVariables: ServerVariables,
+): string[] => {
   const mapOfServerVariablesToPossibleValues = mapServerVariablesToPossibleValues(
     serverVariables,
   );
@@ -58,15 +68,22 @@ const getPossibleConcreteBasePaths = (basePath, serverVariables) => {
   return possibleBasePaths;
 };
 
-const getPossibleBasePaths = (url, serverVariables) => {
+const getPossibleBasePaths = (
+  url: string,
+  serverVariables: ServerVariables,
+): string[] => {
   const basePath = getBasePath(url);
   return serverVariables
     ? getPossibleConcreteBasePaths(basePath, serverVariables)
     : [basePath];
 };
 
-export const getMatchingServerUrlsAndServerBasePaths = (servers, pathname) => {
-  const matchesPathname = (basePath) => pathname.startsWith(basePath);
+export const getMatchingServerUrlsAndServerBasePaths = (
+  servers: OpenAPIV3.ServerObject[],
+  pathname: string,
+): { concreteUrl: string; matchingBasePath: string }[] => {
+  const matchesPathname = (basePath: string): boolean =>
+    pathname.startsWith(basePath);
   return servers
     .map(({ url: templatedUrl, variables }) => ({
       templatedUrl,

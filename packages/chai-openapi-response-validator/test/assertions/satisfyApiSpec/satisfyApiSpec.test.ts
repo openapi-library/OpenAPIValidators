@@ -33,7 +33,7 @@ openApiSpecs.forEach((spec) => {
     describe("when 'res' is not a valid HTTP response object", () => {
       const res = {
         status: 204,
-        body: "should have a 'path' property",
+        body: "must have a 'path' property",
       };
 
       it('fails', () => {
@@ -496,7 +496,7 @@ openApiSpecs.forEach((spec) => {
             expect(assertion).to.throw(
               joinWithNewLines(
                 "expected res to satisfy the '200' response defined for endpoint 'GET /responseBody/object/withMultipleProperties' in your API spec",
-                'res did not satisfy it because: property1 should be string, property2 should be string',
+                'res did not satisfy it because: property1 must be string, property2 must be string',
                 `res contained: ${str({
                   body: { property1: 123, property2: 123 },
                 })}`,

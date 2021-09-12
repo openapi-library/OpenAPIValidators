@@ -57,10 +57,12 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
       it('fails', () => {
         const assertion = () => expect(res).to.satisfyApiSpec;
         expect(assertion).to.throw(
-          joinWithNewLines(
-            "expected res to satisfy a '200' response defined for endpoint 'GET /nonExistentEndpointPath' in your API spec",
-            "res had request path '/nonExistentEndpointPath', but your API spec has no matching path",
-            'Paths found in API spec:',
+          new RegExp(
+            `${joinWithNewLines(
+              "expected res to satisfy a '200' response defined for endpoint 'GET /nonExistentEndpointPath' in your API spec",
+              "res had request path '/nonExistentEndpointPath', but your API spec has no matching path",
+              'Paths found in API spec: /endpointPath',
+            )}$`,
           ),
         );
       });
@@ -149,11 +151,13 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
       it('fails', () => {
         const assertion = () => expect(res).to.satisfyApiSpec;
         expect(assertion).to.throw(
-          joinWithNewLines(
-            expectedResToSatisfyApiSpec,
-            "expected res to satisfy a '200' response defined for endpoint 'GET /nonExistentServer' in your API spec",
-            "res had request path '/nonExistentServer', but your API spec has no matching servers",
-            'Servers found in API spec: /relativeServer, /differentRelativeServer, /relativeServer2, http://api.example.com/basePath1, https://api.example.com/basePath2, ws://api.example.com/basePath3, wss://api.example.com/basePath4, http://api.example.com:8443/basePath5, http://localhost:3025/basePath6, http://10.0.81.36/basePath7',
+          new RegExp(
+            `${joinWithNewLines(
+              expectedResToSatisfyApiSpec,
+              "expected res to satisfy a '200' response defined for endpoint 'GET /nonExistentServer' in your API spec",
+              "res had request path '/nonExistentServer', but your API spec has no matching servers",
+              'Servers found in API spec: /relativeServer, /differentRelativeServer, /relativeServer2, http://api.example.com/basePath1, https://api.example.com/basePath2, ws://api.example.com/basePath3, wss://api.example.com/basePath4, http://api.example.com:8443/basePath5, http://localhost:3025/basePath6, http://10.0.81.36/basePath7',
+            )}$`,
           ),
         );
       });

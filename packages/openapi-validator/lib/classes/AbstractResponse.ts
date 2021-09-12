@@ -1,27 +1,37 @@
 import { stringify } from '../utils/common.utils';
+import type { RawAxiosResponse } from './AxiosResponse';
+import type { RawRequestPromiseResponse } from './RequestPromiseResponse';
+import type { RawSuperAgentResponse } from './SuperAgentResponse';
 
-export default class AbstractResponse {
-  protected res: any;
+export type RawResponse =
+  | RawAxiosResponse
+  | RawSuperAgentResponse
+  | RawRequestPromiseResponse;
 
-  protected body: any;
+export default abstract class AbstractResponse {
+  public status: number;
 
-  protected status: any;
+  public req: { method: string; path: string };
 
-  protected req: any;
+  public abstract getBodyForValidation(): unknown;
+
+  protected body: unknown;
 
   protected bodyHasNoContent: boolean;
 
-  constructor(res) {
-    this.res = res;
-  }
+  constructor(protected res: RawResponse) {}
 
-  summary(): { body: any; text?: string } {
+  summary(): { body: unknown } {
     return {
       body: this.body,
     };
   }
 
-  toString() {
+  toString(): string {
     return stringify(this.summary());
   }
 }
+
+export type ActualResponse = AbstractResponse;
+
+export type ActualRequest = AbstractResponse['req'];
