@@ -1,6 +1,8 @@
-import express from 'express'; // eslint-disable-line import/no-extraneous-dependencies
+import express, { Express } from 'express'; // eslint-disable-line import/no-extraneous-dependencies
 
-const app = express();
+const app = express() as Express & {
+  server: ReturnType<Express['listen']>;
+};
 
 app.get('/header/application/json/and/responseBody/string', (_req, res) =>
   res.json('res.body is a string'),
