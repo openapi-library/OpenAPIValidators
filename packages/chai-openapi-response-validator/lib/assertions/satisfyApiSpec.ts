@@ -150,7 +150,7 @@ function getExpectedResToSatisfyApiSpecMsg(
 function getExpectedResNotToSatisfyApiSpecMsg(
   actualResponse: ActualResponse,
   openApiSpec: OpenApiSpec,
-  validationError,
+  validationError: ValidationError,
 ): string | null {
   if (validationError) {
     return null;

@@ -1,9 +1,10 @@
 import chai from 'chai';
 import path from 'path';
 import chaiHttp from 'chai-http';
-import axios from 'axios';
-import supertest from 'supertest';
+import axios, { AxiosResponse } from 'axios';
+import supertest, { Response as SuperAgentResponse } from 'supertest';
 import requestPromise from 'request-promise';
+import type { Response as RequestPromiseResponse } from 'request';
 
 import { str } from '../../../../../commonTestResources/utils';
 import app, { port } from '../../../../../commonTestResources/exampleApp';
@@ -24,7 +25,7 @@ describe('Parsing responses from different request modules', () => {
     chai.use(chaiHttp);
 
     describe('res header is application/json, and res.body is a string', () => {
-      let res;
+      let res: ChaiHttp.Response;
       before(async () => {
         res = await chai
           .request(app)
@@ -45,7 +46,7 @@ describe('Parsing responses from different request modules', () => {
     });
 
     describe('res header is application/json, and res.body is {}', () => {
-      let res;
+      let res: ChaiHttp.Response;
       before(async () => {
         res = await chai
           .request(app)
@@ -66,7 +67,7 @@ describe('Parsing responses from different request modules', () => {
     });
 
     describe('res header is application/json, and res.body is a boolean (false)', () => {
-      let res;
+      let res: ChaiHttp.Response;
       before(async () => {
         res = await chai
           .request(app)
@@ -87,7 +88,7 @@ describe('Parsing responses from different request modules', () => {
     });
 
     describe('res header is application/json, and res.body is a null', () => {
-      let res;
+      let res: ChaiHttp.Response;
       before(async () => {
         res = await chai
           .request(app)
@@ -108,7 +109,7 @@ describe('Parsing responses from different request modules', () => {
     });
 
     describe('res header is text/html, res.body is {}, and res.text is a string', () => {
-      let res;
+      let res: ChaiHttp.Response;
       before(async () => {
         res = await chai.request(app).get('/header/text/html');
       });
@@ -128,7 +129,7 @@ describe('Parsing responses from different request modules', () => {
     });
 
     describe('res has no content-type header, res.body is {}, and res.text is empty string', () => {
-      let res;
+      let res: ChaiHttp.Response;
       before(async () => {
         res = await chai
           .request(app)
@@ -152,7 +153,7 @@ describe('Parsing responses from different request modules', () => {
 
   describe('supertest', () => {
     describe('res header is application/json, and res.body is a string', () => {
-      let res;
+      let res: SuperAgentResponse;
       before(async () => {
         res = await supertest(app).get(
           '/header/application/json/and/responseBody/string',
@@ -173,7 +174,7 @@ describe('Parsing responses from different request modules', () => {
     });
 
     describe('res header is application/json, and res.body is {}', () => {
-      let res;
+      let res: SuperAgentResponse;
       before(async () => {
         res = await supertest(app).get(
           '/header/application/json/and/responseBody/emptyObject',
@@ -194,7 +195,7 @@ describe('Parsing responses from different request modules', () => {
     });
 
     describe('res header is text/html, res.body is {}, and res.text is a string', () => {
-      let res;
+      let res: SuperAgentResponse;
       before(async () => {
         res = await supertest(app).get('/header/text/html');
       });
@@ -214,7 +215,7 @@ describe('Parsing responses from different request modules', () => {
     });
 
     describe('res header is application/json, and res.body is a null', () => {
-      let res;
+      let res: SuperAgentResponse;
       before(async () => {
         res = await supertest(app).get(
           '/header/application/json/and/responseBody/nullable',
@@ -235,7 +236,7 @@ describe('Parsing responses from different request modules', () => {
     });
 
     describe('res has no content-type header, res.body is {}, and res.text is empty string', () => {
-      let res;
+      let res: SuperAgentResponse;
       before(async () => {
         res = await supertest(app).get(
           '/no/content-type/header/and/no/response/body',
@@ -265,7 +266,7 @@ describe('Parsing responses from different request modules', () => {
       app.server.close();
     });
     describe('res header is application/json, and res.body is a string', () => {
-      let res;
+      let res: AxiosResponse;
       before(async () => {
         res = await axios.get(
           `${appOrigin}/header/application/json/and/responseBody/string`,
@@ -286,7 +287,7 @@ describe('Parsing responses from different request modules', () => {
     });
 
     describe('res header is application/json, and res.body is {}', () => {
-      let res;
+      let res: AxiosResponse;
       before(async () => {
         res = await axios.get(
           `${appOrigin}/header/application/json/and/responseBody/emptyObject`,
@@ -307,7 +308,7 @@ describe('Parsing responses from different request modules', () => {
     });
 
     describe('res header is text/html, res.body is a string', () => {
-      let res;
+      let res: AxiosResponse;
       before(async () => {
         res = await axios.get(`${appOrigin}/header/text/html`);
       });
@@ -326,7 +327,7 @@ describe('Parsing responses from different request modules', () => {
     });
 
     describe('res header is application/json, and res.body is a null', () => {
-      let res;
+      let res: AxiosResponse;
       before(async () => {
         res = await axios.get(
           `${appOrigin}/header/application/json/and/responseBody/nullable`,
@@ -347,7 +348,7 @@ describe('Parsing responses from different request modules', () => {
     });
 
     describe('res has no content-type header, and res.body is empty string', () => {
-      let res;
+      let res: AxiosResponse;
       before(async () => {
         res = await axios.get(
           `${appOrigin}/no/content-type/header/and/no/response/body`,
@@ -377,7 +378,7 @@ describe('Parsing responses from different request modules', () => {
     });
 
     describe('json is set to true, res header is application/json, and res.body is a string', () => {
-      let res;
+      let res: RequestPromiseResponse;
       before(async () => {
         res = await requestPromise({
           method: 'GET',
@@ -401,7 +402,7 @@ describe('Parsing responses from different request modules', () => {
     });
 
     describe('res header is application/json, and res.body is a string', () => {
-      let res;
+      let res: RequestPromiseResponse;
       before(async () => {
         res = await requestPromise({
           method: 'GET',
@@ -424,7 +425,7 @@ describe('Parsing responses from different request modules', () => {
     });
 
     describe('json is set to true, res header is application/json, and res.body is {}', () => {
-      let res;
+      let res: RequestPromiseResponse;
       before(async () => {
         res = await requestPromise({
           method: 'GET',
@@ -448,7 +449,7 @@ describe('Parsing responses from different request modules', () => {
     });
 
     describe("res header is application/json, and res.body is '{}'", () => {
-      let res;
+      let res: RequestPromiseResponse;
       before(async () => {
         res = await requestPromise({
           method: 'GET',
@@ -471,7 +472,7 @@ describe('Parsing responses from different request modules', () => {
     });
 
     describe('res header is text/html, res.body is a string', () => {
-      let res;
+      let res: RequestPromiseResponse;
       before(async () => {
         res = await requestPromise({
           method: 'GET',
@@ -494,7 +495,7 @@ describe('Parsing responses from different request modules', () => {
     });
 
     describe('res header is application/json, and res.body is a null', () => {
-      let res;
+      let res: RequestPromiseResponse;
       before(async () => {
         res = await requestPromise({
           method: 'GET',
@@ -517,7 +518,7 @@ describe('Parsing responses from different request modules', () => {
     });
 
     describe('res has no content-type header, and res.body is empty string', () => {
-      let res;
+      let res: RequestPromiseResponse;
       before(async () => {
         res = await requestPromise({
           method: 'GET',
