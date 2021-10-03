@@ -24,10 +24,10 @@ export default function (filepathOrObject: string | OpenAPISpecObject): void {
   const openApiSpec = makeApiSpec(filepathOrObject);
 
   const jestMatchers = {
-    toSatisfyApiSpec(received) {
+    toSatisfyApiSpec(received: unknown) {
       return toSatisfyApiSpec.call(this, received, openApiSpec);
     },
-    toSatisfySchemaInApiSpec(received, schemaName: string) {
+    toSatisfySchemaInApiSpec(received: unknown, schemaName: string) {
       return toSatisfySchemaInApiSpec.call(
         this,
         received,
