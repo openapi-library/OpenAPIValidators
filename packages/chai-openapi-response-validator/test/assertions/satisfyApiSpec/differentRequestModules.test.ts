@@ -1,5 +1,4 @@
 import chai from 'chai';
-import chaiAsPromised from 'chai-as-promised';
 import path from 'path';
 import chaiHttp from 'chai-http';
 import axios from 'axios';
@@ -14,7 +13,6 @@ const appOrigin = `http://localhost:${port}`;
 const pathToApiSpec = path.resolve(
   '../../commonTestResources/exampleOpenApiFiles/valid/openapi3.yml',
 );
-chai.use(chaiAsPromised);
 const { expect, AssertionError } = chai;
 
 describe('Parsing responses from different request modules', () => {
