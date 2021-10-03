@@ -88,7 +88,7 @@ export default class OpenApi3Spec extends AbstractOpenApiSpec {
     return { components: this.getComponentDefinitions() };
   }
 
-  getSchemaObjects(): OpenAPIV3.ComponentsObject['schemas'] {
+  getSchemaObjects(): Pick<OpenAPIV3.ComponentsObject, 'schemas'> {
     return this.getComponentDefinitions().schemas;
   }
 }

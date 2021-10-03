@@ -37,6 +37,9 @@
     "dist"
   ],
   "dependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/request": "^2.48.7",
+    "axios": "^0.21.4",
     "combos": "^0.2.0",
     "fs-extra": "^9.0.0",
     "js-yaml": "^4.0.0",
@@ -48,7 +51,6 @@
   "devDependencies": {
     "@types/fs-extra": "^9.0.12",
     "@types/js-yaml": "^4.0.3",
-    "@types/request": "^2.48.7",
     "@types/superagent": "^4.1.12",
     "@types/typeof": "^1.0.0",
     "openapi-types": "^9.2.0"
