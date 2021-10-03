@@ -10,6 +10,7 @@ import type { OpenApiSpec, Schema, ValidationError } from 'openapi-validator';
 import { joinWithNewLines, stringify } from '../utils';
 
 export default function (
+  this: jest.MatcherContext,
   received: unknown,
   schemaName: string,
   openApiSpec: OpenApiSpec,

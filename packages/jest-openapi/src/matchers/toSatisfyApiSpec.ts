@@ -17,6 +17,7 @@ import {
 import { joinWithNewLines, stringify } from '../utils';
 
 export default function (
+  this: jest.MatcherContext,
   received: unknown,
   openApiSpec: OpenApiSpec,
 ): jest.CustomMatcherResult {
