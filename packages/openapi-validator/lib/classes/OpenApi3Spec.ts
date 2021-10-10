@@ -84,7 +84,9 @@ export default class OpenApi3Spec extends AbstractOpenApiSpec {
       | undefined;
   }
 
-  getComponentDefinitionsProperty(): Pick<OpenAPIV3.Document, 'components'> {
+  getComponentDefinitionsProperty(): {
+    components: OpenAPIV3.Document['components'];
+  } {
     return { components: this.spec.components };
   }
 

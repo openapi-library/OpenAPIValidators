@@ -50,7 +50,9 @@ export default class OpenApi2Spec extends AbstractOpenApiSpec {
       | undefined;
   }
 
-  getComponentDefinitionsProperty(): Pick<OpenAPIV2.Document, 'definitions'> {
+  getComponentDefinitionsProperty(): {
+    definitions: OpenAPIV2.Document['definitions'];
+  } {
     return { definitions: this.spec.definitions };
   }
 

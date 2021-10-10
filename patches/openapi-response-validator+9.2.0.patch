@@ -1,5 +1,5 @@
 diff --git a/node_modules/openapi-response-validator/dist/index.d.ts b/node_modules/openapi-response-validator/dist/index.d.ts
-index ee0c508..aea76ee 100644
+index ee0c508..db5d5b3 100644
 --- a/node_modules/openapi-response-validator/dist/index.d.ts
 +++ b/node_modules/openapi-response-validator/dist/index.d.ts
 @@ -1,7 +1,7 @@
@@ -11,7 +11,16 @@ index ee0c508..aea76ee 100644
  }
  export interface OpenAPIResponseValidatorArgs {
      customFormats?: {
-@@ -16,27 +16,41 @@ export interface OpenAPIResponseValidatorArgs {
+@@ -9,34 +9,48 @@ export interface OpenAPIResponseValidatorArgs {
+     };
+     definitions?: {
+         [definitionName: string]: IJsonSchema;
+-    };
+-    components?: OpenAPIV3.ComponentsObject;
++    } | undefined;
++    components?: OpenAPIV3.ComponentsObject | undefined;
+     externalSchemas?: {
+         [index: string]: IJsonSchema;
      };
      loggingKey?: string;
      responses: {

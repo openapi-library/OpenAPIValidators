@@ -10,10 +10,7 @@ type Operation = OpenAPIV2.OperationObject | OpenAPIV3.OperationObject;
 
 type HttpMethods = OpenAPIV2.HttpMethods;
 
-type PathItemObject =
-  | OpenAPIV2.PathItemObject
-  | OpenAPIV3.PathItemObject
-  | OpenAPIV3_1.PathItemObject;
+type PathItemObject = OpenAPIV2.PathItemObject | OpenAPIV3.PathItemObject;
 
 export type ResponseObjectWithSchema =
   | (OpenAPIV2.ResponseObject & { schema: OpenAPIV2.Schema })
@@ -44,8 +41,12 @@ export default abstract class OpenApiSpec {
   protected abstract findOpenApiPathMatchingPathname(pathname: string): string;
 
   protected abstract getComponentDefinitionsProperty():
-    | Pick<OpenAPIV2.Document, 'definitions'>
-    | Pick<OpenAPIV3.Document, 'components'>;
+    | {
+        definitions: OpenAPIV2.Document['definitions'];
+      }
+    | {
+        components: OpenAPIV3.Document['components'];
+      };
 
   constructor(protected spec: Document) {}
 
@@ -84,9 +85,8 @@ export default abstract class OpenApiSpec {
     actualResponse: ActualResponse,
   ): Record<string, ResponseObjectWithSchema> {
     const actualRequest = actualResponse.req;
-    const expectedResponseOperation = this.findExpectedResponseOperation(
-      actualRequest,
-    );
+    const expectedResponseOperation =
+      this.findExpectedResponseOperation(actualRequest);
     if (!expectedResponseOperation) {
       throw new ValidationError(ErrorCode.MethodNotFound);
     }
