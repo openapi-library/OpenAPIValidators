@@ -468,8 +468,7 @@ describe('Using OpenAPI 3 specs that define servers differently', () => {
         status: 200,
         req: {
           method: 'GET',
-          path:
-            '/defaultValueOfFirstVariableInPath/defaultValueOfSecondVariableInPath/endpointPath',
+          path: '/defaultValueOfFirstVariableInPath/defaultValueOfSecondVariableInPath/endpointPath',
         },
         body: 'valid body (string)',
       };

@@ -50,9 +50,8 @@ const getPossibleConcreteBasePaths = (
   basePath: string,
   serverVariables: NonNullable<ServerVariables>,
 ): string[] => {
-  const mapOfServerVariablesToPossibleValues = mapServerVariablesToPossibleValues(
-    serverVariables,
-  );
+  const mapOfServerVariablesToPossibleValues =
+    mapServerVariablesToPossibleValues(serverVariables);
   const combinationsOfBasePathVariableValues = generateCombinations(
     mapOfServerVariablesToPossibleValues,
   );

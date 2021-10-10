@@ -12,7 +12,7 @@ export type RawSuperAgentResponse = Response & {
 export default class SuperAgentResponse extends AbstractResponse {
   private isResTextPopulatedInsteadOfResBody: boolean;
 
-  constructor(protected res: RawSuperAgentResponse) {
+  constructor(protected override res: RawSuperAgentResponse) {
     super(res);
     this.status = res.status;
     this.body = res.body;
@@ -32,7 +32,7 @@ export default class SuperAgentResponse extends AbstractResponse {
     return this.body;
   }
 
-  summary(): ReturnType<AbstractResponse['summary']> & {
+  override summary(): ReturnType<AbstractResponse['summary']> & {
     text?: string;
   } {
     return {

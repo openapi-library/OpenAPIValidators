@@ -13,7 +13,7 @@ export default class ValidationError extends Error {
     super(message);
   }
 
-  toString(): string {
+  override toString(): string {
     return this.message;
   }
 }

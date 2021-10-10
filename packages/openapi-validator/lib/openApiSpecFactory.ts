@@ -57,8 +57,8 @@ function validateSpec(obj: AnyObject): OpenAPI.Document {
   try {
     const validator = new OpenAPISchemaValidator({
       version:
-        ((obj as unknown) as OpenAPIV2.Document).swagger || // '2.0'
-        ((obj as unknown) as OpenAPIV3.Document).openapi, // '3.X.X'
+        (obj as unknown as OpenAPIV2.Document).swagger || // '2.0'
+        (obj as unknown as OpenAPIV3.Document).openapi, // '3.X.X'
     });
     const { errors } = validator.validate(obj as OpenAPI.Document);
     if (errors.length > 0) {

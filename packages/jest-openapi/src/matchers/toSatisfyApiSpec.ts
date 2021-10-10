@@ -140,10 +140,9 @@ function getExpectReceivedToSatisfyApiSpecMsg(
   }
 
   if (validationError.code === ErrorCode.StatusNotFound) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const expectedResponseOperation = openApiSpec.findExpectedResponseOperation(
-      req,
-    )!;
+    const expectedResponseOperation =
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      openApiSpec.findExpectedResponseOperation(req)!;
     const expectedResponseStatuses = Object.keys(
       expectedResponseOperation.responses,
     ).join(', ');

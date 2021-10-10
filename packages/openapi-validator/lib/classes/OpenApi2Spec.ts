@@ -13,7 +13,7 @@ const basePathPropertyNotProvided = (spec: OpenAPIV2.Document): boolean =>
 export default class OpenApi2Spec extends AbstractOpenApiSpec {
   public didUserDefineBasePath: boolean;
 
-  constructor(public spec: OpenAPIV2.Document) {
+  constructor(public override spec: OpenAPIV2.Document) {
     super(spec);
     this.didUserDefineBasePath = !basePathPropertyNotProvided(spec);
   }

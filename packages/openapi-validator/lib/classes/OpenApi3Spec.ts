@@ -15,7 +15,7 @@ import ValidationError, { ErrorCode } from './errors/ValidationError';
 export default class OpenApi3Spec extends AbstractOpenApiSpec {
   public didUserDefineServers: boolean;
 
-  constructor(protected spec: OpenAPIV3.Document) {
+  constructor(protected override spec: OpenAPIV3.Document) {
     super(spec);
     this.didUserDefineServers = !serversPropertyNotProvidedOrIsEmptyArray(spec);
     this.ensureDefaultServer();
