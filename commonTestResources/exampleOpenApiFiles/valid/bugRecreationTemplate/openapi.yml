@@ -8,9 +8,11 @@ paths:
     get:
       parameters:
           - in: path
+            name: id
             schema:
               type: array
-              items: string
+              items:
+                type: string
       responses:
         '200':
           description: OK

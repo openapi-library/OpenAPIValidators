@@ -21,7 +21,7 @@ const convertOpenApiPathToColonForm = (openApiPath: string): string =>
 /** 
  * Remove commas to allow support to arrays in style: simple; explode: false 
 */
-const removeCommasFromPath = (path: stirng): string => path.replace(/,/g, "");
+const removeCommasFromPath = (path: string): string => path.replace(/,/g, "");
 
 const doesColonPathMatchPathname = (
   pathInColonForm: string,
