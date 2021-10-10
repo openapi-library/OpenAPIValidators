@@ -9,15 +9,15 @@ export type RawResponse =
   | RawRequestPromiseResponse;
 
 export default abstract class AbstractResponse {
-  public status: number;
+  public declare status: number;
 
-  public req: { method: string; path: string };
+  public declare req: { method: string; path: string };
 
   public abstract getBodyForValidation(): unknown;
 
   protected body: unknown;
 
-  protected bodyHasNoContent: boolean;
+  protected declare bodyHasNoContent: boolean;
 
   constructor(protected res: RawResponse) {}
 
