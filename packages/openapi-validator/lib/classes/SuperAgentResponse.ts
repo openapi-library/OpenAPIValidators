@@ -1,7 +1,8 @@
 import type { Response, SuperAgentRequest } from 'superagent';
 import AbstractResponse from './AbstractResponse';
 
-const isEmptyObj = (obj: unknown): obj is Record<string, never> =>
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const isEmptyObj = (obj: any): obj is Record<string, never> =>
   !!obj && Object.entries(obj).length === 0 && obj.constructor === Object;
 
 export type RawSuperAgentResponse = Response & {

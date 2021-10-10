@@ -10,7 +10,8 @@ export const stringify = (obj: unknown): string =>
  * Excludes the query because path = pathname + query
  */
 export const getPathname = (request: ActualRequest): string =>
-  url.parse(request.path).pathname;
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  url.parse(request.path).pathname!;
 
 /**
  * Converts all {foo} to :foo
@@ -37,8 +38,8 @@ const doesOpenApiPathMatchPathname = (
 export const findOpenApiPathMatchingPossiblePathnames = (
   possiblePathnames: string[],
   OAPaths: string[],
-): string => {
-  let openApiPath;
+): string | undefined => {
+  let openApiPath: string | undefined;
   // eslint-disable-next-line no-restricted-syntax
   for (const pathname of possiblePathnames) {
     // eslint-disable-next-line no-restricted-syntax

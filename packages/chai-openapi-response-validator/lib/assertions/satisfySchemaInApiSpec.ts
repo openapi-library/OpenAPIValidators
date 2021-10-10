@@ -20,15 +20,17 @@ export default function (
     }
 
     const validationError = openApiSpec.validateObject(actualObject, schema);
-    const predicate = !validationError;
+    const pass = !validationError;
     this.assert(
-      predicate,
-      getExpectReceivedToSatisfySchemaInApiSpecMsg(
-        actualObject,
-        schemaName,
-        schema,
-        validationError,
-      ),
+      pass,
+      pass
+        ? ''
+        : getExpectReceivedToSatisfySchemaInApiSpecMsg(
+            actualObject,
+            schemaName,
+            schema,
+            validationError,
+          ),
       getExpectReceivedNotToSatisfySchemaInApiSpecMsg(
         actualObject,
         schemaName,

@@ -17,20 +17,21 @@ export default function (
 
   Assertion.addProperty('satisfyApiSpec', function () {
     const actualResponse = makeResponse(this._obj); // eslint-disable-line no-underscore-dangle
+
     const validationError = openApiSpec.validateResponse(actualResponse);
-    const predicate = !validationError;
+    const pass = !validationError;
     this.assert(
-      predicate,
-      getExpectedResToSatisfyApiSpecMsg(
-        actualResponse,
-        openApiSpec,
-        validationError,
-      ),
-      getExpectedResNotToSatisfyApiSpecMsg(
-        actualResponse,
-        openApiSpec,
-        validationError,
-      ),
+      pass,
+      pass
+        ? ''
+        : getExpectedResToSatisfyApiSpecMsg(
+            actualResponse,
+            openApiSpec,
+            validationError,
+          ),
+      pass
+        ? getExpectedResNotToSatisfyApiSpecMsg(actualResponse, openApiSpec)
+        : '',
       null,
     );
   });
@@ -40,10 +41,7 @@ function getExpectedResToSatisfyApiSpecMsg(
   actualResponse: ActualResponse,
   openApiSpec: OpenApiSpec,
   validationError: ValidationError,
-): string | null {
-  if (!validationError) {
-    return null;
-  }
+): string {
   const hint = 'expected res to satisfy API spec';
 
   const { status, req } = actualResponse;
@@ -120,9 +118,10 @@ function getExpectedResToSatisfyApiSpecMsg(
   }
 
   if (validationError.code === ErrorCode.StatusNotFound) {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const expectedResponseOperation = openApiSpec.findExpectedResponseOperation(
       req,
-    );
+    )!;
     const expectedResponseStatuses = Object.keys(
       expectedResponseOperation.responses,
     ).join(', ');
@@ -150,12 +149,7 @@ function getExpectedResToSatisfyApiSpecMsg(
 function getExpectedResNotToSatisfyApiSpecMsg(
   actualResponse: ActualResponse,
   openApiSpec: OpenApiSpec,
-  validationError: ValidationError,
-): string | null {
-  if (validationError) {
-    return null;
-  }
-
+): string {
   const { status, req } = actualResponse;
   const responseDefinition = openApiSpec.findExpectedResponse(actualResponse);
   const endpoint = `${req.method} ${openApiSpec.findOpenApiPathMatchingRequest(

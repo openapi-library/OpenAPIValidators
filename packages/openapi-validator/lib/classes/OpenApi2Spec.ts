@@ -1,5 +1,5 @@
 import type { OpenAPIV2 } from 'openapi-types';
-import type { ResponseObject } from './AbstractOpenApiSpec';
+import type { ResponseObjectWithSchema } from './AbstractOpenApiSpec';
 import {
   getPathnameWithoutBasePath,
   findOpenApiPathMatchingPossiblePathnames,
@@ -8,7 +8,7 @@ import AbstractOpenApiSpec from './AbstractOpenApiSpec';
 import ValidationError, { ErrorCode } from './errors/ValidationError';
 
 const basePathPropertyNotProvided = (spec: OpenAPIV2.Document): boolean =>
-  !Object.prototype.hasOwnProperty.call(spec, 'basePath');
+  !spec.basePath;
 
 export default class OpenApi2Spec extends AbstractOpenApiSpec {
   public didUserDefineBasePath: boolean;
@@ -27,10 +27,9 @@ export default class OpenApi2Spec extends AbstractOpenApiSpec {
     if (basePath && !pathname.startsWith(basePath)) {
       throw new ValidationError(ErrorCode.BasePathNotFound);
     }
-    const pathnameWithoutBasePath = getPathnameWithoutBasePath(
-      basePath,
-      pathname,
-    );
+    const pathnameWithoutBasePath = basePath
+      ? getPathnameWithoutBasePath(basePath, pathname)
+      : pathname;
     const openApiPath = findOpenApiPathMatchingPossiblePathnames(
       [pathnameWithoutBasePath],
       this.paths(),
@@ -41,20 +40,20 @@ export default class OpenApi2Spec extends AbstractOpenApiSpec {
     return openApiPath;
   }
 
-  findResponseDefinition(referenceString: string): ResponseObject {
+  findResponseDefinition(
+    referenceString: string,
+  ): ResponseObjectWithSchema | undefined {
     const nameOfResponseDefinition = referenceString.split('#/responses/')[1];
-    return this.spec.responses[nameOfResponseDefinition];
-  }
-
-  getComponentDefinitions(): OpenAPIV2.DefinitionsObject {
-    return this.spec.definitions;
+    return this.spec.responses?.[nameOfResponseDefinition] as
+      | ResponseObjectWithSchema
+      | undefined;
   }
 
   getComponentDefinitionsProperty(): Pick<OpenAPIV2.Document, 'definitions'> {
-    return { definitions: this.getComponentDefinitions() };
+    return { definitions: this.spec.definitions };
   }
 
-  getSchemaObjects(): OpenAPIV2.DefinitionsObject {
-    return this.getComponentDefinitions();
+  getSchemaObjects(): OpenAPIV2.Document['definitions'] {
+    return this.spec.definitions;
   }
 }
