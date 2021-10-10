@@ -4,8 +4,13 @@ info:
   description: Use to recreate a bug
   version: 0.1.0
 paths:
-  /recreate/bug:
+  /recreate/bug/{id}:
     get:
+      parameters:
+          - in: path
+            schema:
+              type: array
+              items: string
       responses:
         '200':
           description: OK

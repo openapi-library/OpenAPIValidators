@@ -7,7 +7,7 @@ const dirContainingApiSpec = path.resolve(
   '../../commonTestResources/exampleOpenApiFiles/valid/bugRecreationTemplate',
 );
 
-describe('Recreate bug (issue #XX)', () => {
+describe('Recreate bug (issue #250)', () => {
   beforeAll(() => {
     const pathToApiSpec = path.join(dirContainingApiSpec, 'openapi.yml');
     jestOpenAPI(pathToApiSpec);
@@ -17,7 +17,7 @@ describe('Recreate bug (issue #XX)', () => {
     status: 200,
     req: {
       method: 'GET',
-      path: '/recreate/bug',
+      path: '/recreate/bug/a,b',
     },
     body: {
       expectedProperty1: 'foo',

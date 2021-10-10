@@ -18,11 +18,17 @@ export const getPathname = (request: ActualRequest): string =>
 const convertOpenApiPathToColonForm = (openApiPath: string): string =>
   openApiPath.replace(/{/g, ':').replace(/}/g, '');
 
+/** 
+ * Remove commas to allow support to arrays in style: simple; explode: false 
+*/
+const removeCommasFromPath = (path: stirng): string => path.replace(/,/g, "");
+
 const doesColonPathMatchPathname = (
   pathInColonForm: string,
   pathname: string,
 ): boolean => {
-  const pathParamsInPathname = new Path(pathInColonForm).test(pathname); // => one of: null, {}, {exampleParam: 'foo'}
+  const pathWithoutCommas = removeCommasFromPath(pathname);
+  const pathParamsInPathname = new Path(pathInColonForm).test(pathWithoutCommas); // => one of: null, {}, {exampleParam: 'foo'}
   return Boolean(pathParamsInPathname);
 };
 
