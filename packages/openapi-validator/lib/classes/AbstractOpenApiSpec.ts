@@ -140,7 +140,8 @@ export default abstract class OpenApiSpec {
       ...this.getComponentDefinitionsProperty(),
     });
 
-    const [expectedResStatus] = Object.keys(expectedResponse);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const expectedResStatus = Object.keys(expectedResponse)[0]!;
     const validationError = validator.validateResponse(
       expectedResStatus,
       actualResponse.getBodyForValidation(),

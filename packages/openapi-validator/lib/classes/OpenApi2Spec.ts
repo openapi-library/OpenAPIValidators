@@ -43,7 +43,8 @@ export default class OpenApi2Spec extends AbstractOpenApiSpec {
   findResponseDefinition(
     referenceString: string,
   ): ResponseObjectWithSchema | undefined {
-    const nameOfResponseDefinition = referenceString.split('#/responses/')[1];
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const nameOfResponseDefinition = referenceString.split('#/responses/')[1]!;
     return this.spec.responses?.[nameOfResponseDefinition] as
       | ResponseObjectWithSchema
       | undefined;
