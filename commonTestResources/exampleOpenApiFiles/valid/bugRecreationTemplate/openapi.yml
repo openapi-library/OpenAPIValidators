@@ -4,6 +4,19 @@ info:
   description: Use to recreate a bug
   version: 0.1.0
 paths:
+  /recreate/bug:
+    get:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  expectedProperty1:
+                    type: string
+
   /recreate/bug/{id}:
     get:
       parameters:
