@@ -8,9 +8,7 @@ const unique = <T>(array: T[]): T[] => [...new Set(array)];
 
 export const serversPropertyNotProvidedOrIsEmptyArray = (
   spec: OpenAPIV3.Document,
-): boolean =>
-  !Object.prototype.hasOwnProperty.call(spec, 'servers') ||
-  !spec.servers.length;
+): boolean => !spec.servers || !spec.servers.length;
 
 const getBasePath = (url: string): string => {
   const basePathStartIndex = url.replace('//', '  ').indexOf('/');
@@ -26,7 +24,7 @@ const getPossibleValuesOfServerVariable = ({
   enumMembers ? unique([defaultValue].concat(enumMembers)) : [defaultValue];
 
 const mapServerVariablesToPossibleValues = (
-  serverVariables: ServerVariables,
+  serverVariables: NonNullable<ServerVariables>,
 ): Record<string, string[]> =>
   Object.entries(serverVariables).reduce(
     (currentMap, [variableName, detailsOfPossibleValues]) => ({
@@ -50,11 +48,10 @@ const convertTemplateExpressionToConcreteExpression = (
 
 const getPossibleConcreteBasePaths = (
   basePath: string,
-  serverVariables: ServerVariables,
+  serverVariables: NonNullable<ServerVariables>,
 ): string[] => {
-  const mapOfServerVariablesToPossibleValues = mapServerVariablesToPossibleValues(
-    serverVariables,
-  );
+  const mapOfServerVariablesToPossibleValues =
+    mapServerVariablesToPossibleValues(serverVariables);
   const combinationsOfBasePathVariableValues = generateCombinations(
     mapOfServerVariablesToPossibleValues,
   );
@@ -91,7 +88,8 @@ export const getMatchingServerUrlsAndServerBasePaths = (
     }))
     .filter(({ possibleBasePaths }) => possibleBasePaths.some(matchesPathname))
     .map(({ templatedUrl, possibleBasePaths }) => {
-      const matchingBasePath = possibleBasePaths.find(matchesPathname);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const matchingBasePath = possibleBasePaths.find(matchesPathname)!;
       return {
         concreteUrl: templatedUrl.replace(
           getBasePath(templatedUrl),

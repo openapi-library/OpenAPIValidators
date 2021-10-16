@@ -1,7 +1,8 @@
 import type { Response, SuperAgentRequest } from 'superagent';
 import AbstractResponse from './AbstractResponse';
 
-const isEmptyObj = (obj: unknown): obj is Record<string, never> =>
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const isEmptyObj = (obj: any): obj is Record<string, never> =>
   !!obj && Object.entries(obj).length === 0 && obj.constructor === Object;
 
 export type RawSuperAgentResponse = Response & {
@@ -11,7 +12,7 @@ export type RawSuperAgentResponse = Response & {
 export default class SuperAgentResponse extends AbstractResponse {
   private isResTextPopulatedInsteadOfResBody: boolean;
 
-  constructor(protected res: RawSuperAgentResponse) {
+  constructor(protected override res: RawSuperAgentResponse) {
     super(res);
     this.status = res.status;
     this.body = res.body;
@@ -31,7 +32,7 @@ export default class SuperAgentResponse extends AbstractResponse {
     return this.body;
   }
 
-  summary(): ReturnType<AbstractResponse['summary']> & {
+  override summary(): ReturnType<AbstractResponse['summary']> & {
     text?: string;
   } {
     return {

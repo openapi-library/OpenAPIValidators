@@ -1,68 +1,76 @@
 import OpenAPIResponseValidator from 'openapi-response-validator';
-import type { OpenAPI, OpenAPIV2, OpenAPIV3, OpenAPIV3_1 } from 'openapi-types';
+import type { OpenAPIV2, OpenAPIV3, OpenAPIV3_1 } from 'openapi-types';
 import { getPathname } from '../utils/common.utils';
 import type { ActualRequest, ActualResponse } from './AbstractResponse';
 import ValidationError, { ErrorCode } from './errors/ValidationError';
 
-type Document = OpenAPI.Document;
+type Document = OpenAPIV2.Document | OpenAPIV3.Document;
 
-type Operation = OpenAPI.Operation;
+type Operation = OpenAPIV2.OperationObject | OpenAPIV3.OperationObject;
 
 type HttpMethods = OpenAPIV2.HttpMethods;
 
-type PathsObject =
-  | OpenAPIV2.PathsObject
-  | OpenAPIV3.PathsObject
-  | OpenAPIV3_1.PathsObject;
+type PathItemObject = OpenAPIV2.PathItemObject | OpenAPIV3.PathItemObject;
 
-type PathItemObject =
-  | OpenAPIV2.PathItemObject
-  | OpenAPIV3.PathItemObject
-  | OpenAPIV3_1.PathItemObject;
-
-export type ResponseObject =
-  | OpenAPIV2.ResponseObject
-  | OpenAPIV3.ResponseObject
-  | OpenAPIV3_1.ResponseObject;
+export type ResponseObjectWithSchema =
+  | (OpenAPIV2.ResponseObject & { schema: OpenAPIV2.Schema })
+  | (OpenAPIV3.ResponseObject & {
+      content: {
+        [media: string]: OpenAPIV3.MediaTypeObject & {
+          schema: OpenAPIV3.SchemaObject;
+        };
+      };
+    })
+  | (OpenAPIV3_1.ResponseObject & {
+      content: {
+        [media: string]: OpenAPIV3_1.MediaTypeObject & {
+          schema: OpenAPIV3_1.SchemaObject;
+        };
+      };
+    });
 
 export type Schema = OpenAPIV2.Schema | OpenAPIV3.SchemaObject;
 
 export default abstract class OpenApiSpec {
-  protected abstract getSchemaObjects(): Record<string, Schema>;
+  protected abstract getSchemaObjects(): Record<string, Schema> | undefined;
 
   protected abstract findResponseDefinition(
     referenceString: string,
-  ): ResponseObject;
+  ): ResponseObjectWithSchema | undefined;
 
   protected abstract findOpenApiPathMatchingPathname(pathname: string): string;
 
   protected abstract getComponentDefinitionsProperty():
-    | Pick<OpenAPIV2.Document, 'definitions'>
-    | Pick<OpenAPIV3.Document, 'components'>;
+    | {
+        definitions: OpenAPIV2.Document['definitions'];
+      }
+    | {
+        components: OpenAPIV3.Document['components'];
+      };
 
   constructor(protected spec: Document) {}
 
-  pathsObject(): PathsObject | undefined {
+  pathsObject(): Document['paths'] {
     return this.spec.paths;
   }
 
-  getPathItem(openApiPath: string): PathItemObject | undefined {
-    return this.pathsObject()[openApiPath];
+  getPathItem(openApiPath: string): PathItemObject {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return this.pathsObject()[openApiPath]!;
   }
 
   paths(): string[] {
     return Object.keys(this.pathsObject());
   }
 
-  getSchemaObject(schemaName: string): Schema {
-    const schemaObjects = this.getSchemaObjects();
-    return schemaObjects[schemaName];
+  getSchemaObject(schemaName: string): Schema | undefined {
+    return this.getSchemaObjects()?.[schemaName];
   }
 
   getExpectedResponse(
     responseOperation: Operation,
     status: ActualResponse['status'],
-  ): ResponseObject | undefined {
+  ): ResponseObjectWithSchema | undefined {
     const response = responseOperation.responses[status];
     if (!response) {
       return undefined;
@@ -70,16 +78,15 @@ export default abstract class OpenApiSpec {
     if ('$ref' in response) {
       return this.findResponseDefinition(response.$ref);
     }
-    return response;
+    return response as ResponseObjectWithSchema;
   }
 
   findExpectedResponse(
     actualResponse: ActualResponse,
-  ): Record<string, ResponseObject> {
+  ): Record<string, ResponseObjectWithSchema> {
     const actualRequest = actualResponse.req;
-    const expectedResponseOperation = this.findExpectedResponseOperation(
-      actualRequest,
-    );
+    const expectedResponseOperation =
+      this.findExpectedResponseOperation(actualRequest);
     if (!expectedResponseOperation) {
       throw new ValidationError(ErrorCode.MethodNotFound);
     }
@@ -109,7 +116,9 @@ export default abstract class OpenApiSpec {
     return pathItemObject;
   }
 
-  findExpectedResponseOperation(actualRequest: ActualRequest): Operation {
+  findExpectedResponseOperation(
+    actualRequest: ActualRequest,
+  ): Operation | undefined {
     const pathItemObject = this.findExpectedPathItem(actualRequest);
     const operationObject =
       pathItemObject[actualRequest.method.toLowerCase() as HttpMethods];
@@ -117,12 +126,9 @@ export default abstract class OpenApiSpec {
   }
 
   validateResponse(actualResponse: ActualResponse): ValidationError | null {
-    type ResponseWithSchema = Record<string, { schema: Schema }>;
-    let expectedResponse: ResponseWithSchema;
+    let expectedResponse: Record<string, ResponseObjectWithSchema>;
     try {
-      expectedResponse = this.findExpectedResponse(
-        actualResponse,
-      ) as ResponseWithSchema;
+      expectedResponse = this.findExpectedResponse(actualResponse);
     } catch (error) {
       if (error instanceof ValidationError) {
         return error;
@@ -134,7 +140,8 @@ export default abstract class OpenApiSpec {
       ...this.getComponentDefinitionsProperty(),
     });
 
-    const [expectedResStatus] = Object.keys(expectedResponse);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const expectedResStatus = Object.keys(expectedResponse)[0]!;
     const validationError = validator.validateResponse(
       expectedResStatus,
       actualResponse.getBodyForValidation(),
@@ -142,7 +149,7 @@ export default abstract class OpenApiSpec {
     return validationError
       ? new ValidationError(
           ErrorCode.InvalidBody,
-          (validationError.errors as { path: string; message: string }[])
+          validationError.errors
             .map(({ path, message }) => `${path} ${message}`)
             .join(', '),
         )
@@ -161,7 +168,7 @@ export default abstract class OpenApiSpec {
     actualObject: unknown,
     schema: Schema,
   ): ValidationError | null {
-    const mockResStatus = 200;
+    const mockResStatus = '200';
     const mockExpectedResponse = { [mockResStatus]: { schema } };
     const validator = new OpenAPIResponseValidator({
       responses: mockExpectedResponse,
@@ -177,9 +184,7 @@ export default abstract class OpenApiSpec {
     return validationError
       ? new ValidationError(
           ErrorCode.InvalidObject,
-          (validationError.errors as { message: string }[])
-            .map((error) => error.message)
-            .join(', '),
+          validationError.errors.map((error) => error.message).join(', '),
         )
       : null;
   }

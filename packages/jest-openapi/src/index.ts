@@ -23,7 +23,7 @@ declare global {
 export default function (filepathOrObject: string | OpenAPISpecObject): void {
   const openApiSpec = makeApiSpec(filepathOrObject);
 
-  const jestMatchers = {
+  const jestMatchers: jest.ExpectExtendMap = {
     toSatisfyApiSpec(received: unknown) {
       return toSatisfyApiSpec.call(this, received, openApiSpec);
     },

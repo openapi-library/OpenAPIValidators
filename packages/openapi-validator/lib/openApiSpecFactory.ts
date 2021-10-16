@@ -36,7 +36,9 @@ function loadSpec(arg: unknown): AnyObject {
     throw new Error(`Received type '${typeOf(arg)}'`);
   } catch (error) {
     throw new Error(
-      `The provided argument must be either an absolute filepath or an object representing an OpenAPI specification.\nError details: ${error.message}`,
+      `The provided argument must be either an absolute filepath or an object representing an OpenAPI specification.\nError details: ${
+        (error as Error).message
+      }`,
     );
   }
 }
@@ -49,7 +51,7 @@ function loadFile(filepath: string): AnyObject {
   try {
     return yaml.load(fileData) as AnyObject;
   } catch (error) {
-    throw new Error(`Invalid YAML or JSON:\n${error.message}`);
+    throw new Error(`Invalid YAML or JSON:\n${(error as Error).message}`);
   }
 }
 
@@ -57,8 +59,8 @@ function validateSpec(obj: AnyObject): OpenAPI.Document {
   try {
     const validator = new OpenAPISchemaValidator({
       version:
-        ((obj as unknown) as OpenAPIV2.Document).swagger || // '2.0'
-        ((obj as unknown) as OpenAPIV3.Document).openapi, // '3.X.X'
+        (obj as unknown as OpenAPIV2.Document).swagger || // '2.0'
+        (obj as unknown as OpenAPIV3.Document).openapi, // '3.X.X'
     });
     const { errors } = validator.validate(obj as OpenAPI.Document);
     if (errors.length > 0) {
@@ -66,6 +68,6 @@ function validateSpec(obj: AnyObject): OpenAPI.Document {
     }
     return obj as OpenAPI.Document;
   } catch (error) {
-    throw new Error(`Invalid OpenAPI spec: ${error.message}`);
+    throw new Error(`Invalid OpenAPI spec: ${(error as Error).message}`);
   }
 }

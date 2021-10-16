@@ -9,7 +9,7 @@ export type RawRequestPromiseResponse = Response & {
 };
 
 export default class RequestPromiseResponse extends AbstractResponse {
-  constructor(protected res: RawRequestPromiseResponse) {
+  constructor(protected override res: RawRequestPromiseResponse) {
     super(res);
     this.status = res.statusCode;
     this.body = res.request._json // eslint-disable-line no-underscore-dangle

@@ -1,5 +1,5 @@
 import type { OpenAPIV3 } from 'openapi-types';
-import type { ResponseObject } from './AbstractOpenApiSpec';
+import type { ResponseObjectWithSchema } from './AbstractOpenApiSpec';
 import {
   defaultBasePath,
   findOpenApiPathMatchingPossiblePathnames,
@@ -15,7 +15,7 @@ import ValidationError, { ErrorCode } from './errors/ValidationError';
 export default class OpenApi3Spec extends AbstractOpenApiSpec {
   public didUserDefineServers: boolean;
 
-  constructor(protected spec: OpenAPIV3.Document) {
+  constructor(protected override spec: OpenAPIV3.Document) {
     super(spec);
     this.didUserDefineServers = !serversPropertyNotProvidedOrIsEmptyArray(spec);
     this.ensureDefaultServer();
@@ -32,7 +32,8 @@ export default class OpenApi3Spec extends AbstractOpenApiSpec {
   }
 
   servers(): OpenAPIV3.ServerObject[] {
-    return this.spec.servers;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return this.spec.servers!;
   }
 
   getServerUrls(): string[] {
@@ -71,24 +72,25 @@ export default class OpenApi3Spec extends AbstractOpenApiSpec {
     return openApiPath;
   }
 
-  findResponseDefinition(referenceString: string): ResponseObject {
+  findResponseDefinition(
+    referenceString: string,
+  ): ResponseObjectWithSchema | undefined {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const nameOfResponseDefinition = referenceString.split(
       '#/components/responses/',
-    )[1];
-    return this.spec.components.responses[
-      nameOfResponseDefinition
-    ] as ResponseObject;
+    )[1]!;
+    return this.spec.components?.responses?.[nameOfResponseDefinition] as
+      | ResponseObjectWithSchema
+      | undefined;
   }
 
-  getComponentDefinitions(): OpenAPIV3.ComponentsObject {
-    return this.spec.components as OpenAPIV3.ComponentsObject;
-  }
-
-  getComponentDefinitionsProperty(): Pick<OpenAPIV3.Document, 'components'> {
-    return { components: this.getComponentDefinitions() };
+  getComponentDefinitionsProperty(): {
+    components: OpenAPIV3.Document['components'];
+  } {
+    return { components: this.spec.components };
   }
 
   getSchemaObjects(): OpenAPIV3.ComponentsObject['schemas'] {
-    return this.getComponentDefinitions().schemas;
+    return this.spec.components?.schemas;
   }
 }

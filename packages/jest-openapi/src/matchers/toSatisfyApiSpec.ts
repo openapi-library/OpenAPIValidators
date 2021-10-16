@@ -17,6 +17,7 @@ import {
 import { joinWithNewLines, stringify } from '../utils';
 
 export default function (
+  this: jest.MatcherContext,
   received: unknown,
   openApiSpec: OpenApiSpec,
 ): jest.CustomMatcherResult {
@@ -139,9 +140,9 @@ function getExpectReceivedToSatisfyApiSpecMsg(
   }
 
   if (validationError.code === ErrorCode.StatusNotFound) {
-    const expectedResponseOperation = openApiSpec.findExpectedResponseOperation(
-      req,
-    );
+    const expectedResponseOperation =
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      openApiSpec.findExpectedResponseOperation(req)!;
     const expectedResponseStatuses = Object.keys(
       expectedResponseOperation.responses,
     ).join(', ');

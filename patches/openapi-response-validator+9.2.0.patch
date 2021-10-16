@@ -1,0 +1,74 @@
+diff --git a/node_modules/openapi-response-validator/dist/index.d.ts b/node_modules/openapi-response-validator/dist/index.d.ts
+index ee0c508..db5d5b3 100644
+--- a/node_modules/openapi-response-validator/dist/index.d.ts
++++ b/node_modules/openapi-response-validator/dist/index.d.ts
+@@ -1,7 +1,7 @@
+ import { FormatDefinition, Format, ErrorObject } from 'ajv';
+ import { IJsonSchema, OpenAPIV2, OpenAPIV3 } from 'openapi-types';
+ export interface IOpenAPIResponseValidator {
+-    validateResponse(statusCode: string, response: any): void | OpenAPIResponseValidatorValidationError;
++    validateResponse(statusCode: string, response: any): undefined | OpenAPIResponseValidatorValidationError;
+ }
+ export interface OpenAPIResponseValidatorArgs {
+     customFormats?: {
+@@ -9,34 +9,48 @@ export interface OpenAPIResponseValidatorArgs {
+     };
+     definitions?: {
+         [definitionName: string]: IJsonSchema;
+-    };
+-    components?: OpenAPIV3.ComponentsObject;
++    } | undefined;
++    components?: OpenAPIV3.ComponentsObject | undefined;
+     externalSchemas?: {
+         [index: string]: IJsonSchema;
+     };
+     loggingKey?: string;
+     responses: {
+-        [responseCode: string]: {
+-            schema: OpenAPIV2.Schema | OpenAPIV3.SchemaObject;
+-        };
+-    };
++        [responseCode: string]:
++            | {
++                  schema:
++                      | OpenAPIV2.Schema
++                      | OpenAPIV3.SchemaObject
++                      | OpenAPIV3_1.SchemaObject;
++              }
++            | {
++                  content: {
++                      [contentType: string]: {
++                          schema:
++                              | OpenAPIV3.SchemaObject
++                              | OpenAPIV3_1.SchemaObject;
++                      };
++                  };
++              };
++    }
+     errorTransformer?(openAPIResponseValidatorValidationError: OpenAPIResponseValidatorError, ajvError: ErrorObject): any;
+ }
+ export interface OpenAPIResponseValidatorError {
+-    path?: string;
++    path: string;
+     errorCode: string;
+     message: string;
+ }
+ export interface OpenAPIResponseValidatorValidationError {
+     message: string;
+-    errors?: any[];
++    errors: {
++        path?: string;
++        errorCode?: string;
++        message: string;
++    }[]
+ }
+ export default class OpenAPIResponseValidator implements IOpenAPIResponseValidator {
+     private errorMapper;
+     private validators;
+     constructor(args: OpenAPIResponseValidatorArgs);
+-    validateResponse(statusCode: any, response: any): {
+-        message: string;
+-        errors: any;
+-    };
++    validateResponse(statusCode: string, response: any): undefined | OpenAPIResponseValidatorValidationError
+ }
