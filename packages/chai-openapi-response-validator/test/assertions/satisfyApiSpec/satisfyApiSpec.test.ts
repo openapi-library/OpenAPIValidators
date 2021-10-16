@@ -353,12 +353,12 @@ openApiSpecs.forEach((spec) => {
             });
           });
 
-          describe('a path param', () => {
+          describe('a path param (primitive)', () => {
             const res = {
               status: 204,
               req: {
                 method: 'GET',
-                path: '/pathParams/foo',
+                path: '/pathParams/primitive/foo',
               },
             };
 
@@ -369,7 +369,28 @@ openApiSpecs.forEach((spec) => {
             it('fails when using .not', () => {
               const assertion = () => expect(res).to.not.satisfyApiSpec;
               expect(assertion).to.throw(
-                "expected res not to satisfy the '204' response defined for endpoint 'GET /pathParams/{exampleParam}'",
+                "expected res not to satisfy the '204' response defined for endpoint 'GET /pathParams/primitive/{stringParam}'",
+              );
+            });
+          });
+
+          describe('a path param (array)', () => {
+            const res = {
+              status: 204,
+              req: {
+                method: 'GET',
+                path: '/pathParams/array/foo,bar',
+              },
+            };
+
+            it('passes', () => {
+              expect(res).to.satisfyApiSpec;
+            });
+
+            it('fails when using .not', () => {
+              const assertion = () => expect(res).to.not.satisfyApiSpec;
+              expect(assertion).to.throw(
+                "expected res not to satisfy the '204' response defined for endpoint 'GET /pathParams/array/{arrayParam}'",
               );
             });
           });
@@ -571,7 +592,7 @@ openApiSpecs.forEach((spec) => {
           status: 204,
           req: {
             method: 'HEAD',
-            path: '/pathParams/someParam',
+            path: '/pathParams/primitive/foo',
           },
         };
 
@@ -579,9 +600,9 @@ openApiSpecs.forEach((spec) => {
           const assertion = () => expect(res).to.satisfyApiSpec;
           expect(assertion).to.throw(
             joinWithNewLines(
-              "expected res to satisfy a '204' response defined for endpoint 'HEAD /pathParams/{exampleParam}' in your API spec",
-              "res had request method 'HEAD', but your API spec has no 'HEAD' operation defined for path '/pathParams/{exampleParam}'",
-              "Request operations found for path '/pathParams/{exampleParam}' in API spec: GET",
+              "expected res to satisfy a '204' response defined for endpoint 'HEAD /pathParams/primitive/{stringParam}' in your API spec",
+              "res had request method 'HEAD', but your API spec has no 'HEAD' operation defined for path '/pathParams/primitive/{stringParam}'",
+              "Request operations found for path '/pathParams/primitive/{stringParam}' in API spec: GET",
             ),
           );
         });
