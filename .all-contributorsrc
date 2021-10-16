@@ -90,6 +90,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "amitkeinan9",
+      "name": "Amit Keinan",
+      "avatar_url": "https://avatars.githubusercontent.com/u/16577335?v=4",
+      "profile": "https://github.com/amitkeinan9",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
