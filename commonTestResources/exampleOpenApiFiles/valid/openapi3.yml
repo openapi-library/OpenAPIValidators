@@ -104,14 +104,27 @@ paths:
       responses:
         204:
           description: No response body
-  /pathParams/{exampleParam}:
+  /pathParams/primitive/{stringParam}:
     get:
       parameters:
         - in: path
-          name: exampleParam
+          name: stringParam
           required: true
           schema:
             type: string
+      responses:
+        204:
+          description: No response body
+  /pathParams/array/{arrayParam}:
+    get:
+      parameters:
+        - in: path
+          name: arrayParam
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
       responses:
         204:
           description: No response body
