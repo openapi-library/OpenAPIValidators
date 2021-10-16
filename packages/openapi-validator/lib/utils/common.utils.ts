@@ -22,7 +22,16 @@ const doesColonPathMatchPathname = (
   pathInColonForm: string,
   pathname: string,
 ): boolean => {
-  const pathParamsInPathname = new Path(pathInColonForm).test(pathname); // => one of: null, {}, {exampleParam: 'foo'}
+  /*
+   * By default, OpenAPI path parameters have `style: simple; explode: false` (https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#parameter-object)
+   * So array path parameters in the pathname of the actual request should be in the form: `/pathParams/a,b,c`
+   * `path-parser` fails to match parameter patterns to parameters containing commas.
+   * So we remove the commas.
+   */
+  const pathWithoutCommas = pathname.replace(/,/g, '');
+  const pathParamsInPathname = new Path(pathInColonForm).test(
+    pathWithoutCommas,
+  ); // => one of: null, {}, {exampleParam: 'foo'}
   return Boolean(pathParamsInPathname);
 };
 

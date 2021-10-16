@@ -115,14 +115,34 @@
         }
       }
     },
-    "/pathParams/{exampleParam}": {
+    "/pathParams/primitive/{stringParam}": {
       "get": {
         "parameters": [
           {
             "in": "path",
-            "name": "exampleParam",
+            "name": "stringParam",
             "required": true,
             "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        }
+      }
+    },
+    "/pathParams/array/{arrayParam}": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "arrayParam",
+            "required": true,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
