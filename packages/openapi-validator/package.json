@@ -39,6 +39,7 @@
   "dependencies": {
     "@types/request": "^2.48.7",
     "@types/superagent": "^4.1.12",
+    "axios": "^0.21.1",
     "combos": "^0.2.0",
     "fs-extra": "^9.0.0",
     "js-yaml": "^4.0.0",
