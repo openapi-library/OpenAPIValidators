@@ -18,7 +18,7 @@
     "test:ci": "yarn workspaces run test:ci",
     "lerna:version:preview": "yarn lerna:version --no-git-tag-version",
     "lerna:version": "lerna version -m \"chore(release): %s\" --conventional-commits --no-changelog",
-    "lerna:publish": "lerna publish"
+    "lerna:publish": "lerna publish -m \"chore(release): %s\" --conventional-commits --no-changelog"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
