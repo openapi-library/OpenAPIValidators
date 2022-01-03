@@ -44,6 +44,7 @@ These test plugins let you automatically test whether your server's behaviour an
   <tr>
     <td align="center"><a href="https://xotabu4.github.io/"><img src="https://avatars3.githubusercontent.com/u/3033972?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Oleksandr Khotemskyi</b></sub></a><br /><a href="https://github.com/openapi-library/OpenAPIValidators/commits?author=Xotabu4" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/amitkeinan9"><img src="https://avatars.githubusercontent.com/u/16577335?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Amit Keinan</b></sub></a><br /><a href="https://github.com/openapi-library/OpenAPIValidators/commits?author=amitkeinan9" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/DetachHead"><img src="https://avatars.githubusercontent.com/u/57028336?v=4?s=100" width="100px;" alt=""/><br /><sub><b>DetachHead</b></sub></a><br /><a href="https://github.com/openapi-library/OpenAPIValidators/issues?q=author%3ADetachHead" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 
