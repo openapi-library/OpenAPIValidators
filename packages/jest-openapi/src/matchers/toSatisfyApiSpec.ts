@@ -150,7 +150,7 @@ function getExpectReceivedToSatisfyApiSpecMsg(
     return joinWithNewLines(
       hint,
       `expected ${RECEIVED_COLOR('received')} to satisfy a '${status}' response defined for endpoint '${endpoint}' in your API spec`,
-      `${RECEIVED_COLOR('received')} had status ${RECEIVED_COLOR(status)}, but your API spec has no ${RECEIVED_COLOR(status)} response defined for endpoint '${endpoint}'`,
+      `${RECEIVED_COLOR('received')} had status ${RECEIVED_COLOR(status)}, but your API spec has no ${RECEIVED_COLOR(status)} or 'default' response defined for endpoint '${endpoint}'`,
       `Response statuses found for endpoint '${endpoint}' in API spec: ${EXPECTED_COLOR(expectedResponseStatuses)}`,
     );
   }

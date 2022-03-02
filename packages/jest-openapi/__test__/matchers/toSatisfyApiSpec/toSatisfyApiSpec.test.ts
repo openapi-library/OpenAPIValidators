@@ -497,7 +497,7 @@ openApiSpecs.forEach((spec) => {
               joinWithNewLines(
                 expectReceivedToSatisfyApiSpec,
                 `expected ${red('received')} to satisfy a '418' response defined for endpoint 'GET /responseStatus' in your API spec`,
-                `${red('received')} had status ${red('418')}, but your API spec has no ${red('418')} response defined for endpoint 'GET /responseStatus'`,
+                `${red('received')} had status ${red('418')}, but your API spec has no ${red('418')} or 'default' response defined for endpoint 'GET /responseStatus'`,
                 `Response statuses found for endpoint 'GET /responseStatus' in API spec: ${green('200, 204')}`,
               ),
             );
@@ -505,6 +505,30 @@ openApiSpecs.forEach((spec) => {
 
           it('passes when using .not', () => {
             expect(res).not.toSatisfyApiSpec();
+          });
+        });
+
+        describe('res.status caught by default response', () => {
+          const res = {
+            status: 418,
+            req: {
+              method: 'GET',
+              path: '/responseStatus/default',
+            },
+          };
+          it('passes', () => {
+            expect(res).toSatisfyApiSpec();
+          });
+          it('fails when using .not', () => {
+            const assertion = () => expect(res).not.toSatisfyApiSpec();
+            // prettier-ignore
+            expect(assertion).toThrow(
+              joinWithNewLines(
+              expectReceivedNotToSatisfyApiSpec,
+              `expected ${red('received')} not to satisfy the '418' response defined for endpoint 'GET /responseStatus/default' in your API spec`,
+              `${red('received')} contained: ${red(`{ body: undefined }`)}`,
+              `The '418' response defined for endpoint 'GET /responseStatus/default' in API spec: ${green(`{ '418': { description: 'No response body' } }`)}`,
+            ))
           });
         });
 

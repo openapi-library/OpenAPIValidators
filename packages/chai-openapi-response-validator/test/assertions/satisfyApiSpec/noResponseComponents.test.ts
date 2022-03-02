@@ -41,7 +41,7 @@ openApiSpecs.forEach((spec) => {
       expect(assertion).to.throw(
         joinWithNewLines(
           "expected res to satisfy a '204' response defined for endpoint 'GET /endpointPath' in your API spec",
-          "res had status '204', but your API spec has no '204' response defined for endpoint 'GET /endpointPath'",
+          "res had status '204', but your API spec has no '204' or 'default' response defined for endpoint 'GET /endpointPath'",
         ),
       );
     });

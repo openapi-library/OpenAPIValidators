@@ -455,7 +455,7 @@ openApiSpecs.forEach((spec) => {
               joinWithNewLines(
                 'expected res to satisfy API spec',
                 "expected res to satisfy a '418' response defined for endpoint 'GET /responseStatus' in your API spec",
-                "res had status '418', but your API spec has no '418' response defined for endpoint 'GET /responseStatus'",
+                "res had status '418', but your API spec has no '418' or 'default' response defined for endpoint 'GET /responseStatus'",
                 "Response statuses found for endpoint 'GET /responseStatus' in API spec: 200, 204",
               ),
             );
@@ -463,6 +463,30 @@ openApiSpecs.forEach((spec) => {
 
           it('passes when using .not', () => {
             expect(res).to.not.satisfyApiSpec;
+          });
+        });
+
+        describe('res.status caught by default response', () => {
+          const res = {
+            status: 418,
+            req: {
+              method: 'GET',
+              path: '/responseStatus/default',
+            },
+          };
+          it('passes', () => {
+            expect(res).to.satisfyApiSpec;
+          });
+          it('fails when using .not', () => {
+            const assertion = () => expect(res).to.not.satisfyApiSpec;
+            expect(assertion).to.throw(
+              joinWithNewLines(
+                'expected res not to satisfy API spec',
+                "expected res not to satisfy the '418' response defined for endpoint 'GET /responseStatus/default' in your API spec",
+                'res contained: { body: undefined }',
+                "The '418' response defined for endpoint 'GET /responseStatus/default' in API spec: { '418': { description: 'No response body' } }",
+              ),
+            );
           });
         });
 

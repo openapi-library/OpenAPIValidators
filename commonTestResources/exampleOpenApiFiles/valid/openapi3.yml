@@ -162,6 +162,11 @@ paths:
           description: No response body
         204:
           description: No response body
+  /responseStatus/default:
+    get:
+      responses:
+        default:
+          description: No response body
   /HTTPMethod:
     get:
       responses:
