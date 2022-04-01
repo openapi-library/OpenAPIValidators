@@ -127,7 +127,7 @@ function getExpectedResToSatisfyApiSpecMsg(
     return joinWithNewLines(
       hint,
       `expected res to satisfy a '${status}' response defined for endpoint '${endpoint}' in your API spec`,
-      `res had status '${status}', but your API spec has no '${status}' response defined for endpoint '${endpoint}'`,
+      `res had status '${status}', but your API spec has no '${status}' or 'default' response defined for endpoint '${endpoint}'`,
       `Response statuses found for endpoint '${endpoint}' in API spec: ${expectedResponseStatuses}`,
     );
   }

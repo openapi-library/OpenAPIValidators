@@ -40,7 +40,7 @@ openApiSpecs.forEach((spec) => {
         // prettier-ignore
         joinWithNewLines(
           `expected ${red('received')} to satisfy a '204' response defined for endpoint 'GET /endpointPath' in your API spec`,
-          `${red('received')} had status ${red('204')}, but your API spec has no ${red('204')} response defined for endpoint 'GET /endpointPath'`,
+          `${red('received')} had status ${red('204')}, but your API spec has no ${red('204')} or 'default' response defined for endpoint 'GET /endpointPath'`,
         ),
       );
     });

@@ -71,7 +71,9 @@ export default abstract class OpenApiSpec {
     responseOperation: Operation,
     status: ActualResponse['status'],
   ): ResponseObjectWithSchema | undefined {
-    const response = responseOperation.responses[status];
+    const response =
+      responseOperation.responses[status] ||
+      responseOperation.responses.default;
     if (!response) {
       return undefined;
     }
