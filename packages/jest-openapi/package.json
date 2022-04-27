@@ -37,7 +37,8 @@
   },
   "homepage": "https://github.com/openapi-library/OpenAPIValidators/tree/master/packages/jest-openapi#readme",
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "devDependencies": {
     "@types/jest": "^27.0.1",
