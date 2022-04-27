@@ -34,7 +34,8 @@
   },
   "homepage": "https://github.com/openapi-library/OpenAPIValidators#openapi-validators",
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "dependencies": {
     "@types/request": "^2.48.7",
