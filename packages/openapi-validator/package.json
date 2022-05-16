@@ -43,8 +43,8 @@
     "combos": "^0.2.0",
     "fs-extra": "^9.0.0",
     "js-yaml": "^4.0.0",
-    "openapi-response-validator": "^9.2.0",
-    "openapi-schema-validator": "^9.2.0",
+    "openapi-response-validator": "^11.0.0",
+    "openapi-schema-validator": "^11.0.0",
     "path-parser": "^6.1.0",
     "typeof": "^1.0.0"
   },
@@ -52,6 +52,6 @@
     "@types/fs-extra": "^9.0.12",
     "@types/js-yaml": "^4.0.3",
     "@types/typeof": "^1.0.0",
-    "openapi-types": "^9.2.0"
+    "openapi-types": "^11.0.0"
   }
 }

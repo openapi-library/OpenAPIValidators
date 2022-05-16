@@ -6770,28 +6770,28 @@ open@^7.4.2:
     is-docker "^2.0.0"
     is-wsl "^2.1.1"
 
-openapi-response-validator@^9.2.0:
-  version "9.2.0"
-  resolved "https://registry.yarnpkg.com/openapi-response-validator/-/openapi-response-validator-9.2.0.tgz#5329b1931c13c464a0ead1860dca428ca9cc4a09"
-  integrity sha512-1MmOeq1iV/BIoahJ6wVM02KehV7Ab9vB3n64zPqYVIJOE8ilDBhCU6/YAm69YciMuWW9+Xc/qvcbKihjxZNp5A==
+openapi-response-validator@^11.0.0:
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/openapi-response-validator/-/openapi-response-validator-11.0.0.tgz#fcc161b0af672d0052936028ded1209af249f308"
+  integrity sha512-G5HipHhDXIoIyZhF2rWTT/WPVMlz5hIXrqj6AjAjL39f+yTglHyHd7/+8mpI0FU+7DTsadmYxH4Tu6ft2wvWZg==
   dependencies:
     ajv "^8.4.0"
-    openapi-types "^9.2.0"
+    openapi-types "^11.0.0"
 
-openapi-schema-validator@^9.2.0:
-  version "9.2.0"
-  resolved "https://registry.yarnpkg.com/openapi-schema-validator/-/openapi-schema-validator-9.2.0.tgz#5076b8de2a87f2bfbe5e040db9d2b45d632007f4"
-  integrity sha512-BzXm4Kz78pw9BMxW2whd9nKnYjLFxqFWEkH8Eh1/bZ2aOeCfIgPkYvU9Ai/fAPNQAW0y+oDSl1BoqGKENlO6sA==
+openapi-schema-validator@^11.0.0:
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/openapi-schema-validator/-/openapi-schema-validator-11.0.0.tgz#59418280b129a977a2da06d021d851190cbb7eab"
+  integrity sha512-TeOJYqisrt1+KfOAHYTVTXTJldOQadqqiti+8p7AxFOXT6VlcN4/SxKnwLSLD7X9KzL1ZIMSWfcaFi7kefTcag==
   dependencies:
     ajv "^8.1.0"
     ajv-formats "^2.0.2"
     lodash.merge "^4.6.1"
-    openapi-types "^9.2.0"
+    openapi-types "^11.0.0"
 
-openapi-types@^9.2.0:
-  version "9.2.0"
-  resolved "https://registry.yarnpkg.com/openapi-types/-/openapi-types-9.2.0.tgz#db50b38398b2ed7116cfa08fc7296d68528dbee2"
-  integrity sha512-3x0gg8DxhpZ5MVki7AK6jmMdVIZASmVGo9CoUtD+nksLdkqz7EzWKdfS9Oxxq1J7idnZV0b3LjqcvizfKFySpQ==
+openapi-types@^11.0.0:
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/openapi-types/-/openapi-types-11.0.0.tgz#766f1ee2de3fa701947e993564e3d0a362fc2026"
+  integrity sha512-GB+QO6o1hAtKsb8tP3/FTD5jpkdKrf42L4Gel9UySngMurzr+Q9pO+dtnmySQCzoCEfJr39IH6bveEn71xNcVg==
 
 opencollective-postinstall@^2.0.2:
   version "2.0.2"
